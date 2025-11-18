@@ -49,47 +49,44 @@ class ServerApplication {
   ~ServerApplication();
 
   bool init(int argc, char* argv[]);
-  void startShuttingDown();
-  bool isShuttingDown();
+
+  const std::chrono::high_resolution_clock::time_point& getStartTime() const;
 
   enum State {
     SS_NEW,
     SS_SHUTTING_DOWN,
     SS_SHUTDOWN
   };
-  std::string getStateDesc() const;
-  const std::chrono::high_resolution_clock::time_point& getStartTime() const;
+  std::string getState();
 
   std::shared_ptr<apache::thrift::TProcessorFactory> getProcessorFactory() const;
-  void onServerHandlerClosed(const ServerHandler & handler);
-  void onRemoteClientHandlerDestroyed();
 
   RemoteAppHandler* getCefAppHandler() { return myAppHandler; }
   const CommandLineArgs& getCmdArgs() const { return myCmdArgs; }
   std::string getRootPath() const;
   bool isDefaultRoot() const;
-  void stopWatcher();
+
+  void startShuttingDown();
+  void onBeforeExit();
 
   static ServerApplication& instance() { return ourInstance; }
 
-  std::shared_ptr<ServerHandlerContext> getCtx(int cid);
+  std::shared_ptr<ServerHandlerContext> getCtx(int connectionId);
 
  private:
   CommandLineArgs myCmdArgs;
   RemoteAppHandler* myAppHandler = nullptr;
   std::shared_ptr<MyServerProcessorFactory> myFactory;
-  std::string myStateDesc = "New";
-  std::string myRemainingBrowsersDesc = "";
   State myState = SS_NEW;
-  std::recursive_mutex myMutex;
-  std::chrono::high_resolution_clock::time_point myStartTime;
-  std::chrono::high_resolution_clock::time_point myLastStateChange;
+  std::recursive_mutex myMutexState;
+  std::chrono::high_resolution_clock::time_point myTimeStart;
+  std::chrono::high_resolution_clock::time_point myTimeStartShuttingDown;
+
   std::thread myThreadWatcher;
   std::shared_ptr<CancellationPoint> myStopWatcher;
 
-  void processShuttingDownIfNecessary();
-  void shutdownHard();
-  void setState(State state, std::string desc = "");
+  std::thread myThreadShutdown;
+
   static ServerApplication ourInstance;
 };
 

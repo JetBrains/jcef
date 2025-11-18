@@ -30,7 +30,7 @@ class ServerHandler : virtual public ServerIf {
     printf("connectTcp\n");
   }
 
-  void attach(const int32_t cid) {
+  void attach(const int32_t connectionId) {
     // Your implementation goes here
     printf("attach\n");
   }
@@ -50,12 +50,27 @@ class ServerHandler : virtual public ServerIf {
     printf("getServerInfo\n");
   }
 
-  void stop() {
+  int32_t Client_Create(const int32_t handlersMask) {
     // Your implementation goes here
-    printf("stop\n");
+    printf("Client_Create\n");
   }
 
-  int32_t Browser_Create(const int32_t cid, const int32_t handlersMask, const  ::thrift_codegen::RObject& requestContextHandler) {
+  void Client_Dispose(const int32_t cid) {
+    // Your implementation goes here
+    printf("Client_Dispose\n");
+  }
+
+  void Client_AddHandlers(const int32_t cid, const int32_t handlersMask) {
+    // Your implementation goes here
+    printf("Client_AddHandlers\n");
+  }
+
+  void Client_RemoveHandlers(const int32_t cid, const int32_t handlersMask) {
+    // Your implementation goes here
+    printf("Client_RemoveHandlers\n");
+  }
+
+  int32_t Browser_Create(const int32_t cid, const  ::thrift_codegen::RObject& requestContextHandler) {
     // Your implementation goes here
     printf("Browser_Create\n");
   }

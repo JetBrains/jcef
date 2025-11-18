@@ -3,7 +3,7 @@
 #include "../browser/RemoteFrame.h"
 #include "../callback/RemoteCefRunContextMenuCallback.h"
 
-#include <boost/container/container_fwd.hpp>
+#include "../browser/RemoteBrowser.h"
 #include <vector>
 
 namespace {
@@ -160,10 +160,7 @@ void to_cef(CefRefPtr<CefMenuModel> out,
 
 }  // namespace
 
-RemoteContextMenuHandler::RemoteContextMenuHandler(
-    const int my_bid,
-    const std::shared_ptr<RpcExecutor>& my_service)
-    : myBid(my_bid), myService(my_service) {}
+RemoteContextMenuHandler::RemoteContextMenuHandler(const std::shared_ptr<RpcExecutor>& my_service) : myService(my_service) {}
 
 RemoteContextMenuHandler::~RemoteContextMenuHandler() = default;
 
@@ -172,8 +169,7 @@ void RemoteContextMenuHandler::OnBeforeContextMenu(
     CefRefPtr<CefFrame> frame,
     CefRefPtr<CefContextMenuParams> params,
     CefRefPtr<CefMenuModel> model) {
-  LNDC();
-
+  FIND_BID_OR_RETURN();
   RemoteFrame::Holder frm(frame);
   const auto thriftParams = convertParams(params);
   const std::vector<thrift_codegen::MenuItem> menu_model = to_thrift(model);
@@ -181,7 +177,7 @@ void RemoteContextMenuHandler::OnBeforeContextMenu(
   std::vector<thrift_codegen::MenuItem> result;
   myService->exec([&](const JavaService& s) {
     s->ContextMenuHandler_OnBeforeContextMenu(
-        result, myBid, frm.serverId(), thriftParams, menu_model);
+        result, bid, frm.serverId(), thriftParams, menu_model);
   });
 
   to_cef(model, result);
@@ -193,7 +189,7 @@ bool RemoteContextMenuHandler::RunContextMenu(
     CefRefPtr<CefContextMenuParams> params,
     CefRefPtr<CefMenuModel> model,
     CefRefPtr<CefRunContextMenuCallback> callback) {
-  LNDC();
+  FIND_BID_OR_RETURN_VAL(false);
   RemoteFrame::Holder frm(frame);
   const auto thriftParams = convertParams(params);
   const std::vector<thrift_codegen::MenuItem> menu_model = to_thrift(model);
@@ -202,7 +198,7 @@ bool RemoteContextMenuHandler::RunContextMenu(
   bool result = myService->exec<bool>(
       [&](const JavaService& s) -> bool {
         return s->ContextMenuHandler_RunContextMenu(
-            myBid, frm.serverId(), thriftParams, menu_model,
+            bid, frm.serverId(), thriftParams, menu_model,
             callback_wrapper->serverId());
       },
       false);
@@ -219,12 +215,12 @@ bool RemoteContextMenuHandler::OnContextMenuCommand(
     CefRefPtr<CefContextMenuParams> params,
     int command_id,
     EventFlags event_flags) {
-  LNDC();
+  FIND_BID_OR_RETURN_VAL(false);
   RemoteFrame::Holder frm(frame);
   const auto thriftParams = convertParams(params);
   return myService->exec<bool>([&](const JavaService& s) {
     return s->ContextMenuHandler_OnContextMenuCommand(
-        myBid, frm.serverId(), thriftParams, command_id,
+        bid, frm.serverId(), thriftParams, command_id,
         event_flags);
   }, false);
 }
@@ -232,9 +228,9 @@ bool RemoteContextMenuHandler::OnContextMenuCommand(
 void RemoteContextMenuHandler::OnContextMenuDismissed(
     CefRefPtr<CefBrowser> browser,
     CefRefPtr<CefFrame> frame) {
-  LNDC();
+  FIND_BID_OR_RETURN();
   RemoteFrame::Holder frm(frame);
   myService->exec([&](const JavaService& s) {
-    s->ContextMenuHandler_OnContextMenuDismissed(myBid, frm.serverId());
+    s->ContextMenuHandler_OnContextMenuDismissed(bid, frm.serverId());
   });
 }

@@ -6,11 +6,13 @@
 
 class RemoteClientHandler;
 class RpcExecutor;
+class RemoteBrowser;
+
 
 // The methods of this class will be called on the UI thread.
 class RemoteRenderHandler : public CefRenderHandler {
 public:
-  explicit RemoteRenderHandler(int bid, std::shared_ptr<RpcExecutor> service);
+  explicit RemoteRenderHandler(std::shared_ptr<RpcExecutor> service);
 
   bool GetRootScreenRect(CefRefPtr<CefBrowser> browser,
                                    CefRect &rect) override;
@@ -57,10 +59,7 @@ public:
                               const CefRange& selected_range) override;
 
 protected:
-  const int myBid;
-  std::shared_ptr<RpcExecutor> myService;
-  SharedBufferManager myBufferManagerPage;
-  SharedBufferManager myBufferManagerPopup;
+  const std::shared_ptr<RpcExecutor> myService;
 
 private:
   IMPLEMENT_REFCOUNTING(RemoteRenderHandler);

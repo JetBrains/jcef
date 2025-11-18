@@ -5,10 +5,12 @@
 
 class RemoteClientHandler;
 class RpcExecutor;
+class RemoteBrowser;
+
 
 class RemoteKeyboardHandler : public CefKeyboardHandler {
  public:
-  explicit RemoteKeyboardHandler(int bid, std::shared_ptr<RpcExecutor> service);
+  explicit RemoteKeyboardHandler(std::shared_ptr<RpcExecutor> service);
   bool OnPreKeyEvent(CefRefPtr<CefBrowser> browser,
                      const CefKeyEvent& event,
                      CefEventHandle os_event,
@@ -18,7 +20,6 @@ class RemoteKeyboardHandler : public CefKeyboardHandler {
                   CefEventHandle os_event) override;
 
  private:
-  const int myBid;
   std::shared_ptr<RpcExecutor> myService;
 
   IMPLEMENT_REFCOUNTING(RemoteKeyboardHandler);

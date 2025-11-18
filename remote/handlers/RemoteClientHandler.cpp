@@ -41,60 +41,87 @@ class DummyRenderHandler : public CefRenderHandler {
 RemoteClientHandler::RemoteClientHandler(
     std::shared_ptr<ServerHandlerContext> ctx,
     int cid,
-    int bid,
-    int handlersMask,
-    const thrift_codegen::RObject& requestContextHandler)
-    : myCid(cid),
-      myBid(bid),
+    int handlersMask)
+    : myCid(cid), myCtx(ctx),
       myService(ctx->javaService()),
-      myRoutersManager(ctx->routersManager()),
-      myRemoteLisfespanHandler(new RemoteLifespanHandler(bid, ctx))
+      myRemoteLisfespanHandler(new RemoteLifespanHandler(ctx))
 {
   if (handlersMask & HandlerMasks::NativeRender)
-    myRemoteRenderHandler = new RemoteRenderHandler(bid, ctx->javaService());
+    myRemoteRenderHandler = new RemoteRenderHandler(ctx->javaService());
   else {
     myRemoteRenderHandler = new DummyRenderHandler();
-    Log::trace("Bid %d hasn't renderer.", bid);
   }
+  addHandlers(handlersMask);
+}
 
-  if (handlersMask & HandlerMasks::Load)
-    myRemoteLoadHandler = new RemoteLoadHandler(bid, ctx->javaService());
+void RemoteClientHandler::addHandlers(int handlersMask) {
+    if (!myRemoteLoadHandler && handlersMask & HandlerMasks::Load)
+        myRemoteLoadHandler = new RemoteLoadHandler(myCtx->javaService());
 
-  if (handlersMask & HandlerMasks::Display)
-    myRemoteDisplayHandler = new RemoteDisplayHandler(bid, ctx->javaService());
+    if (!myRemoteDisplayHandler && handlersMask & HandlerMasks::Display)
+        myRemoteDisplayHandler = new RemoteDisplayHandler(myCtx->javaService());
 
-  if (handlersMask & HandlerMasks::Request)
-    myRemoteRequestHandler = new RemoteRequestHandler(bid, ctx);
+    if (!myRemoteRequestHandler && handlersMask & HandlerMasks::Request)
+        myRemoteRequestHandler = new RemoteRequestHandler(myCtx);
 
-  if (handlersMask & HandlerMasks::Keyboard)
-    myRemoteKeyboardHandler = new RemoteKeyboardHandler(bid, ctx->javaService());
+    if (!myRemoteKeyboardHandler && handlersMask & HandlerMasks::Keyboard)
+        myRemoteKeyboardHandler = new RemoteKeyboardHandler(myCtx->javaService());
 
-  if (handlersMask & HandlerMasks::Focus)
-    myRemoteFocusHandler = new RemoteFocusHandler(bid, ctx->javaService());
+    if (!myRemoteFocusHandler && handlersMask & HandlerMasks::Focus)
+        myRemoteFocusHandler = new RemoteFocusHandler(myCtx->javaService());
 
-  if (handlersMask & HandlerMasks::ContextMenu)
-    myRemoteContextMenuHandler = new RemoteContextMenuHandler(bid, ctx->javaService());
+    if (!myRemoteContextMenuHandler && handlersMask & HandlerMasks::ContextMenu)
+        myRemoteContextMenuHandler = new RemoteContextMenuHandler(myCtx->javaService());
 
-  if (handlersMask & HandlerMasks::Permission)
-    myRemotePermissionHandler = new RemotePermissionHandler(bid, ctx->javaService());
+    if (!myRemotePermissionHandler && handlersMask & HandlerMasks::Permission)
+        myRemotePermissionHandler = new RemotePermissionHandler(myCtx->javaService());
 
-  // TODO: implement remaining handlers
-  //  if (handlersMask & HandlerMasks::Dialog)
-  //    ;
-  //  if (handlersMask & HandlerMasks::JSDialog)
-  //    ;
-  //  if (handlersMask & HandlerMasks::Print)
-  //    ;
-  //  if (handlersMask & HandlerMasks::Download)
-  //    ;
-  //  if (handlersMask & HandlerMasks::Drag)
-  //    ;
+    // TODO: implement remaining handlers
+    //  if (handlersMask & HandlerMasks::Dialog)
+    //    ;
+    //  if (handlersMask & HandlerMasks::JSDialog)
+    //    ;
+    //  if (handlersMask & HandlerMasks::Print)
+    //    ;
+    //  if (handlersMask & HandlerMasks::Download)
+    //    ;
+    //  if (handlersMask & HandlerMasks::Drag)
+    //    ;
+}
 
-  // TODO: Expose CefRequestContextSettings.
-  CefRequestContextSettings settings;
-  myRequestContext = requestContextHandler.isNull
-          ? CefRequestContext::GetGlobalContext()
-          : CefRequestContext::CreateContext(settings,new RemoteRequestContextHandler(ctx, requestContextHandler));
+void RemoteClientHandler::removeHandlers(int handlersMask) {
+    if (myRemoteLoadHandler && handlersMask & HandlerMasks::Load)
+        myRemoteLoadHandler = nullptr;
+
+    if (myRemoteDisplayHandler && handlersMask & HandlerMasks::Display)
+        myRemoteDisplayHandler = nullptr;
+
+    if (myRemoteRequestHandler && handlersMask & HandlerMasks::Request)
+        myRemoteRequestHandler = nullptr;
+
+    if (myRemoteKeyboardHandler && handlersMask & HandlerMasks::Keyboard)
+        myRemoteKeyboardHandler = nullptr;
+
+    if (myRemoteFocusHandler && handlersMask & HandlerMasks::Focus)
+        myRemoteFocusHandler = nullptr;
+
+    if (myRemoteContextMenuHandler && handlersMask & HandlerMasks::ContextMenu)
+        myRemoteContextMenuHandler = nullptr;
+
+    if (myRemotePermissionHandler && handlersMask & HandlerMasks::Permission)
+        myRemotePermissionHandler = nullptr;
+
+    // TODO: implement remaining handlers
+    //  if (handlersMask & HandlerMasks::Dialog)
+    //    ;
+    //  if (handlersMask & HandlerMasks::JSDialog)
+    //    ;
+    //  if (handlersMask & HandlerMasks::Print)
+    //    ;
+    //  if (handlersMask & HandlerMasks::Download)
+    //    ;
+    //  if (handlersMask & HandlerMasks::Drag)
+    //    ;
 }
 
 CefRefPtr<CefContextMenuHandler> RemoteClientHandler::GetContextMenuHandler() {
@@ -168,24 +195,8 @@ bool RemoteClientHandler::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser
                                              CefProcessId source_process,
                                              CefRefPtr<CefProcessMessage> message) {
     LNDCT();
-    myRoutersManager->OnProcessMessageReceived(browser, frame, source_process, message);
+    myCtx->routersManager()->OnProcessMessageReceived(browser, frame, source_process, message);
     return false;
-}
-
-CefRefPtr<CefBrowser> RemoteClientHandler::getCefBrowser() {
-  return ((RemoteLifespanHandler *)(myRemoteLisfespanHandler.get()))->getBrowser();
-}
-
-void RemoteClientHandler::closeBrowser() {
-  if (myIsClosing)
-    return;
-
-  Log::trace("Scheduled closing native browser, bid=%d", myBid);
-  myIsClosing = true;
-  RemoteLifespanHandler * rlf = (RemoteLifespanHandler *)(myRemoteLisfespanHandler.get());
-  auto browser = rlf->getBrowser();
-  if (browser != nullptr)
-    browser->GetHost()->CloseBrowser(true);
 }
 
 namespace HandlerMasks {

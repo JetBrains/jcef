@@ -7,13 +7,14 @@
 #include <memory>
 
 class RpcExecutor;
+class RemoteBrowser;
+
 
 class RemoteContextMenuHandler final : public CefContextMenuHandler {
   ~RemoteContextMenuHandler() override;
 
  public:
-  RemoteContextMenuHandler(int my_bid,
-                           const std::shared_ptr<RpcExecutor>& my_service);
+  RemoteContextMenuHandler(const std::shared_ptr<RpcExecutor>& my_service);
 
   void OnBeforeContextMenu(CefRefPtr<CefBrowser> browser,
                            CefRefPtr<CefFrame> frame,
@@ -36,7 +37,6 @@ class RemoteContextMenuHandler final : public CefContextMenuHandler {
                               CefRefPtr<CefFrame> frame) override;
 
 private:
-  const int myBid;
   std::shared_ptr<RpcExecutor> myService;
 
   IMPLEMENT_REFCOUNTING(RemoteContextMenuHandler);

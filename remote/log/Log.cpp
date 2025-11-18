@@ -112,13 +112,18 @@ void Log::log(int level, const char *const format, ...) {
   char timeBuf[64];
   sprintf(timeBuf, "%02ld:%02ld:%02ld.%03ld", hours, minutes, seconds, milliseconds);
 
+  char * logLevel = "";
+  if (level == LEVEL_FATAL) logLevel = "[FATAL]";
+  else if (level == LEVEL_ERROR) logLevel = "[ERROR]";
+  else if (level == LEVEL_WARN) logLevel = "[WARN]";
+
   const char * end = ourAddNewLine ? "\n" : "";
   if (ourPureMsg)
-    fprintf(ourLogFile, "%s%s", msg.c_str(), end);
+    fprintf(ourLogFile, "%s%s%s", logLevel, msg.c_str(), end);
   else if (ndc.empty())
-    fprintf(ourLogFile, "%s [%s] %s%s", timeBuf, ourThreadName.c_str(), msg.c_str(), end);
+    fprintf(ourLogFile, "%s %s[%s] %s%s", timeBuf, logLevel, ourThreadName.c_str(), msg.c_str(), end);
   else
-    fprintf(ourLogFile, "%s [%s %s] %s%s", timeBuf, ourThreadName.c_str(), ndc.c_str(), msg.c_str(), end);
+    fprintf(ourLogFile, "%s %s[%s %s] %s%s", timeBuf, logLevel, ourThreadName.c_str(), ndc.c_str(), msg.c_str(), end);
   if (ourDoFlush)
     fflush(ourLogFile);
 }
