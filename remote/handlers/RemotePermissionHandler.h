@@ -4,10 +4,12 @@
 #include "include/cef_permission_handler.h"
 
 class RpcExecutor;
+class RemoteBrowser;
+
 
 class RemotePermissionHandler : public CefPermissionHandler {
  public:
-  explicit RemotePermissionHandler(int bid, std::shared_ptr<RpcExecutor> service);
+  explicit RemotePermissionHandler(std::shared_ptr<RpcExecutor> service);
 
   bool OnRequestMediaAccessPermission(
       CefRefPtr<CefBrowser> browser,
@@ -17,7 +19,6 @@ class RemotePermissionHandler : public CefPermissionHandler {
       CefRefPtr<CefMediaAccessCallback> callback) override;
 
  private:
-  const int myBid;
   std::shared_ptr<RpcExecutor> myService;
 
   IMPLEMENT_REFCOUNTING(CefPermissionHandler);

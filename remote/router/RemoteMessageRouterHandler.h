@@ -13,7 +13,7 @@ class ClientsManager;
 class RemoteMessageRouterHandler : public CefMessageRouterBrowserSide::Handler, public RemoteJavaObject<RemoteMessageRouterHandler> {
  public:
   // Use shared_ptr because need to share pointer between threads
-  explicit RemoteMessageRouterHandler(std::shared_ptr<ServerHandlerContext> service, std::shared_ptr<ClientsManager> manager, thrift_codegen::RObject peer);
+  explicit RemoteMessageRouterHandler(std::shared_ptr<ServerHandlerContext> service, thrift_codegen::RObject peer);
   ~RemoteMessageRouterHandler() override;
 
   // All methods will be executed on the browser process UI thread.
@@ -29,7 +29,6 @@ class RemoteMessageRouterHandler : public CefMessageRouterBrowserSide::Handler, 
 
  private:
   std::set<int> myCallbacks;
-  std::shared_ptr<ClientsManager> myClientsManager; // necessary for finding bid by CefRefPtr<CefBrowser>
 };
 
 #endif  // JCEF_REMOTEMESSAGEROUTERHANDLER_H

@@ -22,7 +22,6 @@ public class CefServer {
     // first CEF initialization takes a long time (more than 15 sec in 1% of test runs). So use a large constant here.
     private static final int WAIT_FOR_SERVER_START_SEC = Utils.getInteger("JCEF_WAIT_FOR_SERVER_START_SEC", 60);
     private static final int WAIT_FOR_SERVER_EXIT_SEC = Utils.getInteger("JCEF_WAIT_FOR_SERVER_EXIT_SEC", 10);
-    private static final boolean DONT_STOP_SERVER_MANUALLY = Utils.getBoolean("JCEF_DONT_STOP_SERVER_MANUALLY"); // TODO: remove after platform tests debugging
 
     private static HashSet<CefServer> ourInstances = new HashSet<>();
 
@@ -37,7 +36,6 @@ public class CefServer {
     private TServer myClientHandlersServer;
     private TServerTransport myClientHandlersTransport;
     private final RpcContext myRpc;
-    private final Map<Integer, RemoteBrowser> myBid2Browser = new ConcurrentHashMap<>();
     private final ClientHandlersImpl myClientHandlersImpl;
 
     private volatile boolean myIsConnected = false;
@@ -49,13 +47,16 @@ public class CefServer {
 
     private Runnable myDisconnectionCallback = null;
 
+    public final Map<Integer, RemoteClient> cid2Client = new ConcurrentHashMap<>();
+    public final Map<Integer, RemoteBrowser> bid2Browser = new ConcurrentHashMap<>();
+
     public CefServer(ThriftTransport thriftServer, ThriftTransport thriftBackward, String[] args, CefSettings settings) {
         myThriftServer = thriftServer;
         myThriftBackward = thriftBackward;
         myParams = new CefParams(settings, args);
 
         myRpc = new RpcContext(this);
-        myClientHandlersImpl = new ClientHandlersImpl(myRpc, myBid2Browser);
+        myClientHandlersImpl = new ClientHandlersImpl(myRpc);
 
         CefServer otherRunningInstance = findInstance(myParams, true);
         if (otherRunningInstance != null)
@@ -172,7 +173,7 @@ public class CefServer {
     public RpcContext getRpcContext() { return myRpc; }
 
     public RemoteClient createClient() {
-        return new RemoteClient(myRpc, myBid2Browser);
+        return new RemoteClient(myRpc);
     }
 
     public String getVersion() {
@@ -256,10 +257,7 @@ public class CefServer {
     }
 
     public void stop() {
-        CefLog.Debug("Stop native server '%s'.", myThriftServer);
-
-        if (!DONT_STOP_SERVER_MANUALLY)
-            myRpc.exec(r -> r.stop());
+        CefLog.Debug("Disconnect from native server '%s'.", myThriftServer);
 
         disconnect();
 
@@ -298,13 +296,13 @@ public class CefServer {
         myIsDisconnected = true;
         myRpc.close();
 
-        if (myClientHandlersTransport != null) {
-            myClientHandlersTransport.close();
-            myClientHandlersTransport = null;
-        }
         if (myClientHandlersServer != null) {
             myClientHandlersServer.stop();
             myClientHandlersServer = null;
+        }
+        if (myClientHandlersTransport != null) {
+            myClientHandlersTransport.close();
+            myClientHandlersTransport = null;
         }
 
         if (myThriftBackward != null)

@@ -2,8 +2,10 @@
 #include "RemoteClientHandler.h"
 
 #include "../Utils.h"
+#include "../browser/RemoteBrowser.h"
 
-RemoteKeyboardHandler::RemoteKeyboardHandler(int bid, std::shared_ptr<RpcExecutor> service) : myBid(bid), myService(service) {}
+
+RemoteKeyboardHandler::RemoteKeyboardHandler(std::shared_ptr<RpcExecutor> service) : myService(service) {}
 
 namespace {
   std::string type2str(cef_key_event_type_t type) {
@@ -36,8 +38,9 @@ bool RemoteKeyboardHandler::OnPreKeyEvent(CefRefPtr<CefBrowser> browser,
                    bool* is_keyboard_shortcut) {
   thrift_codegen::KeyEvent keyEvent;
   fillKeyEvent(keyEvent, event);
+  FIND_BID_OR_RETURN_VAL(false);
   return myService->exec<bool>([&](const JavaService& s){
-    return s->KeyboardHandler_OnPreKeyEvent(myBid, keyEvent);
+    return s->KeyboardHandler_OnPreKeyEvent(bid, keyEvent);
   },false);
 }
 
@@ -46,7 +49,8 @@ bool RemoteKeyboardHandler::OnKeyEvent(CefRefPtr<CefBrowser> browser,
                 CefEventHandle os_event) {
   thrift_codegen::KeyEvent keyEvent;
   fillKeyEvent(keyEvent, event);
+  FIND_BID_OR_RETURN_VAL(false);
   return myService->exec<bool>([&](const JavaService& s){
-    return s->KeyboardHandler_OnKeyEvent(myBid, keyEvent);
+    return s->KeyboardHandler_OnKeyEvent(bid, keyEvent);
   },false);
 }

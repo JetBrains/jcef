@@ -24,12 +24,15 @@ class ServerIf {
   virtual ~ServerIf() {}
   virtual int32_t connect(const std::string& backwardConnectionPipe, const bool isMaster) = 0;
   virtual int32_t connectTcp(const int32_t backwardConnectionPort, const bool isMaster) = 0;
-  virtual void attach(const int32_t cid) = 0;
+  virtual void attach(const int32_t connectionId) = 0;
   virtual void log(const std::string& msg) = 0;
   virtual void echo(std::string& _return, const std::string& msg) = 0;
   virtual void getServerInfo(std::string& _return, const std::string& request) = 0;
-  virtual void stop() = 0;
-  virtual int32_t Browser_Create(const int32_t cid, const int32_t handlersMask, const  ::thrift_codegen::RObject& requestContextHandler) = 0;
+  virtual int32_t Client_Create(const int32_t handlersMask) = 0;
+  virtual void Client_Dispose(const int32_t cid) = 0;
+  virtual void Client_AddHandlers(const int32_t cid, const int32_t handlersMask) = 0;
+  virtual void Client_RemoveHandlers(const int32_t cid, const int32_t handlersMask) = 0;
+  virtual int32_t Browser_Create(const int32_t cid, const  ::thrift_codegen::RObject& requestContextHandler) = 0;
   virtual void Browser_StartNativeCreation(const int32_t bid, const std::string& url) = 0;
   virtual void Browser_OpenDevTools(const int32_t bid, const int32_t x, const int32_t y) = 0;
   virtual void Browser_Close(const int32_t bid) = 0;
@@ -177,7 +180,7 @@ class ServerNull : virtual public ServerIf {
     int32_t _return = 0;
     return _return;
   }
-  void attach(const int32_t /* cid */) override {
+  void attach(const int32_t /* connectionId */) override {
     return;
   }
   void log(const std::string& /* msg */) override {
@@ -189,10 +192,20 @@ class ServerNull : virtual public ServerIf {
   void getServerInfo(std::string& /* _return */, const std::string& /* request */) override {
     return;
   }
-  void stop() override {
+  int32_t Client_Create(const int32_t /* handlersMask */) override {
+    int32_t _return = 0;
+    return _return;
+  }
+  void Client_Dispose(const int32_t /* cid */) override {
     return;
   }
-  int32_t Browser_Create(const int32_t /* cid */, const int32_t /* handlersMask */, const  ::thrift_codegen::RObject& /* requestContextHandler */) override {
+  void Client_AddHandlers(const int32_t /* cid */, const int32_t /* handlersMask */) override {
+    return;
+  }
+  void Client_RemoveHandlers(const int32_t /* cid */, const int32_t /* handlersMask */) override {
+    return;
+  }
+  int32_t Browser_Create(const int32_t /* cid */, const  ::thrift_codegen::RObject& /* requestContextHandler */) override {
     int32_t _return = 0;
     return _return;
   }
@@ -769,8 +782,8 @@ class Server_connectTcp_presult {
 };
 
 typedef struct _Server_attach_args__isset {
-  _Server_attach_args__isset() : cid(false) {}
-  bool cid :1;
+  _Server_attach_args__isset() : connectionId(false) {}
+  bool connectionId :1;
 } _Server_attach_args__isset;
 
 class Server_attach_args {
@@ -779,19 +792,19 @@ class Server_attach_args {
   Server_attach_args(const Server_attach_args&) noexcept;
   Server_attach_args& operator=(const Server_attach_args&) noexcept;
   Server_attach_args() noexcept
-                     : cid(0) {
+                     : connectionId(0) {
   }
 
   virtual ~Server_attach_args() noexcept;
-  int32_t cid;
+  int32_t connectionId;
 
   _Server_attach_args__isset __isset;
 
-  void __set_cid(const int32_t val);
+  void __set_connectionId(const int32_t val);
 
   bool operator == (const Server_attach_args & rhs) const
   {
-    if (!(cid == rhs.cid))
+    if (!(connectionId == rhs.connectionId))
       return false;
     return true;
   }
@@ -812,7 +825,7 @@ class Server_attach_pargs {
 
 
   virtual ~Server_attach_pargs() noexcept;
-  const int32_t* cid;
+  const int32_t* connectionId;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -1117,26 +1130,38 @@ class Server_getServerInfo_presult {
 
 };
 
+typedef struct _Server_Client_Create_args__isset {
+  _Server_Client_Create_args__isset() : handlersMask(false) {}
+  bool handlersMask :1;
+} _Server_Client_Create_args__isset;
 
-class Server_stop_args {
+class Server_Client_Create_args {
  public:
 
-  Server_stop_args(const Server_stop_args&) noexcept;
-  Server_stop_args& operator=(const Server_stop_args&) noexcept;
-  Server_stop_args() noexcept {
+  Server_Client_Create_args(const Server_Client_Create_args&) noexcept;
+  Server_Client_Create_args& operator=(const Server_Client_Create_args&) noexcept;
+  Server_Client_Create_args() noexcept
+                            : handlersMask(0) {
   }
 
-  virtual ~Server_stop_args() noexcept;
+  virtual ~Server_Client_Create_args() noexcept;
+  int32_t handlersMask;
 
-  bool operator == (const Server_stop_args & /* rhs */) const
+  _Server_Client_Create_args__isset __isset;
+
+  void __set_handlersMask(const int32_t val);
+
+  bool operator == (const Server_Client_Create_args & rhs) const
   {
+    if (!(handlersMask == rhs.handlersMask))
+      return false;
     return true;
   }
-  bool operator != (const Server_stop_args &rhs) const {
+  bool operator != (const Server_Client_Create_args &rhs) const {
     return !(*this == rhs);
   }
 
-  bool operator < (const Server_stop_args & ) const;
+  bool operator < (const Server_Client_Create_args & ) const;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -1144,20 +1169,242 @@ class Server_stop_args {
 };
 
 
-class Server_stop_pargs {
+class Server_Client_Create_pargs {
  public:
 
 
-  virtual ~Server_stop_pargs() noexcept;
+  virtual ~Server_Client_Create_pargs() noexcept;
+  const int32_t* handlersMask;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_Client_Create_result__isset {
+  _Server_Client_Create_result__isset() : success(false) {}
+  bool success :1;
+} _Server_Client_Create_result__isset;
+
+class Server_Client_Create_result {
+ public:
+
+  Server_Client_Create_result(const Server_Client_Create_result&) noexcept;
+  Server_Client_Create_result& operator=(const Server_Client_Create_result&) noexcept;
+  Server_Client_Create_result() noexcept
+                              : success(0) {
+  }
+
+  virtual ~Server_Client_Create_result() noexcept;
+  int32_t success;
+
+  _Server_Client_Create_result__isset __isset;
+
+  void __set_success(const int32_t val);
+
+  bool operator == (const Server_Client_Create_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_Client_Create_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_Client_Create_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_Client_Create_presult__isset {
+  _Server_Client_Create_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_Client_Create_presult__isset;
+
+class Server_Client_Create_presult {
+ public:
+
+
+  virtual ~Server_Client_Create_presult() noexcept;
+  int32_t* success;
+
+  _Server_Client_Create_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_Client_Dispose_args__isset {
+  _Server_Client_Dispose_args__isset() : cid(false) {}
+  bool cid :1;
+} _Server_Client_Dispose_args__isset;
+
+class Server_Client_Dispose_args {
+ public:
+
+  Server_Client_Dispose_args(const Server_Client_Dispose_args&) noexcept;
+  Server_Client_Dispose_args& operator=(const Server_Client_Dispose_args&) noexcept;
+  Server_Client_Dispose_args() noexcept
+                             : cid(0) {
+  }
+
+  virtual ~Server_Client_Dispose_args() noexcept;
+  int32_t cid;
+
+  _Server_Client_Dispose_args__isset __isset;
+
+  void __set_cid(const int32_t val);
+
+  bool operator == (const Server_Client_Dispose_args & rhs) const
+  {
+    if (!(cid == rhs.cid))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_Client_Dispose_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_Client_Dispose_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_Client_Dispose_pargs {
+ public:
+
+
+  virtual ~Server_Client_Dispose_pargs() noexcept;
+  const int32_t* cid;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_Client_AddHandlers_args__isset {
+  _Server_Client_AddHandlers_args__isset() : cid(false), handlersMask(false) {}
+  bool cid :1;
+  bool handlersMask :1;
+} _Server_Client_AddHandlers_args__isset;
+
+class Server_Client_AddHandlers_args {
+ public:
+
+  Server_Client_AddHandlers_args(const Server_Client_AddHandlers_args&) noexcept;
+  Server_Client_AddHandlers_args& operator=(const Server_Client_AddHandlers_args&) noexcept;
+  Server_Client_AddHandlers_args() noexcept
+                                 : cid(0),
+                                   handlersMask(0) {
+  }
+
+  virtual ~Server_Client_AddHandlers_args() noexcept;
+  int32_t cid;
+  int32_t handlersMask;
+
+  _Server_Client_AddHandlers_args__isset __isset;
+
+  void __set_cid(const int32_t val);
+
+  void __set_handlersMask(const int32_t val);
+
+  bool operator == (const Server_Client_AddHandlers_args & rhs) const
+  {
+    if (!(cid == rhs.cid))
+      return false;
+    if (!(handlersMask == rhs.handlersMask))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_Client_AddHandlers_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_Client_AddHandlers_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_Client_AddHandlers_pargs {
+ public:
+
+
+  virtual ~Server_Client_AddHandlers_pargs() noexcept;
+  const int32_t* cid;
+  const int32_t* handlersMask;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_Client_RemoveHandlers_args__isset {
+  _Server_Client_RemoveHandlers_args__isset() : cid(false), handlersMask(false) {}
+  bool cid :1;
+  bool handlersMask :1;
+} _Server_Client_RemoveHandlers_args__isset;
+
+class Server_Client_RemoveHandlers_args {
+ public:
+
+  Server_Client_RemoveHandlers_args(const Server_Client_RemoveHandlers_args&) noexcept;
+  Server_Client_RemoveHandlers_args& operator=(const Server_Client_RemoveHandlers_args&) noexcept;
+  Server_Client_RemoveHandlers_args() noexcept
+                                    : cid(0),
+                                      handlersMask(0) {
+  }
+
+  virtual ~Server_Client_RemoveHandlers_args() noexcept;
+  int32_t cid;
+  int32_t handlersMask;
+
+  _Server_Client_RemoveHandlers_args__isset __isset;
+
+  void __set_cid(const int32_t val);
+
+  void __set_handlersMask(const int32_t val);
+
+  bool operator == (const Server_Client_RemoveHandlers_args & rhs) const
+  {
+    if (!(cid == rhs.cid))
+      return false;
+    if (!(handlersMask == rhs.handlersMask))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_Client_RemoveHandlers_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_Client_RemoveHandlers_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_Client_RemoveHandlers_pargs {
+ public:
+
+
+  virtual ~Server_Client_RemoveHandlers_pargs() noexcept;
+  const int32_t* cid;
+  const int32_t* handlersMask;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
 };
 
 typedef struct _Server_Browser_Create_args__isset {
-  _Server_Browser_Create_args__isset() : cid(false), handlersMask(false), requestContextHandler(false) {}
+  _Server_Browser_Create_args__isset() : cid(false), requestContextHandler(false) {}
   bool cid :1;
-  bool handlersMask :1;
   bool requestContextHandler :1;
 } _Server_Browser_Create_args__isset;
 
@@ -1167,28 +1414,22 @@ class Server_Browser_Create_args {
   Server_Browser_Create_args(const Server_Browser_Create_args&);
   Server_Browser_Create_args& operator=(const Server_Browser_Create_args&);
   Server_Browser_Create_args() noexcept
-                             : cid(0),
-                               handlersMask(0) {
+                             : cid(0) {
   }
 
   virtual ~Server_Browser_Create_args() noexcept;
   int32_t cid;
-  int32_t handlersMask;
    ::thrift_codegen::RObject requestContextHandler;
 
   _Server_Browser_Create_args__isset __isset;
 
   void __set_cid(const int32_t val);
 
-  void __set_handlersMask(const int32_t val);
-
   void __set_requestContextHandler(const  ::thrift_codegen::RObject& val);
 
   bool operator == (const Server_Browser_Create_args & rhs) const
   {
     if (!(cid == rhs.cid))
-      return false;
-    if (!(handlersMask == rhs.handlersMask))
       return false;
     if (!(requestContextHandler == rhs.requestContextHandler))
       return false;
@@ -1212,7 +1453,6 @@ class Server_Browser_Create_pargs {
 
   virtual ~Server_Browser_Create_pargs() noexcept;
   const int32_t* cid;
-  const int32_t* handlersMask;
   const  ::thrift_codegen::RObject* requestContextHandler;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -9752,8 +9992,8 @@ class ServerClient : virtual public ServerIf {
   int32_t connectTcp(const int32_t backwardConnectionPort, const bool isMaster) override;
   void send_connectTcp(const int32_t backwardConnectionPort, const bool isMaster);
   int32_t recv_connectTcp();
-  void attach(const int32_t cid) override;
-  void send_attach(const int32_t cid);
+  void attach(const int32_t connectionId) override;
+  void send_attach(const int32_t connectionId);
   void recv_attach();
   void log(const std::string& msg) override;
   void send_log(const std::string& msg);
@@ -9763,10 +10003,17 @@ class ServerClient : virtual public ServerIf {
   void getServerInfo(std::string& _return, const std::string& request) override;
   void send_getServerInfo(const std::string& request);
   void recv_getServerInfo(std::string& _return);
-  void stop() override;
-  void send_stop();
-  int32_t Browser_Create(const int32_t cid, const int32_t handlersMask, const  ::thrift_codegen::RObject& requestContextHandler) override;
-  void send_Browser_Create(const int32_t cid, const int32_t handlersMask, const  ::thrift_codegen::RObject& requestContextHandler);
+  int32_t Client_Create(const int32_t handlersMask) override;
+  void send_Client_Create(const int32_t handlersMask);
+  int32_t recv_Client_Create();
+  void Client_Dispose(const int32_t cid) override;
+  void send_Client_Dispose(const int32_t cid);
+  void Client_AddHandlers(const int32_t cid, const int32_t handlersMask) override;
+  void send_Client_AddHandlers(const int32_t cid, const int32_t handlersMask);
+  void Client_RemoveHandlers(const int32_t cid, const int32_t handlersMask) override;
+  void send_Client_RemoveHandlers(const int32_t cid, const int32_t handlersMask);
+  int32_t Browser_Create(const int32_t cid, const  ::thrift_codegen::RObject& requestContextHandler) override;
+  void send_Browser_Create(const int32_t cid, const  ::thrift_codegen::RObject& requestContextHandler);
   int32_t recv_Browser_Create();
   void Browser_StartNativeCreation(const int32_t bid, const std::string& url) override;
   void send_Browser_StartNativeCreation(const int32_t bid, const std::string& url);
@@ -10055,7 +10302,10 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
   void process_log(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_echo(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_getServerInfo(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
-  void process_stop(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_Client_Create(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_Client_Dispose(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_Client_AddHandlers(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_Client_RemoveHandlers(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Browser_Create(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Browser_StartNativeCreation(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Browser_OpenDevTools(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -10176,7 +10426,10 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
     processMap_["log"] = &ServerProcessor::process_log;
     processMap_["echo"] = &ServerProcessor::process_echo;
     processMap_["getServerInfo"] = &ServerProcessor::process_getServerInfo;
-    processMap_["stop"] = &ServerProcessor::process_stop;
+    processMap_["Client_Create"] = &ServerProcessor::process_Client_Create;
+    processMap_["Client_Dispose"] = &ServerProcessor::process_Client_Dispose;
+    processMap_["Client_AddHandlers"] = &ServerProcessor::process_Client_AddHandlers;
+    processMap_["Client_RemoveHandlers"] = &ServerProcessor::process_Client_RemoveHandlers;
     processMap_["Browser_Create"] = &ServerProcessor::process_Browser_Create;
     processMap_["Browser_StartNativeCreation"] = &ServerProcessor::process_Browser_StartNativeCreation;
     processMap_["Browser_OpenDevTools"] = &ServerProcessor::process_Browser_OpenDevTools;
@@ -10334,13 +10587,13 @@ class ServerMultiface : virtual public ServerIf {
     return ifaces_[i]->connectTcp(backwardConnectionPort, isMaster);
   }
 
-  void attach(const int32_t cid) override {
+  void attach(const int32_t connectionId) override {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->attach(cid);
+      ifaces_[i]->attach(connectionId);
     }
-    ifaces_[i]->attach(cid);
+    ifaces_[i]->attach(connectionId);
   }
 
   void log(const std::string& msg) override {
@@ -10372,22 +10625,49 @@ class ServerMultiface : virtual public ServerIf {
     return;
   }
 
-  void stop() override {
+  int32_t Client_Create(const int32_t handlersMask) override {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->stop();
+      ifaces_[i]->Client_Create(handlersMask);
     }
-    ifaces_[i]->stop();
+    return ifaces_[i]->Client_Create(handlersMask);
   }
 
-  int32_t Browser_Create(const int32_t cid, const int32_t handlersMask, const  ::thrift_codegen::RObject& requestContextHandler) override {
+  void Client_Dispose(const int32_t cid) override {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->Browser_Create(cid, handlersMask, requestContextHandler);
+      ifaces_[i]->Client_Dispose(cid);
     }
-    return ifaces_[i]->Browser_Create(cid, handlersMask, requestContextHandler);
+    ifaces_[i]->Client_Dispose(cid);
+  }
+
+  void Client_AddHandlers(const int32_t cid, const int32_t handlersMask) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->Client_AddHandlers(cid, handlersMask);
+    }
+    ifaces_[i]->Client_AddHandlers(cid, handlersMask);
+  }
+
+  void Client_RemoveHandlers(const int32_t cid, const int32_t handlersMask) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->Client_RemoveHandlers(cid, handlersMask);
+    }
+    ifaces_[i]->Client_RemoveHandlers(cid, handlersMask);
+  }
+
+  int32_t Browser_Create(const int32_t cid, const  ::thrift_codegen::RObject& requestContextHandler) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->Browser_Create(cid, requestContextHandler);
+    }
+    return ifaces_[i]->Browser_Create(cid, requestContextHandler);
   }
 
   void Browser_StartNativeCreation(const int32_t bid, const std::string& url) override {
@@ -11435,8 +11715,8 @@ class ServerConcurrentClient : virtual public ServerIf {
   int32_t connectTcp(const int32_t backwardConnectionPort, const bool isMaster) override;
   int32_t send_connectTcp(const int32_t backwardConnectionPort, const bool isMaster);
   int32_t recv_connectTcp(const int32_t seqid);
-  void attach(const int32_t cid) override;
-  int32_t send_attach(const int32_t cid);
+  void attach(const int32_t connectionId) override;
+  int32_t send_attach(const int32_t connectionId);
   void recv_attach(const int32_t seqid);
   void log(const std::string& msg) override;
   void send_log(const std::string& msg);
@@ -11446,10 +11726,17 @@ class ServerConcurrentClient : virtual public ServerIf {
   void getServerInfo(std::string& _return, const std::string& request) override;
   int32_t send_getServerInfo(const std::string& request);
   void recv_getServerInfo(std::string& _return, const int32_t seqid);
-  void stop() override;
-  void send_stop();
-  int32_t Browser_Create(const int32_t cid, const int32_t handlersMask, const  ::thrift_codegen::RObject& requestContextHandler) override;
-  int32_t send_Browser_Create(const int32_t cid, const int32_t handlersMask, const  ::thrift_codegen::RObject& requestContextHandler);
+  int32_t Client_Create(const int32_t handlersMask) override;
+  int32_t send_Client_Create(const int32_t handlersMask);
+  int32_t recv_Client_Create(const int32_t seqid);
+  void Client_Dispose(const int32_t cid) override;
+  void send_Client_Dispose(const int32_t cid);
+  void Client_AddHandlers(const int32_t cid, const int32_t handlersMask) override;
+  void send_Client_AddHandlers(const int32_t cid, const int32_t handlersMask);
+  void Client_RemoveHandlers(const int32_t cid, const int32_t handlersMask) override;
+  void send_Client_RemoveHandlers(const int32_t cid, const int32_t handlersMask);
+  int32_t Browser_Create(const int32_t cid, const  ::thrift_codegen::RObject& requestContextHandler) override;
+  int32_t send_Browser_Create(const int32_t cid, const  ::thrift_codegen::RObject& requestContextHandler);
   int32_t recv_Browser_Create(const int32_t seqid);
   void Browser_StartNativeCreation(const int32_t bid, const std::string& url) override;
   void send_Browser_StartNativeCreation(const int32_t bid, const std::string& url);

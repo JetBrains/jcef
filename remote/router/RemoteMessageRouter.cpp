@@ -15,9 +15,9 @@ RemoteMessageRouter * RemoteMessageRouter::create(std::shared_ptr<ServerHandlerC
   return FACTORY.create([&](int id) -> RemoteMessageRouter* {return new RemoteMessageRouter(ctx, id, delegate, config);});
 }
 
-void RemoteMessageRouter::AddRemoteHandler(std::shared_ptr<ClientsManager> manager, const thrift_codegen::RObject& handler, bool first) {
+void RemoteMessageRouter::AddRemoteHandler(const thrift_codegen::RObject& handler, bool first) {
   TRACE();
-  std::shared_ptr<RemoteMessageRouterHandler> rmrh = std::make_shared<RemoteMessageRouterHandler>(myCtx, manager, handler);
+  std::shared_ptr<RemoteMessageRouterHandler> rmrh = std::make_shared<RemoteMessageRouterHandler>(myCtx, handler);
   myDelegate->AddHandler(rmrh.get(), first);
 
   Lock lock(myMutex);

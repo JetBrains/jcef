@@ -9,7 +9,7 @@ class ServerHandlerContext;
 
 class RemoteDevToolsMessageObserver  : public CefDevToolsMessageObserver, public RemoteJavaObject<RemoteDevToolsMessageObserver>  {
  public:
-  RemoteDevToolsMessageObserver(std::shared_ptr<ClientsManager> clientsManager, std::shared_ptr<ServerHandlerContext> ctx, thrift_codegen::RObject peer);
+  RemoteDevToolsMessageObserver(std::shared_ptr<ServerHandlerContext> ctx, thrift_codegen::RObject peer);
 
   void OnDevToolsEvent(CefRefPtr<CefBrowser> browser,
                        const CefString& method,
@@ -23,8 +23,6 @@ class RemoteDevToolsMessageObserver  : public CefDevToolsMessageObserver, public
                               size_t result_size) override;
 
  protected:
-  std::shared_ptr<ClientsManager> myClientsManager;
-
   IMPLEMENT_REFCOUNTING(RemoteDevToolsMessageObserver);
 };
 

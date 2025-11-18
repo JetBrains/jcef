@@ -6,12 +6,12 @@
 #include "include/cef_request_handler.h"
 
 class ServerHandlerContext;
+class RemoteBrowser;
+
 
 class RemoteRequestHandler : public CefRequestHandler {
  public:
-  explicit RemoteRequestHandler(
-      int bid,
-      std::shared_ptr<ServerHandlerContext> ctx);
+  explicit RemoteRequestHandler(std::shared_ptr<ServerHandlerContext> ctx);
   virtual ~RemoteRequestHandler();
 
   // Called on the UI thread before browser navigation.
@@ -66,7 +66,6 @@ class RemoteRequestHandler : public CefRequestHandler {
                                  const CefString& error_string) override;
 
  private:
-  const int myBid;
   std::shared_ptr<ServerHandlerContext> myCtx;
 
   std::set<int> myCallbacks;

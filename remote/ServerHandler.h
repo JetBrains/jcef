@@ -14,7 +14,6 @@ class ServerHandler : public thrift_codegen::ServerIf {
   ServerHandler();
   ~ServerHandler();
 
-  bool isClosed() const { return myIsClosed; }
   bool isMaster() const { return myIsMaster; }
 
   //
@@ -22,16 +21,24 @@ class ServerHandler : public thrift_codegen::ServerIf {
   //
   int32_t connect(const std::string& backwardConnectionPipe, bool isMaster) override;
   int32_t connectTcp(int backwardConnectionPort, bool isMaster) override;
-  void attach(int cid) override;
+  void attach(int connectionId) override;
   void log(const std::string& msg) override { Log::info("received message from client: %s", msg.c_str()); }
   void echo(std::string& _return, const std::string& msg) override { _return.assign(msg); }
   void stop() override;
   void getServerInfo(std::string& _return, const std::string& request) override;
 
   //
+  // CefClient
+  //
+  int32_t Client_Create(int handlersMask) override;
+  void    Client_Dispose(int cid) override;
+  void    Client_AddHandlers(int cid, int handlersMask) override;
+  void    Client_RemoveHandlers(int cid, int handlersMask) override;
+
+  //
   // CefBrowser
   //
-  int32_t Browser_Create(int cid, int handlersMask, const thrift_codegen::RObject& requestContextHandler) override;
+  int32_t Browser_Create(int cid, const thrift_codegen::RObject& requestContextHandler) override;
   void Browser_StartNativeCreation(int bid, const std::string& url) override;
   void Browser_OpenDevTools(int bid, int x, int y) override;
   void Browser_Close(const int32_t bid) override;
@@ -217,13 +224,10 @@ class ServerHandler : public thrift_codegen::ServerIf {
 
  private:
   bool myIsMaster = false;
-  bool myIsClosed = false;
   int myCid = -1;
   std::shared_ptr<ServerHandlerContext> myCtx;
 
   int connectImpl(std::function<void()> openBackwardTransport);
-  void close();
-
 };
 
 #endif  // JCEF_SERVERHANDLER_H

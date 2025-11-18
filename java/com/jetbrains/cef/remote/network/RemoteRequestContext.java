@@ -93,12 +93,12 @@ public class RemoteRequestContext extends CefRequestContext {
     @Override
     public void ClearCertificateExceptions(CefCompletionCallback callback) {
         RObject cbId = callback != null ? RemoteCompletionCallback.create(callback).thriftId() : new RObject();
-        execute(() -> myRpc.exec(s -> s.RequestContext_ClearCertificateExceptions(myBid, cbId)), "ClearCertificateExceptions");
+        execute(() -> myRpc.invokeLater(s -> s.RequestContext_ClearCertificateExceptions(myBid, cbId)), "ClearCertificateExceptions");
     }
 
     @Override
     public void CloseAllConnections(CefCompletionCallback callback) {
         RObject cbId = callback != null ? RemoteCompletionCallback.create(callback).thriftId() : new RObject();
-        execute(() -> myRpc.exec(s -> s.RequestContext_CloseAllConnections(myBid, cbId)), "CloseAllConnections");
+        execute(() -> myRpc.invokeLater(s -> s.RequestContext_CloseAllConnections(myBid, cbId)), "CloseAllConnections");
     }
 }

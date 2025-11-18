@@ -112,8 +112,6 @@ set(SERVER_SOURCES
         ServerHandlerContext.h
         Utils.cpp
         Utils.h
-        browser/ClientsManager.cpp
-        browser/ClientsManager.h
         browser/KeyEventProcessing.cpp
         browser/MouseEventProcessing.cpp
         browser/RemoteDevToolsMessageObserver.cpp
@@ -201,6 +199,10 @@ set(SERVER_SOURCES
         callback/RemotePdfPrintCallback.h
         CrashHandler.cpp
         CrashHandler.h
+        browser/RemoteBrowser.cpp
+        browser/RemoteBrowser.h
+        browser/RemoteClient.cpp
+        browser/RemoteClient.h
 )
 
 if (OS_WINDOWS)

@@ -8,11 +8,13 @@ class ServerHandlerContext;
 class RpcExecutor;
 class MessageRoutersManager;
 class ClientsManager;
+class RemoteBrowser;
+
 
 class RemoteLifespanHandler : public CefLifeSpanHandler {
  public:
-  explicit RemoteLifespanHandler(int bid, std::shared_ptr<ServerHandlerContext> ctx);
-  CefRefPtr<CefBrowser> getBrowser();
+  explicit RemoteLifespanHandler(std::shared_ptr<ServerHandlerContext> ctx);
+
   //
   // All next methods will be called on the UI thread
   //
@@ -33,12 +35,15 @@ class RemoteLifespanHandler : public CefLifeSpanHandler {
   bool DoClose(CefRefPtr<CefBrowser> browser) override;
   void OnBeforeClose(CefRefPtr<CefBrowser> browser) override;
 
+  void addCreating(int bid);
+  void removeCreating(int bid);
+
  private:
-  const int myBid;
   std::shared_ptr<RpcExecutor> myService;
   std::shared_ptr<MessageRoutersManager> myRoutersManager;
-  std::shared_ptr<ClientsManager> myClientsManager;
-  CefRefPtr<CefBrowser> myBrowser = nullptr;
+
+  std::mutex myCreatingMutex;
+  std::list<int> myCreatingBids;
 
   IMPLEMENT_REFCOUNTING(RemoteLifespanHandler);
 };
