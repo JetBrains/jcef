@@ -324,7 +324,7 @@ bool RemoteRenderHandler::StartDragging(CefRefPtr<CefBrowser> browser,
     if (doTrace)
       Log::trace("RemoteRenderHandler::StartDragging: bid=%d, x=%d y=%d", myBid, x, y);
     Log::error("Unimplemented.");
-    return true;
+    return false;
 }
 
 void RemoteRenderHandler::UpdateDragCursor(CefRefPtr<CefBrowser> browser,
