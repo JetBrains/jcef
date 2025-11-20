@@ -42,14 +42,12 @@ class SharedBuffer {
 
 class SharedBufferManager {
  public:
-  SharedBufferManager(int bid, const std::string& name);
   ~SharedBufferManager();
 
   SharedBuffer * getLockedBuffer(size_t size);
 
  private:
   static constexpr int POOL_SIZE = 2;
-  std::string myPrefix;
   SharedBuffer * myPool[POOL_SIZE] = {nullptr, nullptr};
   int myLastUsed = 1;
 

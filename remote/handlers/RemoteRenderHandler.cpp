@@ -17,9 +17,7 @@ const bool doTrace = getBoolEnv("CEF_SERVER_TRACE_RemoteRenderHandler");
 RemoteRenderHandler::RemoteRenderHandler(int bid,
                                          std::shared_ptr<RpcExecutor> service)
     : myBid(bid),
-      myService(service),
-      myBufferManagerPage(bid, "page"),
-      myBufferManagerPopup(bid, "popup") {}
+      myService(service) {}
 
 bool RemoteRenderHandler::GetRootScreenRect(CefRefPtr<CefBrowser> browser,
                                       CefRect& rect) {
