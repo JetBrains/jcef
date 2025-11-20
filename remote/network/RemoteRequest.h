@@ -6,15 +6,16 @@
 #include "../Utils.h"
 #include "include/cef_request.h"
 
-class RemoteRequest : public virtual CefBaseRefCounted, public RemoteServerObjectUpdatable<RemoteRequest, CefRequest> {
+class RemoteRequest : public virtual CefBaseRefCounted, public RemoteServerObjectWithCache<RemoteRequest, CefRequest> {
  public:
+  explicit RemoteRequest(int id, CefRefPtr<CefRequest> delegate) : RemoteServerObjectWithCache(id, delegate) {}
+
   void updateImpl(const std::map<std::string, std::string>& requestInfo) override;
   std::map<std::string, std::string> toMapImpl() override;
 
-  static RemoteRequest * create(CefRefPtr<CefRequest> delegate);
+  static std::shared_ptr<RemoteRequest> create(CefRefPtr<CefRequest> delegate);
 
  private:
-  explicit RemoteRequest(CefRefPtr<CefRequest> delegate, int id) : RemoteServerObjectUpdatable(id, delegate) {}
   template <class T, class D> friend class ::RemoteServerObjectHolder;
   IMPLEMENT_REFCOUNTING(RemoteRequest);
 };

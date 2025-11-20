@@ -4,23 +4,23 @@
 
 const bool doTrace = getBoolEnv("CEF_SERVER_TRACE_RemoteMessageRouter");
 
-RemoteMessageRouter::RemoteMessageRouter(std::shared_ptr<ServerHandlerContext> ctx, int id, CefRefPtr<CefMessageRouter> delegate, CefMessageRouterConfig config)
+RemoteMessageRouter::RemoteMessageRouter(int id, std::shared_ptr<ServerHandlerContext> ctx, CefRefPtr<CefMessageRouter> delegate, CefMessageRouterConfig config)
     : RemoteServerObject<RemoteMessageRouter, CefMessageRouter>(id, delegate), myCtx(ctx), myConfig(config)
 {
   if (doTrace)
     Log::trace("RemoteMessageRouter: created instance with id=%d, config: query='%s' cancel='%s'", id, config.js_query_function.ToString().c_str(), config.js_cancel_function.ToString().c_str());
 }
 
-RemoteMessageRouter * RemoteMessageRouter::create(std::shared_ptr<ServerHandlerContext> ctx, CefRefPtr<CefMessageRouter> delegate, CefMessageRouterConfig config) {
-  return FACTORY.create([&](int id) -> RemoteMessageRouter* {return new RemoteMessageRouter(ctx, id, delegate, config);});
+std::shared_ptr<RemoteMessageRouter> RemoteMessageRouter::create(std::shared_ptr<ServerHandlerContext> ctx, CefRefPtr<CefMessageRouter> delegate, CefMessageRouterConfig config) {
+  return FACTORY.create(ctx, delegate, config);
 }
 
-RemoteMessageRouter * RemoteMessageRouter::create(std::shared_ptr<ServerHandlerContext> ctx, const std::string &query, const std::string &cancel) {
+std::shared_ptr<RemoteMessageRouter> RemoteMessageRouter::create(std::shared_ptr<ServerHandlerContext> ctx, const std::string &query, const std::string &cancel) {
     CefMessageRouterConfig config;
     config.js_query_function = query;
     config.js_cancel_function = cancel;
     CefRefPtr<CefMessageRouterBrowserSide> msgRouter = CefMessageRouterBrowserSide::Create(config);
-    RemoteMessageRouter * result = create(ctx, msgRouter, config);
+    std::shared_ptr<RemoteMessageRouter> result = create(ctx, msgRouter, config);
     return result;
 }
 

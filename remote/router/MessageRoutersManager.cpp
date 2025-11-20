@@ -24,7 +24,7 @@ std::set<CefRefPtr<CefMessageRouterBrowserSide>> MessageRoutersManager::getMessa
   std::set<CefRefPtr<CefMessageRouterBrowserSide>> message_routers;
   base::AutoLock lock_scope(myRoutersLock);
   for (auto r: myRouters)
-    message_routers.insert(CefRefPtr<CefMessageRouterBrowserSide>(&r->getDelegate()));
+    message_routers.insert(r->getDelegate());
   return message_routers;
 }
 
@@ -73,12 +73,12 @@ void MessageRoutersManager::OnRenderProcessTerminated(CefRefPtr<CefBrowser> brow
     router->OnRenderProcessTerminated(browser);
 }
 
-void MessageRoutersManager::add(RemoteMessageRouter* router) {
+void MessageRoutersManager::add(std::shared_ptr<RemoteMessageRouter> router) {
   base::AutoLock lock_scope(myRoutersLock);
   myRouters.insert(router);
 }
 
-void MessageRoutersManager::remove(RemoteMessageRouter* router) {
+void MessageRoutersManager::remove(std::shared_ptr<RemoteMessageRouter> router) {
   base::AutoLock lock_scope(myRoutersLock);
   myRouters.erase(router);
 }

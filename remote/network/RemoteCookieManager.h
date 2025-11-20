@@ -8,11 +8,12 @@
 // Owned by java peer, disposed by java request (when java-peer is garbage collected)
 class RemoteCookieManager : public RemoteServerObject<RemoteCookieManager, CefCookieManager> {
  public:
-  static RemoteCookieManager * create(std::shared_ptr<RpcExecutor> service, CefRefPtr<CefCookieManager> delegate);
+  explicit RemoteCookieManager(int id, std::shared_ptr<RpcExecutor> service, CefRefPtr<CefCookieManager> delegate);
+  static std::shared_ptr<RemoteCookieManager> create(std::shared_ptr<RpcExecutor> service, CefRefPtr<CefCookieManager> delegate);
 
  private:
   std::shared_ptr<RpcExecutor> myService;
-  explicit RemoteCookieManager(std::shared_ptr<RpcExecutor> service, int id, CefRefPtr<CefCookieManager> delegate);
+
 };
 
 #endif  // JCEF_REMOTECOOKIEMANAGER_H

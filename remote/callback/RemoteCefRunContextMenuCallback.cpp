@@ -1,5 +1,6 @@
 #include "RemoteCefRunContextMenuCallback.h"
+
 RemoteCefRunContextMenuCallback::RemoteCefRunContextMenuCallback(
-    CefRefPtr<CefRunContextMenuCallback> delegate,
-    int id)
-    : RemoteServerObjectUpdatable(id, delegate) {}
+    int id,
+    CefRefPtr<CefRunContextMenuCallback> delegate)
+    : RemoteServerObjectWithCache(id, delegate) {}

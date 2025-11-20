@@ -43,7 +43,7 @@ bool RemoteResourceHandler::ProcessRequest(CefRefPtr<CefRequest> request,
   TRACE()
   LNDCT();
   RemoteRequest::Holder req(request);
-  RemoteCallback * rc = RemoteCallback::wrapDelegate(callback);
+  std::shared_ptr<RemoteCallback> rc = RemoteCallback::wrapDelegate(callback);
   const bool handled = myCtx->javaServiceIO()->exec<bool>([&](JavaService s){
     return s->ResourceHandler_ProcessRequest(myPeerId, req.serverId(), rc->serverId());
   }, false);
@@ -94,7 +94,7 @@ bool RemoteResourceHandler::ReadResponse(void* data_out,
                                          int& bytes_read,
                                          CefRefPtr<CefCallback> callback) {
   TRACE()
-  RemoteCallback* rc = RemoteCallback::wrapDelegate(callback);
+  std::shared_ptr<RemoteCallback> rc = RemoteCallback::wrapDelegate(callback);
   thrift_codegen::ResponseData _return;
   _return.bytes_read = 0;
   myCtx->javaServiceIO()->exec([&](JavaService s){

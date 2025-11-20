@@ -170,7 +170,7 @@ bool RemoteRequestHandler::OnCertificateError(CefRefPtr<CefBrowser> browser,
 ) {
   TRACE()
   FIND_BID_OR_RETURN_VAL(false);
-  RemoteCallback* rc = RemoteCallback::wrapDelegate(callback);
+  std::shared_ptr<RemoteCallback> rc = RemoteCallback::wrapDelegate(callback);
   std::string buf;
   writeSSLData(buf, ssl_info);
   if (buf.capacity() > 1024*128)

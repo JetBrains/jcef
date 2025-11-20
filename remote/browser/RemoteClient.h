@@ -30,8 +30,8 @@ public:
     void addHandlers(int handlersMask);
     void removeHandlers(int handlersMask);
 
-    void addMessageRouter(RemoteMessageRouter* router);
-    void removeMessageRouter(RemoteMessageRouter* router);
+    void addMessageRouter(std::shared_ptr<RemoteMessageRouter> router);
+    void removeMessageRouter(std::shared_ptr<RemoteMessageRouter> router);
 
     std::shared_ptr<RemoteBrowser> createBrowser(std::shared_ptr<RemoteClient> owner,
                                                  std::shared_ptr<ServerHandlerContext> ctx,

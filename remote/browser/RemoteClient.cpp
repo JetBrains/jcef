@@ -25,7 +25,7 @@ void RemoteClient::removeHandlers(int handlersMask) {
   myRemoteClientHandler->removeHandlers(handlersMask);
 }
 
-void RemoteClient::addMessageRouter(RemoteMessageRouter* router) {
+void RemoteClient::addMessageRouter(std::shared_ptr<RemoteMessageRouter> router) {
   myRemoteClientHandler->addMessageRouter(router);
 
   RemoteBrowser::AddMessageRouterConfig(router->getConfig());
@@ -45,7 +45,7 @@ void RemoteClient::addMessageRouter(RemoteMessageRouter* router) {
   }
 }
 
-void RemoteClient::removeMessageRouter(RemoteMessageRouter* router) {
+void RemoteClient::removeMessageRouter(std::shared_ptr<RemoteMessageRouter> router) {
   myRemoteClientHandler->removeMessageRouter(router);
 
   RemoteBrowser::RemoveMessageRouterConfig(router->getConfig());

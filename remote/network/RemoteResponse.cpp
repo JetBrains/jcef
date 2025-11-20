@@ -4,8 +4,8 @@ extern std::string err2str(cef_errorcode_t errorcode);
 extern cef_errorcode_t str2err(std::string err);
 
 
-RemoteResponse::RemoteResponse(CefRefPtr<CefResponse> delegate, int id)
-    : RemoteServerObjectUpdatable<RemoteResponse, CefResponse>(id, delegate) {
+RemoteResponse::RemoteResponse(int id, CefRefPtr<CefResponse> delegate)
+    : RemoteServerObjectWithCache<RemoteResponse, CefResponse>(id, delegate) {
   FACTORY_TRACE("CEF_SERVER_OBJTRACE_Response", "RemoteResponse");
 }
 
