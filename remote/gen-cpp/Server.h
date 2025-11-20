@@ -28,10 +28,13 @@ class ServerIf {
   virtual void log(const std::string& msg) = 0;
   virtual void echo(std::string& _return, const std::string& msg) = 0;
   virtual void getServerInfo(std::string& _return, const std::string& request) = 0;
+  virtual void stop() = 0;
   virtual int32_t Client_Create(const int32_t handlersMask) = 0;
   virtual void Client_Dispose(const int32_t cid) = 0;
   virtual void Client_AddHandlers(const int32_t cid, const int32_t handlersMask) = 0;
   virtual void Client_RemoveHandlers(const int32_t cid, const int32_t handlersMask) = 0;
+  virtual void Client_AddMessageRouter(const int32_t cid, const  ::thrift_codegen::RObject& msgRouter) = 0;
+  virtual void Client_RemoveMessageRouter(const int32_t cid, const  ::thrift_codegen::RObject& msgRouter) = 0;
   virtual int32_t Browser_Create(const int32_t cid, const  ::thrift_codegen::RObject& requestContextHandler) = 0;
   virtual void Browser_StartNativeCreation(const int32_t bid, const std::string& url) = 0;
   virtual void Browser_OpenDevTools(const int32_t bid, const int32_t x, const int32_t y) = 0;
@@ -120,8 +123,6 @@ class ServerIf {
   virtual void CefRunContextMenuCallback_Cancel(const  ::thrift_codegen::RObject& self) = 0;
   virtual void MessageRouter_Create( ::thrift_codegen::RObject& _return, const std::string& query, const std::string& cancel) = 0;
   virtual void MessageRouter_Dispose(const  ::thrift_codegen::RObject& msgRouter) = 0;
-  virtual void MessageRouter_AddMessageRouterToBrowser(const  ::thrift_codegen::RObject& msgRouter, const int32_t bid) = 0;
-  virtual void MessageRouter_RemoveMessageRouterFromBrowser(const  ::thrift_codegen::RObject& msgRouter, const int32_t bid) = 0;
   virtual void MessageRouter_AddHandler(const  ::thrift_codegen::RObject& msgRouter, const  ::thrift_codegen::RObject& handler, const bool first) = 0;
   virtual void MessageRouter_RemoveHandler(const  ::thrift_codegen::RObject& msgRouter, const  ::thrift_codegen::RObject& handler) = 0;
   virtual void MessageRouter_CancelPending(const  ::thrift_codegen::RObject& msgRouter, const int32_t bid, const  ::thrift_codegen::RObject& handler) = 0;
@@ -192,6 +193,9 @@ class ServerNull : virtual public ServerIf {
   void getServerInfo(std::string& /* _return */, const std::string& /* request */) override {
     return;
   }
+  void stop() override {
+    return;
+  }
   int32_t Client_Create(const int32_t /* handlersMask */) override {
     int32_t _return = 0;
     return _return;
@@ -203,6 +207,12 @@ class ServerNull : virtual public ServerIf {
     return;
   }
   void Client_RemoveHandlers(const int32_t /* cid */, const int32_t /* handlersMask */) override {
+    return;
+  }
+  void Client_AddMessageRouter(const int32_t /* cid */, const  ::thrift_codegen::RObject& /* msgRouter */) override {
+    return;
+  }
+  void Client_RemoveMessageRouter(const int32_t /* cid */, const  ::thrift_codegen::RObject& /* msgRouter */) override {
     return;
   }
   int32_t Browser_Create(const int32_t /* cid */, const  ::thrift_codegen::RObject& /* requestContextHandler */) override {
@@ -475,12 +485,6 @@ class ServerNull : virtual public ServerIf {
     return;
   }
   void MessageRouter_Dispose(const  ::thrift_codegen::RObject& /* msgRouter */) override {
-    return;
-  }
-  void MessageRouter_AddMessageRouterToBrowser(const  ::thrift_codegen::RObject& /* msgRouter */, const int32_t /* bid */) override {
-    return;
-  }
-  void MessageRouter_RemoveMessageRouterFromBrowser(const  ::thrift_codegen::RObject& /* msgRouter */, const int32_t /* bid */) override {
     return;
   }
   void MessageRouter_AddHandler(const  ::thrift_codegen::RObject& /* msgRouter */, const  ::thrift_codegen::RObject& /* handler */, const bool /* first */) override {
@@ -1130,6 +1134,43 @@ class Server_getServerInfo_presult {
 
 };
 
+
+class Server_stop_args {
+ public:
+
+  Server_stop_args(const Server_stop_args&) noexcept;
+  Server_stop_args& operator=(const Server_stop_args&) noexcept;
+  Server_stop_args() noexcept {
+  }
+
+  virtual ~Server_stop_args() noexcept;
+
+  bool operator == (const Server_stop_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const Server_stop_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_stop_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_stop_pargs {
+ public:
+
+
+  virtual ~Server_stop_pargs() noexcept;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
 typedef struct _Server_Client_Create_args__isset {
   _Server_Client_Create_args__isset() : handlersMask(false) {}
   bool handlersMask :1;
@@ -1399,6 +1440,194 @@ class Server_Client_RemoveHandlers_pargs {
   const int32_t* handlersMask;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_Client_AddMessageRouter_args__isset {
+  _Server_Client_AddMessageRouter_args__isset() : cid(false), msgRouter(false) {}
+  bool cid :1;
+  bool msgRouter :1;
+} _Server_Client_AddMessageRouter_args__isset;
+
+class Server_Client_AddMessageRouter_args {
+ public:
+
+  Server_Client_AddMessageRouter_args(const Server_Client_AddMessageRouter_args&);
+  Server_Client_AddMessageRouter_args& operator=(const Server_Client_AddMessageRouter_args&);
+  Server_Client_AddMessageRouter_args() noexcept
+                                      : cid(0) {
+  }
+
+  virtual ~Server_Client_AddMessageRouter_args() noexcept;
+  int32_t cid;
+   ::thrift_codegen::RObject msgRouter;
+
+  _Server_Client_AddMessageRouter_args__isset __isset;
+
+  void __set_cid(const int32_t val);
+
+  void __set_msgRouter(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const Server_Client_AddMessageRouter_args & rhs) const
+  {
+    if (!(cid == rhs.cid))
+      return false;
+    if (!(msgRouter == rhs.msgRouter))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_Client_AddMessageRouter_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_Client_AddMessageRouter_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_Client_AddMessageRouter_pargs {
+ public:
+
+
+  virtual ~Server_Client_AddMessageRouter_pargs() noexcept;
+  const int32_t* cid;
+  const  ::thrift_codegen::RObject* msgRouter;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_Client_AddMessageRouter_result {
+ public:
+
+  Server_Client_AddMessageRouter_result(const Server_Client_AddMessageRouter_result&) noexcept;
+  Server_Client_AddMessageRouter_result& operator=(const Server_Client_AddMessageRouter_result&) noexcept;
+  Server_Client_AddMessageRouter_result() noexcept {
+  }
+
+  virtual ~Server_Client_AddMessageRouter_result() noexcept;
+
+  bool operator == (const Server_Client_AddMessageRouter_result & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const Server_Client_AddMessageRouter_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_Client_AddMessageRouter_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_Client_AddMessageRouter_presult {
+ public:
+
+
+  virtual ~Server_Client_AddMessageRouter_presult() noexcept;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_Client_RemoveMessageRouter_args__isset {
+  _Server_Client_RemoveMessageRouter_args__isset() : cid(false), msgRouter(false) {}
+  bool cid :1;
+  bool msgRouter :1;
+} _Server_Client_RemoveMessageRouter_args__isset;
+
+class Server_Client_RemoveMessageRouter_args {
+ public:
+
+  Server_Client_RemoveMessageRouter_args(const Server_Client_RemoveMessageRouter_args&);
+  Server_Client_RemoveMessageRouter_args& operator=(const Server_Client_RemoveMessageRouter_args&);
+  Server_Client_RemoveMessageRouter_args() noexcept
+                                         : cid(0) {
+  }
+
+  virtual ~Server_Client_RemoveMessageRouter_args() noexcept;
+  int32_t cid;
+   ::thrift_codegen::RObject msgRouter;
+
+  _Server_Client_RemoveMessageRouter_args__isset __isset;
+
+  void __set_cid(const int32_t val);
+
+  void __set_msgRouter(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const Server_Client_RemoveMessageRouter_args & rhs) const
+  {
+    if (!(cid == rhs.cid))
+      return false;
+    if (!(msgRouter == rhs.msgRouter))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_Client_RemoveMessageRouter_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_Client_RemoveMessageRouter_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_Client_RemoveMessageRouter_pargs {
+ public:
+
+
+  virtual ~Server_Client_RemoveMessageRouter_pargs() noexcept;
+  const int32_t* cid;
+  const  ::thrift_codegen::RObject* msgRouter;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_Client_RemoveMessageRouter_result {
+ public:
+
+  Server_Client_RemoveMessageRouter_result(const Server_Client_RemoveMessageRouter_result&) noexcept;
+  Server_Client_RemoveMessageRouter_result& operator=(const Server_Client_RemoveMessageRouter_result&) noexcept;
+  Server_Client_RemoveMessageRouter_result() noexcept {
+  }
+
+  virtual ~Server_Client_RemoveMessageRouter_result() noexcept;
+
+  bool operator == (const Server_Client_RemoveMessageRouter_result & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const Server_Client_RemoveMessageRouter_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_Client_RemoveMessageRouter_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_Client_RemoveMessageRouter_presult {
+ public:
+
+
+  virtual ~Server_Client_RemoveMessageRouter_presult() noexcept;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
 
 };
 
@@ -8153,194 +8382,6 @@ class Server_MessageRouter_Dispose_pargs {
 
 };
 
-typedef struct _Server_MessageRouter_AddMessageRouterToBrowser_args__isset {
-  _Server_MessageRouter_AddMessageRouterToBrowser_args__isset() : msgRouter(false), bid(false) {}
-  bool msgRouter :1;
-  bool bid :1;
-} _Server_MessageRouter_AddMessageRouterToBrowser_args__isset;
-
-class Server_MessageRouter_AddMessageRouterToBrowser_args {
- public:
-
-  Server_MessageRouter_AddMessageRouterToBrowser_args(const Server_MessageRouter_AddMessageRouterToBrowser_args&);
-  Server_MessageRouter_AddMessageRouterToBrowser_args& operator=(const Server_MessageRouter_AddMessageRouterToBrowser_args&);
-  Server_MessageRouter_AddMessageRouterToBrowser_args() noexcept
-                                                      : bid(0) {
-  }
-
-  virtual ~Server_MessageRouter_AddMessageRouterToBrowser_args() noexcept;
-   ::thrift_codegen::RObject msgRouter;
-  int32_t bid;
-
-  _Server_MessageRouter_AddMessageRouterToBrowser_args__isset __isset;
-
-  void __set_msgRouter(const  ::thrift_codegen::RObject& val);
-
-  void __set_bid(const int32_t val);
-
-  bool operator == (const Server_MessageRouter_AddMessageRouterToBrowser_args & rhs) const
-  {
-    if (!(msgRouter == rhs.msgRouter))
-      return false;
-    if (!(bid == rhs.bid))
-      return false;
-    return true;
-  }
-  bool operator != (const Server_MessageRouter_AddMessageRouterToBrowser_args &rhs) const {
-    return !(*this == rhs);
-  }
-
-  bool operator < (const Server_MessageRouter_AddMessageRouterToBrowser_args & ) const;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-};
-
-
-class Server_MessageRouter_AddMessageRouterToBrowser_pargs {
- public:
-
-
-  virtual ~Server_MessageRouter_AddMessageRouterToBrowser_pargs() noexcept;
-  const  ::thrift_codegen::RObject* msgRouter;
-  const int32_t* bid;
-
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-};
-
-
-class Server_MessageRouter_AddMessageRouterToBrowser_result {
- public:
-
-  Server_MessageRouter_AddMessageRouterToBrowser_result(const Server_MessageRouter_AddMessageRouterToBrowser_result&) noexcept;
-  Server_MessageRouter_AddMessageRouterToBrowser_result& operator=(const Server_MessageRouter_AddMessageRouterToBrowser_result&) noexcept;
-  Server_MessageRouter_AddMessageRouterToBrowser_result() noexcept {
-  }
-
-  virtual ~Server_MessageRouter_AddMessageRouterToBrowser_result() noexcept;
-
-  bool operator == (const Server_MessageRouter_AddMessageRouterToBrowser_result & /* rhs */) const
-  {
-    return true;
-  }
-  bool operator != (const Server_MessageRouter_AddMessageRouterToBrowser_result &rhs) const {
-    return !(*this == rhs);
-  }
-
-  bool operator < (const Server_MessageRouter_AddMessageRouterToBrowser_result & ) const;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-};
-
-
-class Server_MessageRouter_AddMessageRouterToBrowser_presult {
- public:
-
-
-  virtual ~Server_MessageRouter_AddMessageRouterToBrowser_presult() noexcept;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-
-};
-
-typedef struct _Server_MessageRouter_RemoveMessageRouterFromBrowser_args__isset {
-  _Server_MessageRouter_RemoveMessageRouterFromBrowser_args__isset() : msgRouter(false), bid(false) {}
-  bool msgRouter :1;
-  bool bid :1;
-} _Server_MessageRouter_RemoveMessageRouterFromBrowser_args__isset;
-
-class Server_MessageRouter_RemoveMessageRouterFromBrowser_args {
- public:
-
-  Server_MessageRouter_RemoveMessageRouterFromBrowser_args(const Server_MessageRouter_RemoveMessageRouterFromBrowser_args&);
-  Server_MessageRouter_RemoveMessageRouterFromBrowser_args& operator=(const Server_MessageRouter_RemoveMessageRouterFromBrowser_args&);
-  Server_MessageRouter_RemoveMessageRouterFromBrowser_args() noexcept
-                                                           : bid(0) {
-  }
-
-  virtual ~Server_MessageRouter_RemoveMessageRouterFromBrowser_args() noexcept;
-   ::thrift_codegen::RObject msgRouter;
-  int32_t bid;
-
-  _Server_MessageRouter_RemoveMessageRouterFromBrowser_args__isset __isset;
-
-  void __set_msgRouter(const  ::thrift_codegen::RObject& val);
-
-  void __set_bid(const int32_t val);
-
-  bool operator == (const Server_MessageRouter_RemoveMessageRouterFromBrowser_args & rhs) const
-  {
-    if (!(msgRouter == rhs.msgRouter))
-      return false;
-    if (!(bid == rhs.bid))
-      return false;
-    return true;
-  }
-  bool operator != (const Server_MessageRouter_RemoveMessageRouterFromBrowser_args &rhs) const {
-    return !(*this == rhs);
-  }
-
-  bool operator < (const Server_MessageRouter_RemoveMessageRouterFromBrowser_args & ) const;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-};
-
-
-class Server_MessageRouter_RemoveMessageRouterFromBrowser_pargs {
- public:
-
-
-  virtual ~Server_MessageRouter_RemoveMessageRouterFromBrowser_pargs() noexcept;
-  const  ::thrift_codegen::RObject* msgRouter;
-  const int32_t* bid;
-
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-};
-
-
-class Server_MessageRouter_RemoveMessageRouterFromBrowser_result {
- public:
-
-  Server_MessageRouter_RemoveMessageRouterFromBrowser_result(const Server_MessageRouter_RemoveMessageRouterFromBrowser_result&) noexcept;
-  Server_MessageRouter_RemoveMessageRouterFromBrowser_result& operator=(const Server_MessageRouter_RemoveMessageRouterFromBrowser_result&) noexcept;
-  Server_MessageRouter_RemoveMessageRouterFromBrowser_result() noexcept {
-  }
-
-  virtual ~Server_MessageRouter_RemoveMessageRouterFromBrowser_result() noexcept;
-
-  bool operator == (const Server_MessageRouter_RemoveMessageRouterFromBrowser_result & /* rhs */) const
-  {
-    return true;
-  }
-  bool operator != (const Server_MessageRouter_RemoveMessageRouterFromBrowser_result &rhs) const {
-    return !(*this == rhs);
-  }
-
-  bool operator < (const Server_MessageRouter_RemoveMessageRouterFromBrowser_result & ) const;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-};
-
-
-class Server_MessageRouter_RemoveMessageRouterFromBrowser_presult {
- public:
-
-
-  virtual ~Server_MessageRouter_RemoveMessageRouterFromBrowser_presult() noexcept;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-
-};
-
 typedef struct _Server_MessageRouter_AddHandler_args__isset {
   _Server_MessageRouter_AddHandler_args__isset() : msgRouter(false), handler(false), first(false) {}
   bool msgRouter :1;
@@ -10003,6 +10044,8 @@ class ServerClient : virtual public ServerIf {
   void getServerInfo(std::string& _return, const std::string& request) override;
   void send_getServerInfo(const std::string& request);
   void recv_getServerInfo(std::string& _return);
+  void stop() override;
+  void send_stop();
   int32_t Client_Create(const int32_t handlersMask) override;
   void send_Client_Create(const int32_t handlersMask);
   int32_t recv_Client_Create();
@@ -10012,6 +10055,12 @@ class ServerClient : virtual public ServerIf {
   void send_Client_AddHandlers(const int32_t cid, const int32_t handlersMask);
   void Client_RemoveHandlers(const int32_t cid, const int32_t handlersMask) override;
   void send_Client_RemoveHandlers(const int32_t cid, const int32_t handlersMask);
+  void Client_AddMessageRouter(const int32_t cid, const  ::thrift_codegen::RObject& msgRouter) override;
+  void send_Client_AddMessageRouter(const int32_t cid, const  ::thrift_codegen::RObject& msgRouter);
+  void recv_Client_AddMessageRouter();
+  void Client_RemoveMessageRouter(const int32_t cid, const  ::thrift_codegen::RObject& msgRouter) override;
+  void send_Client_RemoveMessageRouter(const int32_t cid, const  ::thrift_codegen::RObject& msgRouter);
+  void recv_Client_RemoveMessageRouter();
   int32_t Browser_Create(const int32_t cid, const  ::thrift_codegen::RObject& requestContextHandler) override;
   void send_Browser_Create(const int32_t cid, const  ::thrift_codegen::RObject& requestContextHandler);
   int32_t recv_Browser_Create();
@@ -10224,12 +10273,6 @@ class ServerClient : virtual public ServerIf {
   void recv_MessageRouter_Create( ::thrift_codegen::RObject& _return);
   void MessageRouter_Dispose(const  ::thrift_codegen::RObject& msgRouter) override;
   void send_MessageRouter_Dispose(const  ::thrift_codegen::RObject& msgRouter);
-  void MessageRouter_AddMessageRouterToBrowser(const  ::thrift_codegen::RObject& msgRouter, const int32_t bid) override;
-  void send_MessageRouter_AddMessageRouterToBrowser(const  ::thrift_codegen::RObject& msgRouter, const int32_t bid);
-  void recv_MessageRouter_AddMessageRouterToBrowser();
-  void MessageRouter_RemoveMessageRouterFromBrowser(const  ::thrift_codegen::RObject& msgRouter, const int32_t bid) override;
-  void send_MessageRouter_RemoveMessageRouterFromBrowser(const  ::thrift_codegen::RObject& msgRouter, const int32_t bid);
-  void recv_MessageRouter_RemoveMessageRouterFromBrowser();
   void MessageRouter_AddHandler(const  ::thrift_codegen::RObject& msgRouter, const  ::thrift_codegen::RObject& handler, const bool first) override;
   void send_MessageRouter_AddHandler(const  ::thrift_codegen::RObject& msgRouter, const  ::thrift_codegen::RObject& handler, const bool first);
   void recv_MessageRouter_AddHandler();
@@ -10302,10 +10345,13 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
   void process_log(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_echo(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_getServerInfo(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_stop(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Client_Create(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Client_Dispose(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Client_AddHandlers(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Client_RemoveHandlers(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_Client_AddMessageRouter(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_Client_RemoveMessageRouter(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Browser_Create(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Browser_StartNativeCreation(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Browser_OpenDevTools(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -10394,8 +10440,6 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
   void process_CefRunContextMenuCallback_Cancel(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_MessageRouter_Create(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_MessageRouter_Dispose(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
-  void process_MessageRouter_AddMessageRouterToBrowser(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
-  void process_MessageRouter_RemoveMessageRouterFromBrowser(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_MessageRouter_AddHandler(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_MessageRouter_RemoveHandler(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_MessageRouter_CancelPending(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -10426,10 +10470,13 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
     processMap_["log"] = &ServerProcessor::process_log;
     processMap_["echo"] = &ServerProcessor::process_echo;
     processMap_["getServerInfo"] = &ServerProcessor::process_getServerInfo;
+    processMap_["stop"] = &ServerProcessor::process_stop;
     processMap_["Client_Create"] = &ServerProcessor::process_Client_Create;
     processMap_["Client_Dispose"] = &ServerProcessor::process_Client_Dispose;
     processMap_["Client_AddHandlers"] = &ServerProcessor::process_Client_AddHandlers;
     processMap_["Client_RemoveHandlers"] = &ServerProcessor::process_Client_RemoveHandlers;
+    processMap_["Client_AddMessageRouter"] = &ServerProcessor::process_Client_AddMessageRouter;
+    processMap_["Client_RemoveMessageRouter"] = &ServerProcessor::process_Client_RemoveMessageRouter;
     processMap_["Browser_Create"] = &ServerProcessor::process_Browser_Create;
     processMap_["Browser_StartNativeCreation"] = &ServerProcessor::process_Browser_StartNativeCreation;
     processMap_["Browser_OpenDevTools"] = &ServerProcessor::process_Browser_OpenDevTools;
@@ -10518,8 +10565,6 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
     processMap_["CefRunContextMenuCallback_Cancel"] = &ServerProcessor::process_CefRunContextMenuCallback_Cancel;
     processMap_["MessageRouter_Create"] = &ServerProcessor::process_MessageRouter_Create;
     processMap_["MessageRouter_Dispose"] = &ServerProcessor::process_MessageRouter_Dispose;
-    processMap_["MessageRouter_AddMessageRouterToBrowser"] = &ServerProcessor::process_MessageRouter_AddMessageRouterToBrowser;
-    processMap_["MessageRouter_RemoveMessageRouterFromBrowser"] = &ServerProcessor::process_MessageRouter_RemoveMessageRouterFromBrowser;
     processMap_["MessageRouter_AddHandler"] = &ServerProcessor::process_MessageRouter_AddHandler;
     processMap_["MessageRouter_RemoveHandler"] = &ServerProcessor::process_MessageRouter_RemoveHandler;
     processMap_["MessageRouter_CancelPending"] = &ServerProcessor::process_MessageRouter_CancelPending;
@@ -10625,6 +10670,15 @@ class ServerMultiface : virtual public ServerIf {
     return;
   }
 
+  void stop() override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->stop();
+    }
+    ifaces_[i]->stop();
+  }
+
   int32_t Client_Create(const int32_t handlersMask) override {
     size_t sz = ifaces_.size();
     size_t i = 0;
@@ -10659,6 +10713,24 @@ class ServerMultiface : virtual public ServerIf {
       ifaces_[i]->Client_RemoveHandlers(cid, handlersMask);
     }
     ifaces_[i]->Client_RemoveHandlers(cid, handlersMask);
+  }
+
+  void Client_AddMessageRouter(const int32_t cid, const  ::thrift_codegen::RObject& msgRouter) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->Client_AddMessageRouter(cid, msgRouter);
+    }
+    ifaces_[i]->Client_AddMessageRouter(cid, msgRouter);
+  }
+
+  void Client_RemoveMessageRouter(const int32_t cid, const  ::thrift_codegen::RObject& msgRouter) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->Client_RemoveMessageRouter(cid, msgRouter);
+    }
+    ifaces_[i]->Client_RemoveMessageRouter(cid, msgRouter);
   }
 
   int32_t Browser_Create(const int32_t cid, const  ::thrift_codegen::RObject& requestContextHandler) override {
@@ -11469,24 +11541,6 @@ class ServerMultiface : virtual public ServerIf {
     ifaces_[i]->MessageRouter_Dispose(msgRouter);
   }
 
-  void MessageRouter_AddMessageRouterToBrowser(const  ::thrift_codegen::RObject& msgRouter, const int32_t bid) override {
-    size_t sz = ifaces_.size();
-    size_t i = 0;
-    for (; i < (sz - 1); ++i) {
-      ifaces_[i]->MessageRouter_AddMessageRouterToBrowser(msgRouter, bid);
-    }
-    ifaces_[i]->MessageRouter_AddMessageRouterToBrowser(msgRouter, bid);
-  }
-
-  void MessageRouter_RemoveMessageRouterFromBrowser(const  ::thrift_codegen::RObject& msgRouter, const int32_t bid) override {
-    size_t sz = ifaces_.size();
-    size_t i = 0;
-    for (; i < (sz - 1); ++i) {
-      ifaces_[i]->MessageRouter_RemoveMessageRouterFromBrowser(msgRouter, bid);
-    }
-    ifaces_[i]->MessageRouter_RemoveMessageRouterFromBrowser(msgRouter, bid);
-  }
-
   void MessageRouter_AddHandler(const  ::thrift_codegen::RObject& msgRouter, const  ::thrift_codegen::RObject& handler, const bool first) override {
     size_t sz = ifaces_.size();
     size_t i = 0;
@@ -11726,6 +11780,8 @@ class ServerConcurrentClient : virtual public ServerIf {
   void getServerInfo(std::string& _return, const std::string& request) override;
   int32_t send_getServerInfo(const std::string& request);
   void recv_getServerInfo(std::string& _return, const int32_t seqid);
+  void stop() override;
+  void send_stop();
   int32_t Client_Create(const int32_t handlersMask) override;
   int32_t send_Client_Create(const int32_t handlersMask);
   int32_t recv_Client_Create(const int32_t seqid);
@@ -11735,6 +11791,12 @@ class ServerConcurrentClient : virtual public ServerIf {
   void send_Client_AddHandlers(const int32_t cid, const int32_t handlersMask);
   void Client_RemoveHandlers(const int32_t cid, const int32_t handlersMask) override;
   void send_Client_RemoveHandlers(const int32_t cid, const int32_t handlersMask);
+  void Client_AddMessageRouter(const int32_t cid, const  ::thrift_codegen::RObject& msgRouter) override;
+  int32_t send_Client_AddMessageRouter(const int32_t cid, const  ::thrift_codegen::RObject& msgRouter);
+  void recv_Client_AddMessageRouter(const int32_t seqid);
+  void Client_RemoveMessageRouter(const int32_t cid, const  ::thrift_codegen::RObject& msgRouter) override;
+  int32_t send_Client_RemoveMessageRouter(const int32_t cid, const  ::thrift_codegen::RObject& msgRouter);
+  void recv_Client_RemoveMessageRouter(const int32_t seqid);
   int32_t Browser_Create(const int32_t cid, const  ::thrift_codegen::RObject& requestContextHandler) override;
   int32_t send_Browser_Create(const int32_t cid, const  ::thrift_codegen::RObject& requestContextHandler);
   int32_t recv_Browser_Create(const int32_t seqid);
@@ -11947,12 +12009,6 @@ class ServerConcurrentClient : virtual public ServerIf {
   void recv_MessageRouter_Create( ::thrift_codegen::RObject& _return, const int32_t seqid);
   void MessageRouter_Dispose(const  ::thrift_codegen::RObject& msgRouter) override;
   void send_MessageRouter_Dispose(const  ::thrift_codegen::RObject& msgRouter);
-  void MessageRouter_AddMessageRouterToBrowser(const  ::thrift_codegen::RObject& msgRouter, const int32_t bid) override;
-  int32_t send_MessageRouter_AddMessageRouterToBrowser(const  ::thrift_codegen::RObject& msgRouter, const int32_t bid);
-  void recv_MessageRouter_AddMessageRouterToBrowser(const int32_t seqid);
-  void MessageRouter_RemoveMessageRouterFromBrowser(const  ::thrift_codegen::RObject& msgRouter, const int32_t bid) override;
-  int32_t send_MessageRouter_RemoveMessageRouterFromBrowser(const  ::thrift_codegen::RObject& msgRouter, const int32_t bid);
-  void recv_MessageRouter_RemoveMessageRouterFromBrowser(const int32_t seqid);
   void MessageRouter_AddHandler(const  ::thrift_codegen::RObject& msgRouter, const  ::thrift_codegen::RObject& handler, const bool first) override;
   int32_t send_MessageRouter_AddHandler(const  ::thrift_codegen::RObject& msgRouter, const  ::thrift_codegen::RObject& handler, const bool first);
   void recv_MessageRouter_AddHandler(const int32_t seqid);

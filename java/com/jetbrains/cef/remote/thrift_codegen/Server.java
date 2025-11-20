@@ -23,6 +23,8 @@ public class Server {
 
     public java.lang.String getServerInfo(java.lang.String request) throws com.jetbrains.cef.remote.thrift.TException;
 
+    public void stop() throws com.jetbrains.cef.remote.thrift.TException;
+
     public int Client_Create(int handlersMask) throws com.jetbrains.cef.remote.thrift.TException;
 
     public void Client_Dispose(int cid) throws com.jetbrains.cef.remote.thrift.TException;
@@ -30,6 +32,10 @@ public class Server {
     public void Client_AddHandlers(int cid, int handlersMask) throws com.jetbrains.cef.remote.thrift.TException;
 
     public void Client_RemoveHandlers(int cid, int handlersMask) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void Client_AddMessageRouter(int cid, com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void Client_RemoveMessageRouter(int cid, com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter) throws com.jetbrains.cef.remote.thrift.TException;
 
     public int Browser_Create(int cid, com.jetbrains.cef.remote.thrift_codegen.RObject requestContextHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
@@ -207,10 +213,6 @@ public class Server {
 
     public void MessageRouter_Dispose(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter) throws com.jetbrains.cef.remote.thrift.TException;
 
-    public void MessageRouter_AddMessageRouterToBrowser(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, int bid) throws com.jetbrains.cef.remote.thrift.TException;
-
-    public void MessageRouter_RemoveMessageRouterFromBrowser(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, int bid) throws com.jetbrains.cef.remote.thrift.TException;
-
     public void MessageRouter_AddHandler(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, com.jetbrains.cef.remote.thrift_codegen.RObject handler, boolean first) throws com.jetbrains.cef.remote.thrift.TException;
 
     public void MessageRouter_RemoveHandler(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, com.jetbrains.cef.remote.thrift_codegen.RObject handler) throws com.jetbrains.cef.remote.thrift.TException;
@@ -269,6 +271,8 @@ public class Server {
 
     public void getServerInfo(java.lang.String request, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
+    public void stop(com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
+
     public void Client_Create(int handlersMask, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
     public void Client_Dispose(int cid, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
@@ -276,6 +280,10 @@ public class Server {
     public void Client_AddHandlers(int cid, int handlersMask, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
     public void Client_RemoveHandlers(int cid, int handlersMask, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void Client_AddMessageRouter(int cid, com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void Client_RemoveMessageRouter(int cid, com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
     public void Browser_Create(int cid, com.jetbrains.cef.remote.thrift_codegen.RObject requestContextHandler, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
@@ -452,10 +460,6 @@ public class Server {
     public void MessageRouter_Create(java.lang.String query, java.lang.String cancel, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
     public void MessageRouter_Dispose(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
-
-    public void MessageRouter_AddMessageRouterToBrowser(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, int bid, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
-
-    public void MessageRouter_RemoveMessageRouterFromBrowser(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, int bid, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
     public void MessageRouter_AddHandler(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, com.jetbrains.cef.remote.thrift_codegen.RObject handler, boolean first, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
@@ -656,6 +660,18 @@ public class Server {
     }
 
     @Override
+    public void stop() throws com.jetbrains.cef.remote.thrift.TException
+    {
+      send_stop();
+    }
+
+    public void send_stop() throws com.jetbrains.cef.remote.thrift.TException
+    {
+      stop_args args = new stop_args();
+      sendBaseOneway("stop", args);
+    }
+
+    @Override
     public int Client_Create(int handlersMask) throws com.jetbrains.cef.remote.thrift.TException
     {
       send_Client_Create(handlersMask);
@@ -718,6 +734,50 @@ public class Server {
       args.setCid(cid);
       args.setHandlersMask(handlersMask);
       sendBaseOneway("Client_RemoveHandlers", args);
+    }
+
+    @Override
+    public void Client_AddMessageRouter(int cid, com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      send_Client_AddMessageRouter(cid, msgRouter);
+      recv_Client_AddMessageRouter();
+    }
+
+    public void send_Client_AddMessageRouter(int cid, com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      Client_AddMessageRouter_args args = new Client_AddMessageRouter_args();
+      args.setCid(cid);
+      args.setMsgRouter(msgRouter);
+      sendBase("Client_AddMessageRouter", args);
+    }
+
+    public void recv_Client_AddMessageRouter() throws com.jetbrains.cef.remote.thrift.TException
+    {
+      Client_AddMessageRouter_result result = new Client_AddMessageRouter_result();
+      receiveBase(result, "Client_AddMessageRouter");
+      return;
+    }
+
+    @Override
+    public void Client_RemoveMessageRouter(int cid, com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      send_Client_RemoveMessageRouter(cid, msgRouter);
+      recv_Client_RemoveMessageRouter();
+    }
+
+    public void send_Client_RemoveMessageRouter(int cid, com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      Client_RemoveMessageRouter_args args = new Client_RemoveMessageRouter_args();
+      args.setCid(cid);
+      args.setMsgRouter(msgRouter);
+      sendBase("Client_RemoveMessageRouter", args);
+    }
+
+    public void recv_Client_RemoveMessageRouter() throws com.jetbrains.cef.remote.thrift.TException
+    {
+      Client_RemoveMessageRouter_result result = new Client_RemoveMessageRouter_result();
+      receiveBase(result, "Client_RemoveMessageRouter");
+      return;
     }
 
     @Override
@@ -2303,50 +2363,6 @@ public class Server {
     }
 
     @Override
-    public void MessageRouter_AddMessageRouterToBrowser(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, int bid) throws com.jetbrains.cef.remote.thrift.TException
-    {
-      send_MessageRouter_AddMessageRouterToBrowser(msgRouter, bid);
-      recv_MessageRouter_AddMessageRouterToBrowser();
-    }
-
-    public void send_MessageRouter_AddMessageRouterToBrowser(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, int bid) throws com.jetbrains.cef.remote.thrift.TException
-    {
-      MessageRouter_AddMessageRouterToBrowser_args args = new MessageRouter_AddMessageRouterToBrowser_args();
-      args.setMsgRouter(msgRouter);
-      args.setBid(bid);
-      sendBase("MessageRouter_AddMessageRouterToBrowser", args);
-    }
-
-    public void recv_MessageRouter_AddMessageRouterToBrowser() throws com.jetbrains.cef.remote.thrift.TException
-    {
-      MessageRouter_AddMessageRouterToBrowser_result result = new MessageRouter_AddMessageRouterToBrowser_result();
-      receiveBase(result, "MessageRouter_AddMessageRouterToBrowser");
-      return;
-    }
-
-    @Override
-    public void MessageRouter_RemoveMessageRouterFromBrowser(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, int bid) throws com.jetbrains.cef.remote.thrift.TException
-    {
-      send_MessageRouter_RemoveMessageRouterFromBrowser(msgRouter, bid);
-      recv_MessageRouter_RemoveMessageRouterFromBrowser();
-    }
-
-    public void send_MessageRouter_RemoveMessageRouterFromBrowser(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, int bid) throws com.jetbrains.cef.remote.thrift.TException
-    {
-      MessageRouter_RemoveMessageRouterFromBrowser_args args = new MessageRouter_RemoveMessageRouterFromBrowser_args();
-      args.setMsgRouter(msgRouter);
-      args.setBid(bid);
-      sendBase("MessageRouter_RemoveMessageRouterFromBrowser", args);
-    }
-
-    public void recv_MessageRouter_RemoveMessageRouterFromBrowser() throws com.jetbrains.cef.remote.thrift.TException
-    {
-      MessageRouter_RemoveMessageRouterFromBrowser_result result = new MessageRouter_RemoveMessageRouterFromBrowser_result();
-      receiveBase(result, "MessageRouter_RemoveMessageRouterFromBrowser");
-      return;
-    }
-
-    @Override
     public void MessageRouter_AddHandler(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, com.jetbrains.cef.remote.thrift_codegen.RObject handler, boolean first) throws com.jetbrains.cef.remote.thrift.TException
     {
       send_MessageRouter_AddHandler(msgRouter, handler, first);
@@ -2966,6 +2982,38 @@ public class Server {
     }
 
     @Override
+    public void stop(com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+      checkReady();
+      stop_call method_call = new stop_call(resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class stop_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<Void> {
+      public stop_call(com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, true);
+      }
+
+      @Override
+      public void write_args(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("stop", com.jetbrains.cef.remote.thrift.protocol.TMessageType.ONEWAY, 0));
+        stop_args args = new stop_args();
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public Void getResult() throws com.jetbrains.cef.remote.thrift.TException {
+        if (getState() != com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport memoryTransport = new com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        com.jetbrains.cef.remote.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return null;
+      }
+    }
+
+    @Override
     public void Client_Create(int handlersMask, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
       checkReady();
       Client_Create_call method_call = new Client_Create_call(handlersMask, resultHandler, this, ___protocolFactory, ___transport);
@@ -3107,6 +3155,84 @@ public class Server {
         }
         com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport memoryTransport = new com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
         com.jetbrains.cef.remote.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return null;
+      }
+    }
+
+    @Override
+    public void Client_AddMessageRouter(int cid, com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+      checkReady();
+      Client_AddMessageRouter_call method_call = new Client_AddMessageRouter_call(cid, msgRouter, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class Client_AddMessageRouter_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<Void> {
+      private int cid;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter;
+      public Client_AddMessageRouter_call(int cid, com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, false);
+        this.cid = cid;
+        this.msgRouter = msgRouter;
+      }
+
+      @Override
+      public void write_args(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("Client_AddMessageRouter", com.jetbrains.cef.remote.thrift.protocol.TMessageType.CALL, 0));
+        Client_AddMessageRouter_args args = new Client_AddMessageRouter_args();
+        args.setCid(cid);
+        args.setMsgRouter(msgRouter);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public Void getResult() throws com.jetbrains.cef.remote.thrift.TException {
+        if (getState() != com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport memoryTransport = new com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        com.jetbrains.cef.remote.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        (new Client(prot)).recv_Client_AddMessageRouter();
+        return null;
+      }
+    }
+
+    @Override
+    public void Client_RemoveMessageRouter(int cid, com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+      checkReady();
+      Client_RemoveMessageRouter_call method_call = new Client_RemoveMessageRouter_call(cid, msgRouter, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class Client_RemoveMessageRouter_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<Void> {
+      private int cid;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter;
+      public Client_RemoveMessageRouter_call(int cid, com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, false);
+        this.cid = cid;
+        this.msgRouter = msgRouter;
+      }
+
+      @Override
+      public void write_args(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("Client_RemoveMessageRouter", com.jetbrains.cef.remote.thrift.protocol.TMessageType.CALL, 0));
+        Client_RemoveMessageRouter_args args = new Client_RemoveMessageRouter_args();
+        args.setCid(cid);
+        args.setMsgRouter(msgRouter);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public Void getResult() throws com.jetbrains.cef.remote.thrift.TException {
+        if (getState() != com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport memoryTransport = new com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        com.jetbrains.cef.remote.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        (new Client(prot)).recv_Client_RemoveMessageRouter();
         return null;
       }
     }
@@ -6438,84 +6564,6 @@ public class Server {
     }
 
     @Override
-    public void MessageRouter_AddMessageRouterToBrowser(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, int bid, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
-      checkReady();
-      MessageRouter_AddMessageRouterToBrowser_call method_call = new MessageRouter_AddMessageRouterToBrowser_call(msgRouter, bid, resultHandler, this, ___protocolFactory, ___transport);
-      this.___currentMethod = method_call;
-      ___manager.call(method_call);
-    }
-
-    public static class MessageRouter_AddMessageRouterToBrowser_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<Void> {
-      private com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter;
-      private int bid;
-      public MessageRouter_AddMessageRouterToBrowser_call(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, int bid, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
-        super(client, protocolFactory, transport, resultHandler, false);
-        this.msgRouter = msgRouter;
-        this.bid = bid;
-      }
-
-      @Override
-      public void write_args(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot) throws com.jetbrains.cef.remote.thrift.TException {
-        prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("MessageRouter_AddMessageRouterToBrowser", com.jetbrains.cef.remote.thrift.protocol.TMessageType.CALL, 0));
-        MessageRouter_AddMessageRouterToBrowser_args args = new MessageRouter_AddMessageRouterToBrowser_args();
-        args.setMsgRouter(msgRouter);
-        args.setBid(bid);
-        args.write(prot);
-        prot.writeMessageEnd();
-      }
-
-      @Override
-      public Void getResult() throws com.jetbrains.cef.remote.thrift.TException {
-        if (getState() != com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
-          throw new java.lang.IllegalStateException("Method call not finished!");
-        }
-        com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport memoryTransport = new com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
-        com.jetbrains.cef.remote.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
-        (new Client(prot)).recv_MessageRouter_AddMessageRouterToBrowser();
-        return null;
-      }
-    }
-
-    @Override
-    public void MessageRouter_RemoveMessageRouterFromBrowser(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, int bid, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
-      checkReady();
-      MessageRouter_RemoveMessageRouterFromBrowser_call method_call = new MessageRouter_RemoveMessageRouterFromBrowser_call(msgRouter, bid, resultHandler, this, ___protocolFactory, ___transport);
-      this.___currentMethod = method_call;
-      ___manager.call(method_call);
-    }
-
-    public static class MessageRouter_RemoveMessageRouterFromBrowser_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<Void> {
-      private com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter;
-      private int bid;
-      public MessageRouter_RemoveMessageRouterFromBrowser_call(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, int bid, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
-        super(client, protocolFactory, transport, resultHandler, false);
-        this.msgRouter = msgRouter;
-        this.bid = bid;
-      }
-
-      @Override
-      public void write_args(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot) throws com.jetbrains.cef.remote.thrift.TException {
-        prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("MessageRouter_RemoveMessageRouterFromBrowser", com.jetbrains.cef.remote.thrift.protocol.TMessageType.CALL, 0));
-        MessageRouter_RemoveMessageRouterFromBrowser_args args = new MessageRouter_RemoveMessageRouterFromBrowser_args();
-        args.setMsgRouter(msgRouter);
-        args.setBid(bid);
-        args.write(prot);
-        prot.writeMessageEnd();
-      }
-
-      @Override
-      public Void getResult() throws com.jetbrains.cef.remote.thrift.TException {
-        if (getState() != com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
-          throw new java.lang.IllegalStateException("Method call not finished!");
-        }
-        com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport memoryTransport = new com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
-        com.jetbrains.cef.remote.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
-        (new Client(prot)).recv_MessageRouter_RemoveMessageRouterFromBrowser();
-        return null;
-      }
-    }
-
-    @Override
     public void MessageRouter_AddHandler(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, com.jetbrains.cef.remote.thrift_codegen.RObject handler, boolean first, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
       checkReady();
       MessageRouter_AddHandler_call method_call = new MessageRouter_AddHandler_call(msgRouter, handler, first, resultHandler, this, ___protocolFactory, ___transport);
@@ -7332,10 +7380,13 @@ public class Server {
       processMap.put("log", new log());
       processMap.put("echo", new echo());
       processMap.put("getServerInfo", new getServerInfo());
+      processMap.put("stop", new stop());
       processMap.put("Client_Create", new Client_Create());
       processMap.put("Client_Dispose", new Client_Dispose());
       processMap.put("Client_AddHandlers", new Client_AddHandlers());
       processMap.put("Client_RemoveHandlers", new Client_RemoveHandlers());
+      processMap.put("Client_AddMessageRouter", new Client_AddMessageRouter());
+      processMap.put("Client_RemoveMessageRouter", new Client_RemoveMessageRouter());
       processMap.put("Browser_Create", new Browser_Create());
       processMap.put("Browser_StartNativeCreation", new Browser_StartNativeCreation());
       processMap.put("Browser_OpenDevTools", new Browser_OpenDevTools());
@@ -7424,8 +7475,6 @@ public class Server {
       processMap.put("CefRunContextMenuCallback_Cancel", new CefRunContextMenuCallback_Cancel());
       processMap.put("MessageRouter_Create", new MessageRouter_Create());
       processMap.put("MessageRouter_Dispose", new MessageRouter_Dispose());
-      processMap.put("MessageRouter_AddMessageRouterToBrowser", new MessageRouter_AddMessageRouterToBrowser());
-      processMap.put("MessageRouter_RemoveMessageRouterFromBrowser", new MessageRouter_RemoveMessageRouterFromBrowser());
       processMap.put("MessageRouter_AddHandler", new MessageRouter_AddHandler());
       processMap.put("MessageRouter_RemoveHandler", new MessageRouter_RemoveHandler());
       processMap.put("MessageRouter_CancelPending", new MessageRouter_CancelPending());
@@ -7619,6 +7668,33 @@ public class Server {
       }
     }
 
+    public static class stop<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, stop_args> {
+      public stop() {
+        super("stop");
+      }
+
+      @Override
+      public stop_args getEmptyArgsInstance() {
+        return new stop_args();
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.TBase getResult(I iface, stop_args args) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.stop();
+        return null;
+      }
+    }
+
     public static class Client_Create<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, Client_Create_args> {
       public Client_Create() {
         super("Client_Create");
@@ -7726,6 +7802,62 @@ public class Server {
       public com.jetbrains.cef.remote.thrift.TBase getResult(I iface, Client_RemoveHandlers_args args) throws com.jetbrains.cef.remote.thrift.TException {
         iface.Client_RemoveHandlers(args.cid, args.handlersMask);
         return null;
+      }
+    }
+
+    public static class Client_AddMessageRouter<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, Client_AddMessageRouter_args> {
+      public Client_AddMessageRouter() {
+        super("Client_AddMessageRouter");
+      }
+
+      @Override
+      public Client_AddMessageRouter_args getEmptyArgsInstance() {
+        return new Client_AddMessageRouter_args();
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public Client_AddMessageRouter_result getResult(I iface, Client_AddMessageRouter_args args) throws com.jetbrains.cef.remote.thrift.TException {
+        Client_AddMessageRouter_result result = new Client_AddMessageRouter_result();
+        iface.Client_AddMessageRouter(args.cid, args.msgRouter);
+        return result;
+      }
+    }
+
+    public static class Client_RemoveMessageRouter<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, Client_RemoveMessageRouter_args> {
+      public Client_RemoveMessageRouter() {
+        super("Client_RemoveMessageRouter");
+      }
+
+      @Override
+      public Client_RemoveMessageRouter_args getEmptyArgsInstance() {
+        return new Client_RemoveMessageRouter_args();
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public Client_RemoveMessageRouter_result getResult(I iface, Client_RemoveMessageRouter_args args) throws com.jetbrains.cef.remote.thrift.TException {
+        Client_RemoveMessageRouter_result result = new Client_RemoveMessageRouter_result();
+        iface.Client_RemoveMessageRouter(args.cid, args.msgRouter);
+        return result;
       }
     }
 
@@ -10149,62 +10281,6 @@ public class Server {
       }
     }
 
-    public static class MessageRouter_AddMessageRouterToBrowser<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, MessageRouter_AddMessageRouterToBrowser_args> {
-      public MessageRouter_AddMessageRouterToBrowser() {
-        super("MessageRouter_AddMessageRouterToBrowser");
-      }
-
-      @Override
-      public MessageRouter_AddMessageRouterToBrowser_args getEmptyArgsInstance() {
-        return new MessageRouter_AddMessageRouterToBrowser_args();
-      }
-
-      @Override
-      protected boolean isOneway() {
-        return false;
-      }
-
-      @Override
-      protected boolean rethrowUnhandledExceptions() {
-        return false;
-      }
-
-      @Override
-      public MessageRouter_AddMessageRouterToBrowser_result getResult(I iface, MessageRouter_AddMessageRouterToBrowser_args args) throws com.jetbrains.cef.remote.thrift.TException {
-        MessageRouter_AddMessageRouterToBrowser_result result = new MessageRouter_AddMessageRouterToBrowser_result();
-        iface.MessageRouter_AddMessageRouterToBrowser(args.msgRouter, args.bid);
-        return result;
-      }
-    }
-
-    public static class MessageRouter_RemoveMessageRouterFromBrowser<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, MessageRouter_RemoveMessageRouterFromBrowser_args> {
-      public MessageRouter_RemoveMessageRouterFromBrowser() {
-        super("MessageRouter_RemoveMessageRouterFromBrowser");
-      }
-
-      @Override
-      public MessageRouter_RemoveMessageRouterFromBrowser_args getEmptyArgsInstance() {
-        return new MessageRouter_RemoveMessageRouterFromBrowser_args();
-      }
-
-      @Override
-      protected boolean isOneway() {
-        return false;
-      }
-
-      @Override
-      protected boolean rethrowUnhandledExceptions() {
-        return false;
-      }
-
-      @Override
-      public MessageRouter_RemoveMessageRouterFromBrowser_result getResult(I iface, MessageRouter_RemoveMessageRouterFromBrowser_args args) throws com.jetbrains.cef.remote.thrift.TException {
-        MessageRouter_RemoveMessageRouterFromBrowser_result result = new MessageRouter_RemoveMessageRouterFromBrowser_result();
-        iface.MessageRouter_RemoveMessageRouterFromBrowser(args.msgRouter, args.bid);
-        return result;
-      }
-    }
-
     public static class MessageRouter_AddHandler<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, MessageRouter_AddHandler_args> {
       public MessageRouter_AddHandler() {
         super("MessageRouter_AddHandler");
@@ -10805,10 +10881,13 @@ public class Server {
       processMap.put("log", new log());
       processMap.put("echo", new echo());
       processMap.put("getServerInfo", new getServerInfo());
+      processMap.put("stop", new stop());
       processMap.put("Client_Create", new Client_Create());
       processMap.put("Client_Dispose", new Client_Dispose());
       processMap.put("Client_AddHandlers", new Client_AddHandlers());
       processMap.put("Client_RemoveHandlers", new Client_RemoveHandlers());
+      processMap.put("Client_AddMessageRouter", new Client_AddMessageRouter());
+      processMap.put("Client_RemoveMessageRouter", new Client_RemoveMessageRouter());
       processMap.put("Browser_Create", new Browser_Create());
       processMap.put("Browser_StartNativeCreation", new Browser_StartNativeCreation());
       processMap.put("Browser_OpenDevTools", new Browser_OpenDevTools());
@@ -10897,8 +10976,6 @@ public class Server {
       processMap.put("CefRunContextMenuCallback_Cancel", new CefRunContextMenuCallback_Cancel());
       processMap.put("MessageRouter_Create", new MessageRouter_Create());
       processMap.put("MessageRouter_Dispose", new MessageRouter_Dispose());
-      processMap.put("MessageRouter_AddMessageRouterToBrowser", new MessageRouter_AddMessageRouterToBrowser());
-      processMap.put("MessageRouter_RemoveMessageRouterFromBrowser", new MessageRouter_RemoveMessageRouterFromBrowser());
       processMap.put("MessageRouter_AddHandler", new MessageRouter_AddHandler());
       processMap.put("MessageRouter_RemoveHandler", new MessageRouter_RemoveHandler());
       processMap.put("MessageRouter_CancelPending", new MessageRouter_CancelPending());
@@ -11299,6 +11376,46 @@ public class Server {
       }
     }
 
+    public static class stop<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, stop_args, Void> {
+      public stop() {
+        super("stop");
+      }
+
+      @Override
+      public stop_args getEmptyArgsInstance() {
+        return new stop_args();
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> getResultHandler(final com.jetbrains.cef.remote.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final com.jetbrains.cef.remote.thrift.AsyncProcessFunction fcall = this;
+        return new com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void>() { 
+          @Override
+          public void onComplete(Void o) {
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            if (e instanceof com.jetbrains.cef.remote.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+            } else {
+              _LOGGER.error("Exception inside oneway handler", e);
+            }
+          }
+        };
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      public void start(I iface, stop_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.stop(resultHandler);
+      }
+    }
+
     public static class Client_Create<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, Client_Create_args, java.lang.Integer> {
       public Client_Create() {
         super("Client_Create");
@@ -11484,6 +11601,138 @@ public class Server {
       @Override
       public void start(I iface, Client_RemoveHandlers_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
         iface.Client_RemoveHandlers(args.cid, args.handlersMask,resultHandler);
+      }
+    }
+
+    public static class Client_AddMessageRouter<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, Client_AddMessageRouter_args, Void> {
+      public Client_AddMessageRouter() {
+        super("Client_AddMessageRouter");
+      }
+
+      @Override
+      public Client_AddMessageRouter_args getEmptyArgsInstance() {
+        return new Client_AddMessageRouter_args();
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> getResultHandler(final com.jetbrains.cef.remote.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final com.jetbrains.cef.remote.thrift.AsyncProcessFunction fcall = this;
+        return new com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void>() { 
+          @Override
+          public void onComplete(Void o) {
+            Client_AddMessageRouter_result result = new Client_AddMessageRouter_result();
+            try {
+              fcall.sendResponse(fb, result, com.jetbrains.cef.remote.thrift.protocol.TMessageType.REPLY,seqid);
+            } catch (com.jetbrains.cef.remote.thrift.transport.TTransportException e) {
+              _LOGGER.error("TTransportException writing to internal frame buffer", e);
+              fb.close();
+            } catch (java.lang.Exception e) {
+              _LOGGER.error("Exception writing to internal frame buffer", e);
+              onError(e);
+            }
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            byte msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.REPLY;
+            com.jetbrains.cef.remote.thrift.TSerializable msg;
+            Client_AddMessageRouter_result result = new Client_AddMessageRouter_result();
+            if (e instanceof com.jetbrains.cef.remote.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+              return;
+            } else if (e instanceof com.jetbrains.cef.remote.thrift.TApplicationException) {
+              _LOGGER.error("TApplicationException inside handler", e);
+              msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.EXCEPTION;
+              msg = (com.jetbrains.cef.remote.thrift.TApplicationException)e;
+            } else {
+              _LOGGER.error("Exception inside handler", e);
+              msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.EXCEPTION;
+              msg = new com.jetbrains.cef.remote.thrift.TApplicationException(com.jetbrains.cef.remote.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
+            }
+            try {
+              fcall.sendResponse(fb,msg,msgType,seqid);
+            } catch (java.lang.Exception ex) {
+              _LOGGER.error("Exception writing to internal frame buffer", ex);
+              fb.close();
+            }
+          }
+        };
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      public void start(I iface, Client_AddMessageRouter_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.Client_AddMessageRouter(args.cid, args.msgRouter,resultHandler);
+      }
+    }
+
+    public static class Client_RemoveMessageRouter<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, Client_RemoveMessageRouter_args, Void> {
+      public Client_RemoveMessageRouter() {
+        super("Client_RemoveMessageRouter");
+      }
+
+      @Override
+      public Client_RemoveMessageRouter_args getEmptyArgsInstance() {
+        return new Client_RemoveMessageRouter_args();
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> getResultHandler(final com.jetbrains.cef.remote.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final com.jetbrains.cef.remote.thrift.AsyncProcessFunction fcall = this;
+        return new com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void>() { 
+          @Override
+          public void onComplete(Void o) {
+            Client_RemoveMessageRouter_result result = new Client_RemoveMessageRouter_result();
+            try {
+              fcall.sendResponse(fb, result, com.jetbrains.cef.remote.thrift.protocol.TMessageType.REPLY,seqid);
+            } catch (com.jetbrains.cef.remote.thrift.transport.TTransportException e) {
+              _LOGGER.error("TTransportException writing to internal frame buffer", e);
+              fb.close();
+            } catch (java.lang.Exception e) {
+              _LOGGER.error("Exception writing to internal frame buffer", e);
+              onError(e);
+            }
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            byte msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.REPLY;
+            com.jetbrains.cef.remote.thrift.TSerializable msg;
+            Client_RemoveMessageRouter_result result = new Client_RemoveMessageRouter_result();
+            if (e instanceof com.jetbrains.cef.remote.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+              return;
+            } else if (e instanceof com.jetbrains.cef.remote.thrift.TApplicationException) {
+              _LOGGER.error("TApplicationException inside handler", e);
+              msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.EXCEPTION;
+              msg = (com.jetbrains.cef.remote.thrift.TApplicationException)e;
+            } else {
+              _LOGGER.error("Exception inside handler", e);
+              msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.EXCEPTION;
+              msg = new com.jetbrains.cef.remote.thrift.TApplicationException(com.jetbrains.cef.remote.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
+            }
+            try {
+              fcall.sendResponse(fb,msg,msgType,seqid);
+            } catch (java.lang.Exception ex) {
+              _LOGGER.error("Exception writing to internal frame buffer", ex);
+              fb.close();
+            }
+          }
+        };
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      public void start(I iface, Client_RemoveMessageRouter_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.Client_RemoveMessageRouter(args.cid, args.msgRouter,resultHandler);
       }
     }
 
@@ -15972,138 +16221,6 @@ public class Server {
       @Override
       public void start(I iface, MessageRouter_Dispose_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
         iface.MessageRouter_Dispose(args.msgRouter,resultHandler);
-      }
-    }
-
-    public static class MessageRouter_AddMessageRouterToBrowser<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, MessageRouter_AddMessageRouterToBrowser_args, Void> {
-      public MessageRouter_AddMessageRouterToBrowser() {
-        super("MessageRouter_AddMessageRouterToBrowser");
-      }
-
-      @Override
-      public MessageRouter_AddMessageRouterToBrowser_args getEmptyArgsInstance() {
-        return new MessageRouter_AddMessageRouterToBrowser_args();
-      }
-
-      @Override
-      public com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> getResultHandler(final com.jetbrains.cef.remote.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
-        final com.jetbrains.cef.remote.thrift.AsyncProcessFunction fcall = this;
-        return new com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void>() { 
-          @Override
-          public void onComplete(Void o) {
-            MessageRouter_AddMessageRouterToBrowser_result result = new MessageRouter_AddMessageRouterToBrowser_result();
-            try {
-              fcall.sendResponse(fb, result, com.jetbrains.cef.remote.thrift.protocol.TMessageType.REPLY,seqid);
-            } catch (com.jetbrains.cef.remote.thrift.transport.TTransportException e) {
-              _LOGGER.error("TTransportException writing to internal frame buffer", e);
-              fb.close();
-            } catch (java.lang.Exception e) {
-              _LOGGER.error("Exception writing to internal frame buffer", e);
-              onError(e);
-            }
-          }
-          @Override
-          public void onError(java.lang.Exception e) {
-            byte msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.REPLY;
-            com.jetbrains.cef.remote.thrift.TSerializable msg;
-            MessageRouter_AddMessageRouterToBrowser_result result = new MessageRouter_AddMessageRouterToBrowser_result();
-            if (e instanceof com.jetbrains.cef.remote.thrift.transport.TTransportException) {
-              _LOGGER.error("TTransportException inside handler", e);
-              fb.close();
-              return;
-            } else if (e instanceof com.jetbrains.cef.remote.thrift.TApplicationException) {
-              _LOGGER.error("TApplicationException inside handler", e);
-              msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.EXCEPTION;
-              msg = (com.jetbrains.cef.remote.thrift.TApplicationException)e;
-            } else {
-              _LOGGER.error("Exception inside handler", e);
-              msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.EXCEPTION;
-              msg = new com.jetbrains.cef.remote.thrift.TApplicationException(com.jetbrains.cef.remote.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
-            }
-            try {
-              fcall.sendResponse(fb,msg,msgType,seqid);
-            } catch (java.lang.Exception ex) {
-              _LOGGER.error("Exception writing to internal frame buffer", ex);
-              fb.close();
-            }
-          }
-        };
-      }
-
-      @Override
-      protected boolean isOneway() {
-        return false;
-      }
-
-      @Override
-      public void start(I iface, MessageRouter_AddMessageRouterToBrowser_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
-        iface.MessageRouter_AddMessageRouterToBrowser(args.msgRouter, args.bid,resultHandler);
-      }
-    }
-
-    public static class MessageRouter_RemoveMessageRouterFromBrowser<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, MessageRouter_RemoveMessageRouterFromBrowser_args, Void> {
-      public MessageRouter_RemoveMessageRouterFromBrowser() {
-        super("MessageRouter_RemoveMessageRouterFromBrowser");
-      }
-
-      @Override
-      public MessageRouter_RemoveMessageRouterFromBrowser_args getEmptyArgsInstance() {
-        return new MessageRouter_RemoveMessageRouterFromBrowser_args();
-      }
-
-      @Override
-      public com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> getResultHandler(final com.jetbrains.cef.remote.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
-        final com.jetbrains.cef.remote.thrift.AsyncProcessFunction fcall = this;
-        return new com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void>() { 
-          @Override
-          public void onComplete(Void o) {
-            MessageRouter_RemoveMessageRouterFromBrowser_result result = new MessageRouter_RemoveMessageRouterFromBrowser_result();
-            try {
-              fcall.sendResponse(fb, result, com.jetbrains.cef.remote.thrift.protocol.TMessageType.REPLY,seqid);
-            } catch (com.jetbrains.cef.remote.thrift.transport.TTransportException e) {
-              _LOGGER.error("TTransportException writing to internal frame buffer", e);
-              fb.close();
-            } catch (java.lang.Exception e) {
-              _LOGGER.error("Exception writing to internal frame buffer", e);
-              onError(e);
-            }
-          }
-          @Override
-          public void onError(java.lang.Exception e) {
-            byte msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.REPLY;
-            com.jetbrains.cef.remote.thrift.TSerializable msg;
-            MessageRouter_RemoveMessageRouterFromBrowser_result result = new MessageRouter_RemoveMessageRouterFromBrowser_result();
-            if (e instanceof com.jetbrains.cef.remote.thrift.transport.TTransportException) {
-              _LOGGER.error("TTransportException inside handler", e);
-              fb.close();
-              return;
-            } else if (e instanceof com.jetbrains.cef.remote.thrift.TApplicationException) {
-              _LOGGER.error("TApplicationException inside handler", e);
-              msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.EXCEPTION;
-              msg = (com.jetbrains.cef.remote.thrift.TApplicationException)e;
-            } else {
-              _LOGGER.error("Exception inside handler", e);
-              msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.EXCEPTION;
-              msg = new com.jetbrains.cef.remote.thrift.TApplicationException(com.jetbrains.cef.remote.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
-            }
-            try {
-              fcall.sendResponse(fb,msg,msgType,seqid);
-            } catch (java.lang.Exception ex) {
-              _LOGGER.error("Exception writing to internal frame buffer", ex);
-              fb.close();
-            }
-          }
-        };
-      }
-
-      @Override
-      protected boolean isOneway() {
-        return false;
-      }
-
-      @Override
-      public void start(I iface, MessageRouter_RemoveMessageRouterFromBrowser_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
-        iface.MessageRouter_RemoveMessageRouterFromBrowser(args.msgRouter, args.bid,resultHandler);
       }
     }
 
@@ -21426,6 +21543,272 @@ public class Server {
   }
 
   @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class stop_args implements com.jetbrains.cef.remote.thrift.TBase<stop_args, stop_args._Fields>, java.io.Serializable, Cloneable, Comparable<stop_args>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("stop_args");
+
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new stop_argsStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new stop_argsTupleSchemeFactory();
+
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+;
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(stop_args.class, metaDataMap);
+    }
+
+    public stop_args() {
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public stop_args(stop_args other) {
+    }
+
+    @Override
+    public stop_args deepCopy() {
+      return new stop_args(this);
+    }
+
+    @Override
+    public void clear() {
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof stop_args)
+        return this.equals((stop_args)that);
+      return false;
+    }
+
+    public boolean equals(stop_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(stop_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("stop_args(");
+      boolean first = true;
+
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class stop_argsStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public stop_argsStandardScheme getScheme() {
+        return new stop_argsStandardScheme();
+      }
+    }
+
+    private static class stop_argsStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<stop_args> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, stop_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            default:
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, stop_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class stop_argsTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public stop_argsTupleScheme getScheme() {
+        return new stop_argsTupleScheme();
+      }
+    }
+
+    private static class stop_argsTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<stop_args> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, stop_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, stop_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
   public static class Client_Create_args implements com.jetbrains.cef.remote.thrift.TBase<Client_Create_args, Client_Create_args._Fields>, java.io.Serializable, Cloneable, Comparable<Client_Create_args>   {
     private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("Client_Create_args");
 
@@ -23480,6 +23863,1504 @@ public class Server {
           struct.handlersMask = iprot.readI32();
           struct.setHandlersMaskIsSet(true);
         }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class Client_AddMessageRouter_args implements com.jetbrains.cef.remote.thrift.TBase<Client_AddMessageRouter_args, Client_AddMessageRouter_args._Fields>, java.io.Serializable, Cloneable, Comparable<Client_AddMessageRouter_args>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("Client_AddMessageRouter_args");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField CID_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("cid", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)1);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField MSG_ROUTER_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("msgRouter", com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, (short)2);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new Client_AddMessageRouter_argsStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new Client_AddMessageRouter_argsTupleSchemeFactory();
+
+    public int cid; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      CID((short)1, "cid"),
+      MSG_ROUTER((short)2, "msgRouter");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // CID
+            return CID;
+          case 2: // MSG_ROUTER
+            return MSG_ROUTER;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __CID_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CID, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("cid", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.MSG_ROUTER, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("msgRouter", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Client_AddMessageRouter_args.class, metaDataMap);
+    }
+
+    public Client_AddMessageRouter_args() {
+    }
+
+    public Client_AddMessageRouter_args(
+      int cid,
+      com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter)
+    {
+      this();
+      this.cid = cid;
+      setCidIsSet(true);
+      this.msgRouter = msgRouter;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public Client_AddMessageRouter_args(Client_AddMessageRouter_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.cid = other.cid;
+      if (other.isSetMsgRouter()) {
+        this.msgRouter = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.msgRouter);
+      }
+    }
+
+    @Override
+    public Client_AddMessageRouter_args deepCopy() {
+      return new Client_AddMessageRouter_args(this);
+    }
+
+    @Override
+    public void clear() {
+      setCidIsSet(false);
+      this.cid = 0;
+      this.msgRouter = null;
+    }
+
+    public int getCid() {
+      return this.cid;
+    }
+
+    public Client_AddMessageRouter_args setCid(int cid) {
+      this.cid = cid;
+      setCidIsSet(true);
+      return this;
+    }
+
+    public void unsetCid() {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __CID_ISSET_ID);
+    }
+
+    /** Returns true if field cid is set (has been assigned a value) and false otherwise */
+    public boolean isSetCid() {
+      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __CID_ISSET_ID);
+    }
+
+    public void setCidIsSet(boolean value) {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __CID_ISSET_ID, value);
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getMsgRouter() {
+      return this.msgRouter;
+    }
+
+    public Client_AddMessageRouter_args setMsgRouter(@com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter) {
+      this.msgRouter = msgRouter;
+      return this;
+    }
+
+    public void unsetMsgRouter() {
+      this.msgRouter = null;
+    }
+
+    /** Returns true if field msgRouter is set (has been assigned a value) and false otherwise */
+    public boolean isSetMsgRouter() {
+      return this.msgRouter != null;
+    }
+
+    public void setMsgRouterIsSet(boolean value) {
+      if (!value) {
+        this.msgRouter = null;
+      }
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case CID:
+        if (value == null) {
+          unsetCid();
+        } else {
+          setCid((java.lang.Integer)value);
+        }
+        break;
+
+      case MSG_ROUTER:
+        if (value == null) {
+          unsetMsgRouter();
+        } else {
+          setMsgRouter((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case CID:
+        return getCid();
+
+      case MSG_ROUTER:
+        return getMsgRouter();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case CID:
+        return isSetCid();
+      case MSG_ROUTER:
+        return isSetMsgRouter();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof Client_AddMessageRouter_args)
+        return this.equals((Client_AddMessageRouter_args)that);
+      return false;
+    }
+
+    public boolean equals(Client_AddMessageRouter_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_cid = true;
+      boolean that_present_cid = true;
+      if (this_present_cid || that_present_cid) {
+        if (!(this_present_cid && that_present_cid))
+          return false;
+        if (this.cid != that.cid)
+          return false;
+      }
+
+      boolean this_present_msgRouter = true && this.isSetMsgRouter();
+      boolean that_present_msgRouter = true && that.isSetMsgRouter();
+      if (this_present_msgRouter || that_present_msgRouter) {
+        if (!(this_present_msgRouter && that_present_msgRouter))
+          return false;
+        if (!this.msgRouter.equals(that.msgRouter))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + cid;
+
+      hashCode = hashCode * 8191 + ((isSetMsgRouter()) ? 131071 : 524287);
+      if (isSetMsgRouter())
+        hashCode = hashCode * 8191 + msgRouter.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(Client_AddMessageRouter_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetCid(), other.isSetCid());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetCid()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.cid, other.cid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetMsgRouter(), other.isSetMsgRouter());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetMsgRouter()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.msgRouter, other.msgRouter);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("Client_AddMessageRouter_args(");
+      boolean first = true;
+
+      sb.append("cid:");
+      sb.append(this.cid);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("msgRouter:");
+      if (this.msgRouter == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.msgRouter);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (msgRouter != null) {
+        msgRouter.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class Client_AddMessageRouter_argsStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public Client_AddMessageRouter_argsStandardScheme getScheme() {
+        return new Client_AddMessageRouter_argsStandardScheme();
+      }
+    }
+
+    private static class Client_AddMessageRouter_argsStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<Client_AddMessageRouter_args> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, Client_AddMessageRouter_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // CID
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
+                struct.cid = iprot.readI32();
+                struct.setCidIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 2: // MSG_ROUTER
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT) {
+                struct.msgRouter = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                struct.msgRouter.read(iprot);
+                struct.setMsgRouterIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, Client_AddMessageRouter_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldBegin(CID_FIELD_DESC);
+        oprot.writeI32(struct.cid);
+        oprot.writeFieldEnd();
+        if (struct.msgRouter != null) {
+          oprot.writeFieldBegin(MSG_ROUTER_FIELD_DESC);
+          struct.msgRouter.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class Client_AddMessageRouter_argsTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public Client_AddMessageRouter_argsTupleScheme getScheme() {
+        return new Client_AddMessageRouter_argsTupleScheme();
+      }
+    }
+
+    private static class Client_AddMessageRouter_argsTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<Client_AddMessageRouter_args> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, Client_AddMessageRouter_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetCid()) {
+          optionals.set(0);
+        }
+        if (struct.isSetMsgRouter()) {
+          optionals.set(1);
+        }
+        oprot.writeBitSet(optionals, 2);
+        if (struct.isSetCid()) {
+          oprot.writeI32(struct.cid);
+        }
+        if (struct.isSetMsgRouter()) {
+          struct.msgRouter.write(oprot);
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, Client_AddMessageRouter_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(2);
+        if (incoming.get(0)) {
+          struct.cid = iprot.readI32();
+          struct.setCidIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.msgRouter = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+          struct.msgRouter.read(iprot);
+          struct.setMsgRouterIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class Client_AddMessageRouter_result implements com.jetbrains.cef.remote.thrift.TBase<Client_AddMessageRouter_result, Client_AddMessageRouter_result._Fields>, java.io.Serializable, Cloneable, Comparable<Client_AddMessageRouter_result>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("Client_AddMessageRouter_result");
+
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new Client_AddMessageRouter_resultStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new Client_AddMessageRouter_resultTupleSchemeFactory();
+
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+;
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Client_AddMessageRouter_result.class, metaDataMap);
+    }
+
+    public Client_AddMessageRouter_result() {
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public Client_AddMessageRouter_result(Client_AddMessageRouter_result other) {
+    }
+
+    @Override
+    public Client_AddMessageRouter_result deepCopy() {
+      return new Client_AddMessageRouter_result(this);
+    }
+
+    @Override
+    public void clear() {
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof Client_AddMessageRouter_result)
+        return this.equals((Client_AddMessageRouter_result)that);
+      return false;
+    }
+
+    public boolean equals(Client_AddMessageRouter_result that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(Client_AddMessageRouter_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+      }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("Client_AddMessageRouter_result(");
+      boolean first = true;
+
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class Client_AddMessageRouter_resultStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public Client_AddMessageRouter_resultStandardScheme getScheme() {
+        return new Client_AddMessageRouter_resultStandardScheme();
+      }
+    }
+
+    private static class Client_AddMessageRouter_resultStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<Client_AddMessageRouter_result> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, Client_AddMessageRouter_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            default:
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, Client_AddMessageRouter_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class Client_AddMessageRouter_resultTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public Client_AddMessageRouter_resultTupleScheme getScheme() {
+        return new Client_AddMessageRouter_resultTupleScheme();
+      }
+    }
+
+    private static class Client_AddMessageRouter_resultTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<Client_AddMessageRouter_result> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, Client_AddMessageRouter_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, Client_AddMessageRouter_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class Client_RemoveMessageRouter_args implements com.jetbrains.cef.remote.thrift.TBase<Client_RemoveMessageRouter_args, Client_RemoveMessageRouter_args._Fields>, java.io.Serializable, Cloneable, Comparable<Client_RemoveMessageRouter_args>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("Client_RemoveMessageRouter_args");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField CID_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("cid", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)1);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField MSG_ROUTER_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("msgRouter", com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, (short)2);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new Client_RemoveMessageRouter_argsStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new Client_RemoveMessageRouter_argsTupleSchemeFactory();
+
+    public int cid; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      CID((short)1, "cid"),
+      MSG_ROUTER((short)2, "msgRouter");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // CID
+            return CID;
+          case 2: // MSG_ROUTER
+            return MSG_ROUTER;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __CID_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CID, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("cid", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.MSG_ROUTER, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("msgRouter", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Client_RemoveMessageRouter_args.class, metaDataMap);
+    }
+
+    public Client_RemoveMessageRouter_args() {
+    }
+
+    public Client_RemoveMessageRouter_args(
+      int cid,
+      com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter)
+    {
+      this();
+      this.cid = cid;
+      setCidIsSet(true);
+      this.msgRouter = msgRouter;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public Client_RemoveMessageRouter_args(Client_RemoveMessageRouter_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.cid = other.cid;
+      if (other.isSetMsgRouter()) {
+        this.msgRouter = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.msgRouter);
+      }
+    }
+
+    @Override
+    public Client_RemoveMessageRouter_args deepCopy() {
+      return new Client_RemoveMessageRouter_args(this);
+    }
+
+    @Override
+    public void clear() {
+      setCidIsSet(false);
+      this.cid = 0;
+      this.msgRouter = null;
+    }
+
+    public int getCid() {
+      return this.cid;
+    }
+
+    public Client_RemoveMessageRouter_args setCid(int cid) {
+      this.cid = cid;
+      setCidIsSet(true);
+      return this;
+    }
+
+    public void unsetCid() {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __CID_ISSET_ID);
+    }
+
+    /** Returns true if field cid is set (has been assigned a value) and false otherwise */
+    public boolean isSetCid() {
+      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __CID_ISSET_ID);
+    }
+
+    public void setCidIsSet(boolean value) {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __CID_ISSET_ID, value);
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getMsgRouter() {
+      return this.msgRouter;
+    }
+
+    public Client_RemoveMessageRouter_args setMsgRouter(@com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter) {
+      this.msgRouter = msgRouter;
+      return this;
+    }
+
+    public void unsetMsgRouter() {
+      this.msgRouter = null;
+    }
+
+    /** Returns true if field msgRouter is set (has been assigned a value) and false otherwise */
+    public boolean isSetMsgRouter() {
+      return this.msgRouter != null;
+    }
+
+    public void setMsgRouterIsSet(boolean value) {
+      if (!value) {
+        this.msgRouter = null;
+      }
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case CID:
+        if (value == null) {
+          unsetCid();
+        } else {
+          setCid((java.lang.Integer)value);
+        }
+        break;
+
+      case MSG_ROUTER:
+        if (value == null) {
+          unsetMsgRouter();
+        } else {
+          setMsgRouter((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case CID:
+        return getCid();
+
+      case MSG_ROUTER:
+        return getMsgRouter();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case CID:
+        return isSetCid();
+      case MSG_ROUTER:
+        return isSetMsgRouter();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof Client_RemoveMessageRouter_args)
+        return this.equals((Client_RemoveMessageRouter_args)that);
+      return false;
+    }
+
+    public boolean equals(Client_RemoveMessageRouter_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_cid = true;
+      boolean that_present_cid = true;
+      if (this_present_cid || that_present_cid) {
+        if (!(this_present_cid && that_present_cid))
+          return false;
+        if (this.cid != that.cid)
+          return false;
+      }
+
+      boolean this_present_msgRouter = true && this.isSetMsgRouter();
+      boolean that_present_msgRouter = true && that.isSetMsgRouter();
+      if (this_present_msgRouter || that_present_msgRouter) {
+        if (!(this_present_msgRouter && that_present_msgRouter))
+          return false;
+        if (!this.msgRouter.equals(that.msgRouter))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + cid;
+
+      hashCode = hashCode * 8191 + ((isSetMsgRouter()) ? 131071 : 524287);
+      if (isSetMsgRouter())
+        hashCode = hashCode * 8191 + msgRouter.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(Client_RemoveMessageRouter_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetCid(), other.isSetCid());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetCid()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.cid, other.cid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetMsgRouter(), other.isSetMsgRouter());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetMsgRouter()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.msgRouter, other.msgRouter);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("Client_RemoveMessageRouter_args(");
+      boolean first = true;
+
+      sb.append("cid:");
+      sb.append(this.cid);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("msgRouter:");
+      if (this.msgRouter == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.msgRouter);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (msgRouter != null) {
+        msgRouter.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class Client_RemoveMessageRouter_argsStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public Client_RemoveMessageRouter_argsStandardScheme getScheme() {
+        return new Client_RemoveMessageRouter_argsStandardScheme();
+      }
+    }
+
+    private static class Client_RemoveMessageRouter_argsStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<Client_RemoveMessageRouter_args> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, Client_RemoveMessageRouter_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // CID
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
+                struct.cid = iprot.readI32();
+                struct.setCidIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 2: // MSG_ROUTER
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT) {
+                struct.msgRouter = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                struct.msgRouter.read(iprot);
+                struct.setMsgRouterIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, Client_RemoveMessageRouter_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldBegin(CID_FIELD_DESC);
+        oprot.writeI32(struct.cid);
+        oprot.writeFieldEnd();
+        if (struct.msgRouter != null) {
+          oprot.writeFieldBegin(MSG_ROUTER_FIELD_DESC);
+          struct.msgRouter.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class Client_RemoveMessageRouter_argsTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public Client_RemoveMessageRouter_argsTupleScheme getScheme() {
+        return new Client_RemoveMessageRouter_argsTupleScheme();
+      }
+    }
+
+    private static class Client_RemoveMessageRouter_argsTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<Client_RemoveMessageRouter_args> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, Client_RemoveMessageRouter_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetCid()) {
+          optionals.set(0);
+        }
+        if (struct.isSetMsgRouter()) {
+          optionals.set(1);
+        }
+        oprot.writeBitSet(optionals, 2);
+        if (struct.isSetCid()) {
+          oprot.writeI32(struct.cid);
+        }
+        if (struct.isSetMsgRouter()) {
+          struct.msgRouter.write(oprot);
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, Client_RemoveMessageRouter_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(2);
+        if (incoming.get(0)) {
+          struct.cid = iprot.readI32();
+          struct.setCidIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.msgRouter = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+          struct.msgRouter.read(iprot);
+          struct.setMsgRouterIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class Client_RemoveMessageRouter_result implements com.jetbrains.cef.remote.thrift.TBase<Client_RemoveMessageRouter_result, Client_RemoveMessageRouter_result._Fields>, java.io.Serializable, Cloneable, Comparable<Client_RemoveMessageRouter_result>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("Client_RemoveMessageRouter_result");
+
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new Client_RemoveMessageRouter_resultStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new Client_RemoveMessageRouter_resultTupleSchemeFactory();
+
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+;
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Client_RemoveMessageRouter_result.class, metaDataMap);
+    }
+
+    public Client_RemoveMessageRouter_result() {
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public Client_RemoveMessageRouter_result(Client_RemoveMessageRouter_result other) {
+    }
+
+    @Override
+    public Client_RemoveMessageRouter_result deepCopy() {
+      return new Client_RemoveMessageRouter_result(this);
+    }
+
+    @Override
+    public void clear() {
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof Client_RemoveMessageRouter_result)
+        return this.equals((Client_RemoveMessageRouter_result)that);
+      return false;
+    }
+
+    public boolean equals(Client_RemoveMessageRouter_result that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(Client_RemoveMessageRouter_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+      }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("Client_RemoveMessageRouter_result(");
+      boolean first = true;
+
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class Client_RemoveMessageRouter_resultStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public Client_RemoveMessageRouter_resultStandardScheme getScheme() {
+        return new Client_RemoveMessageRouter_resultStandardScheme();
+      }
+    }
+
+    private static class Client_RemoveMessageRouter_resultStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<Client_RemoveMessageRouter_result> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, Client_RemoveMessageRouter_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            default:
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, Client_RemoveMessageRouter_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class Client_RemoveMessageRouter_resultTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public Client_RemoveMessageRouter_resultTupleScheme getScheme() {
+        return new Client_RemoveMessageRouter_resultTupleScheme();
+      }
+    }
+
+    private static class Client_RemoveMessageRouter_resultTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<Client_RemoveMessageRouter_result> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, Client_RemoveMessageRouter_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, Client_RemoveMessageRouter_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
       }
     }
 
@@ -77425,1504 +79306,6 @@ public class Server {
           struct.msgRouter.read(iprot);
           struct.setMsgRouterIsSet(true);
         }
-      }
-    }
-
-    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
-      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
-    }
-  }
-
-  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
-  public static class MessageRouter_AddMessageRouterToBrowser_args implements com.jetbrains.cef.remote.thrift.TBase<MessageRouter_AddMessageRouterToBrowser_args, MessageRouter_AddMessageRouterToBrowser_args._Fields>, java.io.Serializable, Cloneable, Comparable<MessageRouter_AddMessageRouterToBrowser_args>   {
-    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("MessageRouter_AddMessageRouterToBrowser_args");
-
-    private static final com.jetbrains.cef.remote.thrift.protocol.TField MSG_ROUTER_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("msgRouter", com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, (short)1);
-    private static final com.jetbrains.cef.remote.thrift.protocol.TField BID_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("bid", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)2);
-
-    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new MessageRouter_AddMessageRouterToBrowser_argsStandardSchemeFactory();
-    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new MessageRouter_AddMessageRouterToBrowser_argsTupleSchemeFactory();
-
-    public @com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter; // required
-    public int bid; // required
-
-    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
-      MSG_ROUTER((short)1, "msgRouter"),
-      BID((short)2, "bid");
-
-      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
-
-      static {
-        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
-          byName.put(field.getFieldName(), field);
-        }
-      }
-
-      /**
-       * Find the _Fields constant that matches fieldId, or null if its not found.
-       */
-      @com.jetbrains.cef.remote.thrift.annotation.Nullable
-      public static _Fields findByThriftId(int fieldId) {
-        switch(fieldId) {
-          case 1: // MSG_ROUTER
-            return MSG_ROUTER;
-          case 2: // BID
-            return BID;
-          default:
-            return null;
-        }
-      }
-
-      /**
-       * Find the _Fields constant that matches fieldId, throwing an exception
-       * if it is not found.
-       */
-      public static _Fields findByThriftIdOrThrow(int fieldId) {
-        _Fields fields = findByThriftId(fieldId);
-        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
-        return fields;
-      }
-
-      /**
-       * Find the _Fields constant that matches name, or null if its not found.
-       */
-      @com.jetbrains.cef.remote.thrift.annotation.Nullable
-      public static _Fields findByName(java.lang.String name) {
-        return byName.get(name);
-      }
-
-      private final short _thriftId;
-      private final java.lang.String _fieldName;
-
-      _Fields(short thriftId, java.lang.String fieldName) {
-        _thriftId = thriftId;
-        _fieldName = fieldName;
-      }
-
-      @Override
-      public short getThriftFieldId() {
-        return _thriftId;
-      }
-
-      @Override
-      public java.lang.String getFieldName() {
-        return _fieldName;
-      }
-    }
-
-    // isset id assignments
-    private static final int __BID_ISSET_ID = 0;
-    private byte __isset_bitfield = 0;
-    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
-    static {
-      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.MSG_ROUTER, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("msgRouter", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
-          new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
-      tmpMap.put(_Fields.BID, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("bid", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
-          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
-      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(MessageRouter_AddMessageRouterToBrowser_args.class, metaDataMap);
-    }
-
-    public MessageRouter_AddMessageRouterToBrowser_args() {
-    }
-
-    public MessageRouter_AddMessageRouterToBrowser_args(
-      com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter,
-      int bid)
-    {
-      this();
-      this.msgRouter = msgRouter;
-      this.bid = bid;
-      setBidIsSet(true);
-    }
-
-    /**
-     * Performs a deep copy on <i>other</i>.
-     */
-    public MessageRouter_AddMessageRouterToBrowser_args(MessageRouter_AddMessageRouterToBrowser_args other) {
-      __isset_bitfield = other.__isset_bitfield;
-      if (other.isSetMsgRouter()) {
-        this.msgRouter = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.msgRouter);
-      }
-      this.bid = other.bid;
-    }
-
-    @Override
-    public MessageRouter_AddMessageRouterToBrowser_args deepCopy() {
-      return new MessageRouter_AddMessageRouterToBrowser_args(this);
-    }
-
-    @Override
-    public void clear() {
-      this.msgRouter = null;
-      setBidIsSet(false);
-      this.bid = 0;
-    }
-
-    @com.jetbrains.cef.remote.thrift.annotation.Nullable
-    public com.jetbrains.cef.remote.thrift_codegen.RObject getMsgRouter() {
-      return this.msgRouter;
-    }
-
-    public MessageRouter_AddMessageRouterToBrowser_args setMsgRouter(@com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter) {
-      this.msgRouter = msgRouter;
-      return this;
-    }
-
-    public void unsetMsgRouter() {
-      this.msgRouter = null;
-    }
-
-    /** Returns true if field msgRouter is set (has been assigned a value) and false otherwise */
-    public boolean isSetMsgRouter() {
-      return this.msgRouter != null;
-    }
-
-    public void setMsgRouterIsSet(boolean value) {
-      if (!value) {
-        this.msgRouter = null;
-      }
-    }
-
-    public int getBid() {
-      return this.bid;
-    }
-
-    public MessageRouter_AddMessageRouterToBrowser_args setBid(int bid) {
-      this.bid = bid;
-      setBidIsSet(true);
-      return this;
-    }
-
-    public void unsetBid() {
-      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __BID_ISSET_ID);
-    }
-
-    /** Returns true if field bid is set (has been assigned a value) and false otherwise */
-    public boolean isSetBid() {
-      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __BID_ISSET_ID);
-    }
-
-    public void setBidIsSet(boolean value) {
-      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
-    }
-
-    @Override
-    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
-      switch (field) {
-      case MSG_ROUTER:
-        if (value == null) {
-          unsetMsgRouter();
-        } else {
-          setMsgRouter((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
-        }
-        break;
-
-      case BID:
-        if (value == null) {
-          unsetBid();
-        } else {
-          setBid((java.lang.Integer)value);
-        }
-        break;
-
-      }
-    }
-
-    @com.jetbrains.cef.remote.thrift.annotation.Nullable
-    @Override
-    public java.lang.Object getFieldValue(_Fields field) {
-      switch (field) {
-      case MSG_ROUTER:
-        return getMsgRouter();
-
-      case BID:
-        return getBid();
-
-      }
-      throw new java.lang.IllegalStateException();
-    }
-
-    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
-    @Override
-    public boolean isSet(_Fields field) {
-      if (field == null) {
-        throw new java.lang.IllegalArgumentException();
-      }
-
-      switch (field) {
-      case MSG_ROUTER:
-        return isSetMsgRouter();
-      case BID:
-        return isSetBid();
-      }
-      throw new java.lang.IllegalStateException();
-    }
-
-    @Override
-    public boolean equals(java.lang.Object that) {
-      if (that instanceof MessageRouter_AddMessageRouterToBrowser_args)
-        return this.equals((MessageRouter_AddMessageRouterToBrowser_args)that);
-      return false;
-    }
-
-    public boolean equals(MessageRouter_AddMessageRouterToBrowser_args that) {
-      if (that == null)
-        return false;
-      if (this == that)
-        return true;
-
-      boolean this_present_msgRouter = true && this.isSetMsgRouter();
-      boolean that_present_msgRouter = true && that.isSetMsgRouter();
-      if (this_present_msgRouter || that_present_msgRouter) {
-        if (!(this_present_msgRouter && that_present_msgRouter))
-          return false;
-        if (!this.msgRouter.equals(that.msgRouter))
-          return false;
-      }
-
-      boolean this_present_bid = true;
-      boolean that_present_bid = true;
-      if (this_present_bid || that_present_bid) {
-        if (!(this_present_bid && that_present_bid))
-          return false;
-        if (this.bid != that.bid)
-          return false;
-      }
-
-      return true;
-    }
-
-    @Override
-    public int hashCode() {
-      int hashCode = 1;
-
-      hashCode = hashCode * 8191 + ((isSetMsgRouter()) ? 131071 : 524287);
-      if (isSetMsgRouter())
-        hashCode = hashCode * 8191 + msgRouter.hashCode();
-
-      hashCode = hashCode * 8191 + bid;
-
-      return hashCode;
-    }
-
-    @Override
-    public int compareTo(MessageRouter_AddMessageRouterToBrowser_args other) {
-      if (!getClass().equals(other.getClass())) {
-        return getClass().getName().compareTo(other.getClass().getName());
-      }
-
-      int lastComparison = 0;
-
-      lastComparison = java.lang.Boolean.compare(isSetMsgRouter(), other.isSetMsgRouter());
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-      if (isSetMsgRouter()) {
-        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.msgRouter, other.msgRouter);
-        if (lastComparison != 0) {
-          return lastComparison;
-        }
-      }
-      lastComparison = java.lang.Boolean.compare(isSetBid(), other.isSetBid());
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-      if (isSetBid()) {
-        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.bid, other.bid);
-        if (lastComparison != 0) {
-          return lastComparison;
-        }
-      }
-      return 0;
-    }
-
-    @com.jetbrains.cef.remote.thrift.annotation.Nullable
-    @Override
-    public _Fields fieldForId(int fieldId) {
-      return _Fields.findByThriftId(fieldId);
-    }
-
-    @Override
-    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
-      scheme(iprot).read(iprot, this);
-    }
-
-    @Override
-    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
-      scheme(oprot).write(oprot, this);
-    }
-
-    @Override
-    public java.lang.String toString() {
-      java.lang.StringBuilder sb = new java.lang.StringBuilder("MessageRouter_AddMessageRouterToBrowser_args(");
-      boolean first = true;
-
-      sb.append("msgRouter:");
-      if (this.msgRouter == null) {
-        sb.append("null");
-      } else {
-        sb.append(this.msgRouter);
-      }
-      first = false;
-      if (!first) sb.append(", ");
-      sb.append("bid:");
-      sb.append(this.bid);
-      first = false;
-      sb.append(")");
-      return sb.toString();
-    }
-
-    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
-      // check for required fields
-      // check for sub-struct validity
-      if (msgRouter != null) {
-        msgRouter.validate();
-      }
-    }
-
-    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
-      try {
-        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
-      } catch (com.jetbrains.cef.remote.thrift.TException te) {
-        throw new java.io.IOException(te);
-      }
-    }
-
-    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
-      try {
-        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
-        __isset_bitfield = 0;
-        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
-      } catch (com.jetbrains.cef.remote.thrift.TException te) {
-        throw new java.io.IOException(te);
-      }
-    }
-
-    private static class MessageRouter_AddMessageRouterToBrowser_argsStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
-      @Override
-      public MessageRouter_AddMessageRouterToBrowser_argsStandardScheme getScheme() {
-        return new MessageRouter_AddMessageRouterToBrowser_argsStandardScheme();
-      }
-    }
-
-    private static class MessageRouter_AddMessageRouterToBrowser_argsStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<MessageRouter_AddMessageRouterToBrowser_args> {
-
-      @Override
-      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, MessageRouter_AddMessageRouterToBrowser_args struct) throws com.jetbrains.cef.remote.thrift.TException {
-        com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
-        iprot.readStructBegin();
-        while (true)
-        {
-          schemeField = iprot.readFieldBegin();
-          if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
-            break;
-          }
-          switch (schemeField.id) {
-            case 1: // MSG_ROUTER
-              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT) {
-                struct.msgRouter = new com.jetbrains.cef.remote.thrift_codegen.RObject();
-                struct.msgRouter.read(iprot);
-                struct.setMsgRouterIsSet(true);
-              } else { 
-                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-              }
-              break;
-            case 2: // BID
-              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
-                struct.bid = iprot.readI32();
-                struct.setBidIsSet(true);
-              } else { 
-                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-              }
-              break;
-            default:
-              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-          }
-          iprot.readFieldEnd();
-        }
-        iprot.readStructEnd();
-
-        // check for required fields of primitive type, which can't be checked in the validate method
-        struct.validate();
-      }
-
-      @Override
-      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, MessageRouter_AddMessageRouterToBrowser_args struct) throws com.jetbrains.cef.remote.thrift.TException {
-        struct.validate();
-
-        oprot.writeStructBegin(STRUCT_DESC);
-        if (struct.msgRouter != null) {
-          oprot.writeFieldBegin(MSG_ROUTER_FIELD_DESC);
-          struct.msgRouter.write(oprot);
-          oprot.writeFieldEnd();
-        }
-        oprot.writeFieldBegin(BID_FIELD_DESC);
-        oprot.writeI32(struct.bid);
-        oprot.writeFieldEnd();
-        oprot.writeFieldStop();
-        oprot.writeStructEnd();
-      }
-
-    }
-
-    private static class MessageRouter_AddMessageRouterToBrowser_argsTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
-      @Override
-      public MessageRouter_AddMessageRouterToBrowser_argsTupleScheme getScheme() {
-        return new MessageRouter_AddMessageRouterToBrowser_argsTupleScheme();
-      }
-    }
-
-    private static class MessageRouter_AddMessageRouterToBrowser_argsTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<MessageRouter_AddMessageRouterToBrowser_args> {
-
-      @Override
-      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, MessageRouter_AddMessageRouterToBrowser_args struct) throws com.jetbrains.cef.remote.thrift.TException {
-        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet optionals = new java.util.BitSet();
-        if (struct.isSetMsgRouter()) {
-          optionals.set(0);
-        }
-        if (struct.isSetBid()) {
-          optionals.set(1);
-        }
-        oprot.writeBitSet(optionals, 2);
-        if (struct.isSetMsgRouter()) {
-          struct.msgRouter.write(oprot);
-        }
-        if (struct.isSetBid()) {
-          oprot.writeI32(struct.bid);
-        }
-      }
-
-      @Override
-      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, MessageRouter_AddMessageRouterToBrowser_args struct) throws com.jetbrains.cef.remote.thrift.TException {
-        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet incoming = iprot.readBitSet(2);
-        if (incoming.get(0)) {
-          struct.msgRouter = new com.jetbrains.cef.remote.thrift_codegen.RObject();
-          struct.msgRouter.read(iprot);
-          struct.setMsgRouterIsSet(true);
-        }
-        if (incoming.get(1)) {
-          struct.bid = iprot.readI32();
-          struct.setBidIsSet(true);
-        }
-      }
-    }
-
-    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
-      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
-    }
-  }
-
-  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
-  public static class MessageRouter_AddMessageRouterToBrowser_result implements com.jetbrains.cef.remote.thrift.TBase<MessageRouter_AddMessageRouterToBrowser_result, MessageRouter_AddMessageRouterToBrowser_result._Fields>, java.io.Serializable, Cloneable, Comparable<MessageRouter_AddMessageRouterToBrowser_result>   {
-    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("MessageRouter_AddMessageRouterToBrowser_result");
-
-
-    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new MessageRouter_AddMessageRouterToBrowser_resultStandardSchemeFactory();
-    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new MessageRouter_AddMessageRouterToBrowser_resultTupleSchemeFactory();
-
-
-    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
-;
-
-      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
-
-      static {
-        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
-          byName.put(field.getFieldName(), field);
-        }
-      }
-
-      /**
-       * Find the _Fields constant that matches fieldId, or null if its not found.
-       */
-      @com.jetbrains.cef.remote.thrift.annotation.Nullable
-      public static _Fields findByThriftId(int fieldId) {
-        switch(fieldId) {
-          default:
-            return null;
-        }
-      }
-
-      /**
-       * Find the _Fields constant that matches fieldId, throwing an exception
-       * if it is not found.
-       */
-      public static _Fields findByThriftIdOrThrow(int fieldId) {
-        _Fields fields = findByThriftId(fieldId);
-        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
-        return fields;
-      }
-
-      /**
-       * Find the _Fields constant that matches name, or null if its not found.
-       */
-      @com.jetbrains.cef.remote.thrift.annotation.Nullable
-      public static _Fields findByName(java.lang.String name) {
-        return byName.get(name);
-      }
-
-      private final short _thriftId;
-      private final java.lang.String _fieldName;
-
-      _Fields(short thriftId, java.lang.String fieldName) {
-        _thriftId = thriftId;
-        _fieldName = fieldName;
-      }
-
-      @Override
-      public short getThriftFieldId() {
-        return _thriftId;
-      }
-
-      @Override
-      public java.lang.String getFieldName() {
-        return _fieldName;
-      }
-    }
-    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
-    static {
-      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
-      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(MessageRouter_AddMessageRouterToBrowser_result.class, metaDataMap);
-    }
-
-    public MessageRouter_AddMessageRouterToBrowser_result() {
-    }
-
-    /**
-     * Performs a deep copy on <i>other</i>.
-     */
-    public MessageRouter_AddMessageRouterToBrowser_result(MessageRouter_AddMessageRouterToBrowser_result other) {
-    }
-
-    @Override
-    public MessageRouter_AddMessageRouterToBrowser_result deepCopy() {
-      return new MessageRouter_AddMessageRouterToBrowser_result(this);
-    }
-
-    @Override
-    public void clear() {
-    }
-
-    @Override
-    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
-      switch (field) {
-      }
-    }
-
-    @com.jetbrains.cef.remote.thrift.annotation.Nullable
-    @Override
-    public java.lang.Object getFieldValue(_Fields field) {
-      switch (field) {
-      }
-      throw new java.lang.IllegalStateException();
-    }
-
-    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
-    @Override
-    public boolean isSet(_Fields field) {
-      if (field == null) {
-        throw new java.lang.IllegalArgumentException();
-      }
-
-      switch (field) {
-      }
-      throw new java.lang.IllegalStateException();
-    }
-
-    @Override
-    public boolean equals(java.lang.Object that) {
-      if (that instanceof MessageRouter_AddMessageRouterToBrowser_result)
-        return this.equals((MessageRouter_AddMessageRouterToBrowser_result)that);
-      return false;
-    }
-
-    public boolean equals(MessageRouter_AddMessageRouterToBrowser_result that) {
-      if (that == null)
-        return false;
-      if (this == that)
-        return true;
-
-      return true;
-    }
-
-    @Override
-    public int hashCode() {
-      int hashCode = 1;
-
-      return hashCode;
-    }
-
-    @Override
-    public int compareTo(MessageRouter_AddMessageRouterToBrowser_result other) {
-      if (!getClass().equals(other.getClass())) {
-        return getClass().getName().compareTo(other.getClass().getName());
-      }
-
-      int lastComparison = 0;
-
-      return 0;
-    }
-
-    @com.jetbrains.cef.remote.thrift.annotation.Nullable
-    @Override
-    public _Fields fieldForId(int fieldId) {
-      return _Fields.findByThriftId(fieldId);
-    }
-
-    @Override
-    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
-      scheme(iprot).read(iprot, this);
-    }
-
-    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
-      scheme(oprot).write(oprot, this);
-      }
-
-    @Override
-    public java.lang.String toString() {
-      java.lang.StringBuilder sb = new java.lang.StringBuilder("MessageRouter_AddMessageRouterToBrowser_result(");
-      boolean first = true;
-
-      sb.append(")");
-      return sb.toString();
-    }
-
-    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
-      // check for required fields
-      // check for sub-struct validity
-    }
-
-    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
-      try {
-        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
-      } catch (com.jetbrains.cef.remote.thrift.TException te) {
-        throw new java.io.IOException(te);
-      }
-    }
-
-    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
-      try {
-        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
-      } catch (com.jetbrains.cef.remote.thrift.TException te) {
-        throw new java.io.IOException(te);
-      }
-    }
-
-    private static class MessageRouter_AddMessageRouterToBrowser_resultStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
-      @Override
-      public MessageRouter_AddMessageRouterToBrowser_resultStandardScheme getScheme() {
-        return new MessageRouter_AddMessageRouterToBrowser_resultStandardScheme();
-      }
-    }
-
-    private static class MessageRouter_AddMessageRouterToBrowser_resultStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<MessageRouter_AddMessageRouterToBrowser_result> {
-
-      @Override
-      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, MessageRouter_AddMessageRouterToBrowser_result struct) throws com.jetbrains.cef.remote.thrift.TException {
-        com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
-        iprot.readStructBegin();
-        while (true)
-        {
-          schemeField = iprot.readFieldBegin();
-          if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
-            break;
-          }
-          switch (schemeField.id) {
-            default:
-              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-          }
-          iprot.readFieldEnd();
-        }
-        iprot.readStructEnd();
-
-        // check for required fields of primitive type, which can't be checked in the validate method
-        struct.validate();
-      }
-
-      @Override
-      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, MessageRouter_AddMessageRouterToBrowser_result struct) throws com.jetbrains.cef.remote.thrift.TException {
-        struct.validate();
-
-        oprot.writeStructBegin(STRUCT_DESC);
-        oprot.writeFieldStop();
-        oprot.writeStructEnd();
-      }
-
-    }
-
-    private static class MessageRouter_AddMessageRouterToBrowser_resultTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
-      @Override
-      public MessageRouter_AddMessageRouterToBrowser_resultTupleScheme getScheme() {
-        return new MessageRouter_AddMessageRouterToBrowser_resultTupleScheme();
-      }
-    }
-
-    private static class MessageRouter_AddMessageRouterToBrowser_resultTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<MessageRouter_AddMessageRouterToBrowser_result> {
-
-      @Override
-      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, MessageRouter_AddMessageRouterToBrowser_result struct) throws com.jetbrains.cef.remote.thrift.TException {
-        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
-      }
-
-      @Override
-      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, MessageRouter_AddMessageRouterToBrowser_result struct) throws com.jetbrains.cef.remote.thrift.TException {
-        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
-      }
-    }
-
-    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
-      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
-    }
-  }
-
-  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
-  public static class MessageRouter_RemoveMessageRouterFromBrowser_args implements com.jetbrains.cef.remote.thrift.TBase<MessageRouter_RemoveMessageRouterFromBrowser_args, MessageRouter_RemoveMessageRouterFromBrowser_args._Fields>, java.io.Serializable, Cloneable, Comparable<MessageRouter_RemoveMessageRouterFromBrowser_args>   {
-    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("MessageRouter_RemoveMessageRouterFromBrowser_args");
-
-    private static final com.jetbrains.cef.remote.thrift.protocol.TField MSG_ROUTER_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("msgRouter", com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, (short)1);
-    private static final com.jetbrains.cef.remote.thrift.protocol.TField BID_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("bid", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)2);
-
-    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new MessageRouter_RemoveMessageRouterFromBrowser_argsStandardSchemeFactory();
-    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new MessageRouter_RemoveMessageRouterFromBrowser_argsTupleSchemeFactory();
-
-    public @com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter; // required
-    public int bid; // required
-
-    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
-      MSG_ROUTER((short)1, "msgRouter"),
-      BID((short)2, "bid");
-
-      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
-
-      static {
-        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
-          byName.put(field.getFieldName(), field);
-        }
-      }
-
-      /**
-       * Find the _Fields constant that matches fieldId, or null if its not found.
-       */
-      @com.jetbrains.cef.remote.thrift.annotation.Nullable
-      public static _Fields findByThriftId(int fieldId) {
-        switch(fieldId) {
-          case 1: // MSG_ROUTER
-            return MSG_ROUTER;
-          case 2: // BID
-            return BID;
-          default:
-            return null;
-        }
-      }
-
-      /**
-       * Find the _Fields constant that matches fieldId, throwing an exception
-       * if it is not found.
-       */
-      public static _Fields findByThriftIdOrThrow(int fieldId) {
-        _Fields fields = findByThriftId(fieldId);
-        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
-        return fields;
-      }
-
-      /**
-       * Find the _Fields constant that matches name, or null if its not found.
-       */
-      @com.jetbrains.cef.remote.thrift.annotation.Nullable
-      public static _Fields findByName(java.lang.String name) {
-        return byName.get(name);
-      }
-
-      private final short _thriftId;
-      private final java.lang.String _fieldName;
-
-      _Fields(short thriftId, java.lang.String fieldName) {
-        _thriftId = thriftId;
-        _fieldName = fieldName;
-      }
-
-      @Override
-      public short getThriftFieldId() {
-        return _thriftId;
-      }
-
-      @Override
-      public java.lang.String getFieldName() {
-        return _fieldName;
-      }
-    }
-
-    // isset id assignments
-    private static final int __BID_ISSET_ID = 0;
-    private byte __isset_bitfield = 0;
-    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
-    static {
-      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.MSG_ROUTER, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("msgRouter", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
-          new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
-      tmpMap.put(_Fields.BID, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("bid", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
-          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
-      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(MessageRouter_RemoveMessageRouterFromBrowser_args.class, metaDataMap);
-    }
-
-    public MessageRouter_RemoveMessageRouterFromBrowser_args() {
-    }
-
-    public MessageRouter_RemoveMessageRouterFromBrowser_args(
-      com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter,
-      int bid)
-    {
-      this();
-      this.msgRouter = msgRouter;
-      this.bid = bid;
-      setBidIsSet(true);
-    }
-
-    /**
-     * Performs a deep copy on <i>other</i>.
-     */
-    public MessageRouter_RemoveMessageRouterFromBrowser_args(MessageRouter_RemoveMessageRouterFromBrowser_args other) {
-      __isset_bitfield = other.__isset_bitfield;
-      if (other.isSetMsgRouter()) {
-        this.msgRouter = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.msgRouter);
-      }
-      this.bid = other.bid;
-    }
-
-    @Override
-    public MessageRouter_RemoveMessageRouterFromBrowser_args deepCopy() {
-      return new MessageRouter_RemoveMessageRouterFromBrowser_args(this);
-    }
-
-    @Override
-    public void clear() {
-      this.msgRouter = null;
-      setBidIsSet(false);
-      this.bid = 0;
-    }
-
-    @com.jetbrains.cef.remote.thrift.annotation.Nullable
-    public com.jetbrains.cef.remote.thrift_codegen.RObject getMsgRouter() {
-      return this.msgRouter;
-    }
-
-    public MessageRouter_RemoveMessageRouterFromBrowser_args setMsgRouter(@com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter) {
-      this.msgRouter = msgRouter;
-      return this;
-    }
-
-    public void unsetMsgRouter() {
-      this.msgRouter = null;
-    }
-
-    /** Returns true if field msgRouter is set (has been assigned a value) and false otherwise */
-    public boolean isSetMsgRouter() {
-      return this.msgRouter != null;
-    }
-
-    public void setMsgRouterIsSet(boolean value) {
-      if (!value) {
-        this.msgRouter = null;
-      }
-    }
-
-    public int getBid() {
-      return this.bid;
-    }
-
-    public MessageRouter_RemoveMessageRouterFromBrowser_args setBid(int bid) {
-      this.bid = bid;
-      setBidIsSet(true);
-      return this;
-    }
-
-    public void unsetBid() {
-      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __BID_ISSET_ID);
-    }
-
-    /** Returns true if field bid is set (has been assigned a value) and false otherwise */
-    public boolean isSetBid() {
-      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __BID_ISSET_ID);
-    }
-
-    public void setBidIsSet(boolean value) {
-      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
-    }
-
-    @Override
-    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
-      switch (field) {
-      case MSG_ROUTER:
-        if (value == null) {
-          unsetMsgRouter();
-        } else {
-          setMsgRouter((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
-        }
-        break;
-
-      case BID:
-        if (value == null) {
-          unsetBid();
-        } else {
-          setBid((java.lang.Integer)value);
-        }
-        break;
-
-      }
-    }
-
-    @com.jetbrains.cef.remote.thrift.annotation.Nullable
-    @Override
-    public java.lang.Object getFieldValue(_Fields field) {
-      switch (field) {
-      case MSG_ROUTER:
-        return getMsgRouter();
-
-      case BID:
-        return getBid();
-
-      }
-      throw new java.lang.IllegalStateException();
-    }
-
-    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
-    @Override
-    public boolean isSet(_Fields field) {
-      if (field == null) {
-        throw new java.lang.IllegalArgumentException();
-      }
-
-      switch (field) {
-      case MSG_ROUTER:
-        return isSetMsgRouter();
-      case BID:
-        return isSetBid();
-      }
-      throw new java.lang.IllegalStateException();
-    }
-
-    @Override
-    public boolean equals(java.lang.Object that) {
-      if (that instanceof MessageRouter_RemoveMessageRouterFromBrowser_args)
-        return this.equals((MessageRouter_RemoveMessageRouterFromBrowser_args)that);
-      return false;
-    }
-
-    public boolean equals(MessageRouter_RemoveMessageRouterFromBrowser_args that) {
-      if (that == null)
-        return false;
-      if (this == that)
-        return true;
-
-      boolean this_present_msgRouter = true && this.isSetMsgRouter();
-      boolean that_present_msgRouter = true && that.isSetMsgRouter();
-      if (this_present_msgRouter || that_present_msgRouter) {
-        if (!(this_present_msgRouter && that_present_msgRouter))
-          return false;
-        if (!this.msgRouter.equals(that.msgRouter))
-          return false;
-      }
-
-      boolean this_present_bid = true;
-      boolean that_present_bid = true;
-      if (this_present_bid || that_present_bid) {
-        if (!(this_present_bid && that_present_bid))
-          return false;
-        if (this.bid != that.bid)
-          return false;
-      }
-
-      return true;
-    }
-
-    @Override
-    public int hashCode() {
-      int hashCode = 1;
-
-      hashCode = hashCode * 8191 + ((isSetMsgRouter()) ? 131071 : 524287);
-      if (isSetMsgRouter())
-        hashCode = hashCode * 8191 + msgRouter.hashCode();
-
-      hashCode = hashCode * 8191 + bid;
-
-      return hashCode;
-    }
-
-    @Override
-    public int compareTo(MessageRouter_RemoveMessageRouterFromBrowser_args other) {
-      if (!getClass().equals(other.getClass())) {
-        return getClass().getName().compareTo(other.getClass().getName());
-      }
-
-      int lastComparison = 0;
-
-      lastComparison = java.lang.Boolean.compare(isSetMsgRouter(), other.isSetMsgRouter());
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-      if (isSetMsgRouter()) {
-        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.msgRouter, other.msgRouter);
-        if (lastComparison != 0) {
-          return lastComparison;
-        }
-      }
-      lastComparison = java.lang.Boolean.compare(isSetBid(), other.isSetBid());
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-      if (isSetBid()) {
-        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.bid, other.bid);
-        if (lastComparison != 0) {
-          return lastComparison;
-        }
-      }
-      return 0;
-    }
-
-    @com.jetbrains.cef.remote.thrift.annotation.Nullable
-    @Override
-    public _Fields fieldForId(int fieldId) {
-      return _Fields.findByThriftId(fieldId);
-    }
-
-    @Override
-    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
-      scheme(iprot).read(iprot, this);
-    }
-
-    @Override
-    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
-      scheme(oprot).write(oprot, this);
-    }
-
-    @Override
-    public java.lang.String toString() {
-      java.lang.StringBuilder sb = new java.lang.StringBuilder("MessageRouter_RemoveMessageRouterFromBrowser_args(");
-      boolean first = true;
-
-      sb.append("msgRouter:");
-      if (this.msgRouter == null) {
-        sb.append("null");
-      } else {
-        sb.append(this.msgRouter);
-      }
-      first = false;
-      if (!first) sb.append(", ");
-      sb.append("bid:");
-      sb.append(this.bid);
-      first = false;
-      sb.append(")");
-      return sb.toString();
-    }
-
-    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
-      // check for required fields
-      // check for sub-struct validity
-      if (msgRouter != null) {
-        msgRouter.validate();
-      }
-    }
-
-    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
-      try {
-        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
-      } catch (com.jetbrains.cef.remote.thrift.TException te) {
-        throw new java.io.IOException(te);
-      }
-    }
-
-    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
-      try {
-        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
-        __isset_bitfield = 0;
-        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
-      } catch (com.jetbrains.cef.remote.thrift.TException te) {
-        throw new java.io.IOException(te);
-      }
-    }
-
-    private static class MessageRouter_RemoveMessageRouterFromBrowser_argsStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
-      @Override
-      public MessageRouter_RemoveMessageRouterFromBrowser_argsStandardScheme getScheme() {
-        return new MessageRouter_RemoveMessageRouterFromBrowser_argsStandardScheme();
-      }
-    }
-
-    private static class MessageRouter_RemoveMessageRouterFromBrowser_argsStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<MessageRouter_RemoveMessageRouterFromBrowser_args> {
-
-      @Override
-      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, MessageRouter_RemoveMessageRouterFromBrowser_args struct) throws com.jetbrains.cef.remote.thrift.TException {
-        com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
-        iprot.readStructBegin();
-        while (true)
-        {
-          schemeField = iprot.readFieldBegin();
-          if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
-            break;
-          }
-          switch (schemeField.id) {
-            case 1: // MSG_ROUTER
-              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT) {
-                struct.msgRouter = new com.jetbrains.cef.remote.thrift_codegen.RObject();
-                struct.msgRouter.read(iprot);
-                struct.setMsgRouterIsSet(true);
-              } else { 
-                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-              }
-              break;
-            case 2: // BID
-              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
-                struct.bid = iprot.readI32();
-                struct.setBidIsSet(true);
-              } else { 
-                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-              }
-              break;
-            default:
-              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-          }
-          iprot.readFieldEnd();
-        }
-        iprot.readStructEnd();
-
-        // check for required fields of primitive type, which can't be checked in the validate method
-        struct.validate();
-      }
-
-      @Override
-      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, MessageRouter_RemoveMessageRouterFromBrowser_args struct) throws com.jetbrains.cef.remote.thrift.TException {
-        struct.validate();
-
-        oprot.writeStructBegin(STRUCT_DESC);
-        if (struct.msgRouter != null) {
-          oprot.writeFieldBegin(MSG_ROUTER_FIELD_DESC);
-          struct.msgRouter.write(oprot);
-          oprot.writeFieldEnd();
-        }
-        oprot.writeFieldBegin(BID_FIELD_DESC);
-        oprot.writeI32(struct.bid);
-        oprot.writeFieldEnd();
-        oprot.writeFieldStop();
-        oprot.writeStructEnd();
-      }
-
-    }
-
-    private static class MessageRouter_RemoveMessageRouterFromBrowser_argsTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
-      @Override
-      public MessageRouter_RemoveMessageRouterFromBrowser_argsTupleScheme getScheme() {
-        return new MessageRouter_RemoveMessageRouterFromBrowser_argsTupleScheme();
-      }
-    }
-
-    private static class MessageRouter_RemoveMessageRouterFromBrowser_argsTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<MessageRouter_RemoveMessageRouterFromBrowser_args> {
-
-      @Override
-      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, MessageRouter_RemoveMessageRouterFromBrowser_args struct) throws com.jetbrains.cef.remote.thrift.TException {
-        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet optionals = new java.util.BitSet();
-        if (struct.isSetMsgRouter()) {
-          optionals.set(0);
-        }
-        if (struct.isSetBid()) {
-          optionals.set(1);
-        }
-        oprot.writeBitSet(optionals, 2);
-        if (struct.isSetMsgRouter()) {
-          struct.msgRouter.write(oprot);
-        }
-        if (struct.isSetBid()) {
-          oprot.writeI32(struct.bid);
-        }
-      }
-
-      @Override
-      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, MessageRouter_RemoveMessageRouterFromBrowser_args struct) throws com.jetbrains.cef.remote.thrift.TException {
-        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet incoming = iprot.readBitSet(2);
-        if (incoming.get(0)) {
-          struct.msgRouter = new com.jetbrains.cef.remote.thrift_codegen.RObject();
-          struct.msgRouter.read(iprot);
-          struct.setMsgRouterIsSet(true);
-        }
-        if (incoming.get(1)) {
-          struct.bid = iprot.readI32();
-          struct.setBidIsSet(true);
-        }
-      }
-    }
-
-    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
-      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
-    }
-  }
-
-  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
-  public static class MessageRouter_RemoveMessageRouterFromBrowser_result implements com.jetbrains.cef.remote.thrift.TBase<MessageRouter_RemoveMessageRouterFromBrowser_result, MessageRouter_RemoveMessageRouterFromBrowser_result._Fields>, java.io.Serializable, Cloneable, Comparable<MessageRouter_RemoveMessageRouterFromBrowser_result>   {
-    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("MessageRouter_RemoveMessageRouterFromBrowser_result");
-
-
-    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new MessageRouter_RemoveMessageRouterFromBrowser_resultStandardSchemeFactory();
-    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new MessageRouter_RemoveMessageRouterFromBrowser_resultTupleSchemeFactory();
-
-
-    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
-;
-
-      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
-
-      static {
-        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
-          byName.put(field.getFieldName(), field);
-        }
-      }
-
-      /**
-       * Find the _Fields constant that matches fieldId, or null if its not found.
-       */
-      @com.jetbrains.cef.remote.thrift.annotation.Nullable
-      public static _Fields findByThriftId(int fieldId) {
-        switch(fieldId) {
-          default:
-            return null;
-        }
-      }
-
-      /**
-       * Find the _Fields constant that matches fieldId, throwing an exception
-       * if it is not found.
-       */
-      public static _Fields findByThriftIdOrThrow(int fieldId) {
-        _Fields fields = findByThriftId(fieldId);
-        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
-        return fields;
-      }
-
-      /**
-       * Find the _Fields constant that matches name, or null if its not found.
-       */
-      @com.jetbrains.cef.remote.thrift.annotation.Nullable
-      public static _Fields findByName(java.lang.String name) {
-        return byName.get(name);
-      }
-
-      private final short _thriftId;
-      private final java.lang.String _fieldName;
-
-      _Fields(short thriftId, java.lang.String fieldName) {
-        _thriftId = thriftId;
-        _fieldName = fieldName;
-      }
-
-      @Override
-      public short getThriftFieldId() {
-        return _thriftId;
-      }
-
-      @Override
-      public java.lang.String getFieldName() {
-        return _fieldName;
-      }
-    }
-    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
-    static {
-      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
-      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(MessageRouter_RemoveMessageRouterFromBrowser_result.class, metaDataMap);
-    }
-
-    public MessageRouter_RemoveMessageRouterFromBrowser_result() {
-    }
-
-    /**
-     * Performs a deep copy on <i>other</i>.
-     */
-    public MessageRouter_RemoveMessageRouterFromBrowser_result(MessageRouter_RemoveMessageRouterFromBrowser_result other) {
-    }
-
-    @Override
-    public MessageRouter_RemoveMessageRouterFromBrowser_result deepCopy() {
-      return new MessageRouter_RemoveMessageRouterFromBrowser_result(this);
-    }
-
-    @Override
-    public void clear() {
-    }
-
-    @Override
-    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
-      switch (field) {
-      }
-    }
-
-    @com.jetbrains.cef.remote.thrift.annotation.Nullable
-    @Override
-    public java.lang.Object getFieldValue(_Fields field) {
-      switch (field) {
-      }
-      throw new java.lang.IllegalStateException();
-    }
-
-    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
-    @Override
-    public boolean isSet(_Fields field) {
-      if (field == null) {
-        throw new java.lang.IllegalArgumentException();
-      }
-
-      switch (field) {
-      }
-      throw new java.lang.IllegalStateException();
-    }
-
-    @Override
-    public boolean equals(java.lang.Object that) {
-      if (that instanceof MessageRouter_RemoveMessageRouterFromBrowser_result)
-        return this.equals((MessageRouter_RemoveMessageRouterFromBrowser_result)that);
-      return false;
-    }
-
-    public boolean equals(MessageRouter_RemoveMessageRouterFromBrowser_result that) {
-      if (that == null)
-        return false;
-      if (this == that)
-        return true;
-
-      return true;
-    }
-
-    @Override
-    public int hashCode() {
-      int hashCode = 1;
-
-      return hashCode;
-    }
-
-    @Override
-    public int compareTo(MessageRouter_RemoveMessageRouterFromBrowser_result other) {
-      if (!getClass().equals(other.getClass())) {
-        return getClass().getName().compareTo(other.getClass().getName());
-      }
-
-      int lastComparison = 0;
-
-      return 0;
-    }
-
-    @com.jetbrains.cef.remote.thrift.annotation.Nullable
-    @Override
-    public _Fields fieldForId(int fieldId) {
-      return _Fields.findByThriftId(fieldId);
-    }
-
-    @Override
-    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
-      scheme(iprot).read(iprot, this);
-    }
-
-    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
-      scheme(oprot).write(oprot, this);
-      }
-
-    @Override
-    public java.lang.String toString() {
-      java.lang.StringBuilder sb = new java.lang.StringBuilder("MessageRouter_RemoveMessageRouterFromBrowser_result(");
-      boolean first = true;
-
-      sb.append(")");
-      return sb.toString();
-    }
-
-    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
-      // check for required fields
-      // check for sub-struct validity
-    }
-
-    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
-      try {
-        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
-      } catch (com.jetbrains.cef.remote.thrift.TException te) {
-        throw new java.io.IOException(te);
-      }
-    }
-
-    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
-      try {
-        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
-      } catch (com.jetbrains.cef.remote.thrift.TException te) {
-        throw new java.io.IOException(te);
-      }
-    }
-
-    private static class MessageRouter_RemoveMessageRouterFromBrowser_resultStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
-      @Override
-      public MessageRouter_RemoveMessageRouterFromBrowser_resultStandardScheme getScheme() {
-        return new MessageRouter_RemoveMessageRouterFromBrowser_resultStandardScheme();
-      }
-    }
-
-    private static class MessageRouter_RemoveMessageRouterFromBrowser_resultStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<MessageRouter_RemoveMessageRouterFromBrowser_result> {
-
-      @Override
-      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, MessageRouter_RemoveMessageRouterFromBrowser_result struct) throws com.jetbrains.cef.remote.thrift.TException {
-        com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
-        iprot.readStructBegin();
-        while (true)
-        {
-          schemeField = iprot.readFieldBegin();
-          if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
-            break;
-          }
-          switch (schemeField.id) {
-            default:
-              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-          }
-          iprot.readFieldEnd();
-        }
-        iprot.readStructEnd();
-
-        // check for required fields of primitive type, which can't be checked in the validate method
-        struct.validate();
-      }
-
-      @Override
-      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, MessageRouter_RemoveMessageRouterFromBrowser_result struct) throws com.jetbrains.cef.remote.thrift.TException {
-        struct.validate();
-
-        oprot.writeStructBegin(STRUCT_DESC);
-        oprot.writeFieldStop();
-        oprot.writeStructEnd();
-      }
-
-    }
-
-    private static class MessageRouter_RemoveMessageRouterFromBrowser_resultTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
-      @Override
-      public MessageRouter_RemoveMessageRouterFromBrowser_resultTupleScheme getScheme() {
-        return new MessageRouter_RemoveMessageRouterFromBrowser_resultTupleScheme();
-      }
-    }
-
-    private static class MessageRouter_RemoveMessageRouterFromBrowser_resultTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<MessageRouter_RemoveMessageRouterFromBrowser_result> {
-
-      @Override
-      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, MessageRouter_RemoveMessageRouterFromBrowser_result struct) throws com.jetbrains.cef.remote.thrift.TException {
-        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
-      }
-
-      @Override
-      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, MessageRouter_RemoveMessageRouterFromBrowser_result struct) throws com.jetbrains.cef.remote.thrift.TException {
-        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
       }
     }
 
