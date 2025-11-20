@@ -6,6 +6,7 @@
 #include "../RpcExecutor.h"
 #include "include/cef_client.h"
 
+class RemoteMessageRouter;
 class ServerHandler;
 class ServerHandlerContext;
 class MessageRoutersManager;
@@ -17,6 +18,9 @@ class RemoteClientHandler : public CefClient {
 
     void addHandlers(int handlersMask);
     void removeHandlers(int handlersMask);
+
+    void addMessageRouter(RemoteMessageRouter* router);
+    void removeMessageRouter(RemoteMessageRouter* router);
 
     CefRefPtr<CefContextMenuHandler> GetContextMenuHandler() override;
     CefRefPtr<CefDialogHandler> GetDialogHandler() override;
@@ -50,6 +54,8 @@ class RemoteClientHandler : public CefClient {
     const int myCid;
     const std::shared_ptr<ServerHandlerContext> myCtx;
     const std::shared_ptr<RpcExecutor> myService;
+    const std::shared_ptr<MessageRoutersManager> myRoutersManager; // For MessageRouter notifications
+
     const CefRefPtr<CefLifeSpanHandler> myRemoteLisfespanHandler; // always presented
 
     CefRefPtr<CefRenderHandler> myRemoteRenderHandler;

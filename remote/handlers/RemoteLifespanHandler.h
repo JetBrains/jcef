@@ -13,7 +13,7 @@ class RemoteBrowser;
 
 class RemoteLifespanHandler : public CefLifeSpanHandler {
  public:
-  explicit RemoteLifespanHandler(std::shared_ptr<ServerHandlerContext> ctx);
+  explicit RemoteLifespanHandler(std::shared_ptr<ServerHandlerContext> ctx, std::shared_ptr<MessageRoutersManager> routersManager);
 
   //
   // All next methods will be called on the UI thread

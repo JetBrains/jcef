@@ -13,6 +13,7 @@ class RemoteMessageRouterHandler;
 class RemoteMessageRouter : public RemoteServerObject<RemoteMessageRouter, CefMessageRouter> {
  public:
   static RemoteMessageRouter * create(std::shared_ptr<ServerHandlerContext> ctx, CefRefPtr<CefMessageRouter> delegate, CefMessageRouterConfig config);
+  static RemoteMessageRouter * create(std::shared_ptr<ServerHandlerContext> ctx, const std::string& query, const std::string& cancel);
 
   const CefMessageRouterConfig& getConfig() const { return myConfig; }
 

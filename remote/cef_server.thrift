@@ -42,10 +42,12 @@ service Server {
     //
     // CefClient
     //
-    i32  Client_Create(1: i32 handlersMask),
+    i32         Client_Create(1: i32 handlersMask),
     oneway void Client_Dispose(1: i32 cid),
     oneway void Client_AddHandlers(1: i32 cid, 2: i32 handlersMask),
     oneway void Client_RemoveHandlers(1: i32 cid, 2: i32 handlersMask),
+    void        Client_AddMessageRouter(1: i32 cid, 2: shared.RObject msgRouter),
+    void        Client_RemoveMessageRouter(1: i32 cid, 2: shared.RObject msgRouter),
 
     //
     // CefBrowser
@@ -163,12 +165,11 @@ service Server {
     // CefMessageRouter
     //
     shared.RObject MessageRouter_Create(1: string query, 2: string cancel),
-    oneway void MessageRouter_Dispose(1: shared.RObject msgRouter),
-    void MessageRouter_AddMessageRouterToBrowser(1: shared.RObject msgRouter, 2: i32 bid),
-    void MessageRouter_RemoveMessageRouterFromBrowser(1: shared.RObject msgRouter, 2: i32 bid),
-    void MessageRouter_AddHandler(1: shared.RObject msgRouter, 2: shared.RObject handler, 3: bool first),
-    void MessageRouter_RemoveHandler(1: shared.RObject msgRouter, 2: shared.RObject handler),
-    void MessageRouter_CancelPending(1: shared.RObject msgRouter, 2: i32 bid, 3: shared.RObject handler),
+    oneway void    MessageRouter_Dispose(1: shared.RObject msgRouter),
+    void           MessageRouter_AddHandler(1: shared.RObject msgRouter, 2: shared.RObject handler, 3: bool first),
+    void           MessageRouter_RemoveHandler(1: shared.RObject msgRouter, 2: shared.RObject handler),
+    void           MessageRouter_CancelPending(1: shared.RObject msgRouter, 2: i32 bid, 3: shared.RObject handler),
+
     oneway void QueryCallback_Dispose(1: shared.RObject qcallback),
     oneway void QueryCallback_Success(1: shared.RObject qcallback, 2: string response),                             // NOTE: can be oneway (because qcallback is server-side object (and will be disposed after Success execution))
     oneway void QueryCallback_Failure(1: shared.RObject qcallback, 2: i32 error_code, 3: string error_message),     // NOTE: can be oneway (because qcallback is server-side object (and will be disposed after Failure execution))

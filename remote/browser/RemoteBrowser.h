@@ -6,6 +6,7 @@
 
 #include "../handlers/SharedBufferManager.h"
 #include "include/internal/cef_ptr.h"
+#include "include/wrapper/cef_message_router.h"
 
 class CefRequestContext;
 class RemoteClient;
@@ -38,6 +39,9 @@ public:
   static bool closeAllBrowsers(); // returns true when no browsers presented (i.e. all browsers are already closed)
   static std::vector<int> enumAllBrowsers();
   static unsigned int getAllBrowsersCount();
+
+  static void AddMessageRouterConfig(const CefMessageRouterConfig& cfg);
+  static void RemoveMessageRouterConfig(const CefMessageRouterConfig& cfg);
 
   explicit RemoteBrowser(int bid, std::shared_ptr<RemoteClient> owner, CefRefPtr<CefRequestContext> requestContext); // TODO: make private
 

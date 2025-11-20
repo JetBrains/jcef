@@ -62,6 +62,8 @@ std::shared_ptr<RemoteBrowser> RemoteBrowser::findByCefBrowser(CefRefPtr<CefBrow
 }
 
 namespace {
+  CefRefPtr<CefListValue> GetAllMessageRouterConfigs();
+
   // Should be called on UI thread
   void createCefBrowserImpl(
       int cid, int bid,
@@ -78,7 +80,7 @@ namespace {
     windowInfo.runtime_style = CEF_RUNTIME_STYLE_ALLOY;
 
     CefRefPtr<CefDictionaryValue> extra_info;
-    auto router_configs = MessageRoutersManager::GetMessageRouterConfigs();
+    auto router_configs = GetAllMessageRouterConfigs();
     if (router_configs) {
       // Send the message router config to CefHelperApp::OnBrowserCreated.
       extra_info = CefDictionaryValue::Create();
@@ -194,3 +196,49 @@ void RemoteBrowser::onBeforeClose() {
     ourBid2Browser.erase(myBid);
 }
 
+namespace {
+    // comparator to check if configuration values are the same
+    struct cmpCfg {
+        bool operator()(const CefMessageRouterConfig& lValue,
+                        const CefMessageRouterConfig& rValue) const {
+            std::less<std::string> comp;
+            return comp(lValue.js_query_function.ToString(),
+                        rValue.js_query_function.ToString());
+        }
+    };
+    std::set<CefMessageRouterConfig, cmpCfg> router_cfg_;
+    base::Lock router_cfg_lock_;
+
+    CefRefPtr<CefListValue> GetAllMessageRouterConfigs() {
+        int idx = 0;
+        static std::set<CefMessageRouterConfig, cmpCfg>::iterator iter;
+
+        base::AutoLock lock_scope(router_cfg_lock_);
+        if (router_cfg_.empty())
+            return nullptr;
+
+        // Configuration pased to CefHelperApp::OnBrowserCreated.
+        auto router_configs = CefListValue::Create();
+        for (iter = router_cfg_.begin(); iter != router_cfg_.end(); ++iter) {
+            CefRefPtr<CefDictionaryValue> dict = CefDictionaryValue::Create();
+            dict->SetString("js_query_function", iter->js_query_function);
+            dict->SetString("js_cancel_function", iter->js_cancel_function);
+            router_configs->SetDictionary(idx, dict);
+            idx++;
+        }
+
+        return router_configs;
+    }
+}
+
+// static
+void RemoteBrowser::AddMessageRouterConfig(const CefMessageRouterConfig& cfg) {
+    base::AutoLock lock_scope(router_cfg_lock_);
+    router_cfg_.insert(cfg);
+}
+
+// static
+void RemoteBrowser::RemoveMessageRouterConfig(const CefMessageRouterConfig& cfg) {
+    base::AutoLock lock_scope(router_cfg_lock_);
+    router_cfg_.erase(cfg);
+}

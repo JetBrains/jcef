@@ -15,6 +15,15 @@ RemoteMessageRouter * RemoteMessageRouter::create(std::shared_ptr<ServerHandlerC
   return FACTORY.create([&](int id) -> RemoteMessageRouter* {return new RemoteMessageRouter(ctx, id, delegate, config);});
 }
 
+RemoteMessageRouter * RemoteMessageRouter::create(std::shared_ptr<ServerHandlerContext> ctx, const std::string &query, const std::string &cancel) {
+    CefMessageRouterConfig config;
+    config.js_query_function = query;
+    config.js_cancel_function = cancel;
+    CefRefPtr<CefMessageRouterBrowserSide> msgRouter = CefMessageRouterBrowserSide::Create(config);
+    RemoteMessageRouter * result = create(ctx, msgRouter, config);
+    return result;
+}
+
 void RemoteMessageRouter::AddRemoteHandler(const thrift_codegen::RObject& handler, bool first) {
   TRACE();
   std::shared_ptr<RemoteMessageRouterHandler> rmrh = std::make_shared<RemoteMessageRouterHandler>(myCtx, handler);

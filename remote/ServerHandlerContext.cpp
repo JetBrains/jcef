@@ -90,7 +90,6 @@ namespace {
 }
 
 ServerHandlerContext::ServerHandlerContext() :
-      myRoutersManager(std::make_shared<MessageRoutersManager>()),
       myBgExecutor(std::make_shared<BackgroundExecutor>()) {}
 
 void ServerHandlerContext::initJavaServicePipe(const std::string & pipeName) {

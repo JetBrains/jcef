@@ -33,6 +33,8 @@ class ServerHandler : public thrift_codegen::ServerIf {
   void    Client_Dispose(int cid) override;
   void    Client_AddHandlers(int cid, int handlersMask) override;
   void    Client_RemoveHandlers(int cid, int handlersMask) override;
+  void    Client_AddMessageRouter(int cid, const thrift_codegen::RObject& msgRouter) override;
+  void    Client_RemoveMessageRouter(int cid, const thrift_codegen::RObject& msgRouter) override;
 
   //
   // CefBrowser
@@ -171,8 +173,6 @@ class ServerHandler : public thrift_codegen::ServerIf {
   //
   void MessageRouter_Create(thrift_codegen::RObject& _return,const std::string& query,const std::string& cancel) override;
   void MessageRouter_Dispose(const thrift_codegen::RObject& msgRouter) override;
-  void MessageRouter_AddMessageRouterToBrowser(const thrift_codegen::RObject& msgRouter,const int32_t bid) override;
-  void MessageRouter_RemoveMessageRouterFromBrowser(const thrift_codegen::RObject& msgRouter,const int32_t bid) override;
   void MessageRouter_AddHandler(const thrift_codegen::RObject& msgRouter,const thrift_codegen::RObject& handler, bool first) override;
   void MessageRouter_RemoveHandler(const thrift_codegen::RObject& msgRouter,const thrift_codegen::RObject& handler) override;
   void MessageRouter_CancelPending(const thrift_codegen::RObject& msgRouter,const int32_t bid,const thrift_codegen::RObject& handler) override;

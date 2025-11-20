@@ -22,7 +22,6 @@ class ServerHandlerContext {
  public:
   ServerHandlerContext();
 
-  const std::shared_ptr<MessageRoutersManager>& routersManager() { return myRoutersManager; }
   const std::shared_ptr<RpcExecutor>& javaService() { return myJavaService; }
   const std::shared_ptr<RpcExecutor>& javaServiceIO() { return myJavaServiceIO; }
 
@@ -42,7 +41,6 @@ class ServerHandlerContext {
   std::shared_ptr<RpcExecutor> myJavaServiceIO;
   std::shared_ptr<RpcExecutor> myJavaServiceBg; // represents background java thread for 'background' calls execution
   std::shared_ptr<BackgroundExecutor> myBgExecutor;
-  std::shared_ptr<MessageRoutersManager> myRoutersManager;
   bool myIsClosed = false;
 
   std::mutex myMutex;
