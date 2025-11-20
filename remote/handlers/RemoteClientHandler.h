@@ -19,8 +19,8 @@ class RemoteClientHandler : public CefClient {
     void addHandlers(int handlersMask);
     void removeHandlers(int handlersMask);
 
-    void addMessageRouter(RemoteMessageRouter* router);
-    void removeMessageRouter(RemoteMessageRouter* router);
+    void addMessageRouter(std::shared_ptr<RemoteMessageRouter> router);
+    void removeMessageRouter(std::shared_ptr<RemoteMessageRouter> router);
 
     CefRefPtr<CefContextMenuHandler> GetContextMenuHandler() override;
     CefRefPtr<CefDialogHandler> GetDialogHandler() override;

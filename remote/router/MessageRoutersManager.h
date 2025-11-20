@@ -22,8 +22,8 @@ class MessageRoutersManager {
  public:
   virtual ~MessageRoutersManager();
 
-  void add(RemoteMessageRouter* router);
-  void remove(RemoteMessageRouter* router);
+  void add(std::shared_ptr<RemoteMessageRouter> router);
+  void remove(std::shared_ptr<RemoteMessageRouter> router);
 
   // Next 4 methods should be called from corresponding handlers of CefClient
   void OnBeforeClose(CefRefPtr<CefBrowser> browser);
@@ -35,7 +35,7 @@ class MessageRoutersManager {
                                 CefRefPtr<CefProcessMessage> message);
 
  private:
-  std::set<RemoteMessageRouter*> myRouters;
+  std::set<std::shared_ptr<RemoteMessageRouter>> myRouters;
   base::Lock myRoutersLock;
 
   std::set<CefRefPtr<CefMessageRouterBrowserSide>> getMessageRouters();

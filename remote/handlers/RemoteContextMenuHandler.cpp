@@ -193,7 +193,7 @@ bool RemoteContextMenuHandler::RunContextMenu(
   RemoteFrame::Holder frm(frame);
   const auto thriftParams = convertParams(params);
   const std::vector<thrift_codegen::MenuItem> menu_model = to_thrift(model);
-  RemoteCefRunContextMenuCallback* callback_wrapper =
+  std::shared_ptr<RemoteCefRunContextMenuCallback> callback_wrapper =
       RemoteCefRunContextMenuCallback::wrapDelegate(callback);
   bool result = myService->exec<bool>(
       [&](const JavaService& s) -> bool {

@@ -7,10 +7,10 @@
 
 class RemoteRegistration : public virtual CefBaseRefCounted, public RemoteServerObject<RemoteRegistration, CefRegistration> {
  public:
-  static RemoteRegistration * create(CefRefPtr<CefRegistration> delegate);
+  explicit RemoteRegistration(int id, CefRefPtr<CefRegistration> delegate) : RemoteServerObject<RemoteRegistration, CefRegistration>(id, delegate) {}
+  static std::shared_ptr<RemoteRegistration> create(CefRefPtr<CefRegistration> delegate);
 
  private:
-  explicit RemoteRegistration(CefRefPtr<CefRegistration> delegate, int id) : RemoteServerObject<RemoteRegistration, CefRegistration>(id, delegate) {}
   template <class T, class D> friend class ::RemoteServerObject;
   IMPLEMENT_REFCOUNTING(RemoteRegistration);
 };

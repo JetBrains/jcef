@@ -243,14 +243,14 @@ void ServerHandler::getServerInfo(std::string& _return, const std::string& reque
     return val;
 
 #define GET_COOKIE_MANAGER_OR_RETURN()                                            \
-  RemoteCookieManager * manager = RemoteCookieManager::find(cookieManager.objId); \
+  auto manager = RemoteCookieManager::find(cookieManager.objId); \
   if (manager == nullptr) {                                                       \
     Log::error("Can't find RemoteCookieManager by id=%d", cookieManager.objId);   \
     return;                                                                       \
   }
 
 #define GET_COOKIE_MANAGER_OR_RETURN_VAL(val)                                     \
-  RemoteCookieManager * manager = RemoteCookieManager::find(cookieManager.objId); \
+  auto manager = RemoteCookieManager::find(cookieManager.objId); \
   if (manager == nullptr) {                                                       \
     Log::error("Can't find RemoteCookieManager by id=%d", cookieManager.objId);   \
     return val;                                                                       \
@@ -287,14 +287,13 @@ void ServerHandler::Browser_LoadURL(const int32_t bid, const std::string& url) {
 void ServerHandler::Browser_LoadRequest(const int32_t bid, const thrift_codegen::RObject & request) {
   LNDCT();
   GET_BROWSER_OR_RETURN()
-  RemoteRequest * rr = RemoteRequest::get(request.objId);
+  std::shared_ptr<RemoteRequest> rr = RemoteRequest::get(request.objId);
   if (rr == nullptr) {
     Log::trace("Can't find RemoteRequest %d", request.objId);
     return;
   }
   Log::trace("Browser %d is loading request %d", bid, request.objId);
-  CefRefPtr<CefRequest> r(&(rr->getDelegate()));
-  browser->GetMainFrame()->LoadRequest(r);
+  browser->GetMainFrame()->LoadRequest(rr->getDelegate());
 }
 
 void ServerHandler::Browser_GetURL(std::string& _return, const int32_t bid) {
@@ -311,9 +310,9 @@ void ServerHandler::Browser_ExecuteJavaScript(const int32_t bid,const std::strin
 
 void ServerHandler::Frame_ExecuteJavaScript(const int32_t frameId, const std::string& code, const std::string& url, const int32_t line) {
   LNDCT();
-  RemoteFrame * rf = RemoteFrame::get(frameId);
+  std::shared_ptr<RemoteFrame> rf = RemoteFrame::get(frameId);
   if (rf != nullptr)
-    rf->getDelegate().ExecuteJavaScript(code, url, line);
+    rf->getDelegate()->ExecuteJavaScript(code, url, line);
 }
 
 void ServerHandler::Frame_Dispose(const int32_t frameId) {
@@ -323,62 +322,62 @@ void ServerHandler::Frame_Dispose(const int32_t frameId) {
 
 void ServerHandler::Frame_GetParent(thrift_codegen::RObject & _return, int frameId) {
   LNDCT();
-  RemoteFrame * rf = RemoteFrame::get(frameId);
+  std::shared_ptr<RemoteFrame> rf = RemoteFrame::get(frameId);
   if (rf == nullptr)
     return;
 
-  RemoteFrame* rparent = RemoteFrame::create(rf->getDelegate().GetParent());
+  std::shared_ptr<RemoteFrame> rparent = RemoteFrame::create(rf->getDelegate()->GetParent());
   if (rparent != nullptr)
     _return = rparent->serverId();
 }
 
 void ServerHandler::Frame_Undo(int frameId) {
   LNDCT();
-  RemoteFrame * rf = RemoteFrame::get(frameId);
+  std::shared_ptr<RemoteFrame> rf = RemoteFrame::get(frameId);
   if (rf != nullptr)
-    rf->getDelegate().Undo();
+    rf->getDelegate()->Undo();
 }
 
 void ServerHandler::Frame_Redo(int frameId) {
   LNDCT();
-  RemoteFrame * rf = RemoteFrame::get(frameId);
+  std::shared_ptr<RemoteFrame> rf = RemoteFrame::get(frameId);
   if (rf != nullptr)
-    rf->getDelegate().Redo();
+    rf->getDelegate()->Redo();
 }
 
 void ServerHandler::Frame_Cut(int frameId) {
   LNDCT();
-  RemoteFrame * rf = RemoteFrame::get(frameId);
+  std::shared_ptr<RemoteFrame> rf = RemoteFrame::get(frameId);
   if (rf != nullptr)
-    rf->getDelegate().Cut();
+    rf->getDelegate()->Cut();
 }
 
 void ServerHandler::Frame_Copy(int frameId) {
   LNDCT();
-  RemoteFrame * rf = RemoteFrame::get(frameId);
+  std::shared_ptr<RemoteFrame> rf = RemoteFrame::get(frameId);
   if (rf != nullptr)
-    rf->getDelegate().Copy();
+    rf->getDelegate()->Copy();
 }
 
 void ServerHandler::Frame_Paste(int frameId) {
   LNDCT();
-  RemoteFrame * rf = RemoteFrame::get(frameId);
+  std::shared_ptr<RemoteFrame> rf = RemoteFrame::get(frameId);
   if (rf != nullptr)
-    rf->getDelegate().Paste();
+    rf->getDelegate()->Paste();
 }
 
 void ServerHandler::Frame_Delete(int frameId) {
   LNDCT();
-  RemoteFrame * rf = RemoteFrame::get(frameId);
+  std::shared_ptr<RemoteFrame> rf = RemoteFrame::get(frameId);
   if (rf != nullptr)
-    rf->getDelegate().Delete();
+    rf->getDelegate()->Delete();
 }
 
 void ServerHandler::Frame_SelectAll(int frameId) {
   LNDCT();
-  RemoteFrame * rf = RemoteFrame::get(frameId);
+  std::shared_ptr<RemoteFrame> rf = RemoteFrame::get(frameId);
   if (rf != nullptr)
-    rf->getDelegate().SelectAll();
+    rf->getDelegate()->SelectAll();
 }
 
 void ServerHandler::Browser_WasResized(const int32_t bid) {
@@ -496,7 +495,7 @@ void ServerHandler::Browser_GetMainFrame(thrift_codegen::RObject& _return, const
   LNDCT();
   GET_BROWSER_OR_RETURN()
   CefRefPtr<CefFrame> frame = browser->GetMainFrame();
-  RemoteFrame* rf = RemoteFrame::create(frame);
+  std::shared_ptr<RemoteFrame> rf = RemoteFrame::create(frame);
   if (rf != nullptr)
     _return = rf->serverId();
 }
@@ -505,7 +504,7 @@ void ServerHandler::Browser_GetFocusedFrame(thrift_codegen::RObject& _return, co
   LNDCT();
   GET_BROWSER_OR_RETURN()
   CefRefPtr<CefFrame> frame = browser->GetFocusedFrame();
-  RemoteFrame* rf = RemoteFrame::create(frame);
+  std::shared_ptr<RemoteFrame> rf = RemoteFrame::create(frame);
   if (rf != nullptr)
     _return = rf->serverId();
 }
@@ -514,7 +513,7 @@ void ServerHandler::Browser_GetFrameByIdentifier(thrift_codegen::RObject& _retur
   LNDCT();
   GET_BROWSER_OR_RETURN()
   CefRefPtr<CefFrame> frame = browser->GetFrameByIdentifier(id);
-  RemoteFrame* rf = RemoteFrame::create(frame);
+  std::shared_ptr<RemoteFrame> rf = RemoteFrame::create(frame);
   if (rf != nullptr)
     _return = rf->serverId();
 }
@@ -523,7 +522,7 @@ void ServerHandler::Browser_GetFrameByName(thrift_codegen::RObject& _return, con
   LNDCT();
   GET_BROWSER_OR_RETURN()
   CefRefPtr<CefFrame> frame = browser->GetFrameByName(name);
-  RemoteFrame* rf = RemoteFrame::create(frame);
+  std::shared_ptr<RemoteFrame> rf = RemoteFrame::create(frame);
   if (rf != nullptr)
     _return = rf->serverId();
 }
@@ -875,7 +874,7 @@ void ServerHandler::Browser_ImeCancelComposing(const int32_t bid) {
 
 void ServerHandler::Request_Create(thrift_codegen::RObject& result) {
   CefRefPtr<CefRequest> request = CefRequest::Create();
-  RemoteRequest* rr = RemoteRequest::create(request);
+  std::shared_ptr<RemoteRequest> rr = RemoteRequest::create(request);
   if (rr != nullptr) {
     result = rr->serverId();
     result.isNull = false;
@@ -888,7 +887,7 @@ void ServerHandler::Request_Dispose(int requestId) {
 }
 
 void ServerHandler::Request_Update(const thrift_codegen::RObject & request) {
-  RemoteRequest * rr = RemoteRequest::get(request.objId);
+  std::shared_ptr<RemoteRequest> rr = RemoteRequest::get(request.objId);
   if (rr == nullptr)
     return;
 
@@ -896,7 +895,7 @@ void ServerHandler::Request_Update(const thrift_codegen::RObject & request) {
 }
 
 void ServerHandler::Response_Update(const thrift_codegen::RObject& response) {
-  RemoteResponse * rr = RemoteResponse::get(response.objId);
+  std::shared_ptr<RemoteResponse> rr = RemoteResponse::get(response.objId);
   if (rr == nullptr)
     return;
 
@@ -907,11 +906,11 @@ void ServerHandler::Request_GetHeaderByName(
     std::string& _return,
     const thrift_codegen::RObject& request,
     const std::string& name) {
-  RemoteRequest * rr = RemoteRequest::get(request.objId);
+  std::shared_ptr<RemoteRequest> rr = RemoteRequest::get(request.objId);
   if (rr == nullptr)
     return;
 
-  std::string result = rr->getDelegate().GetHeaderByName(name).ToString();
+  std::string result = rr->getDelegate()->GetHeaderByName(name).ToString();
   _return.assign(result);
 }
 
@@ -920,46 +919,46 @@ void ServerHandler::Request_SetHeaderByName(
     const std::string& name,
     const std::string& value,
     const bool overwrite) {
-  RemoteRequest * rr = RemoteRequest::get(request.objId);
+  std::shared_ptr<RemoteRequest> rr = RemoteRequest::get(request.objId);
   if (rr == nullptr)
     return;
 
-  rr->getDelegate().SetHeaderByName(name, value, overwrite);
+  rr->getDelegate()->SetHeaderByName(name, value, overwrite);
 }
 
 void ServerHandler::Request_GetHeaderMap(
     std::map<std::string, std::string>& _return,
     const thrift_codegen::RObject& request) {
-  RemoteRequest * rr = RemoteRequest::get(request.objId);
+  std::shared_ptr<RemoteRequest> rr = RemoteRequest::get(request.objId);
   if (rr == nullptr)
     return;
 
   CefRequest::HeaderMap hmap;
-  rr->getDelegate().GetHeaderMap(hmap);
+  rr->getDelegate()->GetHeaderMap(hmap);
   fillMap(_return, hmap);
 }
 
 void ServerHandler::Request_SetHeaderMap(
     const thrift_codegen::RObject& request,
     const std::map<std::string, std::string>& headerMap) {
-  RemoteRequest * rr = RemoteRequest::get(request.objId);
+  std::shared_ptr<RemoteRequest> rr = RemoteRequest::get(request.objId);
   if (rr == nullptr)
     return;
 
   CefRequest::HeaderMap hmap;
   fillMap(hmap, headerMap);
-  rr->getDelegate().SetHeaderMap(hmap);
+  rr->getDelegate()->SetHeaderMap(hmap);
 }
 
 void ServerHandler::Response_GetHeaderByName(
     std::string& _return,
     const thrift_codegen::RObject& response,
     const std::string& name) {
-  RemoteResponse * rr = RemoteResponse::get(response.objId);
+  std::shared_ptr<RemoteResponse> rr = RemoteResponse::get(response.objId);
   if (rr == nullptr)
     return;
 
-  std::string result = rr->getDelegate().GetHeaderByName(name).ToString();
+  std::string result = rr->getDelegate()->GetHeaderByName(name).ToString();
   _return.assign(result);
 }
 
@@ -968,45 +967,45 @@ void ServerHandler::Response_SetHeaderByName(
     const std::string& name,
     const std::string& value,
     const bool overwrite) {
-  RemoteResponse * rr = RemoteResponse::get(response.objId);
+  std::shared_ptr<RemoteResponse> rr = RemoteResponse::get(response.objId);
   if (rr == nullptr)
     return;
 
-  rr->getDelegate().SetHeaderByName(name, value, overwrite);
+  rr->getDelegate()->SetHeaderByName(name, value, overwrite);
 }
 
 void ServerHandler::Response_GetHeaderMap(
     std::map<std::string, std::string>& _return,
     const thrift_codegen::RObject& response) {
-  RemoteResponse * rr = RemoteResponse::get(response.objId);
+  std::shared_ptr<RemoteResponse> rr = RemoteResponse::get(response.objId);
   if (rr == nullptr)
     return;
 
   CefRequest::HeaderMap hmap;
-  rr->getDelegate().GetHeaderMap(hmap);
+  rr->getDelegate()->GetHeaderMap(hmap);
   fillMap(_return, hmap);
 }
 
 void ServerHandler::Response_SetHeaderMap(
     const thrift_codegen::RObject& response,
     const std::map<std::string, std::string>& headerMap) {
-  RemoteResponse * rr = RemoteResponse::get(response.objId);
+  std::shared_ptr<RemoteResponse> rr = RemoteResponse::get(response.objId);
   if (rr == nullptr)
     return;
 
   CefRequest::HeaderMap hmap;
   fillMap(hmap, headerMap);
-  rr->getDelegate().SetHeaderMap(hmap);
+  rr->getDelegate()->SetHeaderMap(hmap);
 }
 
 void ServerHandler::Request_GetPostData(
     thrift_codegen::PostData& _return,
     const thrift_codegen::RObject& request
 ) {
-  RemoteRequest * rr = RemoteRequest::get(request.objId);
+  std::shared_ptr<RemoteRequest> rr = RemoteRequest::get(request.objId);
   if (rr == nullptr) return;
 
-  CefRefPtr<CefPostData> pd = rr->getDelegate().GetPostData();
+  CefRefPtr<CefPostData> pd = rr->getDelegate()->GetPostData();
   if (!pd) return;
 
   _return.isNull = false;
@@ -1039,12 +1038,12 @@ void ServerHandler::Request_GetPostData(
 void ServerHandler::Request_SetPostData(
     const thrift_codegen::RObject& request,
     const thrift_codegen::PostData& postData) {
-  RemoteRequest * rr = RemoteRequest::get(request.objId);
+  std::shared_ptr<RemoteRequest> rr = RemoteRequest::get(request.objId);
   if (rr == nullptr)
     return;
 
   CefRefPtr<CefPostData> pd = new RemotePostData(postData);
-  rr->getDelegate().SetPostData(pd);
+  rr->getDelegate()->SetPostData(pd);
 }
 
 void ServerHandler::Request_Set(
@@ -1053,14 +1052,14 @@ void ServerHandler::Request_Set(
     const std::string& method,
     const thrift_codegen::PostData& postData,
     const std::map<std::string, std::string>& headerMap) {
-  RemoteRequest * rr = RemoteRequest::get(request.objId);
+  std::shared_ptr<RemoteRequest> rr = RemoteRequest::get(request.objId);
   if (rr == nullptr)
     return;
 
   CefRefPtr<CefPostData> pd = new RemotePostData(postData);
   CefRequest::HeaderMap hmap;
   fillMap(hmap, headerMap);
-  rr->getDelegate().Set(url, method, pd, hmap);
+  rr->getDelegate()->Set(url, method, pd, hmap);
 }
 
 void ServerHandler::AuthCallback_Dispose(const thrift_codegen::RObject& authCallback) {
@@ -1072,16 +1071,16 @@ void ServerHandler::AuthCallback_Continue(
     const std::string& username,
     const std::string& password
 ) {
-  RemoteAuthCallback * rc = RemoteAuthCallback::get(authCallback.objId);
+  std::shared_ptr<RemoteAuthCallback> rc = RemoteAuthCallback::get(authCallback.objId);
   if (rc == nullptr) return;
-  rc->getDelegate().Continue(username, password);
+  rc->getDelegate()->Continue(username, password);
   RemoteAuthCallback::dispose(authCallback.objId);
 }
 
 void ServerHandler::AuthCallback_Cancel(const thrift_codegen::RObject& authCallback) {
-  RemoteAuthCallback * rc = RemoteAuthCallback::get(authCallback.objId);
+  std::shared_ptr<RemoteAuthCallback> rc = RemoteAuthCallback::get(authCallback.objId);
   if (rc == nullptr) return;
-  rc->getDelegate().Cancel();
+  rc->getDelegate()->Cancel();
   RemoteAuthCallback::dispose(authCallback.objId);
 }
 
@@ -1090,16 +1089,16 @@ void ServerHandler::Callback_Dispose(const thrift_codegen::RObject& callback) {
 }
 
 void ServerHandler::Callback_Continue(const thrift_codegen::RObject& callback) {
-  RemoteCallback * rc = RemoteCallback::get(callback.objId);
+  std::shared_ptr<RemoteCallback> rc = RemoteCallback::get(callback.objId);
   if (rc == nullptr) return;
-  rc->getDelegate().Continue();
+  rc->getDelegate()->Continue();
   RemoteCallback::dispose(callback.objId);
 }
 
 void ServerHandler::Callback_Cancel(const thrift_codegen::RObject& callback) {
-  RemoteCallback * rc = RemoteCallback::get(callback.objId);
+  std::shared_ptr<RemoteCallback> rc = RemoteCallback::get(callback.objId);
   if (rc == nullptr) return;
-  rc->getDelegate().Cancel();
+  rc->getDelegate()->Cancel();
   RemoteCallback::dispose(callback.objId);
 }
 
@@ -1114,7 +1113,7 @@ void ServerHandler::CefRunContextMenuCallback_Continue(
     const int32_t event_flag) {
   const auto self_wrapper = RemoteCefRunContextMenuCallback::get(self.objId);
   if (self_wrapper == nullptr) return;
-  self_wrapper->getDelegate().Continue(command_id,
+  self_wrapper->getDelegate()->Continue(command_id,
                               static_cast<cef_event_flags_t>(event_flag));
   RemoteCefRunContextMenuCallback::dispose(self.objId);
 }
@@ -1124,7 +1123,7 @@ void ServerHandler::CefRunContextMenuCallback_Cancel(
   const auto self_wrapper = RemoteCefRunContextMenuCallback::get(self.objId);
   if (self_wrapper == nullptr)
     return;
-  self_wrapper->getDelegate().Cancel();
+  self_wrapper->getDelegate()->Cancel();
   RemoteCefRunContextMenuCallback::dispose(self.objId);
 }
 
@@ -1140,7 +1139,7 @@ void ServerHandler::MessageRouter_Dispose(const thrift_codegen::RObject& msgRout
 
 void ServerHandler::Client_AddMessageRouter(int cid, const thrift_codegen::RObject& msgRouter) {
   LNDCT();
-  RemoteMessageRouter * rmr = RemoteMessageRouter::get(msgRouter.objId);
+  std::shared_ptr<RemoteMessageRouter> rmr = RemoteMessageRouter::get(msgRouter.objId);
   if (rmr == nullptr) {
     Log::error("Client_AddMessageRouter: can't find RemoteMessageRouter by objId=%d", msgRouter.objId);
     return;
@@ -1157,7 +1156,7 @@ void ServerHandler::Client_AddMessageRouter(int cid, const thrift_codegen::RObje
 
 void ServerHandler::Client_RemoveMessageRouter(int cid, const thrift_codegen::RObject& msgRouter) {
   LNDCT();
-  RemoteMessageRouter * rmr = RemoteMessageRouter::get(msgRouter.objId);
+  std::shared_ptr<RemoteMessageRouter> rmr = RemoteMessageRouter::get(msgRouter.objId);
   if (rmr == nullptr) {
     Log::error("Client_RemoveMessageRouter: can't find RemoteMessageRouter by objId=%d", msgRouter.objId);
     return;
@@ -1179,7 +1178,7 @@ namespace {
       const thrift_codegen::RObject& msgRouter,
       const thrift_codegen::RObject& handler, bool first) {
     LNDCT();
-    RemoteMessageRouter * rmr = RemoteMessageRouter::get(msgRouter.objId);
+    std::shared_ptr<RemoteMessageRouter> rmr = RemoteMessageRouter::get(msgRouter.objId);
     if (rmr == nullptr) {
       Log::error("Can't find router %d", msgRouter.objId);
       return;
@@ -1190,7 +1189,7 @@ namespace {
       const thrift_codegen::RObject& msgRouter,
       const thrift_codegen::RObject& handler) {
     LNDCT();
-    RemoteMessageRouter * rmr = RemoteMessageRouter::get(msgRouter.objId);
+    std::shared_ptr<RemoteMessageRouter> rmr = RemoteMessageRouter::get(msgRouter.objId);
     if (rmr != nullptr) {
       rmr->RemoveRemoteHandler(handler);
     } else
@@ -1236,7 +1235,7 @@ void ServerHandler::MessageRouter_CancelPending(
     const int32_t bid,
     const thrift_codegen::RObject& handler) {
   LNDCT();
-  RemoteMessageRouter * rmr = RemoteMessageRouter::get(msgRouter.objId);
+  std::shared_ptr<RemoteMessageRouter> rmr = RemoteMessageRouter::get(msgRouter.objId);
   if (!rmr)
     return;
 
@@ -1248,7 +1247,7 @@ void ServerHandler::MessageRouter_CancelPending(
   if (!browser) return;
   std::shared_ptr<RemoteMessageRouterHandler> rmrh = rmr->FindRemoteHandler(handler.objId);
   if (rmrh)
-    rmr->getDelegate().CancelPending(browser, rmrh.get());
+    rmr->getDelegate()->CancelPending(browser, rmrh.get());
 }
 
 void ServerHandler::QueryCallback_Dispose(const thrift_codegen::RObject& qcallback) {
@@ -1258,9 +1257,9 @@ void ServerHandler::QueryCallback_Dispose(const thrift_codegen::RObject& qcallba
 void ServerHandler::QueryCallback_Success(
     const thrift_codegen::RObject& qcallback,
     const std::string& response) {
-  RemoteQueryCallback * rc = RemoteQueryCallback::get(qcallback.objId);
+  std::shared_ptr<RemoteQueryCallback> rc = RemoteQueryCallback::get(qcallback.objId);
   if (rc == nullptr) return;
-  rc->getDelegate().Success(response);
+  rc->getDelegate()->Success(response);
   RemoteQueryCallback::dispose(qcallback.objId);
 }
 
@@ -1268,9 +1267,9 @@ void ServerHandler::QueryCallback_Failure(
     const thrift_codegen::RObject& qcallback,
     const int32_t error_code,
     const std::string& error_message) {
-  RemoteQueryCallback * rc = RemoteQueryCallback::get(qcallback.objId);
+  std::shared_ptr<RemoteQueryCallback> rc = RemoteQueryCallback::get(qcallback.objId);
   if (rc == nullptr) return;
-  rc->getDelegate().Failure(error_code, error_message);
+  rc->getDelegate()->Failure(error_code, error_message);
   RemoteQueryCallback::dispose(qcallback.objId);
 }
 
@@ -1352,7 +1351,7 @@ void ServerHandler::CookieManager_Create(thrift_codegen::RObject& _return) {
   if (!manager)
     return;
 
-  RemoteCookieManager * rm = RemoteCookieManager::create(myCtx->javaServiceIO(), manager);
+  std::shared_ptr<RemoteCookieManager> rm = RemoteCookieManager::create(myCtx->javaServiceIO(), manager);
   _return = rm->serverId();
 }
 
@@ -1363,7 +1362,7 @@ void ServerHandler::CookieManager_Dispose(const thrift_codegen::RObject& cookieM
 bool ServerHandler::CookieManager_VisitAllCookies(const thrift_codegen::RObject& cookieManager, const thrift_codegen::RObject& visitor) {
   GET_COOKIE_MANAGER_OR_RETURN_VAL(false);
   CefRefPtr<RemoteCookieVisitor> rvisitor(new RemoteCookieVisitor(myCtx, visitor));
-  return manager->getDelegate().VisitAllCookies(rvisitor);
+  return manager->getDelegate()->VisitAllCookies(rvisitor);
 }
 
 bool ServerHandler::CookieManager_VisitUrlCookies(
@@ -1374,7 +1373,7 @@ bool ServerHandler::CookieManager_VisitUrlCookies(
 ) {
   GET_COOKIE_MANAGER_OR_RETURN_VAL(false);
   CefRefPtr<RemoteCookieVisitor> rvisitor(new RemoteCookieVisitor(myCtx, visitor));
-  return manager->getDelegate().VisitUrlCookies(url, includeHttpOnly, rvisitor);
+  return manager->getDelegate()->VisitUrlCookies(url, includeHttpOnly, rvisitor);
 }
 
 bool ServerHandler::CookieManager_SetCookie(
@@ -1390,10 +1389,9 @@ bool ServerHandler::CookieManager_SetCookie(
   // We ignore its return value and return the result of the PostTask event to
   // java instead.
   // TODO(JCEF): Expose the callback object.
-  CefRefPtr<CefCookieManager> pmanager(&(manager->getDelegate()));
   bool result = CefPostTask(
       TID_IO, base::BindOnce(base::IgnoreResult(&CefCookieManager::SetCookie),
-                             pmanager, url, cookie,
+                             manager->getDelegate(), url, cookie,
                              CefRefPtr<CefSetCookieCallback>()));
   return result;
 }
@@ -1409,10 +1407,9 @@ bool ServerHandler::CookieManager_DeleteCookies(
   // We ignore its return value and return the result of the PostTask event to
   // java instead.
   // TODO(JCEF): Expose the callback object.
-  CefRefPtr<CefCookieManager> pmanager(&(manager->getDelegate()));
   bool result = CefPostTask(
       TID_IO, base::BindOnce(base::IgnoreResult(&CefCookieManager::DeleteCookies),
-                             pmanager, url, cookieName,
+                             manager->getDelegate(), url, cookieName,
                              CefRefPtr<CefDeleteCookiesCallback>()));
   return result;
 }
@@ -1426,7 +1423,7 @@ bool ServerHandler::CookieManager_FlushStore(
   CefRefPtr<RemoteCompletionCallback> cb;
   if (!rcompletionCallback.isNull)
     cb = new RemoteCompletionCallback(myCtx, rcompletionCallback);
-  return manager->getDelegate().FlushStore(cb);
+  return manager->getDelegate()->FlushStore(cb);
 }
 
 void ServerHandler::Registration_Dispose(const thrift_codegen::RObject& registration) {
@@ -1438,15 +1435,15 @@ void ServerHandler::MediaAccessCallback_Dispose(const thrift_codegen::RObject& m
 }
 
 void ServerHandler::MediaAccessCallback_Continue(const thrift_codegen::RObject& mediaAccessCallback, const int32_t allowed_permissions) {
-  RemoteMediaAccessCallback * rc = RemoteMediaAccessCallback::get(mediaAccessCallback.objId);
+  auto rc = RemoteMediaAccessCallback::get(mediaAccessCallback.objId);
   if (rc == nullptr) return;
-  rc->getDelegate().Continue(allowed_permissions);
+  rc->getDelegate()->Continue(allowed_permissions);
   RemoteMediaAccessCallback::dispose(mediaAccessCallback.objId);
 }
 
 void ServerHandler::MediaAccessCallback_Cancel(const thrift_codegen::RObject& mediaAccessCallback) {
-  RemoteMediaAccessCallback * rc = RemoteMediaAccessCallback::get(mediaAccessCallback.objId);
+  auto rc = RemoteMediaAccessCallback::get(mediaAccessCallback.objId);
   if (rc == nullptr) return;
-  rc->getDelegate().Cancel();
+  rc->getDelegate()->Cancel();
   RemoteMediaAccessCallback::dispose(mediaAccessCallback.objId);
 }

@@ -5,8 +5,10 @@
 #include "../RemoteObjects.h"
 
 class RemoteMediaAccessCallback : public virtual CefBaseRefCounted, public RemoteServerObject<RemoteMediaAccessCallback, CefMediaAccessCallback> {
- private:
-  explicit RemoteMediaAccessCallback(const CefRefPtr<CefMediaAccessCallback>& delegate, int id) : RemoteServerObject<RemoteMediaAccessCallback, CefMediaAccessCallback>(id, delegate) {}
+public:
+  explicit RemoteMediaAccessCallback(int id, const CefRefPtr<CefMediaAccessCallback>& delegate) : RemoteServerObject<RemoteMediaAccessCallback, CefMediaAccessCallback>(id, delegate) {}
+
+private:
   template <class T, class D> friend class ::RemoteServerObject;
   IMPLEMENT_REFCOUNTING(RemoteMediaAccessCallback);
 };

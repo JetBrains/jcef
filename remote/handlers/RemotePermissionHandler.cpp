@@ -21,7 +21,7 @@ bool RemotePermissionHandler::OnRequestMediaAccessPermission(
     CefRefPtr<CefMediaAccessCallback> callback) {
   FIND_BID_OR_RETURN_VAL(false);
   RemoteFrame::Holder frm(frame);
-  RemoteMediaAccessCallback * mediaAccessCallback = RemoteMediaAccessCallback::wrapDelegate(callback);
+  std::shared_ptr<RemoteMediaAccessCallback> mediaAccessCallback = RemoteMediaAccessCallback::wrapDelegate(callback);
   const bool handled = myService->exec<bool>([&](const JavaService& s){
     return s->PermissionHandler_OnRequestMediaAccessPermission(bid, frm.serverId(), requesting_origin.ToString(), requested_permissions, mediaAccessCallback->serverId());
   }, false);

@@ -59,7 +59,7 @@ bool RemoteMessageRouterHandler::OnQuery(CefRefPtr<CefBrowser> browser,
   }
 
   RemoteFrame::Holder frm(frame);
-  RemoteQueryCallback* rcb = RemoteQueryCallback::wrapDelegate(callback);
+  std::shared_ptr<RemoteQueryCallback> rcb = RemoteQueryCallback::wrapDelegate(callback);
   bool handled = myCtx->javaService()->exec<bool>([&](JavaService s){
     return s->MessageRouterHandler_onQuery(javaId(), rb->getBid(), frm.serverId(), query_id, request, persistent, rcb->serverId());
   }, false);

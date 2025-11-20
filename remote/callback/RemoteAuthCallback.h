@@ -6,10 +6,11 @@
 #include "include/cef_base.h"
 
 class RemoteAuthCallback : public virtual CefBaseRefCounted, public RemoteServerObject<RemoteAuthCallback, CefAuthCallback> {
- private:
-  explicit RemoteAuthCallback(CefRefPtr<CefAuthCallback> delegate, int id)
-      : RemoteServerObject<RemoteAuthCallback, CefAuthCallback>(id, delegate) {}
+public:
+  explicit RemoteAuthCallback(int id, CefRefPtr<CefAuthCallback> delegate)
+    : RemoteServerObject<RemoteAuthCallback, CefAuthCallback>(id, delegate) {}
 
+private:
   template <class T, class D> friend class ::RemoteServerObject;
   IMPLEMENT_REFCOUNTING(RemoteAuthCallback);
 };

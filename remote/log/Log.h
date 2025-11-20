@@ -122,7 +122,7 @@ void setThreadName(std::string name);
   static int doFactoryTrace = -1;                \
   if (doFactoryTrace < 0) {                      \
     doFactoryTrace = getBoolEnv(Key) ? 1 : 0;    \
-    if (doFactoryTrace) FACTORY.trace(Prefix);   \
+    if (doFactoryTrace) FACTORY.setTrace(Prefix);   \
   }
 
 #endif  // JCEF_LOG_H

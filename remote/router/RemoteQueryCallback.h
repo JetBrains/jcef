@@ -7,9 +7,11 @@
 // Created when processing MessageRouterHandler::OnQuery and passed into java
 // Disposed when java side calls some of callback's methods (or manually from java side)
 class RemoteQueryCallback  : public virtual CefBaseRefCounted, public RemoteServerObject<RemoteQueryCallback, CefMessageRouterBrowserSide::Callback> {
+public:
+  explicit RemoteQueryCallback(int id, CefRefPtr<CefMessageRouterBrowserSide::Callback> delegate)
+    : RemoteServerObject<RemoteQueryCallback, CefMessageRouterBrowserSide::Callback>(id, delegate) {}
+
  private:
-  explicit RemoteQueryCallback(CefRefPtr<CefMessageRouterBrowserSide::Callback> delegate, int id)
-      : RemoteServerObject<RemoteQueryCallback, CefMessageRouterBrowserSide::Callback>(id, delegate) {}
   template <class T, class D> friend class ::RemoteServerObject;
   IMPLEMENT_REFCOUNTING(RemoteQueryCallback);
 };

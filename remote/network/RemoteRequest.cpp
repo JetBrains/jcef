@@ -9,11 +9,11 @@ namespace {
   std::string type2str(cef_resource_type_t type);
 }
 
-RemoteRequest * RemoteRequest::create(CefRefPtr<CefRequest> delegate) {
+std::shared_ptr<RemoteRequest> RemoteRequest::create(CefRefPtr<CefRequest> delegate) {
   FACTORY_TRACE("CEF_SERVER_OBJTRACE_Request", "RemoteRequest");
   if (!delegate)
     return nullptr;
-  return FACTORY.create([&](int id) -> RemoteRequest* {return new RemoteRequest(delegate, id);});
+  return FACTORY.create(delegate);
 }
 
 void RemoteRequest::updateImpl(const std::map<std::string, std::string>& requestInfo) {

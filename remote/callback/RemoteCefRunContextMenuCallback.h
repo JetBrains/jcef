@@ -8,12 +8,12 @@
 #include "include/cef_context_menu_handler.h"
 
 class RemoteCefRunContextMenuCallback final
-    : public CefBaseRefCounted, public RemoteServerObjectUpdatable<RemoteCefRunContextMenuCallback,
+    : public CefBaseRefCounted, public RemoteServerObjectWithCache<RemoteCefRunContextMenuCallback,
                          CefRunContextMenuCallback> {
+public:
+  explicit RemoteCefRunContextMenuCallback(int id, CefRefPtr<CefRunContextMenuCallback> delegate);
 
-  RemoteCefRunContextMenuCallback(CefRefPtr<CefRunContextMenuCallback> delegate,
-                                  int id);
-
+private:
   template <class T, class D> friend class ::RemoteServerObject;
   IMPLEMENT_REFCOUNTING(RemoteCefRunContextMenuCallback);
 };

@@ -125,11 +125,11 @@ void RemoteClientHandler::removeHandlers(int handlersMask) {
     //    ;
 }
 
-void RemoteClientHandler::addMessageRouter(RemoteMessageRouter *router) {
+void RemoteClientHandler::addMessageRouter(std::shared_ptr<RemoteMessageRouter> router) {
     myRoutersManager->add(router);
 }
 
-void RemoteClientHandler::removeMessageRouter(RemoteMessageRouter *router) {
+void RemoteClientHandler::removeMessageRouter(std::shared_ptr<RemoteMessageRouter> router) {
     myRoutersManager->remove(router);
 }
 

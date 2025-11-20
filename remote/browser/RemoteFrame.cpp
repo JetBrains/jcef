@@ -24,8 +24,8 @@ std::map<std::string, std::string> RemoteFrame::toMapImpl() {
   return result;
 }
 
-RemoteFrame * RemoteFrame::create(CefRefPtr<CefFrame> delegate) {
+std::shared_ptr<RemoteFrame> RemoteFrame::create(CefRefPtr<CefFrame> delegate) {
   if (!delegate)
     return nullptr;
-  return FACTORY.create([&](int id) -> RemoteFrame* {return new RemoteFrame(delegate, id);});
+  return FACTORY.create(delegate);
 }
