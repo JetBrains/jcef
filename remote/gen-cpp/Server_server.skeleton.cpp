@@ -50,6 +50,11 @@ class ServerHandler : virtual public ServerIf {
     printf("getServerInfo\n");
   }
 
+  void stop() {
+    // Your implementation goes here
+    printf("stop\n");
+  }
+
   int32_t Client_Create(const int32_t handlersMask) {
     // Your implementation goes here
     printf("Client_Create\n");
@@ -68,6 +73,16 @@ class ServerHandler : virtual public ServerIf {
   void Client_RemoveHandlers(const int32_t cid, const int32_t handlersMask) {
     // Your implementation goes here
     printf("Client_RemoveHandlers\n");
+  }
+
+  void Client_AddMessageRouter(const int32_t cid, const  ::thrift_codegen::RObject& msgRouter) {
+    // Your implementation goes here
+    printf("Client_AddMessageRouter\n");
+  }
+
+  void Client_RemoveMessageRouter(const int32_t cid, const  ::thrift_codegen::RObject& msgRouter) {
+    // Your implementation goes here
+    printf("Client_RemoveMessageRouter\n");
   }
 
   int32_t Browser_Create(const int32_t cid, const  ::thrift_codegen::RObject& requestContextHandler) {
@@ -508,16 +523,6 @@ class ServerHandler : virtual public ServerIf {
   void MessageRouter_Dispose(const  ::thrift_codegen::RObject& msgRouter) {
     // Your implementation goes here
     printf("MessageRouter_Dispose\n");
-  }
-
-  void MessageRouter_AddMessageRouterToBrowser(const  ::thrift_codegen::RObject& msgRouter, const int32_t bid) {
-    // Your implementation goes here
-    printf("MessageRouter_AddMessageRouterToBrowser\n");
-  }
-
-  void MessageRouter_RemoveMessageRouterFromBrowser(const  ::thrift_codegen::RObject& msgRouter, const int32_t bid) {
-    // Your implementation goes here
-    printf("MessageRouter_RemoveMessageRouterFromBrowser\n");
   }
 
   void MessageRouter_AddHandler(const  ::thrift_codegen::RObject& msgRouter, const  ::thrift_codegen::RObject& handler, const bool first) {

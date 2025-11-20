@@ -1131,65 +1131,45 @@ void ServerHandler::CefRunContextMenuCallback_Cancel(
 void ServerHandler::MessageRouter_Create(thrift_codegen::RObject& _return,
                                         const std::string& query,
                                         const std::string& cancel) {
-  _return = myCtx->routersManager()->CreateRemoteMessageRouter(myCtx, query, cancel)->serverId();
+  _return = RemoteMessageRouter::create(myCtx, query, cancel)->serverId();
 }
 
 void ServerHandler::MessageRouter_Dispose(const thrift_codegen::RObject& msgRouter) {
-  myCtx->routersManager()->DisposeRemoteMessageRouter(msgRouter.objId);
+  RemoteMessageRouter::dispose(msgRouter.objId);
 }
 
-void ServerHandler::MessageRouter_AddMessageRouterToBrowser(
-    const thrift_codegen::RObject& msgRouter,
-    const int32_t bid) {
+void ServerHandler::Client_AddMessageRouter(int cid, const thrift_codegen::RObject& msgRouter) {
   LNDCT();
   RemoteMessageRouter * rmr = RemoteMessageRouter::get(msgRouter.objId);
-  if (rmr == nullptr) return;
-
-  // Update running render-processes.
-  std::shared_ptr<RemoteBrowser> rb = RemoteBrowser::find(bid);
-  if (!rb)
-    return;
-
-  CefRefPtr<CefBrowser> browser = rb->getCefBrowser();
-  if (!browser) {
-    Log::debug("CefBrowser instance wasn't created, bid %d", bid);
+  if (rmr == nullptr) {
+    Log::error("Client_AddMessageRouter: can't find RemoteMessageRouter by objId=%d", msgRouter.objId);
     return;
   }
 
-  CefRefPtr<CefProcessMessage> message = CefProcessMessage::Create("AddMessageRouter");
-  CefRefPtr<CefListValue> args = message->GetArgumentList();
-  const CefMessageRouterConfig& config = rmr->getConfig();
-  args->SetString(0, config.js_query_function);
-  args->SetString(1, config.js_cancel_function);
-
-  browser->GetMainFrame()->SendProcessMessage(PID_RENDERER, message);
-}
-
-void ServerHandler::MessageRouter_RemoveMessageRouterFromBrowser(
-    const thrift_codegen::RObject& msgRouter,
-    const int32_t bid) {
-  LNDCT();
-  RemoteMessageRouter * rmr = RemoteMessageRouter::get(msgRouter.objId);
-  if (rmr == nullptr) return;
-
-  // Update running render-processes.
-  std::shared_ptr<RemoteBrowser> rb = RemoteBrowser::find(bid);
-  if (!rb)
-    return;
-
-  CefRefPtr<CefBrowser> browser = rb->getCefBrowser();
-  if (!browser) {
-    Log::debug("CefBrowser instance wasn't created, bid %d", bid);
+  std::shared_ptr<RemoteClient> rc = myCtx->findRemoteClient(cid);
+  if (!rc) {
+    Log::error("Client_AddMessageRouter: can't find RemoteClient by cid=%d", cid);
     return;
   }
 
-  CefRefPtr<CefProcessMessage> message = CefProcessMessage::Create("RemoveMessageRouter");
-  CefRefPtr<CefListValue> args = message->GetArgumentList();
-  const CefMessageRouterConfig& config = rmr->getConfig();
-  args->SetString(0, config.js_query_function);
-  args->SetString(1, config.js_cancel_function);
+  rc->addMessageRouter(rmr);
+}
 
-  browser->GetMainFrame()->SendProcessMessage(PID_RENDERER, message);
+void ServerHandler::Client_RemoveMessageRouter(int cid, const thrift_codegen::RObject& msgRouter) {
+  LNDCT();
+  RemoteMessageRouter * rmr = RemoteMessageRouter::get(msgRouter.objId);
+  if (rmr == nullptr) {
+    Log::error("Client_RemoveMessageRouter: can't find RemoteMessageRouter by objId=%d", msgRouter.objId);
+    return;
+  }
+
+  std::shared_ptr<RemoteClient> rc = myCtx->findRemoteClient(cid);
+  if (!rc) {
+    Log::error("Client_RemoveMessageRouter: can't find RemoteClient by cid=%d", cid);
+    return;
+  }
+
+  rc->removeMessageRouter(rmr);
 }
 
 namespace {

@@ -44,7 +44,8 @@ RemoteClientHandler::RemoteClientHandler(
     int handlersMask)
     : myCid(cid), myCtx(ctx),
       myService(ctx->javaService()),
-      myRemoteLisfespanHandler(new RemoteLifespanHandler(ctx))
+      myRoutersManager(std::make_shared<MessageRoutersManager>()),
+      myRemoteLisfespanHandler(new RemoteLifespanHandler(ctx, myRoutersManager))
 {
   if (handlersMask & HandlerMasks::NativeRender)
     myRemoteRenderHandler = new RemoteRenderHandler(ctx->javaService());
@@ -62,7 +63,7 @@ void RemoteClientHandler::addHandlers(int handlersMask) {
         myRemoteDisplayHandler = new RemoteDisplayHandler(myCtx->javaService());
 
     if (!myRemoteRequestHandler && handlersMask & HandlerMasks::Request)
-        myRemoteRequestHandler = new RemoteRequestHandler(myCtx);
+        myRemoteRequestHandler = new RemoteRequestHandler(myCtx, myRoutersManager);
 
     if (!myRemoteKeyboardHandler && handlersMask & HandlerMasks::Keyboard)
         myRemoteKeyboardHandler = new RemoteKeyboardHandler(myCtx->javaService());
@@ -122,6 +123,14 @@ void RemoteClientHandler::removeHandlers(int handlersMask) {
     //    ;
     //  if (handlersMask & HandlerMasks::Drag)
     //    ;
+}
+
+void RemoteClientHandler::addMessageRouter(RemoteMessageRouter *router) {
+    myRoutersManager->add(router);
+}
+
+void RemoteClientHandler::removeMessageRouter(RemoteMessageRouter *router) {
+    myRoutersManager->remove(router);
 }
 
 CefRefPtr<CefContextMenuHandler> RemoteClientHandler::GetContextMenuHandler() {
@@ -195,7 +204,7 @@ bool RemoteClientHandler::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser
                                              CefProcessId source_process,
                                              CefRefPtr<CefProcessMessage> message) {
     LNDCT();
-    myCtx->routersManager()->OnProcessMessageReceived(browser, frame, source_process, message);
+    myRoutersManager->OnProcessMessageReceived(browser, frame, source_process, message);
     return false;
 }
 

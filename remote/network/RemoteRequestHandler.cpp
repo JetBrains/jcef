@@ -18,7 +18,7 @@ namespace {
 
 const bool doTrace = getBoolEnv("CEF_SERVER_TRACE_RemoteRequestHandler");
 
-RemoteRequestHandler::RemoteRequestHandler(std::shared_ptr<ServerHandlerContext> ctx) : myCtx(ctx) {
+RemoteRequestHandler::RemoteRequestHandler(std::shared_ptr<ServerHandlerContext> ctx, std::shared_ptr<MessageRoutersManager> routersManager) : myCtx(ctx), myRoutersManager(routersManager) {
   TRACE()
 }
 
@@ -53,7 +53,7 @@ bool RemoteRequestHandler::OnBeforeBrowse(CefRefPtr<CefBrowser> browser,
   TRACE()
   FIND_BID_OR_RETURN_VAL(false);
   // Forward request to ClientHandler to make the message_router_ happy.
-  myCtx->routersManager()->OnBeforeBrowse(browser, frame);
+  myRoutersManager->OnBeforeBrowse(browser, frame);
 
   RemoteRequest::Holder req(request);
   RemoteFrame::Holder frm(frame);
@@ -232,7 +232,7 @@ void RemoteRequestHandler::OnRenderProcessTerminated(CefRefPtr<CefBrowser> brows
   TRACE()
   FIND_BID_OR_RETURN();
   // Forward request to ClientHandler to make the message_router_ happy.
-  myCtx->routersManager()->OnRenderProcessTerminated(browser);
+  myRoutersManager->OnRenderProcessTerminated(browser);
   myCtx->javaService()->exec([&](JavaService s){
     s->RequestHandler_OnRenderProcessTerminated(bid, tstatus2str(status), error_code, error_string);
   });

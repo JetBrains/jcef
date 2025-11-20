@@ -5,13 +5,14 @@
 
 #include "include/cef_request_handler.h"
 
+class MessageRoutersManager;
 class ServerHandlerContext;
 class RemoteBrowser;
 
 
 class RemoteRequestHandler : public CefRequestHandler {
  public:
-  explicit RemoteRequestHandler(std::shared_ptr<ServerHandlerContext> ctx);
+  explicit RemoteRequestHandler(std::shared_ptr<ServerHandlerContext> ctx, std::shared_ptr<MessageRoutersManager> routersManager);
   virtual ~RemoteRequestHandler();
 
   // Called on the UI thread before browser navigation.
@@ -66,7 +67,8 @@ class RemoteRequestHandler : public CefRequestHandler {
                                  const CefString& error_string) override;
 
  private:
-  std::shared_ptr<ServerHandlerContext> myCtx;
+  const std::shared_ptr<ServerHandlerContext> myCtx;
+  const std::shared_ptr<MessageRoutersManager> myRoutersManager;
 
   std::set<int> myCallbacks;
   std::set<int> myAuthCallbacks;

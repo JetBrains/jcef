@@ -42,12 +42,12 @@ public class RemoteMessageRouterImpl extends RemoteServerObject {
         return new RemoteMessageRouterImpl(rpcContext, robj, jsQueryFunction, jsCancelFunction);
     }
 
-    public void addToBrowser(int bid) {
-        myRpc.exec((s)->s.MessageRouter_AddMessageRouterToBrowser(thriftId(), bid));
+    public void addToClient(int cid) {
+        myRpc.exec((s)->s.Client_AddMessageRouter(cid, thriftId()));
     }
 
-    public void removeFromBrowser(int bid) {
-        myRpc.exec((s)->s.MessageRouter_RemoveMessageRouterFromBrowser(thriftId(), bid));
+    public void removeFromClient(int cid) {
+        myRpc.exec((s)->s.Client_RemoveMessageRouter(cid, thriftId()));
     }
 
     @Override

@@ -361,20 +361,20 @@ public class RemoteClient {
         RemoteMessageRouter router = (RemoteMessageRouter)messageRouter;
         msgRouters.add(router);
 
-        List<Integer> bids = new ArrayList<>();
-        myBrowsers.forEach(rb -> {if (rb != null) bids.add(rb.getBid());});
-
-        router.addToBrowsers(bids);
+        myRpc.server.onConnected(()->{
+            requestCid();
+            router.addToClient(myCid);
+        }, "addMessageRouter", false);
     }
 
     public void removeMessageRouter(CefMessageRouter messageRouter) {
         RemoteMessageRouter router = (RemoteMessageRouter)messageRouter;
-
-        List<Integer> bids = new ArrayList<>();
-        myBrowsers.forEach(rb -> {if (rb != null) bids.add(rb.getBid());});
-
-        router.removeFromBrowsers(bids);
         msgRouters.remove(router);
+
+        myRpc.server.onConnected(()->{
+            requestCid();
+            router.removeFromClient(myCid);
+        }, "removeMessageRouter", false);
     }
 
     public void dispose() {

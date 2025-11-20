@@ -20,9 +20,10 @@ class ServerHandlerContext;
 // Manages lifetime of stored routers
 class MessageRoutersManager {
  public:
-  RemoteMessageRouter * CreateRemoteMessageRouter(std::shared_ptr<ServerHandlerContext> ctx, const std::string& query, const std::string& cancel);
-  void DisposeRemoteMessageRouter(int objId);
   virtual ~MessageRoutersManager();
+
+  void add(RemoteMessageRouter* router);
+  void remove(RemoteMessageRouter* router);
 
   // Next 4 methods should be called from corresponding handlers of CefClient
   void OnBeforeClose(CefRefPtr<CefBrowser> browser);
@@ -33,14 +34,9 @@ class MessageRoutersManager {
                                 CefProcessId source_process,
                                 CefRefPtr<CefProcessMessage> message);
 
-  static CefRefPtr<CefListValue> GetMessageRouterConfigs();
-
  private:
   std::set<RemoteMessageRouter*> myRouters;
   base::Lock myRoutersLock;
-
-  static std::set<CefMessageRouterConfig, cmpCfg> router_cfg_;
-  static base::Lock router_cfg_lock_;
 
   std::set<CefRefPtr<CefMessageRouterBrowserSide>> getMessageRouters();
 };

@@ -2,6 +2,7 @@
 #define JCEF_REMOTELIFESPANHANDLER_H
 
 #include <thrift/Thrift.h>
+#include <mutex>
 #include "include/cef_life_span_handler.h"
 
 class ServerHandlerContext;
@@ -13,7 +14,7 @@ class RemoteBrowser;
 
 class RemoteLifespanHandler : public CefLifeSpanHandler {
  public:
-  explicit RemoteLifespanHandler(std::shared_ptr<ServerHandlerContext> ctx);
+  explicit RemoteLifespanHandler(std::shared_ptr<ServerHandlerContext> ctx, std::shared_ptr<MessageRoutersManager> routersManager);
 
   //
   // All next methods will be called on the UI thread

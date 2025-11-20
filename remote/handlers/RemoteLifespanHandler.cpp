@@ -7,8 +7,8 @@
 #include "../router/MessageRoutersManager.h"
 
 
-RemoteLifespanHandler::RemoteLifespanHandler(std::shared_ptr<ServerHandlerContext> ctx)
-    : myService(ctx->javaService()), myRoutersManager(ctx->routersManager()) {}
+RemoteLifespanHandler::RemoteLifespanHandler(std::shared_ptr<ServerHandlerContext> ctx, std::shared_ptr<MessageRoutersManager> routersManager)
+    : myService(ctx->javaService()), myRoutersManager(routersManager) {}
 
 bool RemoteLifespanHandler::OnBeforePopup(
     CefRefPtr<CefBrowser> browser,

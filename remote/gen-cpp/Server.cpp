@@ -1024,6 +1024,64 @@ uint32_t Server_getServerInfo_presult::read(::apache::thrift::protocol::TProtoco
 }
 
 
+Server_stop_args::~Server_stop_args() noexcept {
+}
+
+
+uint32_t Server_stop_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    xfer += iprot->skip(ftype);
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Server_stop_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_stop_args");
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_stop_pargs::~Server_stop_pargs() noexcept {
+}
+
+
+uint32_t Server_stop_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_stop_pargs");
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
 Server_Client_Create_args::~Server_Client_Create_args() noexcept {
 }
 
@@ -1476,6 +1534,350 @@ uint32_t Server_Client_RemoveHandlers_pargs::write(::apache::thrift::protocol::T
 
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_Client_AddMessageRouter_args::~Server_Client_AddMessageRouter_args() noexcept {
+}
+
+
+uint32_t Server_Client_AddMessageRouter_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->cid);
+          this->__isset.cid = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->msgRouter.read(iprot);
+          this->__isset.msgRouter = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Server_Client_AddMessageRouter_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_Client_AddMessageRouter_args");
+
+  xfer += oprot->writeFieldBegin("cid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->cid);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("msgRouter", ::apache::thrift::protocol::T_STRUCT, 2);
+  xfer += this->msgRouter.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_Client_AddMessageRouter_pargs::~Server_Client_AddMessageRouter_pargs() noexcept {
+}
+
+
+uint32_t Server_Client_AddMessageRouter_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_Client_AddMessageRouter_pargs");
+
+  xfer += oprot->writeFieldBegin("cid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32((*(this->cid)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("msgRouter", ::apache::thrift::protocol::T_STRUCT, 2);
+  xfer += (*(this->msgRouter)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_Client_AddMessageRouter_result::~Server_Client_AddMessageRouter_result() noexcept {
+}
+
+
+uint32_t Server_Client_AddMessageRouter_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    xfer += iprot->skip(ftype);
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Server_Client_AddMessageRouter_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("Server_Client_AddMessageRouter_result");
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_Client_AddMessageRouter_presult::~Server_Client_AddMessageRouter_presult() noexcept {
+}
+
+
+uint32_t Server_Client_AddMessageRouter_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    xfer += iprot->skip(ftype);
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+
+Server_Client_RemoveMessageRouter_args::~Server_Client_RemoveMessageRouter_args() noexcept {
+}
+
+
+uint32_t Server_Client_RemoveMessageRouter_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->cid);
+          this->__isset.cid = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->msgRouter.read(iprot);
+          this->__isset.msgRouter = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Server_Client_RemoveMessageRouter_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_Client_RemoveMessageRouter_args");
+
+  xfer += oprot->writeFieldBegin("cid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->cid);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("msgRouter", ::apache::thrift::protocol::T_STRUCT, 2);
+  xfer += this->msgRouter.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_Client_RemoveMessageRouter_pargs::~Server_Client_RemoveMessageRouter_pargs() noexcept {
+}
+
+
+uint32_t Server_Client_RemoveMessageRouter_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_Client_RemoveMessageRouter_pargs");
+
+  xfer += oprot->writeFieldBegin("cid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32((*(this->cid)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("msgRouter", ::apache::thrift::protocol::T_STRUCT, 2);
+  xfer += (*(this->msgRouter)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_Client_RemoveMessageRouter_result::~Server_Client_RemoveMessageRouter_result() noexcept {
+}
+
+
+uint32_t Server_Client_RemoveMessageRouter_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    xfer += iprot->skip(ftype);
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Server_Client_RemoveMessageRouter_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("Server_Client_RemoveMessageRouter_result");
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_Client_RemoveMessageRouter_presult::~Server_Client_RemoveMessageRouter_presult() noexcept {
+}
+
+
+uint32_t Server_Client_RemoveMessageRouter_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    xfer += iprot->skip(ftype);
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
   return xfer;
 }
 
@@ -13521,350 +13923,6 @@ uint32_t Server_MessageRouter_Dispose_pargs::write(::apache::thrift::protocol::T
 }
 
 
-Server_MessageRouter_AddMessageRouterToBrowser_args::~Server_MessageRouter_AddMessageRouterToBrowser_args() noexcept {
-}
-
-
-uint32_t Server_MessageRouter_AddMessageRouterToBrowser_args::read(::apache::thrift::protocol::TProtocol* iprot) {
-
-  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
-  uint32_t xfer = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TType ftype;
-  int16_t fid;
-
-  xfer += iprot->readStructBegin(fname);
-
-  using ::apache::thrift::protocol::TProtocolException;
-
-
-  while (true)
-  {
-    xfer += iprot->readFieldBegin(fname, ftype, fid);
-    if (ftype == ::apache::thrift::protocol::T_STOP) {
-      break;
-    }
-    switch (fid)
-    {
-      case 1:
-        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
-          xfer += this->msgRouter.read(iprot);
-          this->__isset.msgRouter = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 2:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->bid);
-          this->__isset.bid = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      default:
-        xfer += iprot->skip(ftype);
-        break;
-    }
-    xfer += iprot->readFieldEnd();
-  }
-
-  xfer += iprot->readStructEnd();
-
-  return xfer;
-}
-
-uint32_t Server_MessageRouter_AddMessageRouterToBrowser_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
-  uint32_t xfer = 0;
-  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("Server_MessageRouter_AddMessageRouterToBrowser_args");
-
-  xfer += oprot->writeFieldBegin("msgRouter", ::apache::thrift::protocol::T_STRUCT, 1);
-  xfer += this->msgRouter.write(oprot);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 2);
-  xfer += oprot->writeI32(this->bid);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldStop();
-  xfer += oprot->writeStructEnd();
-  return xfer;
-}
-
-
-Server_MessageRouter_AddMessageRouterToBrowser_pargs::~Server_MessageRouter_AddMessageRouterToBrowser_pargs() noexcept {
-}
-
-
-uint32_t Server_MessageRouter_AddMessageRouterToBrowser_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
-  uint32_t xfer = 0;
-  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("Server_MessageRouter_AddMessageRouterToBrowser_pargs");
-
-  xfer += oprot->writeFieldBegin("msgRouter", ::apache::thrift::protocol::T_STRUCT, 1);
-  xfer += (*(this->msgRouter)).write(oprot);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 2);
-  xfer += oprot->writeI32((*(this->bid)));
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldStop();
-  xfer += oprot->writeStructEnd();
-  return xfer;
-}
-
-
-Server_MessageRouter_AddMessageRouterToBrowser_result::~Server_MessageRouter_AddMessageRouterToBrowser_result() noexcept {
-}
-
-
-uint32_t Server_MessageRouter_AddMessageRouterToBrowser_result::read(::apache::thrift::protocol::TProtocol* iprot) {
-
-  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
-  uint32_t xfer = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TType ftype;
-  int16_t fid;
-
-  xfer += iprot->readStructBegin(fname);
-
-  using ::apache::thrift::protocol::TProtocolException;
-
-
-  while (true)
-  {
-    xfer += iprot->readFieldBegin(fname, ftype, fid);
-    if (ftype == ::apache::thrift::protocol::T_STOP) {
-      break;
-    }
-    xfer += iprot->skip(ftype);
-    xfer += iprot->readFieldEnd();
-  }
-
-  xfer += iprot->readStructEnd();
-
-  return xfer;
-}
-
-uint32_t Server_MessageRouter_AddMessageRouterToBrowser_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
-
-  uint32_t xfer = 0;
-
-  xfer += oprot->writeStructBegin("Server_MessageRouter_AddMessageRouterToBrowser_result");
-
-  xfer += oprot->writeFieldStop();
-  xfer += oprot->writeStructEnd();
-  return xfer;
-}
-
-
-Server_MessageRouter_AddMessageRouterToBrowser_presult::~Server_MessageRouter_AddMessageRouterToBrowser_presult() noexcept {
-}
-
-
-uint32_t Server_MessageRouter_AddMessageRouterToBrowser_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
-
-  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
-  uint32_t xfer = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TType ftype;
-  int16_t fid;
-
-  xfer += iprot->readStructBegin(fname);
-
-  using ::apache::thrift::protocol::TProtocolException;
-
-
-  while (true)
-  {
-    xfer += iprot->readFieldBegin(fname, ftype, fid);
-    if (ftype == ::apache::thrift::protocol::T_STOP) {
-      break;
-    }
-    xfer += iprot->skip(ftype);
-    xfer += iprot->readFieldEnd();
-  }
-
-  xfer += iprot->readStructEnd();
-
-  return xfer;
-}
-
-
-Server_MessageRouter_RemoveMessageRouterFromBrowser_args::~Server_MessageRouter_RemoveMessageRouterFromBrowser_args() noexcept {
-}
-
-
-uint32_t Server_MessageRouter_RemoveMessageRouterFromBrowser_args::read(::apache::thrift::protocol::TProtocol* iprot) {
-
-  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
-  uint32_t xfer = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TType ftype;
-  int16_t fid;
-
-  xfer += iprot->readStructBegin(fname);
-
-  using ::apache::thrift::protocol::TProtocolException;
-
-
-  while (true)
-  {
-    xfer += iprot->readFieldBegin(fname, ftype, fid);
-    if (ftype == ::apache::thrift::protocol::T_STOP) {
-      break;
-    }
-    switch (fid)
-    {
-      case 1:
-        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
-          xfer += this->msgRouter.read(iprot);
-          this->__isset.msgRouter = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 2:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->bid);
-          this->__isset.bid = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      default:
-        xfer += iprot->skip(ftype);
-        break;
-    }
-    xfer += iprot->readFieldEnd();
-  }
-
-  xfer += iprot->readStructEnd();
-
-  return xfer;
-}
-
-uint32_t Server_MessageRouter_RemoveMessageRouterFromBrowser_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
-  uint32_t xfer = 0;
-  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("Server_MessageRouter_RemoveMessageRouterFromBrowser_args");
-
-  xfer += oprot->writeFieldBegin("msgRouter", ::apache::thrift::protocol::T_STRUCT, 1);
-  xfer += this->msgRouter.write(oprot);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 2);
-  xfer += oprot->writeI32(this->bid);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldStop();
-  xfer += oprot->writeStructEnd();
-  return xfer;
-}
-
-
-Server_MessageRouter_RemoveMessageRouterFromBrowser_pargs::~Server_MessageRouter_RemoveMessageRouterFromBrowser_pargs() noexcept {
-}
-
-
-uint32_t Server_MessageRouter_RemoveMessageRouterFromBrowser_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
-  uint32_t xfer = 0;
-  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("Server_MessageRouter_RemoveMessageRouterFromBrowser_pargs");
-
-  xfer += oprot->writeFieldBegin("msgRouter", ::apache::thrift::protocol::T_STRUCT, 1);
-  xfer += (*(this->msgRouter)).write(oprot);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 2);
-  xfer += oprot->writeI32((*(this->bid)));
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldStop();
-  xfer += oprot->writeStructEnd();
-  return xfer;
-}
-
-
-Server_MessageRouter_RemoveMessageRouterFromBrowser_result::~Server_MessageRouter_RemoveMessageRouterFromBrowser_result() noexcept {
-}
-
-
-uint32_t Server_MessageRouter_RemoveMessageRouterFromBrowser_result::read(::apache::thrift::protocol::TProtocol* iprot) {
-
-  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
-  uint32_t xfer = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TType ftype;
-  int16_t fid;
-
-  xfer += iprot->readStructBegin(fname);
-
-  using ::apache::thrift::protocol::TProtocolException;
-
-
-  while (true)
-  {
-    xfer += iprot->readFieldBegin(fname, ftype, fid);
-    if (ftype == ::apache::thrift::protocol::T_STOP) {
-      break;
-    }
-    xfer += iprot->skip(ftype);
-    xfer += iprot->readFieldEnd();
-  }
-
-  xfer += iprot->readStructEnd();
-
-  return xfer;
-}
-
-uint32_t Server_MessageRouter_RemoveMessageRouterFromBrowser_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
-
-  uint32_t xfer = 0;
-
-  xfer += oprot->writeStructBegin("Server_MessageRouter_RemoveMessageRouterFromBrowser_result");
-
-  xfer += oprot->writeFieldStop();
-  xfer += oprot->writeStructEnd();
-  return xfer;
-}
-
-
-Server_MessageRouter_RemoveMessageRouterFromBrowser_presult::~Server_MessageRouter_RemoveMessageRouterFromBrowser_presult() noexcept {
-}
-
-
-uint32_t Server_MessageRouter_RemoveMessageRouterFromBrowser_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
-
-  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
-  uint32_t xfer = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TType ftype;
-  int16_t fid;
-
-  xfer += iprot->readStructBegin(fname);
-
-  using ::apache::thrift::protocol::TProtocolException;
-
-
-  while (true)
-  {
-    xfer += iprot->readFieldBegin(fname, ftype, fid);
-    if (ftype == ::apache::thrift::protocol::T_STOP) {
-      break;
-    }
-    xfer += iprot->skip(ftype);
-    xfer += iprot->readFieldEnd();
-  }
-
-  xfer += iprot->readStructEnd();
-
-  return xfer;
-}
-
-
 Server_MessageRouter_AddHandler_args::~Server_MessageRouter_AddHandler_args() noexcept {
 }
 
@@ -17018,6 +17076,24 @@ void ServerClient::recv_getServerInfo(std::string& _return)
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "getServerInfo failed: unknown result");
 }
 
+void ServerClient::stop()
+{
+  send_stop();
+}
+
+void ServerClient::send_stop()
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("stop", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  Server_stop_pargs args;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
 int32_t ServerClient::Client_Create(const int32_t handlersMask)
 {
   send_Client_Create(handlersMask);
@@ -17133,6 +17209,114 @@ void ServerClient::send_Client_RemoveHandlers(const int32_t cid, const int32_t h
   oprot_->writeMessageEnd();
   oprot_->getTransport()->writeEnd();
   oprot_->getTransport()->flush();
+}
+
+void ServerClient::Client_AddMessageRouter(const int32_t cid, const  ::thrift_codegen::RObject& msgRouter)
+{
+  send_Client_AddMessageRouter(cid, msgRouter);
+  recv_Client_AddMessageRouter();
+}
+
+void ServerClient::send_Client_AddMessageRouter(const int32_t cid, const  ::thrift_codegen::RObject& msgRouter)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("Client_AddMessageRouter", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  Server_Client_AddMessageRouter_pargs args;
+  args.cid = &cid;
+  args.msgRouter = &msgRouter;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void ServerClient::recv_Client_AddMessageRouter()
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("Client_AddMessageRouter") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  Server_Client_AddMessageRouter_presult result;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  return;
+}
+
+void ServerClient::Client_RemoveMessageRouter(const int32_t cid, const  ::thrift_codegen::RObject& msgRouter)
+{
+  send_Client_RemoveMessageRouter(cid, msgRouter);
+  recv_Client_RemoveMessageRouter();
+}
+
+void ServerClient::send_Client_RemoveMessageRouter(const int32_t cid, const  ::thrift_codegen::RObject& msgRouter)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("Client_RemoveMessageRouter", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  Server_Client_RemoveMessageRouter_pargs args;
+  args.cid = &cid;
+  args.msgRouter = &msgRouter;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void ServerClient::recv_Client_RemoveMessageRouter()
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("Client_RemoveMessageRouter") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  Server_Client_RemoveMessageRouter_presult result;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  return;
 }
 
 int32_t ServerClient::Browser_Create(const int32_t cid, const  ::thrift_codegen::RObject& requestContextHandler)
@@ -20229,114 +20413,6 @@ void ServerClient::send_MessageRouter_Dispose(const  ::thrift_codegen::RObject& 
   oprot_->getTransport()->flush();
 }
 
-void ServerClient::MessageRouter_AddMessageRouterToBrowser(const  ::thrift_codegen::RObject& msgRouter, const int32_t bid)
-{
-  send_MessageRouter_AddMessageRouterToBrowser(msgRouter, bid);
-  recv_MessageRouter_AddMessageRouterToBrowser();
-}
-
-void ServerClient::send_MessageRouter_AddMessageRouterToBrowser(const  ::thrift_codegen::RObject& msgRouter, const int32_t bid)
-{
-  int32_t cseqid = 0;
-  oprot_->writeMessageBegin("MessageRouter_AddMessageRouterToBrowser", ::apache::thrift::protocol::T_CALL, cseqid);
-
-  Server_MessageRouter_AddMessageRouterToBrowser_pargs args;
-  args.msgRouter = &msgRouter;
-  args.bid = &bid;
-  args.write(oprot_);
-
-  oprot_->writeMessageEnd();
-  oprot_->getTransport()->writeEnd();
-  oprot_->getTransport()->flush();
-}
-
-void ServerClient::recv_MessageRouter_AddMessageRouterToBrowser()
-{
-
-  int32_t rseqid = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TMessageType mtype;
-
-  iprot_->readMessageBegin(fname, mtype, rseqid);
-  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
-    ::apache::thrift::TApplicationException x;
-    x.read(iprot_);
-    iprot_->readMessageEnd();
-    iprot_->getTransport()->readEnd();
-    throw x;
-  }
-  if (mtype != ::apache::thrift::protocol::T_REPLY) {
-    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
-    iprot_->readMessageEnd();
-    iprot_->getTransport()->readEnd();
-  }
-  if (fname.compare("MessageRouter_AddMessageRouterToBrowser") != 0) {
-    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
-    iprot_->readMessageEnd();
-    iprot_->getTransport()->readEnd();
-  }
-  Server_MessageRouter_AddMessageRouterToBrowser_presult result;
-  result.read(iprot_);
-  iprot_->readMessageEnd();
-  iprot_->getTransport()->readEnd();
-
-  return;
-}
-
-void ServerClient::MessageRouter_RemoveMessageRouterFromBrowser(const  ::thrift_codegen::RObject& msgRouter, const int32_t bid)
-{
-  send_MessageRouter_RemoveMessageRouterFromBrowser(msgRouter, bid);
-  recv_MessageRouter_RemoveMessageRouterFromBrowser();
-}
-
-void ServerClient::send_MessageRouter_RemoveMessageRouterFromBrowser(const  ::thrift_codegen::RObject& msgRouter, const int32_t bid)
-{
-  int32_t cseqid = 0;
-  oprot_->writeMessageBegin("MessageRouter_RemoveMessageRouterFromBrowser", ::apache::thrift::protocol::T_CALL, cseqid);
-
-  Server_MessageRouter_RemoveMessageRouterFromBrowser_pargs args;
-  args.msgRouter = &msgRouter;
-  args.bid = &bid;
-  args.write(oprot_);
-
-  oprot_->writeMessageEnd();
-  oprot_->getTransport()->writeEnd();
-  oprot_->getTransport()->flush();
-}
-
-void ServerClient::recv_MessageRouter_RemoveMessageRouterFromBrowser()
-{
-
-  int32_t rseqid = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TMessageType mtype;
-
-  iprot_->readMessageBegin(fname, mtype, rseqid);
-  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
-    ::apache::thrift::TApplicationException x;
-    x.read(iprot_);
-    iprot_->readMessageEnd();
-    iprot_->getTransport()->readEnd();
-    throw x;
-  }
-  if (mtype != ::apache::thrift::protocol::T_REPLY) {
-    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
-    iprot_->readMessageEnd();
-    iprot_->getTransport()->readEnd();
-  }
-  if (fname.compare("MessageRouter_RemoveMessageRouterFromBrowser") != 0) {
-    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
-    iprot_->readMessageEnd();
-    iprot_->getTransport()->readEnd();
-  }
-  Server_MessageRouter_RemoveMessageRouterFromBrowser_presult result;
-  result.read(iprot_);
-  iprot_->readMessageEnd();
-  iprot_->getTransport()->readEnd();
-
-  return;
-}
-
 void ServerClient::MessageRouter_AddHandler(const  ::thrift_codegen::RObject& msgRouter, const  ::thrift_codegen::RObject& handler, const bool first)
 {
   send_MessageRouter_AddHandler(msgRouter, handler, first);
@@ -21417,6 +21493,43 @@ void ServerProcessor::process_getServerInfo(int32_t seqid, ::apache::thrift::pro
   }
 }
 
+void ServerProcessor::process_stop(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("Server.stop", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "Server.stop");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "Server.stop");
+  }
+
+  Server_stop_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "Server.stop", bytes);
+  }
+
+  try {
+    iface_->stop();
+  } catch (const std::exception&) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "Server.stop");
+    }
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->asyncComplete(ctx, "Server.stop");
+  }
+
+  return;
+}
+
 void ServerProcessor::process_Client_Create(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = nullptr;
@@ -21580,6 +21693,112 @@ void ServerProcessor::process_Client_RemoveHandlers(int32_t, ::apache::thrift::p
   }
 
   return;
+}
+
+void ServerProcessor::process_Client_AddMessageRouter(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("Server.Client_AddMessageRouter", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "Server.Client_AddMessageRouter");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "Server.Client_AddMessageRouter");
+  }
+
+  Server_Client_AddMessageRouter_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "Server.Client_AddMessageRouter", bytes);
+  }
+
+  Server_Client_AddMessageRouter_result result;
+  try {
+    iface_->Client_AddMessageRouter(args.cid, args.msgRouter);
+  } catch (const std::exception& e) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "Server.Client_AddMessageRouter");
+    }
+
+    ::apache::thrift::TApplicationException x(e.what());
+    oprot->writeMessageBegin("Client_AddMessageRouter", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    x.write(oprot);
+    oprot->writeMessageEnd();
+    oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preWrite(ctx, "Server.Client_AddMessageRouter");
+  }
+
+  oprot->writeMessageBegin("Client_AddMessageRouter", ::apache::thrift::protocol::T_REPLY, seqid);
+  result.write(oprot);
+  oprot->writeMessageEnd();
+  bytes = oprot->getTransport()->writeEnd();
+  oprot->getTransport()->flush();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postWrite(ctx, "Server.Client_AddMessageRouter", bytes);
+  }
+}
+
+void ServerProcessor::process_Client_RemoveMessageRouter(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("Server.Client_RemoveMessageRouter", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "Server.Client_RemoveMessageRouter");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "Server.Client_RemoveMessageRouter");
+  }
+
+  Server_Client_RemoveMessageRouter_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "Server.Client_RemoveMessageRouter", bytes);
+  }
+
+  Server_Client_RemoveMessageRouter_result result;
+  try {
+    iface_->Client_RemoveMessageRouter(args.cid, args.msgRouter);
+  } catch (const std::exception& e) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "Server.Client_RemoveMessageRouter");
+    }
+
+    ::apache::thrift::TApplicationException x(e.what());
+    oprot->writeMessageBegin("Client_RemoveMessageRouter", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    x.write(oprot);
+    oprot->writeMessageEnd();
+    oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preWrite(ctx, "Server.Client_RemoveMessageRouter");
+  }
+
+  oprot->writeMessageBegin("Client_RemoveMessageRouter", ::apache::thrift::protocol::T_REPLY, seqid);
+  result.write(oprot);
+  oprot->writeMessageEnd();
+  bytes = oprot->getTransport()->writeEnd();
+  oprot->getTransport()->flush();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postWrite(ctx, "Server.Client_RemoveMessageRouter", bytes);
+  }
 }
 
 void ServerProcessor::process_Browser_Create(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
@@ -25438,112 +25657,6 @@ void ServerProcessor::process_MessageRouter_Dispose(int32_t, ::apache::thrift::p
   return;
 }
 
-void ServerProcessor::process_MessageRouter_AddMessageRouterToBrowser(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
-{
-  void* ctx = nullptr;
-  if (this->eventHandler_.get() != nullptr) {
-    ctx = this->eventHandler_->getContext("Server.MessageRouter_AddMessageRouterToBrowser", callContext);
-  }
-  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "Server.MessageRouter_AddMessageRouterToBrowser");
-
-  if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->preRead(ctx, "Server.MessageRouter_AddMessageRouterToBrowser");
-  }
-
-  Server_MessageRouter_AddMessageRouterToBrowser_args args;
-  args.read(iprot);
-  iprot->readMessageEnd();
-  uint32_t bytes = iprot->getTransport()->readEnd();
-
-  if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->postRead(ctx, "Server.MessageRouter_AddMessageRouterToBrowser", bytes);
-  }
-
-  Server_MessageRouter_AddMessageRouterToBrowser_result result;
-  try {
-    iface_->MessageRouter_AddMessageRouterToBrowser(args.msgRouter, args.bid);
-  } catch (const std::exception& e) {
-    if (this->eventHandler_.get() != nullptr) {
-      this->eventHandler_->handlerError(ctx, "Server.MessageRouter_AddMessageRouterToBrowser");
-    }
-
-    ::apache::thrift::TApplicationException x(e.what());
-    oprot->writeMessageBegin("MessageRouter_AddMessageRouterToBrowser", ::apache::thrift::protocol::T_EXCEPTION, seqid);
-    x.write(oprot);
-    oprot->writeMessageEnd();
-    oprot->getTransport()->writeEnd();
-    oprot->getTransport()->flush();
-    return;
-  }
-
-  if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->preWrite(ctx, "Server.MessageRouter_AddMessageRouterToBrowser");
-  }
-
-  oprot->writeMessageBegin("MessageRouter_AddMessageRouterToBrowser", ::apache::thrift::protocol::T_REPLY, seqid);
-  result.write(oprot);
-  oprot->writeMessageEnd();
-  bytes = oprot->getTransport()->writeEnd();
-  oprot->getTransport()->flush();
-
-  if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->postWrite(ctx, "Server.MessageRouter_AddMessageRouterToBrowser", bytes);
-  }
-}
-
-void ServerProcessor::process_MessageRouter_RemoveMessageRouterFromBrowser(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
-{
-  void* ctx = nullptr;
-  if (this->eventHandler_.get() != nullptr) {
-    ctx = this->eventHandler_->getContext("Server.MessageRouter_RemoveMessageRouterFromBrowser", callContext);
-  }
-  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "Server.MessageRouter_RemoveMessageRouterFromBrowser");
-
-  if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->preRead(ctx, "Server.MessageRouter_RemoveMessageRouterFromBrowser");
-  }
-
-  Server_MessageRouter_RemoveMessageRouterFromBrowser_args args;
-  args.read(iprot);
-  iprot->readMessageEnd();
-  uint32_t bytes = iprot->getTransport()->readEnd();
-
-  if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->postRead(ctx, "Server.MessageRouter_RemoveMessageRouterFromBrowser", bytes);
-  }
-
-  Server_MessageRouter_RemoveMessageRouterFromBrowser_result result;
-  try {
-    iface_->MessageRouter_RemoveMessageRouterFromBrowser(args.msgRouter, args.bid);
-  } catch (const std::exception& e) {
-    if (this->eventHandler_.get() != nullptr) {
-      this->eventHandler_->handlerError(ctx, "Server.MessageRouter_RemoveMessageRouterFromBrowser");
-    }
-
-    ::apache::thrift::TApplicationException x(e.what());
-    oprot->writeMessageBegin("MessageRouter_RemoveMessageRouterFromBrowser", ::apache::thrift::protocol::T_EXCEPTION, seqid);
-    x.write(oprot);
-    oprot->writeMessageEnd();
-    oprot->getTransport()->writeEnd();
-    oprot->getTransport()->flush();
-    return;
-  }
-
-  if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->preWrite(ctx, "Server.MessageRouter_RemoveMessageRouterFromBrowser");
-  }
-
-  oprot->writeMessageBegin("MessageRouter_RemoveMessageRouterFromBrowser", ::apache::thrift::protocol::T_REPLY, seqid);
-  result.write(oprot);
-  oprot->writeMessageEnd();
-  bytes = oprot->getTransport()->writeEnd();
-  oprot->getTransport()->flush();
-
-  if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->postWrite(ctx, "Server.MessageRouter_RemoveMessageRouterFromBrowser", bytes);
-  }
-}
-
 void ServerProcessor::process_MessageRouter_AddHandler(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = nullptr;
@@ -26916,6 +27029,27 @@ void ServerConcurrentClient::recv_getServerInfo(std::string& _return, const int3
   } // end while(true)
 }
 
+void ServerConcurrentClient::stop()
+{
+  send_stop();
+}
+
+void ServerConcurrentClient::send_stop()
+{
+  int32_t cseqid = 0;
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("stop", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  Server_stop_pargs args;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+}
+
 int32_t ServerConcurrentClient::Client_Create(const int32_t handlersMask)
 {
   int32_t seqid = send_Client_Create(handlersMask);
@@ -27066,6 +27200,164 @@ void ServerConcurrentClient::send_Client_RemoveHandlers(const int32_t cid, const
   oprot_->getTransport()->flush();
 
   sentry.commit();
+}
+
+void ServerConcurrentClient::Client_AddMessageRouter(const int32_t cid, const  ::thrift_codegen::RObject& msgRouter)
+{
+  int32_t seqid = send_Client_AddMessageRouter(cid, msgRouter);
+  recv_Client_AddMessageRouter(seqid);
+}
+
+int32_t ServerConcurrentClient::send_Client_AddMessageRouter(const int32_t cid, const  ::thrift_codegen::RObject& msgRouter)
+{
+  int32_t cseqid = this->sync_->generateSeqId();
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("Client_AddMessageRouter", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  Server_Client_AddMessageRouter_pargs args;
+  args.cid = &cid;
+  args.msgRouter = &msgRouter;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+  return cseqid;
+}
+
+void ServerConcurrentClient::recv_Client_AddMessageRouter(const int32_t seqid)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  // the read mutex gets dropped and reacquired as part of waitForWork()
+  // The destructor of this sentry wakes up other clients
+  ::apache::thrift::async::TConcurrentRecvSentry sentry(this->sync_.get(), seqid);
+
+  while(true) {
+    if(!this->sync_->getPending(fname, mtype, rseqid)) {
+      iprot_->readMessageBegin(fname, mtype, rseqid);
+    }
+    if(seqid == rseqid) {
+      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+        ::apache::thrift::TApplicationException x;
+        x.read(iprot_);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+        sentry.commit();
+        throw x;
+      }
+      if (mtype != ::apache::thrift::protocol::T_REPLY) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+      }
+      if (fname.compare("Client_AddMessageRouter") != 0) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+
+        // in a bad state, don't commit
+        using ::apache::thrift::protocol::TProtocolException;
+        throw TProtocolException(TProtocolException::INVALID_DATA);
+      }
+      Server_Client_AddMessageRouter_presult result;
+      result.read(iprot_);
+      iprot_->readMessageEnd();
+      iprot_->getTransport()->readEnd();
+
+      sentry.commit();
+      return;
+    }
+    // seqid != rseqid
+    this->sync_->updatePending(fname, mtype, rseqid);
+
+    // this will temporarily unlock the readMutex, and let other clients get work done
+    this->sync_->waitForWork(seqid);
+  } // end while(true)
+}
+
+void ServerConcurrentClient::Client_RemoveMessageRouter(const int32_t cid, const  ::thrift_codegen::RObject& msgRouter)
+{
+  int32_t seqid = send_Client_RemoveMessageRouter(cid, msgRouter);
+  recv_Client_RemoveMessageRouter(seqid);
+}
+
+int32_t ServerConcurrentClient::send_Client_RemoveMessageRouter(const int32_t cid, const  ::thrift_codegen::RObject& msgRouter)
+{
+  int32_t cseqid = this->sync_->generateSeqId();
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("Client_RemoveMessageRouter", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  Server_Client_RemoveMessageRouter_pargs args;
+  args.cid = &cid;
+  args.msgRouter = &msgRouter;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+  return cseqid;
+}
+
+void ServerConcurrentClient::recv_Client_RemoveMessageRouter(const int32_t seqid)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  // the read mutex gets dropped and reacquired as part of waitForWork()
+  // The destructor of this sentry wakes up other clients
+  ::apache::thrift::async::TConcurrentRecvSentry sentry(this->sync_.get(), seqid);
+
+  while(true) {
+    if(!this->sync_->getPending(fname, mtype, rseqid)) {
+      iprot_->readMessageBegin(fname, mtype, rseqid);
+    }
+    if(seqid == rseqid) {
+      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+        ::apache::thrift::TApplicationException x;
+        x.read(iprot_);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+        sentry.commit();
+        throw x;
+      }
+      if (mtype != ::apache::thrift::protocol::T_REPLY) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+      }
+      if (fname.compare("Client_RemoveMessageRouter") != 0) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+
+        // in a bad state, don't commit
+        using ::apache::thrift::protocol::TProtocolException;
+        throw TProtocolException(TProtocolException::INVALID_DATA);
+      }
+      Server_Client_RemoveMessageRouter_presult result;
+      result.read(iprot_);
+      iprot_->readMessageEnd();
+      iprot_->getTransport()->readEnd();
+
+      sentry.commit();
+      return;
+    }
+    // seqid != rseqid
+    this->sync_->updatePending(fname, mtype, rseqid);
+
+    // this will temporarily unlock the readMutex, and let other clients get work done
+    this->sync_->waitForWork(seqid);
+  } // end while(true)
 }
 
 int32_t ServerConcurrentClient::Browser_Create(const int32_t cid, const  ::thrift_codegen::RObject& requestContextHandler)
@@ -31240,164 +31532,6 @@ void ServerConcurrentClient::send_MessageRouter_Dispose(const  ::thrift_codegen:
   oprot_->getTransport()->flush();
 
   sentry.commit();
-}
-
-void ServerConcurrentClient::MessageRouter_AddMessageRouterToBrowser(const  ::thrift_codegen::RObject& msgRouter, const int32_t bid)
-{
-  int32_t seqid = send_MessageRouter_AddMessageRouterToBrowser(msgRouter, bid);
-  recv_MessageRouter_AddMessageRouterToBrowser(seqid);
-}
-
-int32_t ServerConcurrentClient::send_MessageRouter_AddMessageRouterToBrowser(const  ::thrift_codegen::RObject& msgRouter, const int32_t bid)
-{
-  int32_t cseqid = this->sync_->generateSeqId();
-  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
-  oprot_->writeMessageBegin("MessageRouter_AddMessageRouterToBrowser", ::apache::thrift::protocol::T_CALL, cseqid);
-
-  Server_MessageRouter_AddMessageRouterToBrowser_pargs args;
-  args.msgRouter = &msgRouter;
-  args.bid = &bid;
-  args.write(oprot_);
-
-  oprot_->writeMessageEnd();
-  oprot_->getTransport()->writeEnd();
-  oprot_->getTransport()->flush();
-
-  sentry.commit();
-  return cseqid;
-}
-
-void ServerConcurrentClient::recv_MessageRouter_AddMessageRouterToBrowser(const int32_t seqid)
-{
-
-  int32_t rseqid = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TMessageType mtype;
-
-  // the read mutex gets dropped and reacquired as part of waitForWork()
-  // The destructor of this sentry wakes up other clients
-  ::apache::thrift::async::TConcurrentRecvSentry sentry(this->sync_.get(), seqid);
-
-  while(true) {
-    if(!this->sync_->getPending(fname, mtype, rseqid)) {
-      iprot_->readMessageBegin(fname, mtype, rseqid);
-    }
-    if(seqid == rseqid) {
-      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
-        ::apache::thrift::TApplicationException x;
-        x.read(iprot_);
-        iprot_->readMessageEnd();
-        iprot_->getTransport()->readEnd();
-        sentry.commit();
-        throw x;
-      }
-      if (mtype != ::apache::thrift::protocol::T_REPLY) {
-        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
-        iprot_->readMessageEnd();
-        iprot_->getTransport()->readEnd();
-      }
-      if (fname.compare("MessageRouter_AddMessageRouterToBrowser") != 0) {
-        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
-        iprot_->readMessageEnd();
-        iprot_->getTransport()->readEnd();
-
-        // in a bad state, don't commit
-        using ::apache::thrift::protocol::TProtocolException;
-        throw TProtocolException(TProtocolException::INVALID_DATA);
-      }
-      Server_MessageRouter_AddMessageRouterToBrowser_presult result;
-      result.read(iprot_);
-      iprot_->readMessageEnd();
-      iprot_->getTransport()->readEnd();
-
-      sentry.commit();
-      return;
-    }
-    // seqid != rseqid
-    this->sync_->updatePending(fname, mtype, rseqid);
-
-    // this will temporarily unlock the readMutex, and let other clients get work done
-    this->sync_->waitForWork(seqid);
-  } // end while(true)
-}
-
-void ServerConcurrentClient::MessageRouter_RemoveMessageRouterFromBrowser(const  ::thrift_codegen::RObject& msgRouter, const int32_t bid)
-{
-  int32_t seqid = send_MessageRouter_RemoveMessageRouterFromBrowser(msgRouter, bid);
-  recv_MessageRouter_RemoveMessageRouterFromBrowser(seqid);
-}
-
-int32_t ServerConcurrentClient::send_MessageRouter_RemoveMessageRouterFromBrowser(const  ::thrift_codegen::RObject& msgRouter, const int32_t bid)
-{
-  int32_t cseqid = this->sync_->generateSeqId();
-  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
-  oprot_->writeMessageBegin("MessageRouter_RemoveMessageRouterFromBrowser", ::apache::thrift::protocol::T_CALL, cseqid);
-
-  Server_MessageRouter_RemoveMessageRouterFromBrowser_pargs args;
-  args.msgRouter = &msgRouter;
-  args.bid = &bid;
-  args.write(oprot_);
-
-  oprot_->writeMessageEnd();
-  oprot_->getTransport()->writeEnd();
-  oprot_->getTransport()->flush();
-
-  sentry.commit();
-  return cseqid;
-}
-
-void ServerConcurrentClient::recv_MessageRouter_RemoveMessageRouterFromBrowser(const int32_t seqid)
-{
-
-  int32_t rseqid = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TMessageType mtype;
-
-  // the read mutex gets dropped and reacquired as part of waitForWork()
-  // The destructor of this sentry wakes up other clients
-  ::apache::thrift::async::TConcurrentRecvSentry sentry(this->sync_.get(), seqid);
-
-  while(true) {
-    if(!this->sync_->getPending(fname, mtype, rseqid)) {
-      iprot_->readMessageBegin(fname, mtype, rseqid);
-    }
-    if(seqid == rseqid) {
-      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
-        ::apache::thrift::TApplicationException x;
-        x.read(iprot_);
-        iprot_->readMessageEnd();
-        iprot_->getTransport()->readEnd();
-        sentry.commit();
-        throw x;
-      }
-      if (mtype != ::apache::thrift::protocol::T_REPLY) {
-        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
-        iprot_->readMessageEnd();
-        iprot_->getTransport()->readEnd();
-      }
-      if (fname.compare("MessageRouter_RemoveMessageRouterFromBrowser") != 0) {
-        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
-        iprot_->readMessageEnd();
-        iprot_->getTransport()->readEnd();
-
-        // in a bad state, don't commit
-        using ::apache::thrift::protocol::TProtocolException;
-        throw TProtocolException(TProtocolException::INVALID_DATA);
-      }
-      Server_MessageRouter_RemoveMessageRouterFromBrowser_presult result;
-      result.read(iprot_);
-      iprot_->readMessageEnd();
-      iprot_->getTransport()->readEnd();
-
-      sentry.commit();
-      return;
-    }
-    // seqid != rseqid
-    this->sync_->updatePending(fname, mtype, rseqid);
-
-    // this will temporarily unlock the readMutex, and let other clients get work done
-    this->sync_->waitForWork(seqid);
-  } // end while(true)
 }
 
 void ServerConcurrentClient::MessageRouter_AddHandler(const  ::thrift_codegen::RObject& msgRouter, const  ::thrift_codegen::RObject& handler, const bool first)
