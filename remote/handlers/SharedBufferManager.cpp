@@ -100,15 +100,6 @@ SharedBuffer::~SharedBuffer() {
   _releaseShared();
 }
 
-SharedBufferManager::SharedBufferManager(int bid, const std::string& name) {
-  // NOTE:
-  // Allocation of shared memory can fail with exception.
-  // Use unique prefix for each buffer to avoid filename collisions.
-  const boost::posix_time::ptime now =  boost::posix_time::microsec_clock::local_time();
-  const boost::posix_time::time_duration td = now.time_of_day();
-  myPrefix = string_format("CefRaster_%ul_B%d_%s_", (unsigned long)td.total_seconds(), bid, name.c_str());
-}
-
 SharedBuffer* SharedBufferManager::_getOrCreateBuffer(size_t size, int index) {
   SharedBuffer* buf = myPool[index];
   if (buf == nullptr || buf->size() < size) {
@@ -117,9 +108,12 @@ SharedBuffer* SharedBufferManager::_getOrCreateBuffer(size_t size, int index) {
       myPool[index] = buf = nullptr;
     }
     try {
+      // NOTE:
+      // Allocation of shared memory can fail with exception.
+      // Use unique name for each buffer to avoid filename collisions.
+      static std::atomic<int> counter(0);
       myPool[index] = buf =
-          new SharedBuffer(myPrefix + string_format("%d_%d", size, index),
-                           nearestMemorySize(size));
+          new SharedBuffer(string_format("R%d", counter.fetch_add(1)),nearestMemorySize(size));
     } catch (const std::exception& e) {
       Log::error("Exception during shared buffer allocation, err: %s", e.what());
     } catch (...) {
