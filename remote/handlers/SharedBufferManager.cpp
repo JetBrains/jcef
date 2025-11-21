@@ -113,7 +113,7 @@ SharedBuffer* SharedBufferManager::_getOrCreateBuffer(size_t size, int index) {
       // Use unique name for each buffer to avoid filename collisions.
       static std::atomic<int> counter(0);
       myPool[index] = buf =
-          new SharedBuffer(string_format("R%d", counter.fetch_add(1)),nearestMemorySize(size));
+          new SharedBuffer(string_format("R%d_%d", utils::GetPid(), counter.fetch_add(1)),nearestMemorySize(size));
     } catch (const std::exception& e) {
       Log::error("Exception during shared buffer allocation, err: %s", e.what());
     } catch (...) {
