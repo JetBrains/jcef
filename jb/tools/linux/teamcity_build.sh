@@ -51,7 +51,7 @@ fi
 if [ -n "${JCEF_BUILD_ONLY_IN_PROCESS:-}" ]; then
   # We can goes here only when building under docker image jetbrains/runtime:oraclelinux7_x64 (legacy build)
   echo "*** install build dependecies (gtk3) ..."
-  yum install -y gtk3
+  yum install -y gtk3 python3
 fi
 
 echo "*** build all..."
