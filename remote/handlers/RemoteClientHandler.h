@@ -71,6 +71,7 @@ public:
     CefRefPtr<CefFocusHandler> myRemoteFocusHandler;
     CefRefPtr<CefContextMenuHandler> myRemoteContextMenuHandler;
     CefRefPtr<CefPermissionHandler> myRemotePermissionHandler;
+//    CefRefPtr<CefDragHandler> myDragHandler;
 
     bool myIsClosing = false;
 

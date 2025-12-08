@@ -889,7 +889,8 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
      * CefRenderHandler::StartDragging).
      * This method is only used when window rendering is disabled.
      */
-    protected final void dragTargetDragEnter(
+    @Override
+    public final void dragTargetDragEnter(
             CefDragData dragData, Point pos, int modifiers, int allowedOps) {
         try {
             checkNativeCtxInitialized();
@@ -906,7 +907,8 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
      * DragTargetDragLeave/DragTargetDrop).
      * This method is only used when window rendering is disabled.
      */
-    protected final void dragTargetDragOver(Point pos, int modifiers, int allowedOps) {
+    @Override
+    public final void dragTargetDragOver(Point pos, int modifiers, int allowedOps) {
         try {
             checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
@@ -921,7 +923,8 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
      * calling DragTargetDragEnter).
      * This method is only used when window rendering is disabled.
      */
-    protected final void dragTargetDragLeave() {
+    @Override
+    public final void dragTargetDragLeave() {
         try {
             checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
@@ -938,7 +941,8 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
      * the previous DragTargetDragEnter call.
      * This method is only used when window rendering is disabled.
      */
-    protected final void dragTargetDrop(Point pos, int modifiers) {
+    @Override
+    public final void dragTargetDrop(Point pos, int modifiers) {
         try {
             checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
@@ -957,7 +961,8 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
      * DragSource* methods.
      * This method is only used when window rendering is disabled.
      */
-    protected final void dragSourceEndedAt(Point pos, int operation) {
+    @Override
+    public final void dragSourceEndedAt(Point pos, int operation) {
         try {
             checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
@@ -976,7 +981,8 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
      * methods.
      * This method is only used when window rendering is disabled.
      */
-    protected final void dragSourceSystemDragEnded() {
+    @Override
+    public final void dragSourceSystemDragEnded() {
         try {
             checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)

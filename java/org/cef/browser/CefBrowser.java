@@ -5,6 +5,7 @@
 package org.cef.browser;
 
 import org.cef.CefClient;
+import org.cef.callback.CefDragData;
 import org.cef.callback.CefPdfPrintCallback;
 import org.cef.callback.CefRunFileDialogCallback;
 import org.cef.callback.CefStringVisitor;
@@ -534,4 +535,22 @@ public interface CefBrowser {
     public CompletableFuture<Integer> getWindowlessFrameRate();
 
     boolean isWindowless();
+    default void dragTargetDragEnter(CefDragData dragData, Point pos, int modifiers, int allowedOps) {
+        throw new UnsupportedOperationException();
+    }
+    default void dragTargetDragOver(Point pos, int modifiers, int allowedOps) {
+        throw new UnsupportedOperationException();
+    }
+    default void dragTargetDragLeave() {
+        throw new UnsupportedOperationException();
+    }
+    default void dragTargetDrop(Point pos, int modifiers) {
+        throw new UnsupportedOperationException();
+    }
+    default void dragSourceEndedAt(Point pos, int operation) {
+        throw new UnsupportedOperationException();
+    }
+    default void dragSourceSystemDragEnded() {
+        throw new UnsupportedOperationException();
+    }
 }

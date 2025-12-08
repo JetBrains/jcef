@@ -33,13 +33,7 @@ import java.awt.GraphicsConfiguration;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.datatransfer.StringSelection;
-import java.awt.dnd.DnDConstants;
-import java.awt.dnd.DragGestureEvent;
-import java.awt.dnd.DragGestureRecognizer;
-import java.awt.dnd.DragSource;
-import java.awt.dnd.DragSourceAdapter;
-import java.awt.dnd.DragSourceDropEvent;
-import java.awt.dnd.DropTarget;
+import java.awt.dnd.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
@@ -462,6 +456,11 @@ class CefBrowserOsr extends CefBrowser_N implements CefRenderHandler {
 
         DragSource.getDefaultDragSource().startDrag(ev, /*dragCursor=*/null,
                 new StringSelection(dragData.getFragmentText()), new DragSourceAdapter() {
+                    @Override
+                    public void dragMouseMoved(DragSourceDragEvent dsde) {
+                        super.dragMouseMoved(dsde);
+                    }
+
                     @Override
                     public void dragDropEnd(DragSourceDropEvent dsde) {
                         dragSourceEndedAt(dsde.getLocation(), action);

@@ -90,6 +90,13 @@ struct MenuItem {
   // optional string font_list;
 }
 
+//struct DragData {
+//    1: optional string link;
+//    2: optional string fragment;
+//    3: optional string file;
+//
+//}
+
 service ClientHandlers {
     string echo(1:string msg),
     oneway void log(1: string msg),
@@ -113,7 +120,7 @@ service ClientHandlers {
     oneway void  RenderHandler_OnTextSelectionChanged(1:i32 bid, 2:string selectedText, 3:shared.Range selectionRange),
 
     // TODO: implement
-    // RenderHandler_StartDragging(1:i32 bid, CefRefPtr<CefDragData> drag_data, DragOperationsMask allowed_ops, int x, int y)
+//    bool RenderHandler_StartDragging(1:i32 bid, CefRefPtr<CefDragData> drag_data, DragOperationsMask allowed_ops, int x, int y)
     // RenderHandler_UpdateDragCursor(1:i32 bid, DragOperation operation)
 
     //
