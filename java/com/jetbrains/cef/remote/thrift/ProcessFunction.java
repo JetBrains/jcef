@@ -6,7 +6,7 @@ import com.jetbrains.cef.remote.thrift.protocol.TProtocol;
 import com.jetbrains.cef.remote.thrift.protocol.TProtocolException;
 import com.jetbrains.cef.remote.thrift.transport.TTransportException;
 
-public abstract class ProcessFunction<I, T extends TBase> {
+public abstract class ProcessFunction<I, T extends TBase, A extends TBase> {
   private final String methodName;
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ProcessFunction.class.getName());
@@ -79,11 +79,14 @@ public abstract class ProcessFunction<I, T extends TBase> {
     return false;
   }
 
-  protected abstract boolean isOneway();
+  public abstract boolean isOneway();
 
-  public abstract TBase getResult(I iface, T args) throws TException;
+  public abstract TBase<?, ?> getResult(I iface, T args) throws TException;
 
   public abstract T getEmptyArgsInstance();
+
+  /** Returns null when this is a oneWay function. */
+  public abstract A getEmptyResultInstance();
 
   public String getMethodName() {
     return methodName;
