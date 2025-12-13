@@ -1,4 +1,5 @@
 #import <Cocoa/Cocoa.h>
+#import <objc/runtime.h>
 
 #include "include/cef_application_mac.h"
 
@@ -24,8 +25,38 @@
 }
 @end
 
+namespace {
+
+id swizzledDefaultUserNotificationCenter(id self, SEL _cmd) {
+  NSLog(@"Swizzled NSUserNotificationCenter: blocking defaultUserNotificationCenter");
+  return nil;
+}
+
+void installLegacyNotificationCenterBlocker() {
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    Class cls = NSClassFromString(@"NSUserNotificationCenter");
+    if (!cls) {
+      return;
+    }
+
+    SEL sel = @selector(defaultUserNotificationCenter);
+    Method m = class_getClassMethod(cls, sel);
+    if (!m) {
+      return;
+    }
+
+    IMP newImp = (IMP)swizzledDefaultUserNotificationCenter;
+    method_setImplementation(m, newImp);
+  });
+}
+
+}  // namespace
+
 void initMacApplication() {
   @autoreleasepool {
+    installLegacyNotificationCenterBlocker();
+
     // Initialize the SimpleApplication instance.
     [MacApplication sharedApplication];
 
