@@ -222,10 +222,12 @@ class ServerHandler : public thrift_codegen::ServerIf {
   std::shared_ptr<ServerHandlerContext> getCtx() const { return myCtx; }
   int getCid() const { return myCid; }
 
+  std::string getDebugInfo(int tabs) const;
  private:
   bool myIsMaster = false;
   int myCid = -1;
   std::shared_ptr<ServerHandlerContext> myCtx;
+  bool myIsMainHandler = false;
 
   int connectImpl(std::function<void()> openBackwardTransport);
 };

@@ -103,3 +103,13 @@ void RemoteClient::eraseBrowser(int bid) {
   std::unique_lock lock(myMutex);
   myBrowsers.erase(bid);
 }
+
+std::string RemoteClient::getDebugInfo(int tabs) {
+  std::stringstream ss;
+  for (int i = 0; i < tabs; ++i) ss << "\t";
+  std::unique_lock lock(myMutex);
+  ss << "cid=" << myCid << ", RemoteBrowsers [count=" << myBrowsers.size() << "]:" << std::endl;
+  for (auto i: myBrowsers)
+    ss << i.second->getDebugInfo(tabs + 1);
+  return ss.str();
+}

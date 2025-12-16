@@ -2,6 +2,10 @@
 
 #include "include/cef_path_util.h"
 
+#include <iostream>
+#include <typeinfo>
+#include <string>
+
 #if defined(OS_WIN)
 
 #include <tlhelp32.h>
@@ -54,8 +58,17 @@ std::string GetTempFile(const std::string& identifer, bool useParentId) {
   return tmpName.str();
 }
 
+// MSVC doesn't need demangling; __FUNCSIG__ often more reliable
+std::string demangle(const char* name) {
+  return std::string(name);
+}
+
 } // namespace utils
 #else
+
+#include <cxxabi.h>
+#include <memory>
+
 namespace utils {
 int GetPid() {
   return getpid();
@@ -75,6 +88,16 @@ std::string GetTempFile(const std::string& identifer, bool useParentId) {
   tmpName << (identifer.empty() ? "" : "_") << identifer.c_str() << ".tmp";
   return tmpName.str();
 }
+
+std::string demangle(const char* name) {
+  int status = -1;
+  std::unique_ptr<char, void(*)(void*)> res{
+      abi::__cxa_demangle(name, nullptr, nullptr, &status),
+      std::free
+  };
+  return (status == 0) ? std::string(res.get()) : std::string(name);
+}
+
 } // namespace utils
 
 #endif // OS_WIN

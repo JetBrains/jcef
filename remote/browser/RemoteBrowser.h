@@ -45,6 +45,7 @@ public:
 
   explicit RemoteBrowser(int bid, std::shared_ptr<RemoteClient> owner, CefRefPtr<CefRequestContext> requestContext); // TODO: make private
 
+  std::string getDebugInfo(int tabs);
 private:
   const int myBid;
   const std::shared_ptr<RemoteClient> myOwner;

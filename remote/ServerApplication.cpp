@@ -13,6 +13,7 @@
 #include "ServerHandler.h"
 #include "ServerHandlerContext.h"
 #include "RpcExecutor.h"
+#include "DebugInfo.h"
 
 #include <sstream>
 #include "CefSettingsParser.h"
@@ -406,11 +407,29 @@ const std::chrono::high_resolution_clock::time_point& ServerApplication::getStar
 std::string ServerApplication::getState() {
   Lock lock(myMutexState);
   switch (myState) {
-    case SS_NEW: return "SHUTDOWN";
+    case SS_NEW: return "SS_NEW";
     case SS_SHUTDOWN: return "SHUTDOWN";
     case SS_SHUTTING_DOWN: return "SHUTTING_DOWN";
     default: return "UNKNOWN_STATE";
   }
+}
+
+std::string ServerApplication::getStateWithDetails() {
+  std::stringstream ss;
+
+  ss << "Server state: " << getState() << std::endl;
+
+  ss << "Server handlers:" << std::endl;
+  myFactory->forEach([&](const MyServerProcessor* p) {
+    if (!p || !p->getServerHandler()) return; // can't be
+    ss << p->getServerHandler()->getDebugInfo(1);
+  });
+  ss << std::endl;
+
+  ss << "RemoteObject factories:" << std::endl;
+  ss << DebugInfo::getInfo(1);
+
+  return ss.str();
 }
 
 std::shared_ptr<ServerHandlerContext> ServerApplication::getCtx(int connectionId) {

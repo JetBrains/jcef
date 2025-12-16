@@ -195,6 +195,19 @@ void RemoteBrowser::onBeforeClose() {
     ourBid2Browser.erase(myBid);
 }
 
+std::string RemoteBrowser::getDebugInfo(int tabs) {
+  std::stringstream ss;
+  for (int i = 0; i < tabs; ++i) ss << "\t";
+  if (myIsClosing)
+    ss << "Closing, bid=" << myBid;
+  else
+    ss << "Active, bid=" << myBid;
+  if (myRequestContext)
+    ss << ", RequestContext=" << myRequestContext.get();
+  ss << std::endl;
+  return ss.str();
+}
+
 namespace {
     // comparator to check if configuration values are the same
     struct cmpCfg {

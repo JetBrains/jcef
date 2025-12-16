@@ -6,10 +6,18 @@
 #include "include/internal/cef_ptr.h"
 #include "log/Log.h"
 #include "ServerHandlerContext.h"
+#include "DebugInfo.h"
 
 template <class T>
 class ServerObjectsFactory {
  public:
+  ServerObjectsFactory() {
+    DebugInfo::addInfoProvider([&]() -> std::string {
+      std::unique_lock lock(myMapMutex);
+      return string_format("Factory<%s>: size=%d", utils::demangle(typeid(T).name()).c_str(), myItems.size());
+    });
+  }
+
   template<typename... Args>
   std::shared_ptr<T> create(Args... ctorArgs) {
     if (!myTracePrefix.empty()) Log::trace("[%s] create", myTracePrefix.c_str());
@@ -24,7 +32,7 @@ class ServerObjectsFactory {
 
     {
       std::unique_lock lock(myMapMutex);
-      INSTANCES[newId] = result;
+      myItems[newId] = result;
     }
     if (!myTracePrefix.empty()) Log::trace("[%s] created %d", myTracePrefix.c_str(), newId);
     return result;
@@ -33,19 +41,19 @@ class ServerObjectsFactory {
   std::shared_ptr<T> find(int id) {
     if (!myTracePrefix.empty()) Log::trace("[%s] find %d", myTracePrefix.c_str(), id);
     std::unique_lock lock(myMapMutex);
-    return INSTANCES[id];
+    return myItems[id];
   }
 
   void dispose(int id) {
     if (!myTracePrefix.empty()) Log::trace("[%s] dispose %d", myTracePrefix.c_str(), id);
     std::unique_lock lock(myMapMutex);
-    INSTANCES.erase(id);
+    myItems.erase(id);
   }
 
   void setTrace(const std::string & prefix) { myTracePrefix = prefix; }
 
  private:
-  std::map<int, std::shared_ptr<T>> INSTANCES;
+  std::map<int, std::shared_ptr<T>> myItems;
   std::recursive_mutex myMapMutex;
   std::mutex myIdMutex;
   std::string myTracePrefix; // only for debugging

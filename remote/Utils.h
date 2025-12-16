@@ -9,6 +9,8 @@ namespace utils {
   int GetPid();
   int GetParentPid();
   std::string GetTempFile(const std::string& identifer, bool useParentId);
+
+  std::string demangle(const char* name);
 }
 
 template<typename ... Args>

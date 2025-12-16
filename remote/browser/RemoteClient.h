@@ -41,6 +41,8 @@ public:
     static std::shared_ptr<RemoteClient> findByBid(int bid);
 
     static int genNewCid();
+
+    std::string getDebugInfo(int tabs);
 private:
     const int myCid;
     const CefRefPtr<RemoteClientHandler> myRemoteClientHandler;
