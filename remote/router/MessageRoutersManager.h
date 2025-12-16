@@ -38,7 +38,7 @@ class MessageRoutersManager {
   std::set<std::shared_ptr<RemoteMessageRouter>> myRouters;
   base::Lock myRoutersLock;
 
-  std::set<CefRefPtr<CefMessageRouterBrowserSide>> getMessageRouters();
+  std::set<std::shared_ptr<RemoteMessageRouter>> getMessageRouters();
 };
 
 #endif  // JCEF_MESSAGEROUTERSMANAGER_H
