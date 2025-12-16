@@ -203,6 +203,8 @@ set(SERVER_SOURCES
         browser/RemoteBrowser.h
         browser/RemoteClient.cpp
         browser/RemoteClient.h
+        DebugInfo.cpp
+        DebugInfo.h
 )
 
 if (OS_WINDOWS)

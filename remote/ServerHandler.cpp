@@ -85,6 +85,7 @@ int ServerHandler::connectImpl(std::function<void()> openBackwardTransport) {
 
   // Connect to client's side (for cef-callbacks execution on java side)
   myCtx = std::make_shared<ServerHandlerContext>();
+  myIsMainHandler = true;
   try {
     openBackwardTransport();
     static const bool testBackwardTransport = getBoolEnv("CEF_SERVER_TEST_BACKWARD_TRANSPORT");
@@ -210,6 +211,8 @@ void ServerHandler::getServerInfo(std::string& _return, const std::string& reque
     _return.assign(CefUtils::getVersionWithSha());
   else if (request.compare("state") == 0)
     _return = ServerApplication::instance().getState();
+  else if (request.compare("state_with_details") == 0)
+    _return = ServerApplication::instance().getStateWithDetails();
   else if (request.compare("root") == 0)
     _return = ServerApplication::instance().getCefAppHandler()->getRootPath();
   else
@@ -1446,4 +1449,18 @@ void ServerHandler::MediaAccessCallback_Cancel(const thrift_codegen::RObject& me
   if (rc == nullptr) return;
   rc->getDelegate()->Cancel();
   RemoteMediaAccessCallback::dispose(mediaAccessCallback.objId);
+}
+
+std::string ServerHandler::getDebugInfo(int tabs) const {
+  std::stringstream ss;
+  for (int i = 0; i < tabs; ++i) ss << "\t";
+
+  const std::shared_ptr<ServerHandlerContext> ctx = myCtx;
+  if (!ctx)
+    ss << "ServerHandler with disposed ctx " << this << std::endl;
+  else {
+    ss << "ServerHandler " << this << std::endl;
+    ss << ctx->getDebugInfo(tabs + 1, myIsMainHandler);
+  }
+  return ss.str();
 }

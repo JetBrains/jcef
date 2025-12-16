@@ -36,6 +36,8 @@ class ServerHandlerContext {
   void invokeLater(JavaVoidRpc rpc);
 
   void close();
+
+  std::string getDebugInfo(int tabs, bool detailed);
  private:
   std::shared_ptr<RpcExecutor> myJavaService;
   std::shared_ptr<RpcExecutor> myJavaServiceIO;

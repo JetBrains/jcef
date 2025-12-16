@@ -58,6 +58,7 @@ class ServerApplication {
     SS_SHUTDOWN
   };
   std::string getState();
+  std::string getStateWithDetails();
 
   std::shared_ptr<apache::thrift::TProcessorFactory> getProcessorFactory() const;
 

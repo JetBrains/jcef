@@ -164,3 +164,24 @@ void ServerHandlerContext::close() {
     Log::error("Thrift exception in ServerHandlerContext::close: %s", e.what());
   }
 }
+
+std::string ServerHandlerContext::getDebugInfo(int tabs, bool detailed) {
+  std::stringstream ss;
+  for (int i = 0; i < tabs; ++i) ss << "\t";
+
+  if (myIsClosed)
+    ss << "Closed ctx " << this << std::endl;
+  else {
+    ss << "Active ctx " << this << std::endl;
+
+    if (detailed) {
+      for (int i = 0; i < tabs; ++i) ss << "\t";
+      std::unique_lock lock(myMutex);
+      ss << "RemoteClients [count=" << myClients.size() << "]:" << std::endl;
+      for (auto i : myClients)
+        ss << i.second->getDebugInfo(tabs + 1);
+    }
+  }
+
+  return ss.str();
+}
