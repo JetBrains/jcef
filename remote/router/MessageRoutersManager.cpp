@@ -19,13 +19,10 @@ MessageRoutersManager::~MessageRoutersManager() {
     RemoteMessageRouter::dispose(id);
 }
 
-std::set<CefRefPtr<CefMessageRouterBrowserSide>> MessageRoutersManager::getMessageRouters() {
+std::set<std::shared_ptr<RemoteMessageRouter>> MessageRoutersManager::getMessageRouters() {
   TRACE();
-  std::set<CefRefPtr<CefMessageRouterBrowserSide>> message_routers;
   base::AutoLock lock_scope(myRoutersLock);
-  for (auto r: myRouters)
-    message_routers.insert(r->getDelegate());
-  return message_routers;
+  return myRouters;
 }
 
 bool MessageRoutersManager::OnProcessMessageReceived(
@@ -39,10 +36,10 @@ bool MessageRoutersManager::OnProcessMessageReceived(
   // Iterate on a copy of |myRouters| to avoid re-entrancy of
   // |myRoutersLock| if the client CefMessageRouterHandler impl
   // calls CefClientHandler.addMessageRouter/removeMessageRouter.
-  std::set<CefRefPtr<CefMessageRouterBrowserSide>> message_routers = getMessageRouters();
+  std::set<std::shared_ptr<RemoteMessageRouter>> message_routers = getMessageRouters();
 
   for (auto& router : message_routers) {
-    handled = router->OnProcessMessageReceived(browser, frame, source_process, message);
+    handled = router->getDelegate()->OnProcessMessageReceived(browser, frame, source_process, message);
     if (handled)
       break;
   }
@@ -52,25 +49,25 @@ bool MessageRoutersManager::OnProcessMessageReceived(
 void MessageRoutersManager::OnBeforeClose(CefRefPtr<CefBrowser> browser) {
   TRACE();
   // NOTE: invoked on UI thread
-  std::set<CefRefPtr<CefMessageRouterBrowserSide>> message_routers = getMessageRouters();
+  std::set<std::shared_ptr<RemoteMessageRouter>> message_routers = getMessageRouters();
   for (auto& router : message_routers)
-    router->OnBeforeClose(browser);
+    router->getDelegate()->OnBeforeClose(browser);
 }
 
 void MessageRoutersManager::OnBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame) {
   TRACE();
   // NOTE: invoked on UI thread
-  std::set<CefRefPtr<CefMessageRouterBrowserSide>> message_routers = getMessageRouters();
+  std::set<std::shared_ptr<RemoteMessageRouter>> message_routers = getMessageRouters();
   for (auto& router : message_routers)
-    router->OnBeforeBrowse(browser, frame);
+    router->getDelegate()->OnBeforeBrowse(browser, frame);
 }
 
 void MessageRoutersManager::OnRenderProcessTerminated(CefRefPtr<CefBrowser> browser) {
   TRACE();
   // NOTE: invoked on UI thread
-  std::set<CefRefPtr<CefMessageRouterBrowserSide>> message_routers = getMessageRouters();
+  std::set<std::shared_ptr<RemoteMessageRouter>> message_routers = getMessageRouters();
   for (auto& router : message_routers)
-    router->OnRenderProcessTerminated(browser);
+    router->getDelegate()->OnRenderProcessTerminated(browser);
 }
 
 void MessageRoutersManager::add(std::shared_ptr<RemoteMessageRouter> router) {
