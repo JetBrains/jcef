@@ -22,9 +22,10 @@ import java.util.*;
 import java.util.function.BooleanSupplier;
 
 public class NativeServerManager {
+    public static final String ALT_CEF_SERVER_PATH = Utils.getString("ALT_CEF_SERVER_PATH");
+
     private static final Boolean DISABLE_GPU = Utils.getBoolean("JCEF_DISABLE_GPU");
     private static final Boolean KILL_SERVER_ON_SHUTDOWN = Utils.getBoolean("JCEF_KILL_SERVER_ON_SHUTDOWN");
-    private static final String ALT_CEF_SERVER_PATH = Utils.getString("ALT_CEF_SERVER_PATH");
     private static final boolean CHECK_PROCESS_ALIVE = Utils.getBoolean("JCEF_CHECK_PROCESS_ALIVE", true); // for debug, TODO: remove
     private static final int WAIT_LOOP_SLEEP_MS = Utils.getInteger("JCEF_WAIT_LOOP_SLEEP_MS", 200);
 

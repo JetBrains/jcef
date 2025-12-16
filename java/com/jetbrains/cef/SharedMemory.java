@@ -1,13 +1,16 @@
 package com.jetbrains.cef;
 
+import com.jetbrains.cef.remote.NativeServerManager;
+import org.cef.OS;
 import org.cef.SystemBootstrap;
 import org.cef.misc.CefLog;
 import org.cef.misc.Utils;
 
+import java.io.File;
 import java.nio.ByteBuffer;
 
 public class SharedMemory {
-    private static final String ALT_MEM_HELPER_PATH = Utils.getString("ALT_MEM_HELPER_PATH");
+    private static final String ALT_MEM_HELPER_PATH;
     public final String mname;
     public final long boostHandle;
     public long lasUsedMs = 0;
@@ -18,6 +21,22 @@ public class SharedMemory {
     final private long myMutex;
 
     static {
+        final String altMemHelperPath = Utils.getString("ALT_MEM_HELPER_PATH");
+        if (altMemHelperPath != null && !altMemHelperPath.trim().isEmpty())
+            ALT_MEM_HELPER_PATH = altMemHelperPath.trim();
+        else if (NativeServerManager.ALT_CEF_SERVER_PATH != null && !NativeServerManager.ALT_CEF_SERVER_PATH.trim().isEmpty()) {
+            File exeDir = new File(NativeServerManager.ALT_CEF_SERVER_PATH).getParentFile();
+            String libName;
+            if (OS.isWindows())
+                libName = "shared_mem_helper.dll";
+            else if (OS.isLinux())
+                libName = "libshared_mem_helper.so";
+            else
+                libName = "libshared_mem_helper.dylib";
+
+            ALT_MEM_HELPER_PATH = new File(exeDir, libName).getAbsolutePath();
+        } else
+            ALT_MEM_HELPER_PATH = null;
         loadDynamicLib();
     }
 
