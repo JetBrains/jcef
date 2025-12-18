@@ -2,6 +2,7 @@ package tests;
 
 import com.jetbrains.cef.remote.NativeServerManager;
 import com.jetbrains.cef.remote.RpcExecutor;
+import com.jetbrains.cef.remote.ServerStarter;
 import com.jetbrains.cef.remote.ThriftTransport;
 import com.jetbrains.cef.remote.thrift.transport.TTransportException;
 import org.cef.CefApp;
@@ -171,7 +172,7 @@ public class ServersManagerGUI {
         CefAppHandler appHandler = null;
         String[] args = null;
         CefSettings settings = new CefSettings();
-        final boolean success = NativeServerManager.startProcessAndWait(exeFile, thriftTransport, appHandler, args, settings, logPath, NativeServerManager.ServerLogLevel.nativeDesc(logLevel), false, 20000);
+        final boolean success = ServerStarter.startProcessAndWait(exeFile, thriftTransport, appHandler, args, settings, logPath, NativeServerManager.ServerLogLevel.nativeDesc(logLevel), false, 20000);
         return success;
     }
 
