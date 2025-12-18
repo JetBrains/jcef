@@ -25,16 +25,19 @@ public class SharedMemory {
         if (altMemHelperPath != null && !altMemHelperPath.trim().isEmpty())
             ALT_MEM_HELPER_PATH = altMemHelperPath.trim();
         else if (NativeServerManager.ALT_CEF_SERVER_PATH != null && !NativeServerManager.ALT_CEF_SERVER_PATH.trim().isEmpty()) {
-            File exeDir = new File(NativeServerManager.ALT_CEF_SERVER_PATH).getParentFile();
+            File libDir = new File(NativeServerManager.ALT_CEF_SERVER_PATH).getParentFile();
             String libName;
             if (OS.isWindows())
                 libName = "shared_mem_helper.dll";
             else if (OS.isLinux())
                 libName = "libshared_mem_helper.so";
-            else
+            else {
+                // libshared_mem_helper.dylib is usually place near cef_server.app but ALT_CEF_SERVER_PATH is like cef_server.app/Contents/MacOS/cef_server
+                libDir = libDir.getParentFile().getParentFile().getParentFile();
                 libName = "libshared_mem_helper.dylib";
+            }
 
-            ALT_MEM_HELPER_PATH = new File(exeDir, libName).getAbsolutePath();
+            ALT_MEM_HELPER_PATH = new File(libDir, libName).getAbsolutePath();
         } else
             ALT_MEM_HELPER_PATH = null;
         loadDynamicLib();
