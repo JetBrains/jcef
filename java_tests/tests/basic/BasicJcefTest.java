@@ -114,7 +114,7 @@ public class BasicJcefTest {
         settings.cache_path = CefInitHelper.genUniqueCachePath();
         final String[] argsArr = appArgs.toArray(new String[0]);
         CefAppHandlerAdapter appHandler = new CefAppHandlerAdapter(argsArr){};
-        boolean started = NativeServerManager.startProcessAndWait(thriftServer, appHandler, argsArr, settings, true, waitTimeoutMs, null);
+        boolean started = NativeServerManager.startProcessAndWait(thriftServer, appHandler, argsArr, settings, true, waitTimeoutMs);
         if (!started)
             throw new AssertionError("Can't start server.");
         if (!NativeServerManager.isProcessAlive(thriftServer))

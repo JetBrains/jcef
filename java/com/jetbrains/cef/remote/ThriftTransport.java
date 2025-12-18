@@ -182,7 +182,9 @@ public class ThriftTransport {
         return PORT_JAVA_HANDLERS;
     }
 
-    public static int findFreePort(Set<Integer> exclude) { return findFreePort(6188, 7777, exclude); }
+    public static int findFreePort() { return findFreePort(null); }
+
+    public static int findFreePort(Set<Integer> exclude) { return findFreePort(9999, 65500, exclude); }
 
     public static int findFreePort(int from, int to, Set<Integer> exclude) {
         for (int port = from; port < to; ++port) {
