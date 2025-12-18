@@ -102,6 +102,16 @@ std::string demangle(const char* name) {
 
 #endif // OS_WIN
 
+namespace utils {
+  bool isFileExist(const char* pathname) {
+    if (FILE *file = fopen(pathname, "r")) {
+      fclose(file);
+      return true;
+    }
+    return false;
+  }
+}
+
 bool getBoolEnv(const std::string & envName) {
   const char* sval = getenv(envName.c_str());
   if (sval == nullptr)

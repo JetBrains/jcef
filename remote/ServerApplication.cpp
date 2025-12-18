@@ -194,9 +194,12 @@ void ServerApplication::onBeforeExit() {
 
 bool ServerApplication::init(int argc, char* argv[]) {
   myTimeStart = Clock::now();
-  myCmdArgs.init(argc, argv);
+  if (!myCmdArgs.init(argc, argv)) {
+    Log::debug("Show help and exit.");
+    return false;
+  }
   Log::init(myCmdArgs.getLogLevel(), myCmdArgs.getLogFile());
-  Log::info("Init ServerApplication with transport %s.\n", myCmdArgs.getTransportDesc().c_str());
+  Log::info("Init ServerApplication with transport: %s.", myCmdArgs.getTransportDesc().c_str());
 
   myFactory = std::make_shared<MyServerProcessorFactory>();
 

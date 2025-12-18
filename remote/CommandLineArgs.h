@@ -13,7 +13,7 @@ using CefSettings = CefStructBase<CefSettingsTraits>;
 class CommandLineArgs {
  public:
   CommandLineArgs();
-  void init(int argc, char* argv[]);
+  bool init(int argc, char* argv[]);
 
   bool useTcp() const { return myUseTcp; }
   bool waitDebugger() const { return myWaitDebugger; }
@@ -27,14 +27,17 @@ class CommandLineArgs {
   int getOpenTransportCooldownMs() const { return myOpenTransportCooldownMs; }
 
  private:
-  bool myUseTcp = false;
+  bool myUseTcp = true;
   bool myWaitDebugger = false;
   bool myDeleteRootCacheDir = false;
-  int myPort = -1;
+  int myPort = 9999;
   std::string myPathPipe;
   std::string myPathLogFile;
+  std::string myPathChromiumLogFile;
   std::string myPathParamsFile;
-  int myLogLevel = LEVEL_INFO;
+  std::string myPathRootCache;
+  int myLogLevel = Log::LEVEL_INFO;
+  int myLogLevelChromium = LOGSEVERITY_DISABLE;
   int myOpenTransportCooldownMs = 3;
 
   std::vector<std::string> myChromiumSwitches;

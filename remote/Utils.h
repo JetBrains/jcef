@@ -11,6 +11,8 @@ namespace utils {
   std::string GetTempFile(const std::string& identifer, bool useParentId);
 
   std::string demangle(const char* name);
+
+  bool isFileExist(const char* pathname);
 }
 
 template<typename ... Args>
