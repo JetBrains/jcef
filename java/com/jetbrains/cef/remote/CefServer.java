@@ -135,8 +135,7 @@ public class CefServer {
                 // NOTE: pipe-names/ports are unique for each client process, so we can go here only when custom transport is specified manually.
                 CefLog.Info("Going to connect with already running cef_server: transport '%s', root '%s'", myThriftServer, runningRoot);
             } else {
-                final boolean success = NativeServerManager.startProcessAndWait(serverExe, myThriftServer, appHandler,
-                        myParams.args, myParams.settings, false, WAIT_FOR_SERVER_START_SEC * 1000l);
+                final boolean success = ServerStarter.startProcessAndWait(serverExe, myThriftServer, appHandler, myParams.args, myParams.settings, false, WAIT_FOR_SERVER_START_SEC*1000l);
                 if (!success)
                     return false;
             }
