@@ -10,7 +10,7 @@ import java.util.function.Supplier;
 
 public class OsrSupport {
     public static boolean isEnabled() {
-        return CefApp.isRemoteEnabled() || Boolean.getBoolean("jcef.tests.osr");
+        return CefApp.isRemoteEnabled() || !Boolean.getBoolean("jcef.tests.windowed");
     }
 
     public static CefBrowser createBrowser(CefClient client, String startURL) {

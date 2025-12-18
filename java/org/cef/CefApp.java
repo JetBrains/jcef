@@ -158,7 +158,16 @@ public class CefApp extends CefAppHandlerAdapter {
     private static final int PREINIT_TEST_DELAY_MS = Utils.getInteger("jcef_app_preinit_test_delay_ms", 0);
     private static final int INIT_TEST_DELAY_MS = Utils.getInteger("jcef_app_init_test_delay_ms", 0);
 
-    private static boolean isRemoteEnabled_ = isRemoteSupported() && Boolean.getBoolean("jcef.remote.enabled");
+    private static boolean isRemoteEnabled_;
+
+    static {
+        if (!isRemoteSupported()) {
+            isRemoteEnabled_ = Boolean.getBoolean("jcef.remote.force_enabled"); // possibility for debugging
+            if (isRemoteEnabled_)
+                System.out.println("JCEF is forced to be enabled.");
+        } else
+            isRemoteEnabled_ = !Boolean.getBoolean("jcef.remote.disabled");
+    }
 
     /**
      * To get an instance of this class, use the method
