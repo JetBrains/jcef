@@ -5,6 +5,7 @@
 #include "log/Log.h"
 
 #if defined(OS_MAC)
+#include <boost/filesystem.hpp>
 namespace CefUtils {
 std::string getFrameworkDir();
 }
@@ -12,7 +13,10 @@ std::string getFrameworkDir();
 #include <boost/filesystem.hpp>
 #endif
 
+namespace {
 const bool doTrace = getBoolEnv("CEF_SERVER_TRACE_CommandLineArgs");
+const bool dontUseDefaultChromiumSwitches = getBoolEnv("CEF_SERVER_TRACE_DontUseDefaultChromiumSwitches");
+}
 
 CommandLineArgs::CommandLineArgs() {
   const long defVal = myOpenTransportCooldownMs;
@@ -25,7 +29,7 @@ CommandLineArgs::CommandLineArgs() {
 }
 
 void trace(const std::string & from, const std::vector<std::string> & cmdlineSwitches, const std::vector<std::pair<std::string, std::string>> & parsedSettings, const std::vector<std::pair<std::string, int>> & schemes) {
-  if (!Log::isTraceEnabled())
+  if (!doTrace || !Log::isTraceEnabled())
     return;
 
   if (!cmdlineSwitches.empty()) {
@@ -45,48 +49,28 @@ void trace(const std::string & from, const std::vector<std::string> & cmdlineSwi
   }
 }
 
-void CommandLineArgs::init(int argc, char* argv[]) {
+bool CommandLineArgs::init(int argc, char* argv[]) {
   // This method is called very early.
 
-  // 1. Initialize logger at first.
+  // 1. Initialize logger at first and check '--help'
   for (int c = 0; c < argc; ++c) {
     const char * arg = argv[c];
     if (arg == nullptr || arg[0] == 0) continue;
 
     std::string word(arg);
     size_t tokenPos;
+    if (word.compare("--help") == 0 || word.compare("-h") == 0) {
+      fprintf(stdout, "Usage: cef-server [--port=PORT] [--params=PARAMS_FILE] [--loglevel=LEVEL] [--logfile=FILE]\nOther switches are enumerated in CommandLineArgs.cpp\n");
+      return false;
+    }
     if ((tokenPos = word.find("--logfile=")) != word.npos) {
       myPathLogFile = word.substr(tokenPos + 10);
     } else if ((tokenPos = word.find("--loglevel=")) != word.npos) {
       std::string sval = word.substr(tokenPos + 11);
-      bool isNumeric = false;
       try {
         myLogLevel = std::stoi(sval);
-        isNumeric = true;
-      } catch (const std::exception&) {}
-
-      if (!isNumeric) {
-        std::string valLowerCase = word;
-        std::transform(valLowerCase.begin(), valLowerCase.end(), valLowerCase.begin(),
-                       [](unsigned char in){
-                         if (in <= 'Z' && in >= 'A')
-                           return in - ('Z' - 'z');
-                         return (int)in;
-                       });
-        if (valLowerCase.find("verb") != valLowerCase.npos || valLowerCase.find("trace") != valLowerCase.npos)
-          myLogLevel = LEVEL_TRACE;
-        else if (valLowerCase.find("debug") != valLowerCase.npos)
-          myLogLevel = LEVEL_DEBUG;
-        else if (valLowerCase.find("info") != valLowerCase.npos)
-          myLogLevel = LEVEL_INFO;
-        else if (valLowerCase.find("warn") != valLowerCase.npos)
-          myLogLevel = LEVEL_WARN;
-        else if (valLowerCase.find("err") != valLowerCase.npos)
-          myLogLevel = LEVEL_ERROR;
-        else if (valLowerCase.find("fatal") != valLowerCase.npos)
-          myLogLevel = LEVEL_FATAL;
-        else if (valLowerCase.find("disable") != valLowerCase.npos)
-          myLogLevel = LEVEL_DISABLED;
+      } catch (const std::exception&) {
+        myLogLevel = Log::str2level(word);
       }
     }
   } // for
@@ -121,8 +105,18 @@ void CommandLineArgs::init(int argc, char* argv[]) {
       myUseTcp = true;
     } else if ((tokenPos = word.find("--pipe=")) != word.npos) {
       myPathPipe = word.substr(tokenPos + 7);
+      myUseTcp = false;
     } else if ((tokenPos = word.find("--params=")) != word.npos) {
       myPathParamsFile = word.substr(tokenPos + 9);
+    } else if ((tokenPos = word.find("--root=")) != word.npos) {
+      myPathRootCache = word.substr(tokenPos + 7);
+    } else if ((tokenPos = word.find("--logchromiumfile=")) != word.npos) {
+      myPathChromiumLogFile = word.substr(tokenPos + 18);
+    } else if ((tokenPos = word.find("--logchromiumlevel=")) != word.npos) {
+      std::string sval = word.substr(tokenPos + 19);
+      try {
+        myLogLevelChromium = std::stoi(sval);
+      } catch (const std::exception&) {}
     } else if ((tokenPos = word.find("--deleteRootCacheDir")) != word.npos) {
       myDeleteRootCacheDir = true;
     } else if (CefSettingsParser::parseCefCmdLineSwitch(word, stmp)) {
@@ -149,17 +143,61 @@ void CommandLineArgs::init(int argc, char* argv[]) {
     if (!fileSwitches.empty() || !fileSettings.empty() || !fileSchemes.empty()) {
       Log::debug("Params file isn't empty, some command line arguments can be overriden.");
       trace("file", fileSwitches, fileSettings, fileSchemes);
-
       myChromiumSwitches.insert(myChromiumSwitches.end(), fileSwitches.begin(), fileSwitches.end());
       myParsedCefSettings.insert(myParsedCefSettings.end(), fileSettings.begin(), fileSettings.end());
       myCustomSchemes.insert(myCustomSchemes.end(), fileSchemes.begin(), fileSchemes.end());
     }
   }
+
+  // Init default chromium switches and CefSettings (if necessary)
+  if (myChromiumSwitches.empty() && !dontUseDefaultChromiumSwitches) { // NOTE: dontUseDefaultChromiumSwitches == false by default
+    Log::debug("Use default chromium switches.");
+#if defined(OS_WIN)
+    // TODO: implement
+#elif defined(OS_MAC)
+    myChromiumSwitches.push_back("--disable-in-process-stack-traces");
+    myChromiumSwitches.push_back("--use-mock-keychain");
+    myChromiumSwitches.push_back("--disable-features=SpareRendererForSitePerProcess");
+    myChromiumSwitches.push_back("--disable-notifications");
+    myChromiumSwitches.push_back("--disable-gpu-process-crash-limit");
+    myChromiumSwitches.push_back("--autoplay-policy=no-user-gesture-required");
+    myChromiumSwitches.push_back("--disable-component-update");
+  #else
+    // OS_LINUX
+    // TODO: implement
+  #endif
+  } // myChromiumSwitches.empty()
+
+  if (myParsedCefSettings.empty()) {
+    Log::debug("Use default cef settings.");
+    myParsedCefSettings.push_back(std::make_pair("log_severity", Log::cefLogLevel2str(myLogLevelChromium)));
+    myParsedCefSettings.push_back(std::make_pair("no_sandbox", "true"));
+    if (!myPathChromiumLogFile.empty())
+      myParsedCefSettings.push_back(std::make_pair("log_file", myPathChromiumLogFile));
+    myParsedCefSettings.push_back(std::make_pair("windowless_rendering_enabled", "true"));
+
+#if defined(OS_WIN)
+    // TODO: implement
+#elif defined(OS_MAC)
+#else
+    // OS_LINUX
+    // TODO: implement
+#endif
+  }
+
+  trace("final (merged)", myChromiumSwitches, myParsedCefSettings, myCustomSchemes);
+  return true;
 }
 
-void CommandLineArgs::prepareCefSettings(CefSettings & settings) {
-  for (const auto & p: myParsedCefSettings)
-    CefSettingsParser::setSettingItem(settings, p.first, p.second);
+void CommandLineArgs::prepareCefSettings(void * pCefSettings) {
+  CefSettings & settings = *reinterpret_cast<CefSettings*>(pCefSettings);
+  for (const auto & p: myParsedCefSettings) {
+    if (p.first.compare("cache_path") && !myPathRootCache.empty()) {
+      Log::debug("Setting 'cache_path' from params file (or cmd line) with value '%s' will be overrriden with cmd line arg '--root=%s'", p.second.c_str(), myPathRootCache.c_str());
+      CefString(&settings.cache_path) = myPathRootCache;
+    } else
+      CefSettingsParser::setSettingItem(settings, p.first, p.second);
+  }
 
   settings.windowless_rendering_enabled = true;
   settings.multi_threaded_message_loop = false;
@@ -168,6 +206,22 @@ void CommandLineArgs::prepareCefSettings(CefSettings & settings) {
 
 #if defined(OS_MAC)
   CefString(&settings.framework_dir_path) = CefUtils::getFrameworkDir();
+  if (settings.browser_subprocess_path.length == 0) {
+    // example: browser_subprocess_path=/Users/bocha/Downloads/jbr_jcef-25.0.1-osx-aarch64-b245.32/Contents/Frameworks/cef_server.app/Contents/Frameworks/cef_server Helper.app/Contents/MacOS/cef_server Helper
+    boost::filesystem::path path = boost::filesystem::current_path()
+                                       .append("..")
+                                       .append("Frameworks")
+                                       .append("cef_server Helper.app")
+                                       .append("Contents")
+                                       .append("MacOS")
+                                       .append("cef_server Helper")
+                                       .lexically_normal();
+    if (utils::isFileExist(path.c_str())) {
+      Log::debug("Will be used browser_subprocess_path '%s'", path.c_str());
+      CefString(&settings.browser_subprocess_path) = path.string();
+    } else
+      Log::error("Empty browser_subprocess_path.");
+  }
 #elif defined(OS_WIN)
   auto installation_root =
       boost::filesystem::current_path().append("..").lexically_normal();
