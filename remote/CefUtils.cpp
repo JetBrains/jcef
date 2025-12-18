@@ -33,13 +33,6 @@ namespace CefUtils {
         Log::error("opendir() failed, err=%d", errno);
       return false;
     }
-    bool isFileExist(const char* pathname) {
-      if (FILE *file = fopen(pathname, "r")) {
-        fclose(file);
-        return true;
-      }
-      return false;
-    }
     bool findFramework() {
       if (!g_pathFramework.empty())
         return true;
@@ -48,7 +41,7 @@ namespace CefUtils {
       char * val = getenv("ALT_CEF_FRAMEWORK_DIR");
       if (val != NULL && isDirExist(val)) {
         std::string path = string_format("%s/%s", val, "Chromium Embedded Framework");
-        if (isFileExist(path.c_str())) {
+        if (utils::isFileExist(path.c_str())) {
           g_pathFrameworkDir = val;
           g_pathFramework = path;
           Log::debug("Will be used alt CEF framework path '%s'", g_pathFramework.c_str());
@@ -65,7 +58,7 @@ namespace CefUtils {
                                          .append("Chromium Embedded Framework.framework")
                                          .append("Chromium Embedded Framework")
                                          .lexically_normal();
-      if (isFileExist(path.c_str())) {
+      if (utils::isFileExist(path.c_str())) {
         g_pathFrameworkDir = boost::filesystem::current_path()
                                  .append("..")
                                  .append("..")
@@ -84,7 +77,7 @@ namespace CefUtils {
                  .append("Chromium Embedded Framework.framework")
                  .append("Chromium Embedded Framework")
                  .lexically_normal();
-      if (isFileExist(path.c_str())) {
+      if (utils::isFileExist(path.c_str())) {
         g_pathFrameworkDir = boost::filesystem::current_path()
                                  .append("..")
                                  .append("Frameworks")
