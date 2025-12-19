@@ -5,7 +5,6 @@ RemoteCompletionCallback::RemoteCompletionCallback(std::shared_ptr<ServerHandler
     peer.objId) {} // Empty disposer because java-peer is disposed in the end of CompletionCallback_OnComplete
 
 void RemoteCompletionCallback::OnComplete() {
-  LNDCT();
   myCtx->javaService()->exec([&](JavaService s){
     s->CompletionCallback_OnComplete(myPeerId);
   });

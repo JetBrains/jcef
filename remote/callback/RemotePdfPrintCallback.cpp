@@ -7,8 +7,6 @@ RemotePdfPrintCallback::RemotePdfPrintCallback(
 }  // Empty disposer because java-peer is disposed in the end of RunFileDialogCallback_OnFileDialogDismissed
 
 void RemotePdfPrintCallback::OnPdfPrintFinished(const CefString& path, bool ok) {
-  LNDCT();
-
   myCtx->javaService()->exec([&](JavaService s){
     s->PdfPrintCallback_OnPdfPrintFinished(myPeerId, path.ToString(), ok);
   });

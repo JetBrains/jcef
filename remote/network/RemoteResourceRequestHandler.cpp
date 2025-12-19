@@ -10,9 +10,8 @@
 
 namespace {
   std::string status2str(cef_urlrequest_status_t type);
+  const bool doTrace = getBoolEnv("CEF_SERVER_TRACE_RemoteResourceRequestHandler");
 }
-
-const bool doTrace = getBoolEnv("CEF_SERVER_TRACE_RemoteResourceRequestHandler");
 
 RemoteResourceRequestHandler::RemoteResourceRequestHandler(
     int bid,

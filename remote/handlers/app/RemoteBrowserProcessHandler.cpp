@@ -3,11 +3,6 @@
 #include "../../router/MessageRoutersManager.h"
 #include "../../RpcExecutor.h"
 
-#ifdef LNDCT
-#undef LNDCT
-#define LNDCT()
-#endif
-
 RemoteBrowserProcessHandler::RemoteBrowserProcessHandler() : myService(nullptr), myCreationTime(Clock::now()) {}
 
 void RemoteBrowserProcessHandler::setService(std::shared_ptr<RpcExecutor> service) {
@@ -26,8 +21,6 @@ void RemoteBrowserProcessHandler::setService(std::shared_ptr<RpcExecutor> servic
 }
 
 void RemoteBrowserProcessHandler::OnContextInitialized() {
-  LNDCT();
-
   if (Log::isTraceEnabled()) {
     auto dur = std::chrono::duration_cast<std::chrono::microseconds>(Clock::now() - myCreationTime);
     Log::trace("CEF context is initialized, spent %d mcs", (int)dur.count());
