@@ -220,7 +220,7 @@ bool ServerApplication::init(int argc, char* argv[]) {
 #endif
 
   CefSettings settings;
-  myCmdArgs.prepareCefSettings(settings);
+  myCmdArgs.prepareCefSettings(&settings);
   myAppHandler = new RemoteAppHandler(myCmdArgs.myChromiumSwitches, settings, myCmdArgs.myCustomSchemes);
   myAppHandler->AddRef();
 

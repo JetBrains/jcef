@@ -130,8 +130,8 @@ bool setSettingItem(CefSettings & out, const std::string & name, const std::stri
 
 bool parseCefSettingWord(const std::string & arg, std::vector<std::pair<std::string, std::string>> & out) {
   auto eqPos = arg.find("=");
-  int tokenPos = arg.find("--cef_setting_");
-  int tokenShortPos = arg.find("--cs_");
+  auto tokenPos = arg.find("--cef_setting_");
+  auto tokenShortPos = arg.find("--cs_");
   if (eqPos == arg.npos || (tokenPos == arg.npos && tokenShortPos == arg.npos)) {
     // Log::trace("Can't parse cef-setting word: %s", arg.c_str());
     return false;
@@ -148,8 +148,8 @@ bool parseCefSettingWord(const std::string & arg, std::vector<std::pair<std::str
 
 bool parseCefSchemeWord(const std::string & arg, std::string & name, int & options) {
   auto eqPos = arg.find("=");
-  int tokenPos = arg.find("--cef_customscheme_");
-  int tokenShortPos = arg.find("--ccs_");
+  auto tokenPos = arg.find("--cef_customscheme_");
+  auto tokenShortPos = arg.find("--ccs_");
   if (eqPos == arg.npos || (tokenPos == arg.npos && tokenShortPos == arg.npos)) {
     // Log::trace("Can't parse cef-scheme word: %s", arg.c_str());
     return false;
@@ -166,8 +166,8 @@ bool parseCefSchemeWord(const std::string & arg, std::string & name, int & optio
 }
 
 bool parseCefCmdLineSwitch(const std::string & arg, std::string & out) {
-  int tokenPos = arg.find("--cef_switch_");
-  int tokenShortPos = arg.find("--cw");
+  auto tokenPos = arg.find("--cef_switch_");
+  auto tokenShortPos = arg.find("--cw");
   if (tokenPos == arg.npos && tokenShortPos == arg.npos) {
     // Log::trace("Can't parse cef-switch word: %s", arg.c_str());
     return false;
@@ -210,8 +210,7 @@ void parseParamsFile(const std::string & paramsFilePath, std::vector<std::string
         } else if (collectCmdSwitches) {
           cmdlineSwitches.push_back(line);
         } else if (collectSettings) {
-          if (parseSettingLine(line, parsedSettings))
-            ; // nothing to do
+          parseSettingLine(line, parsedSettings);
         } else {
           std::string name;
           int options;

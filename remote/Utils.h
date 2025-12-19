@@ -4,6 +4,7 @@
 #include <string>
 #include <stdexcept>
 #include <memory>
+#include <chrono>
 
 namespace utils {
   int GetPid();

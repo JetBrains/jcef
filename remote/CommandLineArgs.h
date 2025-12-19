@@ -6,10 +6,6 @@
 
 #include "log/Log.h"
 
-template <class traits> class CefStructBase;
-class CefSettingsTraits;
-using CefSettings = CefStructBase<CefSettingsTraits>;
-
 class CommandLineArgs {
  public:
   CommandLineArgs();
@@ -45,7 +41,7 @@ class CommandLineArgs {
   std::vector<std::pair<std::string, std::string>> myParsedCefSettings;
 
   friend class ServerApplication;
-  void prepareCefSettings(CefSettings & settings);
+  void prepareCefSettings(void * pCefSettings);
 };
 
 #endif  // JCEF_COMMANDLINEARGS_H

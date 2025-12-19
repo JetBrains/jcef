@@ -189,7 +189,8 @@ bool CommandLineArgs::init(int argc, char* argv[]) {
   return true;
 }
 
-void CommandLineArgs::prepareCefSettings(CefSettings & settings) {
+void CommandLineArgs::prepareCefSettings(void * pCefSettings) {
+  CefSettings & settings = *reinterpret_cast<CefSettings*>(pCefSettings);
   for (const auto & p: myParsedCefSettings) {
     if (p.first.compare("cache_path") && !myPathRootCache.empty()) {
       Log::debug("Setting 'cache_path' from params file (or cmd line) with value '%s' will be overrriden with cmd line arg '--root=%s'", p.second.c_str(), myPathRootCache.c_str());
