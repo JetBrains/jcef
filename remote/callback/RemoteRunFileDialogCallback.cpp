@@ -7,7 +7,6 @@ RemoteRunFileDialogCallback::RemoteRunFileDialogCallback(
 }  // Empty disposer because java-peer is disposed in the end of RunFileDialogCallback_OnFileDialogDismissed
 
 void RemoteRunFileDialogCallback::OnFileDialogDismissed(const std::vector<CefString>& file_paths) {
-  LNDCT();
   std::vector<std::string> filePaths;
   for (const auto & fp: file_paths)
     filePaths.push_back(fp.ToString());

@@ -6,7 +6,9 @@
 #include "../callback/RemoteCallback.h"
 #include "../log/Log.h"
 
-static const bool doTrace = getBoolEnv("CEF_SERVER_TRACE_RemoteResourceHandler");
+namespace {
+  const bool doTrace = getBoolEnv("CEF_SERVER_TRACE_RemoteResourceHandler");
+}
 
 RemoteResourceHandler::RemoteResourceHandler(
     int bid,
@@ -18,11 +20,11 @@ RemoteResourceHandler::RemoteResourceHandler(
           [=](JavaService service) {
             service->ResourceHandler_Dispose(peer.objId);
           }), myBid(bid) {
-  TRACE()
+  TRACE();
 }
 
 RemoteResourceHandler::~RemoteResourceHandler() {
-  TRACE()
+  TRACE();
   // simple protection for leaking via callbacks
   for (auto c: myCallbacks)
     RemoteCallback::dispose(c);
@@ -40,8 +42,7 @@ RemoteResourceHandler::~RemoteResourceHandler() {
 /*--cef()--*/
 bool RemoteResourceHandler::ProcessRequest(CefRefPtr<CefRequest> request,
                                            CefRefPtr<CefCallback> callback) {
-  TRACE()
-  LNDCT();
+  TRACE();
   RemoteRequest::Holder req(request);
   std::shared_ptr<RemoteCallback> rc = RemoteCallback::wrapDelegate(callback);
   const bool handled = myCtx->javaServiceIO()->exec<bool>([&](JavaService s){
@@ -72,8 +73,7 @@ bool RemoteResourceHandler::ProcessRequest(CefRefPtr<CefRequest> request,
 void RemoteResourceHandler::GetResponseHeaders(CefRefPtr<CefResponse> response,
                                                int64_t& response_length,
                                                CefString& redirectUrl) {
-  TRACE()
-  LNDCT();
+  TRACE();
   RemoteResponse::Holder resp(response);
   thrift_codegen::ResponseHeaders _return;
   myCtx->javaServiceIO()->exec([&](JavaService s){
@@ -93,7 +93,7 @@ bool RemoteResourceHandler::ReadResponse(void* data_out,
                                          int bytes_to_read,
                                          int& bytes_read,
                                          CefRefPtr<CefCallback> callback) {
-  TRACE()
+  TRACE();
   std::shared_ptr<RemoteCallback> rc = RemoteCallback::wrapDelegate(callback);
   thrift_codegen::ResponseData _return;
   _return.bytes_read = 0;
@@ -111,7 +111,7 @@ bool RemoteResourceHandler::ReadResponse(void* data_out,
 }
 
 void RemoteResourceHandler::Cancel() {
-  TRACE()
+  TRACE();
   myCtx->javaServiceIO()->exec([&](JavaService s){
     s->ResourceHandler_Cancel(myPeerId);
   });

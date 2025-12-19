@@ -2,7 +2,9 @@
 #include "RemoteMessageRouter.h"
 #include "../browser/RemoteBrowser.h"
 
-static const bool doTrace = getBoolEnv("CEF_SERVER_TRACE_MessageRoutersManager");
+namespace {
+  const bool doTrace = getBoolEnv("CEF_SERVER_TRACE_MessageRoutersManager");
+}
 
 MessageRoutersManager::~MessageRoutersManager() {
   TRACE();

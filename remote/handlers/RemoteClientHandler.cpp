@@ -17,6 +17,8 @@
 
 namespace {
 
+const bool doMeasureTimes = getBoolEnv("CEF_SERVER_MEASURE_RemoteClientHandler", true);
+
 class DummyRenderHandler : public CefRenderHandler {
  public:
   void GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect) override {
@@ -203,7 +205,7 @@ bool RemoteClientHandler::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser
                                              CefRefPtr<CefFrame> frame,
                                              CefProcessId source_process,
                                              CefRefPtr<CefProcessMessage> message) {
-    LNDCT();
+    utils::Measurer measurer(doMeasureTimes, "ClientHandler", __FUNCTION__);
     myRoutersManager->OnProcessMessageReceived(browser, frame, source_process, message);
     return false;
 }
