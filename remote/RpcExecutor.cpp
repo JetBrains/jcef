@@ -4,6 +4,9 @@
 #include <thrift/protocol/TBinaryProtocol.h>
 #include <thrift/transport/TTransportUtils.h>
 
+#include "Utils.h"
+#include "DebugInfo.h"
+
 #ifdef WIN32
 #include "windows/PipeTransport.h"
 #else
@@ -16,20 +19,32 @@ using namespace apache::thrift::transport;
 
 using namespace thrift_codegen;
 
+namespace {
+#ifndef NDEBUG
+const bool doMeasureTimes = getBoolEnv("CEF_SERVER_MEASURE_RpcExecutor", true);
+#else
+const bool doMeasureTimes = getBoolEnv("CEF_SERVER_MEASURE_RpcExecutor", false);
+#endif
+const bool doTraceAll = getBoolEnv("CEF_SERVER_TRACE_RpcExecutor");
+}
+
 class MyBinaryProtocol : public TBinaryProtocolT<TTransport> {
- public:
+public:
   explicit MyBinaryProtocol(const std::shared_ptr<TTransport>& trans) : TBinaryProtocolT(trans) {}
 
   uint32_t writeMessageBegin_virt(const std::string& name,
                                   const TMessageType messageType,
                                   const int32_t seqid) override {
     myLastMessageName = name;
+    if (doTraceAll && Log::isTraceEnabled())
+      Log::trace("RpcExecutor: exec '%s'", name.c_str());
+
     return TVirtualProtocol::writeMessageBegin_virt(name, messageType, seqid);
   }
 
   const std::string& getLastMessageName() const { return myLastMessageName; }
 
- private:
+private:
   std::string myLastMessageName = "";
 };
 
@@ -57,11 +72,16 @@ std::string RpcExecutor::getProcessingName() const { return myProtocol->getLastM
 
 void RpcExecutor::beforeExec() {
   myIsProcessing = true;
-  myStartExec = Clock::now();
+  myStartExec = std::chrono::steady_clock::now();
 }
 
 void RpcExecutor::afterExec() {
   myIsProcessing = false;
+  if (doMeasureTimes)
+    DebugInfo::addMeasure(
+      "RpcExecutor." + myProtocol->getLastMessageName(),
+      std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - myStartExec).count()
+    );
 }
 
 void RpcExecutor::close() {
@@ -82,7 +102,8 @@ void RpcExecutor::exec(std::function<void(JavaService)> rpc) {
   Lock lock(myMutex);
 
   if (myService == nullptr) {
-    //Log::debug("null remote service");
+    if (doTraceAll && Log::isTraceEnabled())
+      Log::trace("RpcExecutor: null remote service");
     return;
   }
 
@@ -95,7 +116,9 @@ void RpcExecutor::exec(std::function<void(JavaService)> rpc) {
 }
 
 void RpcExecutor::onThriftException(apache::thrift::TException& tx) {
-  Log::debug("thrift exception occurred: %s", tx.what());
-  Log::debug("name of executed rpc: %s", getProcessingName().c_str());
+  if (Log::isTraceEnabled()) {
+    Log::trace("RpcExecutor: thrift exception occurred: %s", tx.what());
+    Log::trace("RpcExecutor: name of executed rpc: %s", getProcessingName().c_str());
+  }
   close();
 }

@@ -112,10 +112,10 @@ namespace utils {
   }
 }
 
-bool getBoolEnv(const std::string & envName) {
+bool getBoolEnv(const std::string & envName, bool defaultVal/* = false*/) {
   const char* sval = getenv(envName.c_str());
   if (sval == nullptr)
-    return false;
+    return defaultVal;
 
   return strcmp(sval, "1") == 0 || strcmp(sval, "true") == 0;
 }
