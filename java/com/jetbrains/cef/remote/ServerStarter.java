@@ -13,13 +13,16 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Path;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 public class ServerStarter {
-    private static final Boolean KILL_SERVER_ON_SHUTDOWN = Utils.getBoolean("JCEF_KILL_SERVER_ON_SHUTDOWN");
-    private static final Boolean DISABLE_GPU = Utils.getBoolean("JCEF_DISABLE_GPU");
+    private static final boolean KILL_SERVER_ON_SHUTDOWN = Utils.getBoolean("JCEF_KILL_SERVER_ON_SHUTDOWN");
+    private static final boolean DISABLE_GPU = Utils.getBoolean("JCEF_DISABLE_GPU");
+    private static final boolean TRACE = Utils.getBoolean("JCEF_TRACE_SERVERSTARTER");
+    private static final boolean USE_PARAMS_FILE = Utils.getBoolean("JCEF_USE_PARAMS_FILE");
+    private static final boolean USE_SHORT_CMDLINE_PREFIXES = Utils.getBoolean("JCEF_USE_SHORT_CMDLINE_PREFIXES", true);
     private static final int WAIT_START_LOOP_SLEEP_MS = Utils.getInteger("JCEF_WAIT_START_LOOP_SLEEP_MS", 200);
 
     static Map<String, Process> ourNativeServerProcesses = new HashMap<>();
@@ -68,7 +71,16 @@ public class ServerStarter {
     }
     // Should be called in bg thread
     public static boolean startProcessAndWait(File serverExe, ThriftTransport thriftServer, CefAppHandler appHandler, String[] args, CefSettings settings, String logPath, String logLevel, boolean deleteRootDir, long timeoutMs) {
-        Integer exitVal = startAndWait(serverExe, thriftServer, appHandler, args, settings, logPath, logLevel, deleteRootDir, timeoutMs);
+        if (serverExe == null) {
+            CefLog.Error("Can't start native cef_server, file is null.");
+            return false;
+        }
+        if (!serverExe.exists()) {
+            CefLog.Error("Can't start native cef_server, file doesn't exist: %s", serverExe.getAbsolutePath());
+            return false;
+        }
+
+        Integer exitVal = startAndWaitImpl(serverExe, thriftServer, appHandler, args, settings, logPath, logLevel, deleteRootDir, timeoutMs);
         if (exitVal != null) {
             if (exitVal == 101) {
                 // CefInitialize returns false. Probably, JCEF cache dir is locked.
@@ -76,74 +88,38 @@ public class ServerStarter {
                 final String newCacheDir = Path.of(System.getProperty("java.io.tmpdir")).resolve("cef_cache_" + thriftServer.toStringShort() + "_" + f.format(new Date())).toString();
                 CefLog.Info("Try to restart cef_server with another cache_dir '%s'.", newCacheDir);
                 settings.cache_path = newCacheDir;
-                exitVal = startAndWait(serverExe, thriftServer, appHandler, args, settings, logPath, logLevel, true, timeoutMs);
+                exitVal = startAndWaitImpl(serverExe, thriftServer, appHandler, args, settings, logPath, logLevel, true, timeoutMs);
             }
         }
 
         return exitVal == null;
     }
 
-    // Returns:
-    // null when the process has been started successfully
-    // Integer.MIN_VALUE when can't start process because of IO-errors
-    // exit code, otherwise
-    private static Integer startAndWait(File serverExe, ThriftTransport thriftServer, CefAppHandler appHandler, String[] args, CefSettings settings, String logPath, String logLevel, boolean deleteRootDir, long timeoutMs) {
-        final long t0 = System.nanoTime();
-        final Path settingsFileName = Path.of(System.getProperty("java.io.tmpdir")).resolve("cef_server_params.txt");
-        File f = new File(settingsFileName.toString());
-        PrintStream ps;
-        try {
-            new FileOutputStream(f).close(); // delete the content of the file
-            f.createNewFile();
-            ps = new PrintStream(new FileOutputStream(f, false));
-        } catch (IOException e) {
-            CefLog.Error("Can't create temp file with server params path=%s, msg=%s", settingsFileName.toString(), e.getMessage());
-            return Integer.MIN_VALUE;
-        }
+    private static void processArg(String arg, Consumer<String> visitor) {
+        if (TRACE) CefLog.Debug("processArg: " + arg);
 
-        // 1. command line args
-        final String sectionCmdLine = "[COMMAND_LINE]:";
-        ps.printf("%s\n", sectionCmdLine);
-        if (args != null && args.length > 0)
-            for (String arg: args) {
-                boolean skip = arg.startsWith("--browser-subprocess-path=")
-                        || arg.startsWith("--main-bundle-path=")
-                        || arg.startsWith("--framework-dir-path=");
-                if (skip)
-                    CefLog.Debug("Skip cmdline swintch '%s'", arg);
-                else
-                    ps.printf("%s\n", arg);
-            }
-        if (DISABLE_GPU) {
-            ps.println("--disable-gpu");
-            ps.println("--disable-gpu-compositing");
-            ps.println("--disable-gpu-vsync");
-            ps.println("--disable-software-rasterizer");
-            ps.println("--disable-extensions");
-        }
+        boolean skip = arg.startsWith("--browser-subprocess-path=")
+                || arg.startsWith("--main-bundle-path=")
+                || arg.startsWith("--framework-dir-path=");
+        if (skip)
+            CefLog.Debug("Skip cmdline swintch '%s'", arg);
+        else
+            visitor.accept(arg);
+    }
 
-        // 2. settings
-        ps.printf("[SETTINGS]:\n");
-        if (settings != null) {
-            Map<String, String> settingsMap = settings.toMap();
-            for (Map.Entry entry : settingsMap.entrySet()) {
-                boolean skip = "browser_subprocess_path".equals(entry.getKey())
-                        || "resources_dir_path".equals(entry.getKey())
-                        || "locales_dir_path".equals(entry.getKey());
-                if (skip)
-                    CefLog.Debug("Skip setting %s=%s", entry.getKey(), entry.getValue());
-                else
-                    ps.printf("%s=%s\n", entry.getKey(), entry.getValue());
-            }
-        }
+    private static void processSetting(String name, String value, BiConsumer<String, String> visitor) {
+        if (TRACE) CefLog.Debug("processSetting: " + name + "=" + value);
 
-        if (OS.isMacintosh() && serverExe != null) {
-            File subprocess = new File(serverExe.getParentFile().getParentFile(), "Frameworks/cef_server Helper.app/Contents/MacOS/cef_server Helper");
-            ps.printf("browser_subprocess_path=%s\n", subprocess.getAbsolutePath());
-        }
+        boolean skip = "browser_subprocess_path".equals(name)
+                || "resources_dir_path".equals(name)
+                || "locales_dir_path".equals(name);
+        if (skip)
+            CefLog.Debug("Skip setting %s=%s", name, value);
+        else
+            visitor.accept(name, value);
+    }
 
-        // 3. custom schemes
-        ps.printf("[CUSTOM_SCHEMES]:\n");
+    private static void processCustomSchemes(CefAppHandler appHandler, BiConsumer<String, Integer> visitor) {
         if (appHandler != null) {
             CefSchemeRegistrar collector = new CefSchemeRegistrar() {
                 @Override
@@ -156,44 +132,144 @@ public class ServerStarter {
                     if (isCorsEnabled) options |= 1 << 4;
                     if (isCspBypassing) options |= 1 << 5;
                     if (isFetchEnabled) options |= 1 << 6;
-                    ps.printf("%s|%d\n", schemeName, options);
+                    if (TRACE) CefLog.Debug("process CefCustomScheme: " + schemeName + "=" + options);
+                    visitor.accept(schemeName, options);
                     return false;
                 }
             };
             appHandler.onRegisterCustomSchemes(collector);
         }
+    }
+
+    private static void addSwitchesDisableGPU(Consumer<String> visitor) {
+        if (DISABLE_GPU) {
+            CefLog.Debug("Add disable GPU chromium switches.");
+            visitor.accept("--disable-gpu");
+            visitor.accept("--disable-gpu-compositing");
+            visitor.accept("--disable-gpu-vsync");
+            visitor.accept("--disable-software-rasterizer");
+            visitor.accept("--disable-extensions");
+        }
+    }
+
+    private static void prepareStartParamsWithCmdLine(ProcessBuilder builder, File serverExe, CefAppHandler appHandler, String[] args, CefSettings settings) {
+        // Use prefixed command line switches, CefSettings and custom schemes (from CefAppHandler).
+
+        // 1. command line args
+        List<String> prefixedArgs = new ArrayList<>();
+        String prefix = USE_SHORT_CMDLINE_PREFIXES ? "--cw" : "--cef_switch_";
+        if (args != null && args.length > 0)
+            for (String arg: args) {
+                String finalPrefix = prefix;
+                processArg(arg, s -> prefixedArgs.add(finalPrefix + s));
+            }
+
+        if (DISABLE_GPU) {
+            String finalPrefix = prefix;
+            addSwitchesDisableGPU(s -> prefixedArgs.add(finalPrefix + s));
+        }
+
+        // 2. settings
+        List<String> prefixedSettings = new ArrayList<>();
+        prefix = USE_SHORT_CMDLINE_PREFIXES ? "--cs_" : "--cef_setting_";
+        if (settings != null) {
+            Map<String, String> settingsMap = settings.toMap();
+            for (Map.Entry<String, String> entry : settingsMap.entrySet()) {
+                String finalPrefix = prefix;
+                processSetting(entry.getKey(), entry.getValue(), (n, v) -> prefixedSettings.add(finalPrefix + n + "=" + v));
+            }
+        }
+
+        if (OS.isMacintosh() && serverExe != null) {
+            File subprocess = new File(serverExe.getParentFile().getParentFile(), "Frameworks/cef_server Helper.app/Contents/MacOS/cef_server Helper");
+            if (settings != null && settings.browser_subprocess_path != null)
+                CefLog.Debug("browser_subprocess_path setting '%s' will be overridden with bundled path '%s'", settings.browser_subprocess_path, subprocess.getAbsolutePath());
+            prefixedSettings.add(prefix + "browser_subprocess_path=" + subprocess.getAbsolutePath());
+        }
+
+        // 3. custom schemes
+        List<String> prefixedCS = new ArrayList<>();
+        String finalPrefix = USE_SHORT_CMDLINE_PREFIXES ? "--ccs_" : "--cef_customscheme_";
+        processCustomSchemes(appHandler, (n,o) -> prefixedCS.add(finalPrefix + n + "=" + o));
+
+        // 4. add results to builder's command line args
+        prefixedArgs.forEach(builder.command()::add);
+        prefixedSettings.forEach(builder.command()::add);
+        prefixedCS.forEach(builder.command()::add);
+    }
+
+    private static boolean prepareStartParamsWithFile(ProcessBuilder builder, File serverExe, CefAppHandler appHandler, String[] args, CefSettings settings) {
+        // Write chromium command line switches, CefSettings and custom schemes to the params file.
+
+        final long t0 = System.nanoTime();
+        final Path settingsFileName = Path.of(System.getProperty("java.io.tmpdir")).resolve("cef_server_params.txt");
+        File f = new File(settingsFileName.toString());
+        PrintStream ps;
+        try {
+            new FileOutputStream(f).close(); // delete the content of the file
+            f.createNewFile();
+            ps = new PrintStream(new FileOutputStream(f, false));
+        } catch (IOException e) {
+            CefLog.Error("Can't create temp file with server params path=%s, msg=%s", settingsFileName.toString(), e.getMessage());
+            return false;
+        }
+
+        // 1. command line args
+        final String sectionCmdLine = "[COMMAND_LINE]:";
+        ps.printf("%s\n", sectionCmdLine);
+        if (args != null && args.length > 0)
+            for (String arg: args)
+                processArg(arg, s -> ps.printf("%s\n", s));
+
+        if (DISABLE_GPU)
+            addSwitchesDisableGPU(s -> ps.println(s));
+
+        // 2. settings
+        ps.printf("[SETTINGS]:\n");
+        if (settings != null) {
+            Map<String, String> settingsMap = settings.toMap();
+            for (Map.Entry<String, String> entry : settingsMap.entrySet())
+                processSetting(entry.getKey(), entry.getValue(), (n,v) -> ps.printf("%s=%s\n", n, v));
+        }
+
+        if (OS.isMacintosh() && serverExe != null) {
+            File subprocess = new File(serverExe.getParentFile().getParentFile(), "Frameworks/cef_server Helper.app/Contents/MacOS/cef_server Helper");
+            if (settings != null && settings.browser_subprocess_path != null)
+                CefLog.Debug("browser_subprocess_path setting '%s' will be overridden with bundled path '%s'", settings.browser_subprocess_path, subprocess.getAbsolutePath());
+            ps.printf("browser_subprocess_path=%s\n", subprocess.getAbsolutePath());
+        }
+
+        // 3. custom schemes
+        ps.printf("[CUSTOM_SCHEMES]:\n");
+        processCustomSchemes(appHandler, (n,o) -> ps.printf("%s|%d\n", n, o));
 
         ps.flush();
         ps.close();
 
         CefLog.Debug("Settings were written to file, spent %d mcs", (System.nanoTime() - t0)/1000);
-        CefLog.Info("Start native cef_server with cache path: %s", settings.cache_path);
-
-        return startAndWait(serverExe, thriftServer, f.getAbsolutePath(), timeoutMs, logPath, logLevel, deleteRootDir);
+        builder.command().add(String.format("--params=%s", f.getAbsolutePath()));
+        return true;
     }
 
     // Returns:
     // null when the process has been started successfully
     // Integer.MIN_VALUE when can't start process because of IO-errors
     // exit code, otherwise
-    private static Integer startAndWait(File serverExe, ThriftTransport thriftServer, String paramsPath, long timeoutMs, String logPath, String logLevel, boolean deleteRootDir) {
+    private static Integer startAndWaitImpl(File serverExe, ThriftTransport thriftServer, CefAppHandler appHandler, String[] args, CefSettings settings, String logPath, String logLevel, boolean deleteRootDir, long timeoutMs) {
         final long t0 = System.nanoTime();
+        CefLog.Info("Start native cef_server with cache path: %s", settings == null ? null : settings.cache_path);
+        CefLog.Debug("cef_server executable path='%s'", serverExe.getAbsolutePath());
+
         if (ourNativeServerProcesses.get(thriftServer.toString()) != null)
             CefLog.Debug("Handle of server process will be overwritten.");
         ourNativeServerProcesses.remove(thriftServer.toString());
 
-        if (serverExe == null)
-            return Integer.MIN_VALUE;
-
-        CefLog.Debug("cef_server executable path='%s', params path='%s'", serverExe.getAbsolutePath(), paramsPath);
-        if (!serverExe.exists()) {
-            CefLog.Error("Can't start native cef_server, file doesn't exist: %s", serverExe.getAbsolutePath());
-            return Integer.MIN_VALUE;
-        }
-
         ProcessBuilder builder = new ProcessBuilder(serverExe.getAbsolutePath());
         CefLog.Debug("\tWorking dir %s", serverExe.getParentFile());
         builder.directory(serverExe.getParentFile());
+        builder.redirectOutput(ProcessBuilder.Redirect.INHERIT);
+        builder.redirectError(ProcessBuilder.Redirect.INHERIT);
+
         if (thriftServer.isTcp()) {
             CefLog.Debug("\tUse tcp-port %d", thriftServer.getPort());
             builder.command().add(String.format("--port=%d", thriftServer.getPort()));
@@ -210,16 +286,18 @@ public class ServerStarter {
         CefLog.Info("Native server logging: level '%s', stream: '%s'", logLevel, logStream);
         builder.command().add(String.format("--loglevel=%s", logLevel));
 
-        if (System.getenv().containsKey("DEBUG_CEF_SERVER")) {
+        if (System.getenv().containsKey("DEBUG_CEF_SERVER"))
             builder.command().add("--cef-server-wait-debugger");
-        }
 
         if (deleteRootDir)
             builder.command().add("--deleteRootCacheDir");
 
-        builder.command().add(String.format("--params=%s", paramsPath));
-        builder.redirectOutput(ProcessBuilder.Redirect.INHERIT);
-        builder.redirectError(ProcessBuilder.Redirect.INHERIT);
+        if (!USE_PARAMS_FILE
+                || !prepareStartParamsWithFile(builder, serverExe, appHandler, args, settings))
+        {
+            prepareStartParamsWithCmdLine(builder, serverExe, appHandler, args, settings);
+        }
+
         Process p;
         try {
             p = builder.start();
