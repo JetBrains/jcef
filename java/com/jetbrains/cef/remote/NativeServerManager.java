@@ -147,9 +147,9 @@ public class NativeServerManager {
         return null;
     }
 
-    public static String getServerState() {
+    public static String getServerState(ThriftTransport thriftServer) {
         try {
-            RpcExecutor test = new RpcExecutor().openTransport(ThriftTransport.ourDefaultServer);
+            RpcExecutor test = new RpcExecutor().openTransport(thriftServer);
             String state = test.execObj(s -> s.getServerInfo("state"));
             test.closeTransport();
             return state;
@@ -175,7 +175,7 @@ public class NativeServerManager {
         boolean stopped = waitForStopped(thriftServer, timeoutMs);
         if (!stopped) {
             CefLog.Error("Can't stop server in %d ms (process is %s)", timeoutMs, isProcessAlive(thriftServer) ? "alive" : "dead");
-            CefLog.Debug("Server state: %s", getServerState());
+            CefLog.Debug("Server state: %s", getServerState(thriftServer));
             return false;
         }
         ServerStarter.ourNativeServerProcesses.remove(thriftServer.toString());
@@ -364,7 +364,7 @@ public class NativeServerManager {
         File cef_server_exe = getServerExe();
         if (cef_server_exe == null) {
             // NOTE: cef_server can be manually started on custom port (for example, in debugging)
-            return isRunning(ThriftTransport.ourDefaultServer) != null;
+            return ThriftTransport.MANUAL_SERVER_SELECT || isRunning(ThriftTransport.ourDefaultServer) != null;
         }
         return cef_server_exe.exists() && !cef_server_exe.isDirectory();
     }
