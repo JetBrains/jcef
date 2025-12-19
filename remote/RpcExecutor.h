@@ -37,7 +37,7 @@ class RpcExecutor {
   void exec(std::function<void(JavaService)> rpc);
 
   bool isProcessing() const { return myIsProcessing; }
-  Clock::time_point getProcessingStart() const { return myStartExec; }
+  std::chrono::steady_clock::time_point getProcessingStart() const { return myStartExec; }
   std::string getProcessingName() const;
 
  private:

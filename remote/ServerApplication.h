@@ -22,7 +22,7 @@ class ServerApplication {
 
   bool init(int argc, char* argv[]);
 
-  const std::chrono::high_resolution_clock::time_point& getStartTime() const;
+  const std::chrono::steady_clock::time_point& getStartTime() const;
 
   enum State {
     SS_NEW,
@@ -52,8 +52,8 @@ class ServerApplication {
   std::shared_ptr<MyServerProcessorFactory> myFactory;
   State myState = SS_NEW;
   std::recursive_mutex myMutexState;
-  std::chrono::high_resolution_clock::time_point myTimeStart;
-  std::chrono::high_resolution_clock::time_point myTimeStartShuttingDown;
+  std::chrono::steady_clock::time_point myTimeStart;
+  std::chrono::steady_clock::time_point myTimeStartShuttingDown;
 
   std::thread myThreadWatcher;
   std::shared_ptr<CancellationPoint> myStopWatcher;

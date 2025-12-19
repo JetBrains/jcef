@@ -3,7 +3,7 @@
 #include "../../router/MessageRoutersManager.h"
 #include "../../RpcExecutor.h"
 
-RemoteBrowserProcessHandler::RemoteBrowserProcessHandler() : myService(nullptr), myCreationTime(Clock::now()) {}
+RemoteBrowserProcessHandler::RemoteBrowserProcessHandler() : myService(nullptr), myCreationTime(std::chrono::steady_clock::now()) {}
 
 void RemoteBrowserProcessHandler::setService(std::shared_ptr<RpcExecutor> service) {
   bool needInvokeCallback = false;
@@ -22,7 +22,7 @@ void RemoteBrowserProcessHandler::setService(std::shared_ptr<RpcExecutor> servic
 
 void RemoteBrowserProcessHandler::OnContextInitialized() {
   if (Log::isTraceEnabled()) {
-    auto dur = std::chrono::duration_cast<std::chrono::microseconds>(Clock::now() - myCreationTime);
+    auto dur = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - myCreationTime);
     Log::trace("CEF context is initialized, spent %d mcs", (int)dur.count());
   }
 

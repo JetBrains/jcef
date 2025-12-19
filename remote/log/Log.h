@@ -81,8 +81,6 @@ public:
   static void initImpl(int level, FILE* logFile = nullptr);
 };
 
-typedef std::chrono::high_resolution_clock Clock;
-
 class LogNdc {
  public:
   LogNdc(std::string file, std::string func, std::string threadName);
@@ -95,7 +93,7 @@ class LogNdc {
   virtual ~LogNdc();
 
  private:
-  const Clock::time_point startTime;
+  const std::chrono::steady_clock::time_point startTime;
   int thresholdMcs = -1;
   bool logStart = false;
   bool logFinish = false;

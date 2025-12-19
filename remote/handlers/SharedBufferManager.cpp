@@ -28,10 +28,10 @@ SharedBuffer::SharedBuffer(std::string uid, size_t len)
   }
 
   Log::trace("Allocate shared buffer '%s' | %.2f Mb", uid.c_str(), len/(1024*1024.f));
-  const Clock::time_point startTime = Clock::now();
+  const std::chrono::steady_clock::time_point startTime = std::chrono::steady_clock::now();
   shared_memory_object::remove(uid.c_str());
 
-  const Clock::time_point t1 = Clock::now();
+  const std::chrono::steady_clock::time_point t1 = std::chrono::steady_clock::now();
   // TODO: check allocation errors, catch and process exceptions
 #ifdef WIN32
   mySharedSegment = new managed_windows_shared_memory(create_only, uid.c_str(),
@@ -39,18 +39,18 @@ SharedBuffer::SharedBuffer(std::string uid, size_t len)
 #else
   mySharedSegment = new managed_shared_memory(create_only, uid.c_str(),len + additionalBytes);
 #endif
-  const Clock::time_point t2 = Clock::now();
+  const std::chrono::steady_clock::time_point t2 = std::chrono::steady_clock::now();
   mySharedMem = mySharedSegment->allocate(len);
   mySharedMemHandle = mySharedSegment->get_handle_from_address(mySharedMem);
 
-  const Clock::time_point t3 = Clock::now();
+  const std::chrono::steady_clock::time_point t3 = std::chrono::steady_clock::now();
   named_mutex::remove(myUid.c_str());
 
-  const Clock::time_point t4 = Clock::now();
+  const std::chrono::steady_clock::time_point t4 = std::chrono::steady_clock::now();
   myMutex = new named_mutex(create_only, myUid.c_str());
 
   if (Log::isTraceEnabled()) {
-    const Clock::time_point entTime = Clock::now();
+    const std::chrono::steady_clock::time_point entTime = std::chrono::steady_clock::now();
     const long spentMs = (long)std::chrono::duration_cast<std::chrono::microseconds>(entTime - startTime).count();
     if (spentMs > 5*1000) {
       auto d1 = std::chrono::duration_cast<std::chrono::microseconds>(t1 - startTime);
