@@ -427,6 +427,9 @@ std::string ServerApplication::getStateWithDetails() {
   ss << "RemoteObject factories:" << std::endl;
   ss << DebugInfo::getInfo(1);
 
+  ss << "Measures:" << std::endl;
+  ss << DebugInfo::getMeasures(1);
+
   return ss.str();
 }
 

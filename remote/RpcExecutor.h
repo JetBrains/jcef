@@ -21,10 +21,8 @@ class RpcExecutor {
   template<typename T>
   T exec(std::function<T(JavaService)> rpc, T defVal) {
     std::unique_lock<std::recursive_mutex> lock(myMutex);
-    if (myService == nullptr) {
-      //Log::debug("null remote service");
+    if (myService == nullptr)
       return defVal;
-    }
 
     ExecHolder eh(*this);
     try {
@@ -48,15 +46,15 @@ class RpcExecutor {
   std::shared_ptr<MyBinaryProtocol> myProtocol;
   std::recursive_mutex myMutex;
 
-  Clock::time_point myStartExec;
+  std::chrono::steady_clock::time_point myStartExec;
   volatile bool myIsProcessing = false;
   void beforeExec();
   void afterExec();
   void onThriftException(apache::thrift::TException& tx);
 
   class ExecHolder {
-   RpcExecutor & myExecutor;
-   public:
+    RpcExecutor & myExecutor;
+  public:
     ExecHolder(RpcExecutor & executor) : myExecutor(executor) {
       myExecutor.beforeExec();
     }

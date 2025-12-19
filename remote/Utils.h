@@ -13,6 +13,15 @@ namespace utils {
   std::string demangle(const char* name);
 
   bool isFileExist(const char* pathname);
+
+  class Measurer {
+    const std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
+    const bool isEnabled;
+    const std::string name;
+  public:
+    Measurer(bool _isEnabled, const std::string & className, const std::string & funcName) : isEnabled(_isEnabled), name(className + "." + funcName) {}
+    ~Measurer();
+  };
 }
 
 template<typename ... Args>
@@ -26,7 +35,7 @@ std::string string_format( const std::string& format, Args ... args )
   return std::string( buf.get(), buf.get() + size - 1 );
 }
 
-bool getBoolEnv(const std::string & envName);
+bool getBoolEnv(const std::string & envName, bool defaultVal = false);
 long getLongEnv(const std::string & envName, long defVal);
 
 #endif  // JCEF_UTILS_H
