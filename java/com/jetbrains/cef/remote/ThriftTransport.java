@@ -5,6 +5,11 @@ import org.cef.OS;
 import org.cef.misc.CefLog;
 import org.cef.misc.Utils;
 
+import java.util.List;
+import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import java.awt.*;
 import java.io.*;
 import java.net.*;
 import java.nio.channels.Channels;
@@ -17,6 +22,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class ThriftTransport {
+    static final boolean MANUAL_SERVER_SELECT = Utils.getBoolean("JCEF_MANUAL_SERVER_SELECT") || Utils.getBoolean("jcef.select.server");
     private static final boolean IS_TCP_USED;
     private static final int PORT_CEF_SERVER;
     private static final int PORT_JAVA_HANDLERS;
@@ -42,20 +48,67 @@ public class ThriftTransport {
             SUFFIX = "_" + PID;
 
         if (IS_TCP_USED) {
-            int customPort = Utils.getInteger("ALT_CEF_SERVER_PORT", -1);
-            if (customPort == -1) {
+            final int[] customPort = new int[]{Utils.getInteger("ALT_CEF_SERVER_PORT", -1)};
+            if (MANUAL_SERVER_SELECT) {
+                JTextField textField = new JTextField("", 10);
+                JLabel label = new JLabel("Enter port");
+                JPanel portComponent = new JPanel(new BorderLayout());
+                portComponent.add(label,BorderLayout.WEST);
+                portComponent.add(textField,BorderLayout.EAST);
+
+                JPanel panel = new JPanel(new BorderLayout());
+                panel.add(portComponent, BorderLayout.SOUTH);
+
+                List<Integer> runningPorts = NativeServerManager.listRunningInstancesPorts();
+                if (runningPorts != null && !runningPorts.isEmpty()) {
+                    // Fill list
+                    String[] runningList = new String[runningPorts.size()];
+                    for (int i = 0; i < runningList.length; ++i)
+                        runningList[i] = String.valueOf(runningPorts.get(i));
+                    JList<String> list = new JList<>(runningList);
+                    list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                    list.setFont(list.getFont().deriveFont(13f));
+                    list.setVisibleRowCount(8);
+
+                    list.addListSelectionListener(new ListSelectionListener() {
+                        @Override
+                        public void valueChanged(ListSelectionEvent e) {
+                            customPort[0] = Integer.parseInt(list.getSelectedValue().trim());
+                            textField.setText(list.getSelectedValue());
+                            CefLog.Debug("MANUAL_SERVER_SELECT: selected port %d", customPort[0]);
+                        }
+                    });
+
+                    JScrollPane scrollPane = new JScrollPane(list);
+                    scrollPane.setPreferredSize(new Dimension(400, 250));
+
+                    panel.add(scrollPane, BorderLayout.CENTER);
+                }
+
+                JOptionPane.showMessageDialog(
+                        null,
+                        panel,
+                        "Select running cef_server",
+                        JOptionPane.PLAIN_MESSAGE
+                );
+
+                try {
+                    customPort[0] = Integer.parseInt(textField.getText());
+                } catch (NumberFormatException e) {}
+            }
+            if (customPort[0] == -1) {
                 PORT_CEF_SERVER = findFreePort(null);
                 if (PORT_CEF_SERVER == -1)
                     CefLog.Error("Can't find free tcp-port for server.");
                 else
                     CefLog.Info("Found free tcp-port %d for server.", PORT_CEF_SERVER);
             } else {
-                CefLog.Info("Use custom tcp-port %d for server.", customPort);
-                PORT_CEF_SERVER = customPort;
+                CefLog.Info("Use custom tcp-port %d for server.", customPort[0]);
+                PORT_CEF_SERVER = customPort[0];
             }
 
-            customPort = Utils.getInteger("ALT_JAVA_HANDLERS_PORT", -1);
-            if (customPort == -1) {
+            customPort[0] = Utils.getInteger("ALT_JAVA_HANDLERS_PORT", -1);
+            if (customPort[0] == -1) {
                 Set<Integer> exclude = new HashSet<>(); exclude.add(PORT_CEF_SERVER);
                 PORT_JAVA_HANDLERS = findFreePort(exclude);
                 if (PORT_JAVA_HANDLERS == -1)
@@ -63,8 +116,8 @@ public class ThriftTransport {
                 else
                     CefLog.Info("Found free tcp-port %d for java-handlers.", PORT_JAVA_HANDLERS);
             } else {
-                CefLog.Info("Use custom tcp-port %d for java-handlers.", customPort);
-                PORT_JAVA_HANDLERS = customPort;
+                CefLog.Info("Use custom tcp-port %d for java-handlers.", customPort[0]);
+                PORT_JAVA_HANDLERS = customPort[0];
             }
 
             ourDefaultServer = new ThriftTransport(getServerPort());
