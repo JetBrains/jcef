@@ -9,12 +9,6 @@ namespace {
   std::vector<std::string> cookie2list(const CefCookie& cookie);
 }
 
-// Disable logging until optimized
-#ifdef LNDCT
-#undef LNDCT
-#define LNDCT()
-#endif
-
 RemoteCookieAccessFilter::RemoteCookieAccessFilter(
     int bid,
     std::shared_ptr<ServerHandlerContext> service,
@@ -39,7 +33,6 @@ bool RemoteCookieAccessFilter::CanSendCookie(CefRefPtr<CefBrowser> browser,
                                              CefRefPtr<CefRequest> request,
                                              const CefCookie& cookie
 ) {
-  LNDCT();
   RemoteRequest::Holder req(request);
   RemoteFrame::Holder frm(frame);
   return myCtx->javaServiceIO()->exec<bool>([&](JavaService s){
@@ -62,7 +55,6 @@ bool RemoteCookieAccessFilter::CanSaveCookie(CefRefPtr<CefBrowser> browser,
                                              CefRefPtr<CefResponse> response,
                                              const CefCookie& cookie
 ) {
-  LNDCT();
   RemoteRequest::Holder req(request);
   RemoteResponse::Holder resp(response);
   RemoteFrame::Holder frm(frame);

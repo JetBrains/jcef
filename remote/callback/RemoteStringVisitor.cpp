@@ -8,7 +8,6 @@ RemoteStringVisitor::RemoteStringVisitor(std::shared_ptr<ServerHandlerContext> s
           }) {}
 
 void RemoteStringVisitor::Visit(const CefString& str){
-  LNDCT();
   myCtx->javaService()->exec([&](JavaService s){
      s->StringVisitor_Visit(myPeerId, str);
   });

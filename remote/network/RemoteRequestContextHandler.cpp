@@ -5,7 +5,9 @@
 #include "../browser/RemoteFrame.h"
 #include "../browser/RemoteBrowser.h"
 
-const bool doTrace = getBoolEnv("CEF_SERVER_TRACE_RemoteRequestContextHandler");
+namespace {
+  const bool doTrace = getBoolEnv("CEF_SERVER_TRACE_RemoteRequestContextHandler");
+}
 
 RemoteRequestContextHandler::RemoteRequestContextHandler(std::shared_ptr<ServerHandlerContext> ctx, thrift_codegen::RObject peer) :
       RemoteJavaObject<RemoteRequestContextHandler>(ctx, peer.objId), myCtx(ctx) { // Empty disposer because lifetime of java-peer is managed by java owner (RemoteRequestContext)

@@ -14,16 +14,15 @@
 std::string err2str(cef_errorcode_t errorcode);
 namespace {
   std::string tstatus2str(cef_termination_status_t status);
+  const bool doTrace = getBoolEnv("CEF_SERVER_TRACE_RemoteRequestHandler");
 }
 
-const bool doTrace = getBoolEnv("CEF_SERVER_TRACE_RemoteRequestHandler");
-
 RemoteRequestHandler::RemoteRequestHandler(std::shared_ptr<ServerHandlerContext> ctx, std::shared_ptr<MessageRoutersManager> routersManager) : myCtx(ctx), myRoutersManager(routersManager) {
-  TRACE()
+  TRACE();
 }
 
 RemoteRequestHandler::~RemoteRequestHandler() {
-  TRACE()
+  TRACE();
   // simple protection for leaking via callbacks
   for (auto c: myCallbacks)
     RemoteCallback::dispose(c);
@@ -50,7 +49,7 @@ bool RemoteRequestHandler::OnBeforeBrowse(CefRefPtr<CefBrowser> browser,
                     bool user_gesture,
                     bool is_redirect
 ) {
-  TRACE()
+  TRACE();
   FIND_BID_OR_RETURN_VAL(false);
   // Forward request to ClientHandler to make the message_router_ happy.
   myRoutersManager->OnBeforeBrowse(browser, frame);
@@ -68,7 +67,7 @@ bool RemoteRequestHandler::OnOpenURLFromTab(CefRefPtr<CefBrowser> browser,
                       WindowOpenDisposition target_disposition,
                       bool user_gesture
 ) {
-  TRACE()
+  TRACE();
   FIND_BID_OR_RETURN_VAL(false);
   RemoteFrame::Holder frm(frame);
   return myCtx->javaService()->exec<bool>([&](JavaService s){
@@ -101,7 +100,7 @@ CefRefPtr<CefResourceRequestHandler> RemoteRequestHandler::GetResourceRequestHan
     bool& disable_default_handling
 ) {
   // Called on the browser process IO thread before a resource request is initiated.
-  TRACE()
+  TRACE();
   FIND_BID_OR_RETURN_VAL(nullptr);
   LogNdc ndc(__FILE_NAME__, __FUNCTION__, 500, false, false, "ChromeIO");
   RemoteRequest::Holder req(request);
@@ -138,7 +137,7 @@ bool RemoteRequestHandler::GetAuthCredentials(CefRefPtr<CefBrowser> browser,
                         const CefString& scheme,
                         CefRefPtr<CefAuthCallback> callback
 ) {
-  TRACE()
+  TRACE();
   FIND_BID_OR_RETURN_VAL(false);
   thrift_codegen::RObject rc = RemoteAuthCallback::wrapDelegate(callback)->serverId();
   const bool handled = myCtx->javaServiceIO()->exec<bool>([&](JavaService s){
@@ -168,7 +167,7 @@ bool RemoteRequestHandler::OnCertificateError(CefRefPtr<CefBrowser> browser,
                         CefRefPtr<CefSSLInfo> ssl_info,
                         CefRefPtr<CefCallback> callback
 ) {
-  TRACE()
+  TRACE();
   FIND_BID_OR_RETURN_VAL(false);
   std::shared_ptr<RemoteCallback> rc = RemoteCallback::wrapDelegate(callback);
   std::string buf;
@@ -229,7 +228,7 @@ void writeSSLData(std::string & out, CefRefPtr<CefSSLInfo> sslInfo) {
 }
 
 void RemoteRequestHandler::OnRenderProcessTerminated(CefRefPtr<CefBrowser> browser, TerminationStatus status, int error_code, const CefString& error_string) {
-  TRACE()
+  TRACE();
   FIND_BID_OR_RETURN();
   // Forward request to ClientHandler to make the message_router_ happy.
   myRoutersManager->OnRenderProcessTerminated(browser);

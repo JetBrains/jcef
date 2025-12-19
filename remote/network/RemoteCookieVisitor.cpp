@@ -55,7 +55,6 @@ void RemoteCookieVisitor::toCefCookie(const thrift_codegen::Cookie& cookie, CefC
 }
 
 bool RemoteCookieVisitor::Visit(const CefCookie& c, int count, int total, bool& deleteCookie) {
-  LNDCT();
   return myCtx->javaService()->exec<bool>([&](JavaService s){
     return s->CookieVisitor_Visit(myPeerId, toThriftCookie(c), count, total);
   }, false);

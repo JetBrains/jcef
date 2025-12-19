@@ -181,7 +181,7 @@ void Log::log(int level, const char *const format, ...) {
 }
 
 LogNdc::LogNdc(std::string file, std::string func, std::string threadName) :
-      startTime(Clock::now())
+      startTime(std::chrono::steady_clock::now())
 {
   std::string msg(file);
   if (!func.empty()) {
@@ -193,7 +193,7 @@ LogNdc::LogNdc(std::string file, std::string func, std::string threadName) :
 }
 
 LogNdc::LogNdc(std::string file, std::string func, int thresholdMcs, bool logStart, bool logFinish, std::string threadName) :
-      startTime(Clock::now())
+      startTime(std::chrono::steady_clock::now())
 {
   std::string msg;
   if (func.empty()) {
@@ -226,7 +226,7 @@ LogNdc::LogNdc(std::string file, std::string func, int thresholdMcs, bool logSta
 LogNdc::~LogNdc() {
   bool logged = false;
   if (thresholdMcs >= 0) {
-    auto elapsedMcs = std::chrono::duration_cast<std::chrono::microseconds>(Clock::now() - startTime);
+    auto elapsedMcs = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - startTime);
     const long spentMcs = (long)elapsedMcs.count();
     if (spentMcs >= thresholdMcs) {
       Log::debug("Finished, spent %d msc.", spentMcs);

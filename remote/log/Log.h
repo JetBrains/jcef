@@ -81,8 +81,6 @@ public:
   static void initImpl(int level, FILE* logFile = nullptr);
 };
 
-typedef std::chrono::high_resolution_clock Clock;
-
 class LogNdc {
  public:
   LogNdc(std::string file, std::string func, std::string threadName);
@@ -95,13 +93,11 @@ class LogNdc {
   virtual ~LogNdc();
 
  private:
-  const Clock::time_point startTime;
+  const std::chrono::steady_clock::time_point startTime;
   int thresholdMcs = -1;
   bool logStart = false;
   bool logFinish = false;
 };
-
-#define LNDC() LogNdc ndc(__FILE_NAME__, __FUNCTION__)
 
 #ifdef _WIN32
 #define __FILE_NAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
@@ -111,14 +107,9 @@ class LogNdc {
 #define __FILE_NAME__  __FILE__
 #endif
 
-#define LNDCT() LogNdc ndc(__FILE_NAME__, __FUNCTION__, 1000)
-#define LNDCTT(thresholdMcs) LogNdc ndc(__FILE_NAME__, __FUNCTION__, thresholdMcs)
-#define LNDCTTS(thresholdMcs) LogNdc ndc(__FILE_NAME__, __FUNCTION__, thresholdMcs, true)
-
-#define TRACE()                 \
-  if (doTrace) {                \
-      Log::trace(__FUNCTION__); \
-  }
+#define TRACE()               \
+  if (doTrace)                \
+      Log::trace(__FUNCTION__)
 
 #define FACTORY_TRACE(Key, Prefix)        \
   static int doFactoryTrace = -1;                \

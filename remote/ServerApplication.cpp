@@ -52,7 +52,7 @@ class MyServerProcessor : public ServerProcessor {
     }
 
     myIsProcessing = true;
-    myStartDispatch = Clock::now();
+    myStartDispatch = std::chrono::steady_clock::now();
     myFuncName = fname;
 
     if (TRACE_THRIFT_MESSAGES_REGEXP != nullptr) {
@@ -68,14 +68,14 @@ class MyServerProcessor : public ServerProcessor {
 
   const std::shared_ptr<ServerHandler> getServerHandler() const { return myHandler; }
   bool isProcessing() const { return myIsProcessing; }
-  Clock::time_point getStartDispatch() const { return myStartDispatch; }
+  std::chrono::steady_clock::time_point getStartDispatch() const { return myStartDispatch; }
   std::string getFuncName() const { return myFuncName; }
 
  private:
   const std::shared_ptr<ServerHandler> myHandler;
 
   volatile bool myIsProcessing = false;
-  Clock::time_point myStartDispatch;
+  std::chrono::steady_clock::time_point myStartDispatch;
   std::string myFuncName;
 };
 
@@ -193,7 +193,7 @@ void ServerApplication::onBeforeExit() {
 }
 
 bool ServerApplication::init(int argc, char* argv[]) {
-  myTimeStart = Clock::now();
+  myTimeStart = std::chrono::steady_clock::now();
   if (!myCmdArgs.init(argc, argv)) {
     Log::debug("Show help and exit.");
     return false;
@@ -204,13 +204,13 @@ bool ServerApplication::init(int argc, char* argv[]) {
   myFactory = std::make_shared<MyServerProcessorFactory>();
 
 #if defined(OS_MAC)
-  const Clock::time_point t0 = Clock::now();
+  const std::chrono::steady_clock::time_point t0 = std::chrono::steady_clock::now();
   if (!CefUtils::loadCefFramework()) {
     Log::error("Can't load CEF framework library.");
     return false;
   }
 
-  const Clock::time_point t1 = Clock::now();
+  const std::chrono::steady_clock::time_point t1 = std::chrono::steady_clock::now();
   if (Log::isDebugEnabled()) {
     auto d1 = std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0);
     Log::debug("Loaded CEF framework library, spent %d ms", (int)d1.count());
@@ -220,7 +220,7 @@ bool ServerApplication::init(int argc, char* argv[]) {
 #endif
 
   CefSettings settings;
-  myCmdArgs.prepareCefSettings(settings);
+  myCmdArgs.prepareCefSettings(&settings);
   myAppHandler = new RemoteAppHandler(myCmdArgs.myChromiumSwitches, settings, myCmdArgs.myCustomSchemes);
   myAppHandler->AddRef();
 
@@ -239,7 +239,7 @@ bool ServerApplication::init(int argc, char* argv[]) {
     std::chrono::milliseconds timeoutExecutionMs(getLongEnv("CEF_SERVER_ourTimeoutExecutionMs", 5 * 1000));
     std::chrono::milliseconds timeoutShuttingDownMs(getLongEnv("CEF_SERVER_ourTimeoutShuttingDownMs", 25 * 1000));
 
-    Clock::time_point lastDebugLog = Clock::now() - timeoutDebugLogMs;
+    std::chrono::steady_clock::time_point lastDebugLog = std::chrono::steady_clock::now() - timeoutDebugLogMs;
 
     while (true) {
       try {
@@ -250,7 +250,7 @@ bool ServerApplication::init(int argc, char* argv[]) {
       }
 
       std::this_thread::sleep_for(timeoutWatchMs);
-      const std::chrono::time_point now(Clock::now());
+      const std::chrono::time_point now(std::chrono::steady_clock::now());
       myFactory->forEach([&](const MyServerProcessor* p){
         if (!p || !p->getServerHandler()) {
           Log::error("Can't be: !p || !p->getServerHandler()");
@@ -267,7 +267,7 @@ bool ServerApplication::init(int argc, char* argv[]) {
         using namespace std::chrono_literals;
         std::chrono::duration<float, std::micro> execTimes[] = {0us, 0us, 0us};
 
-        const std::chrono::time_point now(Clock::now());
+        const std::chrono::time_point now(std::chrono::steady_clock::now());
         // 1. Check ServerHandler timings
         if (p->isProcessing())
           execTimes[ServerHandler] = now - p->getStartDispatch();
@@ -354,17 +354,17 @@ void ServerApplication::startShuttingDown() {
       return;
 
     myState = SS_SHUTTING_DOWN;
-    myTimeStartShuttingDown = Clock::now();
+    myTimeStartShuttingDown = std::chrono::steady_clock::now();
   }
 
   myThreadShutdown = std::thread([&]() {
     Log::setThreadName("Shutdown");
-    Clock::time_point start = Clock::now();
+    std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
     const std::chrono::milliseconds timeout(getLongEnv("CEF_SERVER_timeoutShutdownMs", 15000));
 
-    while (Clock::now() - start < timeout) {
+    while (std::chrono::steady_clock::now() - start < timeout) {
       std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-      const std::chrono::time_point now(Clock::now());
+      const std::chrono::time_point now(std::chrono::steady_clock::now());
 
       if (RemoteBrowser::getAllBrowsersCount() == 0) {
         {
@@ -398,7 +398,7 @@ bool ServerApplication::isDefaultRoot() const {
   return myAppHandler->isDefaultRoot();
 }
 
-const std::chrono::high_resolution_clock::time_point& ServerApplication::getStartTime() const {
+const std::chrono::steady_clock::time_point& ServerApplication::getStartTime() const {
   return myTimeStart;
 }
 

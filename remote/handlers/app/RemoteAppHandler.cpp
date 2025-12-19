@@ -68,7 +68,7 @@ void RemoteAppHandler::OnBeforeCommandLineProcessing(
   if (!process_type.empty())
     return;
 
-  Log::debug("Original command line:\n%s", command_line->GetCommandLineString().ToString().c_str());
+  Log::debug("OnBeforeCommandLineProcessing: original command line:\n%s", command_line->GetCommandLineString().ToString().c_str());
 
   std::string additionalItems;
   if (!myArgs.empty()) {
@@ -118,23 +118,17 @@ void RemoteAppHandler::OnBeforeCommandLineProcessing(
     }
   }
 
-  Log::debug("Additional command line items:\n%s", additionalItems.c_str());
+  Log::debug("OnBeforeCommandLineProcessing: additional command line switches:\n%s", additionalItems.c_str());
 
   // Copy-paste from ClientApp::OnBeforeCommandLineProcessing
-  if (process_type.empty()) {
 #if defined(OS_MAC)
-    // If windowed rendering is used, we need the browser window as CALayer
-    // due Java7 is CALayer based instead of NSLayer based.
-    command_line->AppendSwitch("use-core-animation");
-
-    // Skip keychain prompt on startup.
-    command_line->AppendSwitch("use-mock-keychain");
+  command_line->AppendSwitch("use-mock-keychain");
+  Log::debug("OnBeforeCommandLineProcessing: added OSX switch 'use-mock-keychain' (to skip keychain prompt on startup).");
 #endif  // defined(OS_MAC)
 
-    if (mySettings.cache_path.length <= 0 && !command_line->HasSwitch("disable-gpu-shader-disk-cache")) {
-      // Don't create a "GPUCache" directory when cache_path is unspecified.
-      command_line->AppendSwitch("disable-gpu-shader-disk-cache");
-    }
+  if (mySettings.cache_path.length <= 0 && !command_line->HasSwitch("disable-gpu-shader-disk-cache")) {
+    command_line->AppendSwitch("disable-gpu-shader-disk-cache");
+    Log::debug("OnBeforeCommandLineProcessing: added switch 'disable-gpu-shader-disk-cache' (don't create a 'GPUCache' directory when settings.cache_path is unspecified)");
   }
 }
 
@@ -149,7 +143,7 @@ void RemoteAppHandler::OnRegisterCustomSchemes(CefRawPtr<CefSchemeRegistrar> reg
   std::string tmpName = utils::GetTempFile("scheme", false);
   std::ofstream fStream(tmpName.c_str(),std::ofstream::out | std::ofstream::trunc);
 
-  Log::debug("Register custom schemes [file=%s]:", tmpName.c_str());
+  Log::trace("OnRegisterCustomSchemes: write custom schemes to file=%s:", tmpName.c_str());
   for (const auto& cs: mySchemes) {
     int options = 0;
     if (cs.second & (1 << 0))
@@ -168,7 +162,7 @@ void RemoteAppHandler::OnRegisterCustomSchemes(CefRawPtr<CefSchemeRegistrar> reg
       options |= CEF_SCHEME_OPTION_FETCH_ENABLED;
 
     registrar->AddCustomScheme(cs.first, options);
-    Log::debug("%s [%d:%d]", cs.first.c_str(), cs.second, options);
+    Log::trace("\t%s [%d:%d]", cs.first.c_str(), cs.second, options);
 
     if (fStream.is_open())
       fStream << cs.first.c_str() << "," << options;
