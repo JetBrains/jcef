@@ -48,8 +48,14 @@ public class NativeServerManager {
     }
 
     // Should be called in bg thread
-    public static boolean startProcessAndWait(ThriftTransport thriftServer, CefAppHandler appHandler, String[] args, CefSettings settings, boolean deleteRootDir, long timeoutMs) {
-        Integer exitVal = startAndWait(thriftServer, appHandler, args, settings, deleteRootDir, timeoutMs);
+    public static boolean startProcessAndWait(ThriftTransport thriftServer, CefAppHandler appHandler, String[] args, CefSettings settings, boolean deleteRootDir, long timeoutMs, File serverExe) {
+        if (serverExe == null)
+            serverExe = getServerExe();
+
+        if (serverExe == null)
+            return false;
+
+        Integer exitVal = startAndWait(thriftServer, appHandler, args, settings, deleteRootDir, timeoutMs, serverExe);
         if (exitVal != null) {
             if (exitVal == 101) {
                 // CefInitialize returns false. Probably, JCEF cache dir is locked.
@@ -57,7 +63,7 @@ public class NativeServerManager {
                 final String newCacheDir = Path.of(System.getProperty("java.io.tmpdir")).resolve("cef_cache_" + thriftServer.toStringShort() + "_" + f.format(new Date())).toString();
                 CefLog.Info("Try to restart cef_server with another cache_dir '%s'.", newCacheDir);
                 settings.cache_path = newCacheDir;
-                exitVal = startAndWait(thriftServer, appHandler, args, settings, true, timeoutMs);
+                exitVal = startAndWait(thriftServer, appHandler, args, settings, true, timeoutMs, serverExe);
             }
         }
 
@@ -68,7 +74,7 @@ public class NativeServerManager {
     // null when the process has been started successfully
     // Integer.MIN_VALUE when can't start process because of IO-errors
     // exit code, otherwise
-    private static Integer startAndWait(ThriftTransport thriftServer, CefAppHandler appHandler, String[] args, CefSettings settings, boolean deleteRootDir, long timeoutMs) {
+    private static Integer startAndWait(ThriftTransport thriftServer, CefAppHandler appHandler, String[] args, CefSettings settings, boolean deleteRootDir, long timeoutMs, File serverExe) {
         final long t0 = System.nanoTime();
         final Path settingsFileName = Path.of(System.getProperty("java.io.tmpdir")).resolve("cef_server_params.txt");
         File f = new File(settingsFileName.toString());
@@ -119,11 +125,8 @@ public class NativeServerManager {
         }
 
         if (OS.isMacintosh()) {
-            File serverExe = getServerExe();
-            if (serverExe != null) {
-                File subprocess = new File(serverExe.getParentFile().getParentFile(), "Frameworks/cef_server Helper.app/Contents/MacOS/cef_server Helper");
-                ps.printf("browser_subprocess_path=%s\n", subprocess.getAbsolutePath());
-            }
+            File subprocess = new File(serverExe.getParentFile().getParentFile(), "Frameworks/cef_server Helper.app/Contents/MacOS/cef_server Helper");
+            ps.printf("browser_subprocess_path=%s\n", subprocess.getAbsolutePath());
         }
 
         // 3. custom schemes
@@ -163,7 +166,7 @@ public class NativeServerManager {
         if (serverLogLevel == -1)
             serverLogLevel = ServerLogLevel.cef2native(CefLog.GetLogLevel());
 
-        return startAndWait(thriftServer, f.getAbsolutePath(), timeoutMs, serverLogPath, serverLogLevel, deleteRootDir);
+        return startAndWait(thriftServer, f.getAbsolutePath(), timeoutMs, serverLogPath, serverLogLevel, deleteRootDir, serverExe);
     }
 
     public static boolean isProcessAlive(ThriftTransport thriftServer) {
@@ -539,15 +542,11 @@ public class NativeServerManager {
     // null when the process has been started successfully
     // Integer.MIN_VALUE when can't start process because of IO-errors
     // exit code, otherwise
-    private static Integer startAndWait(ThriftTransport thriftServer, String paramsPath, long timeoutMs, String logPath, int logLevel, boolean deleteRootDir) {
+    private static Integer startAndWait(ThriftTransport thriftServer, String paramsPath, long timeoutMs, String logPath, int logLevel, boolean deleteRootDir, File serverExe) {
         final long t0 = System.nanoTime();
         if (ourNativeServerProcesses.get(thriftServer.toString()) != null)
             CefLog.Debug("Handle of server process will be overwritten.");
         ourNativeServerProcesses.remove(thriftServer.toString());
-
-        File serverExe = getServerExe();
-        if (serverExe == null)
-            return Integer.MIN_VALUE;
 
         CefLog.Debug("cef_server executable path='%s', params path='%s'", serverExe.getAbsolutePath(), paramsPath);
         if (!serverExe.exists()) {

@@ -121,7 +121,7 @@ public class CefInitHelper {
         CefLog.Info("args: %s", Arrays.toString(argsArr));
 
         // Initialize the singleton CefApp instance.
-        CefApp app = CefApp.getInstance(settings);
+        CefApp app = CefApp.getInstance(null, settings, null);
 
         if (WAIT_FOR_CEFAPP_INIT) {
             // Wait for initialization

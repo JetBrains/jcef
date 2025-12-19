@@ -45,7 +45,7 @@ public class TestApp extends JFrame {
         CefAppHandler appHandler = new CefAppHandlerAdapter(args) {};
         CefApp.addAppHandler(appHandler);
         CefApp.startup(null);
-        CefApp app = CefApp.getInstance(config.getCefSettings());
+        CefApp app = CefApp.getInstance(null, config.getCefSettings(), null);
         CountDownLatch latch = new CountDownLatch(1);
         app.onInitialization(s -> latch.countDown());
         if (IS_REMOTE) {
