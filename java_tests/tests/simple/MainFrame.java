@@ -94,7 +94,7 @@ public class MainFrame extends JFrame {
         };
         CefApp.addAppHandler(appHandler);
         CefSettings settings = config.getCefSettings();
-        cefApp_ = CefApp.getInstance(settings);
+        cefApp_ = CefApp.getInstance(null, settings, null);
 
         if (CefApp.isRemoteEnabled()) {
             cefApp_.setDisconnectionCallback(()->{
@@ -109,7 +109,7 @@ public class MainFrame extends JFrame {
                     settings.log_file = Utils.getString("jcef.chromium_log.path");
 
                     CefApp.addAppHandler(appHandler);
-                    CefApp newCefApp = CefApp.getInstance(settings);
+                    CefApp newCefApp = CefApp.getInstance(null, settings, null);
                     if (newCefApp == null) {
                         CefLog.Error("JCEF wasn't restarted (new instance is null).");
                         return;
