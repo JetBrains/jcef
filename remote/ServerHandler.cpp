@@ -44,6 +44,16 @@
 using namespace apache::thrift;
 
 namespace {
+  const bool doTrace = getBoolEnv("CEF_SERVER_TRACE_ServerHandler_ALL");
+  const bool doTraceClient = doTrace || getBoolEnv("CEF_SERVER_TRACE_ServerHandler_Client");
+  const bool doTraceBrowser = doTrace || getBoolEnv("CEF_SERVER_TRACE_ServerHandler_Browser");
+  const bool doTraceBrowserJS = doTraceBrowser || getBoolEnv("CEF_SERVER_TRACE_ServerHandler_Browser_JS");
+  const bool doTraceRequest = doTrace || getBoolEnv("CEF_SERVER_TRACE_ServerHandler_Request");
+  const bool doTraceCallbacks = doTrace || getBoolEnv("CEF_SERVER_TRACE_ServerHandler_Callbacks");
+  const bool doTraceMessageRouter = doTrace || getBoolEnv("CEF_SERVER_TRACE_ServerHandler_MessageRouter");
+  const bool doTraceMessageRouterCallbacks = doTrace || getBoolEnv("CEF_SERVER_TRACE_ServerHandler_MessageRouterCallbacks");
+  const bool doTraceCookie = doTrace || getBoolEnv("CEF_SERVER_TRACE_ServerHandler_Cookie");
+
   void executeDevToolsMethod(CefRefPtr<CefBrowserHost> host,
                              const CefString& method,
                              const CefString& parametersAsJson,
@@ -75,7 +85,7 @@ ServerHandler::~ServerHandler() {
 
 int ServerHandler::connectImpl(std::function<void()> openBackwardTransport) {
   if (myCtx != nullptr) {
-    Log::error("Client already connected, other attempts will be ignored.");
+    Log::error("ServerHandler: client already connected, other attempts will be ignored.");
     return -1;
   }
 
@@ -96,7 +106,7 @@ int ServerHandler::connectImpl(std::function<void()> openBackwardTransport) {
       myCtx->javaService()->exec(
           [&](JavaService s) { s->echo(returnVal, testMsg); });
       if (testMsg.compare(returnVal) != 0) {
-        Log::error("JavaClient returns invalid echo '%s'", returnVal.c_str());
+        Log::error("ServerHandler: JavaClient returns invalid echo '%s'", returnVal.c_str());
         myCtx->close();
         return -1;
       }
@@ -133,39 +143,43 @@ void ServerHandler::attach(int connectionId) {
 
 int32_t ServerHandler::Client_Create(int handlersMask) {
   std::shared_ptr<RemoteClient> result = myCtx->createRemoteClient(handlersMask, myCtx);
-  if (Log::isTraceEnabled())
-    Log::trace("Created RemoteClient with cid=%d, handlers: %s", result->getCid(), HandlerMasks::toString(handlersMask).c_str());
+  if (doTraceClient && Log::isTraceEnabled())
+    Log::trace("ServerHandler: created RemoteClient with cid=%d, handlers: %s", result->getCid(), HandlerMasks::toString(handlersMask).c_str());
   return result->getCid();
 }
 
 void ServerHandler::Client_Dispose(int cid) {
   myCtx->disposeRemoteClient(cid);
-  if (Log::isTraceEnabled())
-    Log::trace("Disposed RemoteClient with cid=%d", cid);
+  if (doTraceClient && Log::isTraceEnabled())
+    Log::trace("ServerHandler: disposed RemoteClient with cid=%d", cid);
 }
 
 void ServerHandler::Client_AddHandlers(int cid, int handlersMask) {
   std::shared_ptr<RemoteClient> rc = myCtx->findRemoteClient(cid);
   if (!rc) {
-    Log::error("Client_AddHandlers: can't find RemoteClient by cid=%d", cid);
+    Log::error("ServerHandler: Client_AddHandlers: can't find RemoteClient by cid=%d", cid);
     return;
   }
   rc->addHandlers(handlersMask);
+  if (doTraceClient && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Client_AddHandlers [mask=%d] for RemoteClient with cid=%d", handlersMask, cid);
 }
 
 void ServerHandler::Client_RemoveHandlers(int cid, int handlersMask) {
   std::shared_ptr<RemoteClient> rc = myCtx->findRemoteClient(cid);
   if (!rc) {
-    Log::error("Client_RemoveHandlers: can't find RemoteClient by cid=%d", cid);
+    Log::error("ServerHandler: Client_RemoveHandlers: can't find RemoteClient by cid=%d", cid);
     return;
   }
+  if (doTraceClient && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Client_RemoveHandlers [mask=%d] for RemoteClient with cid=%d", handlersMask, cid);
   rc->removeHandlers(handlersMask);
 }
 
 int32_t ServerHandler::Browser_Create(int cid, const thrift_codegen::RObject& requestContextHandler) {
   std::shared_ptr<RemoteClient> rc = myCtx->findRemoteClient(cid);
   if (!rc) {
-    Log::error("Browser_Create: can't find RemoteClient by cid=%d", cid);
+    Log::error("ServerHandler: Browser_Create: can't find RemoteClient by cid=%d", cid);
     return -1;
   }
   std::shared_ptr<RemoteBrowser> result = rc->createBrowser(rc, myCtx, requestContextHandler);
@@ -173,7 +187,7 @@ int32_t ServerHandler::Browser_Create(int cid, const thrift_codegen::RObject& re
     std::string hdesc = "";
     if (!requestContextHandler.isNull)
       hdesc = string_format(" [request context handler %d]", requestContextHandler.objId);
-    Log::trace("Created remote browser cid=%d, bid=%d%s", cid, result->getBid(), hdesc.c_str());
+    Log::trace("ServerHandler: created remote browser cid=%d, bid=%d%s", cid, result->getBid(), hdesc.c_str());
   }
   return result->getBid();
 }
@@ -183,7 +197,7 @@ void ServerHandler::Browser_StartNativeCreation(int bid, const std::string& url)
   if (!rb)
     return;
   rb->startNativeBrowserCreation(url);
-  Log::trace("Started creation of native CefBrowser of remote browser bid=%d, url=%s", bid, url.c_str());
+  Log::trace("ServerHandler: started creation of native CefBrowser for remote browser bid=%d, url=%s", bid, url.c_str());
 }
 
 void ServerHandler::Browser_OpenDevTools(int bid, int x, int y) {
@@ -191,18 +205,19 @@ void ServerHandler::Browser_OpenDevTools(int bid, int x, int y) {
   if (!rb)
     return;
   rb->openDevTools(x, y);
-  Log::trace("Started opening of dev-tools of remote browser bid=%d", bid);
+  Log::trace("ServerHandler: started opening of dev-tools of remote browser bid=%d", bid);
 }
 
 void ServerHandler::Browser_Close(const int32_t bid) {
   std::shared_ptr<RemoteBrowser> rb = RemoteBrowser::find(bid);
   if (!rb)
     return;
+  Log::trace("ServerHandler: close remote browser bid=%d", bid);
   rb->close();
 }
 
 void ServerHandler::stop() {
-  Log::debug("ServerHandler %p asked to stop server.", this);
+  Log::debug("ServerHandler: handler %p asked to stop server.", this);
   ServerApplication::instance().startShuttingDown();
 }
 
@@ -248,42 +263,48 @@ void ServerHandler::getServerInfo(std::string& _return, const std::string& reque
 #define GET_COOKIE_MANAGER_OR_RETURN()                                            \
   auto manager = RemoteCookieManager::find(cookieManager.objId); \
   if (manager == nullptr) {                                                       \
-    Log::error("Can't find RemoteCookieManager by id=%d", cookieManager.objId);   \
+    Log::error("ServerHandler: can't find RemoteCookieManager by id=%d", cookieManager.objId);   \
     return;                                                                       \
   }
 
 #define GET_COOKIE_MANAGER_OR_RETURN_VAL(val)                                     \
   auto manager = RemoteCookieManager::find(cookieManager.objId); \
   if (manager == nullptr) {                                                       \
-    Log::error("Can't find RemoteCookieManager by id=%d", cookieManager.objId);   \
+    Log::error("ServerHandler: can't find RemoteCookieManager by id=%d", cookieManager.objId);   \
     return val;                                                                       \
   }
 
 void ServerHandler::Browser_CloseDevTools(const int32_t bid) {
   GET_BROWSER_OR_RETURN()
+  if (doTraceBrowser && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Browser_CloseDevTools, bid=%d", bid);
   browser->GetHost()->CloseDevTools();
 }
 
 void ServerHandler::Browser_Reload(const int32_t bid) {
   LNDCT();
   GET_BROWSER_OR_RETURN()
+  if (doTraceBrowser && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Browser_Reload, bid=%d", bid);
   browser->Reload();
 }
 
 void ServerHandler::Browser_ReloadIgnoreCache(const int32_t bid) {
   LNDCT();
   GET_BROWSER_OR_RETURN()
+  if (doTraceBrowser && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Browser_ReloadIgnoreCache, bid=%d", bid);
   browser->ReloadIgnoreCache();
 }
 
 void ServerHandler::Browser_LoadURL(const int32_t bid, const std::string& url) {
   LNDCT();
   if (url.compare("crash") == 0) {
-    Log::trace("Browser %d will crash server now.", bid);
+    Log::trace("ServerHandler: browser %d will crash server now.", bid);
     Log::trace("%d", *((int*)1));
   }
   GET_BROWSER_OR_RETURN()
-  Log::trace("Browser %d is loading URL '%s'", bid, url.c_str());
+  Log::trace("ServerHandler: browser %d is loading URL '%s'", bid, url.c_str());
   browser->GetMainFrame()->LoadURL(url);
 }
 
@@ -292,27 +313,33 @@ void ServerHandler::Browser_LoadRequest(const int32_t bid, const thrift_codegen:
   GET_BROWSER_OR_RETURN()
   std::shared_ptr<RemoteRequest> rr = RemoteRequest::get(request.objId);
   if (rr == nullptr) {
-    Log::trace("Can't find RemoteRequest %d", request.objId);
+    Log::trace("ServerHandler: can't find RemoteRequest %d", request.objId);
     return;
   }
-  Log::trace("Browser %d is loading request %d", bid, request.objId);
+  Log::trace("ServerHandler: browser %d is loading request %d", bid, request.objId);
   browser->GetMainFrame()->LoadRequest(rr->getDelegate());
 }
 
 void ServerHandler::Browser_GetURL(std::string& _return, const int32_t bid) {
   LNDCT();
   GET_BROWSER_OR_RETURN()
+  if (doTraceBrowser && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Browser_GetURL, bid=%d", bid);
   _return = browser->GetMainFrame()->GetURL().ToString();
 }
 
 void ServerHandler::Browser_ExecuteJavaScript(const int32_t bid,const std::string& code,const std::string& url,const int32_t line) {
   LNDCT();
   GET_BROWSER_OR_RETURN()
+  if (doTraceBrowserJS && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Browser_ExecuteJavaScript, bid=%d, code='%s', url='%s', line=%d", bid, code.c_str(), url.c_str(), line);
   browser->GetMainFrame()->ExecuteJavaScript(code, url, line);
 }
 
 void ServerHandler::Frame_ExecuteJavaScript(const int32_t frameId, const std::string& code, const std::string& url, const int32_t line) {
   LNDCT();
+  if (doTraceBrowserJS && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Frame_ExecuteJavaScript, frameId=%d, code='%s', url='%s', line=%d", frameId, code.c_str(), url.c_str(), line);
   std::shared_ptr<RemoteFrame> rf = RemoteFrame::get(frameId);
   if (rf != nullptr)
     rf->getDelegate()->ExecuteJavaScript(code, url, line);
@@ -320,11 +347,15 @@ void ServerHandler::Frame_ExecuteJavaScript(const int32_t frameId, const std::st
 
 void ServerHandler::Frame_Dispose(const int32_t frameId) {
   LNDCT();
+  if (doTrace && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Frame_Dispose, frameId=%d", frameId);
   RemoteFrame::dispose(frameId);
 }
 
 void ServerHandler::Frame_GetParent(thrift_codegen::RObject & _return, int frameId) {
   LNDCT();
+  if (doTrace && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Frame_GetParent, frameId=%d", frameId);
   std::shared_ptr<RemoteFrame> rf = RemoteFrame::get(frameId);
   if (rf == nullptr)
     return;
@@ -336,6 +367,8 @@ void ServerHandler::Frame_GetParent(thrift_codegen::RObject & _return, int frame
 
 void ServerHandler::Frame_Undo(int frameId) {
   LNDCT();
+  if (doTrace && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Frame_Undo, frameId=%d", frameId);
   std::shared_ptr<RemoteFrame> rf = RemoteFrame::get(frameId);
   if (rf != nullptr)
     rf->getDelegate()->Undo();
@@ -343,6 +376,8 @@ void ServerHandler::Frame_Undo(int frameId) {
 
 void ServerHandler::Frame_Redo(int frameId) {
   LNDCT();
+  if (doTrace && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Frame_Redo, frameId=%d", frameId);
   std::shared_ptr<RemoteFrame> rf = RemoteFrame::get(frameId);
   if (rf != nullptr)
     rf->getDelegate()->Redo();
@@ -350,6 +385,8 @@ void ServerHandler::Frame_Redo(int frameId) {
 
 void ServerHandler::Frame_Cut(int frameId) {
   LNDCT();
+  if (doTrace && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Frame_Cut, frameId=%d", frameId);
   std::shared_ptr<RemoteFrame> rf = RemoteFrame::get(frameId);
   if (rf != nullptr)
     rf->getDelegate()->Cut();
@@ -357,6 +394,8 @@ void ServerHandler::Frame_Cut(int frameId) {
 
 void ServerHandler::Frame_Copy(int frameId) {
   LNDCT();
+  if (doTrace && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Frame_Copy, frameId=%d", frameId);
   std::shared_ptr<RemoteFrame> rf = RemoteFrame::get(frameId);
   if (rf != nullptr)
     rf->getDelegate()->Copy();
@@ -364,6 +403,8 @@ void ServerHandler::Frame_Copy(int frameId) {
 
 void ServerHandler::Frame_Paste(int frameId) {
   LNDCT();
+  if (doTrace && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Frame_Paste, frameId=%d", frameId);
   std::shared_ptr<RemoteFrame> rf = RemoteFrame::get(frameId);
   if (rf != nullptr)
     rf->getDelegate()->Paste();
@@ -371,6 +412,8 @@ void ServerHandler::Frame_Paste(int frameId) {
 
 void ServerHandler::Frame_Delete(int frameId) {
   LNDCT();
+  if (doTrace && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Frame_Delete, frameId=%d", frameId);
   std::shared_ptr<RemoteFrame> rf = RemoteFrame::get(frameId);
   if (rf != nullptr)
     rf->getDelegate()->Delete();
@@ -378,6 +421,8 @@ void ServerHandler::Frame_Delete(int frameId) {
 
 void ServerHandler::Frame_SelectAll(int frameId) {
   LNDCT();
+  if (doTrace && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Frame_SelectAll, frameId=%d", frameId);
   std::shared_ptr<RemoteFrame> rf = RemoteFrame::get(frameId);
   if (rf != nullptr)
     rf->getDelegate()->SelectAll();
@@ -385,18 +430,24 @@ void ServerHandler::Frame_SelectAll(int frameId) {
 
 void ServerHandler::Browser_WasResized(const int32_t bid) {
   LNDCT();
+  if (doTraceBrowser && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Browser_WasResized, bid=%d", bid);
   GET_BROWSER_OR_RETURN()
   browser->GetHost()->WasResized();
 }
 
 void ServerHandler::Browser_NotifyScreenInfoChanged(const int32_t bid) {
   LNDCT();
+  if (doTraceBrowser && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Browser_NotifyScreenInfoChanged, bid=%d", bid);
   GET_BROWSER_OR_RETURN()
   browser->GetHost()->NotifyScreenInfoChanged();
 }
 
 void ServerHandler::Browser_Invalidate(const int32_t bid) {
   LNDCT();
+  if (doTraceBrowser && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Browser_Invalidate, bid=%d", bid);
   GET_BROWSER_OR_RETURN()
   browser->GetHost()->Invalidate(PET_VIEW);;
 }
@@ -414,6 +465,8 @@ void ServerHandler::Browser_SendCefKeyEvent(
     const int32_t bid,
     const thrift_codegen::CefKeyEventAttributes& event) {
   LNDCT();
+  if (doTraceBrowser && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Browser_SendCefKeyEvent, bid=%d", bid);
   GET_BROWSER_OR_RETURN()
   CefKeyEvent cef_event{};
   cef_event.type = static_cast<cef_key_event_type_t>(event.type);
@@ -439,6 +492,8 @@ extern void processMouseEvent(
 
 void ServerHandler::Browser_SendMouseEvent(const int32_t bid,const int32_t event_type,const int32_t x,const int32_t y,const int32_t modifiers,const int32_t click_count,const int32_t button) {
   LNDCT();
+  if (doTraceBrowser && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Browser_SendMouseEvent, bid=%d", bid);
   GET_BROWSER_OR_RETURN()
   processMouseEvent(browser, event_type, x, y, modifiers, click_count, button);
 }
@@ -455,47 +510,63 @@ extern void processMouseWheelEvent(
 
 void ServerHandler::Browser_SendMouseWheelEvent(const int32_t bid,const int32_t scroll_type,const int32_t x,const int32_t y,const int32_t modifiers,const int32_t delta,const int32_t units_to_scroll) {
   LNDCT();
+  if (doTraceBrowser && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Browser_SendMouseWheelEvent, bid=%d", bid);
   GET_BROWSER_OR_RETURN()
   processMouseWheelEvent(browser, scroll_type, x, y, modifiers, delta, units_to_scroll);
 }
 
 void ServerHandler::Browser_GoBack(const int32_t bid) {
   LNDCT();
+  if (doTraceBrowser && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Browser_GoBack, bid=%d", bid);
   GET_BROWSER_OR_RETURN()
   browser->GoBack();
 }
 
 bool ServerHandler::Browser_CanGoForward(const int32_t bid) {
   LNDCT();
+  if (doTraceBrowser && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Browser_CanGoForward, bid=%d", bid);
   GET_BROWSER_OR_RETURN_VAL(false)
   return browser->CanGoForward();
 }
 
 bool ServerHandler::Browser_CanGoBack(const int32_t bid) {
   LNDCT();
+  if (doTraceBrowser && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Browser_CanGoBack, bid=%d", bid);
   GET_BROWSER_OR_RETURN_VAL(false)
   return browser->CanGoBack();
 }
 
 void ServerHandler::Browser_GoForward(const int32_t bid) {
   LNDCT();
+  if (doTraceBrowser && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Browser_GoForward, bid=%d", bid);
   GET_BROWSER_OR_RETURN()
   browser->GoForward();
 }
 
 bool ServerHandler::Browser_IsLoading(const int32_t bid) {
   LNDCT();
+  if (doTraceBrowser && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Browser_IsLoading, bid=%d", bid);
   GET_BROWSER_OR_RETURN_VAL(false)
   return browser->IsLoading();
 }
 void ServerHandler::Browser_StopLoad(const int32_t bid) {
   LNDCT();
+  if (doTraceBrowser && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Browser_StopLoad, bid=%d", bid);
   GET_BROWSER_OR_RETURN()
   browser->StopLoad();
 }
 
 void ServerHandler::Browser_GetMainFrame(thrift_codegen::RObject& _return, const int32_t bid) {
   LNDCT();
+  if (doTraceBrowser && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Browser_GetMainFrame, bid=%d", bid);
   GET_BROWSER_OR_RETURN()
   CefRefPtr<CefFrame> frame = browser->GetMainFrame();
   std::shared_ptr<RemoteFrame> rf = RemoteFrame::create(frame);
@@ -505,6 +576,8 @@ void ServerHandler::Browser_GetMainFrame(thrift_codegen::RObject& _return, const
 
 void ServerHandler::Browser_GetFocusedFrame(thrift_codegen::RObject& _return, const int32_t bid) {
   LNDCT();
+  if (doTraceBrowser && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Browser_GetFocusedFrame, bid=%d", bid);
   GET_BROWSER_OR_RETURN()
   CefRefPtr<CefFrame> frame = browser->GetFocusedFrame();
   std::shared_ptr<RemoteFrame> rf = RemoteFrame::create(frame);
@@ -514,6 +587,8 @@ void ServerHandler::Browser_GetFocusedFrame(thrift_codegen::RObject& _return, co
 
 void ServerHandler::Browser_GetFrameByIdentifier(thrift_codegen::RObject& _return, const int32_t bid, const std::string& id) {
   LNDCT();
+  if (doTraceBrowser && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Browser_GetFrameByIdentifier, bid=%d", bid);
   GET_BROWSER_OR_RETURN()
   CefRefPtr<CefFrame> frame = browser->GetFrameByIdentifier(id);
   std::shared_ptr<RemoteFrame> rf = RemoteFrame::create(frame);
@@ -523,6 +598,8 @@ void ServerHandler::Browser_GetFrameByIdentifier(thrift_codegen::RObject& _retur
 
 void ServerHandler::Browser_GetFrameByName(thrift_codegen::RObject& _return, const int32_t bid, const std::string& name) {
   LNDCT();
+  if (doTraceBrowser && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Browser_GetFrameByName, bid=%d", bid);
   GET_BROWSER_OR_RETURN()
   CefRefPtr<CefFrame> frame = browser->GetFrameByName(name);
   std::shared_ptr<RemoteFrame> rf = RemoteFrame::create(frame);
@@ -532,6 +609,8 @@ void ServerHandler::Browser_GetFrameByName(thrift_codegen::RObject& _return, con
 
 void ServerHandler::Browser_GetFrameIdentifiers(std::vector<std::string>& _return, const int32_t bid) {
   LNDCT();
+  if (doTraceBrowser && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Browser_GetFrameIdentifiers, bid=%d", bid);
   GET_BROWSER_OR_RETURN()
   std::vector<CefString> identifiers;
   browser->GetFrameIdentifiers(identifiers);
@@ -541,6 +620,8 @@ void ServerHandler::Browser_GetFrameIdentifiers(std::vector<std::string>& _retur
 
 void ServerHandler::Browser_GetFrameNames(std::vector<std::string>& _return, const int32_t bid) {
   LNDCT();
+  if (doTraceBrowser && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Browser_GetFrameNames, bid=%d", bid);
   GET_BROWSER_OR_RETURN()
   std::vector<CefString> names;
   browser->GetFrameNames(names);
@@ -550,24 +631,32 @@ void ServerHandler::Browser_GetFrameNames(std::vector<std::string>& _return, con
 
 int32_t ServerHandler::Browser_GetFrameCount(const int32_t bid) {
   LNDCT();
+  if (doTraceBrowser && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Browser_GetFrameCount, bid=%d", bid);
   GET_BROWSER_OR_RETURN_VAL(0)
   return (int32_t)browser->GetFrameCount();
 }
 
 bool ServerHandler::Browser_IsPopup(const int32_t bid) {
   LNDCT();
+  if (doTraceBrowser && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Browser_IsPopup, bid=%d", bid);
   GET_BROWSER_OR_RETURN_VAL(false)
   return browser->IsPopup();
 }
 
 bool ServerHandler::Browser_HasDocument(const int32_t bid) {
   LNDCT();
+  if (doTraceBrowser && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Browser_HasDocument, bid=%d", bid);
   GET_BROWSER_OR_RETURN_VAL(false)
   return browser->HasDocument();
 }
 
 void ServerHandler::Browser_ViewSource(const int32_t bid) {
   LNDCT();
+  if (doTraceBrowser && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Browser_ViewSource, bid=%d", bid);
   GET_BROWSER_OR_RETURN()
   CefRefPtr<CefFrame> mainFrame = browser->GetMainFrame();
   CefPostTask(TID_UI, base::BindOnce(&CefFrame::ViewSource, mainFrame.get()));
@@ -575,18 +664,24 @@ void ServerHandler::Browser_ViewSource(const int32_t bid) {
 
 void ServerHandler::Browser_GetSource(const int32_t bid, const thrift_codegen::RObject& stringVisitor) {
   LNDCT();
+  if (doTraceBrowser && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Browser_GetSource, bid=%d", bid);
   GET_BROWSER_OR_RETURN()
   browser->GetMainFrame()->GetSource(new RemoteStringVisitor(myCtx, stringVisitor));
 }
 
 void ServerHandler::Browser_GetText(const int32_t bid, const thrift_codegen::RObject& stringVisitor) {
   LNDCT();
+  if (doTraceBrowser && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Browser_GetText, bid=%d", bid);
   GET_BROWSER_OR_RETURN()
   browser->GetMainFrame()->GetText(new RemoteStringVisitor(myCtx, stringVisitor));
 }
 
 void ServerHandler::Browser_SetFocus(const int32_t bid, bool enable) {
   LNDCT();
+  if (doTraceBrowser && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Browser_SetFocus, bid=%d", bid);
   GET_BROWSER_OR_RETURN()
   browser->GetHost()->SetFocus(enable);
 }
@@ -616,6 +711,8 @@ namespace {
 
 double ServerHandler::Browser_GetZoomLevel(const int32_t bid) {
   LNDCT();
+  if (doTraceBrowser && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Browser_GetZoomLevel, bid=%d", bid);
   GET_BROWSER_OR_RETURN_VAL(0.0f)
 
   CefRefPtr<CefBrowserHost> host = browser->GetHost();
@@ -629,42 +726,56 @@ double ServerHandler::Browser_GetZoomLevel(const int32_t bid) {
 
 void ServerHandler::Browser_SetZoomLevel(const int32_t bid, const double val)   {
   LNDCT();
+  if (doTraceBrowser && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Browser_SetZoomLevel, bid=%d", bid);
   GET_BROWSER_OR_RETURN()
   browser->GetHost()->SetZoomLevel(val);
 }
 
 void ServerHandler::Browser_StartDownload(const int32_t bid, const std::string& url) {
   LNDCT();
+  if (doTraceBrowser && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Browser_StartDownload, bid=%d", bid);
   GET_BROWSER_OR_RETURN()
   browser->GetHost()->StartDownload(url);
 }
 
 void ServerHandler::Browser_Find(const int32_t bid, const std::string& searchText, const bool forward, const bool matchCase, const bool findNext)   {
   LNDCT();
+  if (doTraceBrowser && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Browser_Find, bid=%d", bid);
   GET_BROWSER_OR_RETURN()
   browser->GetHost()->Find(searchText, forward, matchCase, findNext);
 }
 
 void ServerHandler::Browser_StopFinding(const int32_t bid, const bool clearSelection)   {
   LNDCT();
+  if (doTraceBrowser && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Browser_StopFinding, bid=%d", bid);
   GET_BROWSER_OR_RETURN()
   browser->GetHost()->StopFinding(clearSelection);
 }
 
 void ServerHandler::Browser_ReplaceMisspelling(const int32_t bid, const std::string& word)   {
   LNDCT();
+  if (doTraceBrowser && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Browser_ReplaceMisspelling, bid=%d", bid);
   GET_BROWSER_OR_RETURN()
   browser->GetHost()->ReplaceMisspelling(word);
 }
 
 void ServerHandler::Browser_SetFrameRate(const int32_t bid, int32_t val) {
   LNDCT();
+  if (doTraceBrowser && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Browser_SetFrameRate, bid=%d", bid);
   GET_BROWSER_OR_RETURN()
   browser->GetHost()->SetWindowlessFrameRate(val);
 }
 
 void ServerHandler::Browser_AddDevToolsMessageObserver(thrift_codegen::RObject& _return, const int32_t bid, const thrift_codegen::RObject& observer) {
   LNDCT();
+  if (doTraceBrowser && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Browser_AddDevToolsMessageObserver, bid=%d", bid);
   GET_BROWSER_OR_RETURN()
 
   CefRefPtr<RemoteDevToolsMessageObserver> robserver(new RemoteDevToolsMessageObserver(myCtx, observer));
@@ -679,6 +790,8 @@ void ServerHandler::Browser_ExecuteDevToolsMethod(
     const thrift_codegen::RObject& intCallback
 ) {
   LNDCT();
+  if (doTraceBrowser && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Browser_ExecuteDevToolsMethod, bid=%d", bid);
   GET_BROWSER_OR_RETURN()
 
   CefRefPtr<RemoteIntCallback> callback = new RemoteIntCallback(myCtx, intCallback);
@@ -704,6 +817,8 @@ void ServerHandler::Browser_RunFileDialog(
     const std::vector<std::string>& acceptFilters,
     const thrift_codegen::RObject& runFileDialogCallback) {
   LNDCT();
+  if (doTraceBrowser && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Browser_RunFileDialog, bid=%d", bid);
   GET_BROWSER_OR_RETURN()
 
   CefRefPtr<RemoteRunFileDialogCallback> callback = new RemoteRunFileDialogCallback(myCtx, runFileDialogCallback);
@@ -734,7 +849,7 @@ void setFieldValueD(double & field, const std::string & val) {
   try {
     field = stod(val);
   } catch (const std::logic_error & ex) {
-    Log::error("PrintToPDF: can't convert string '%s' to double. Error: %s", val.c_str(), ex.what());
+    Log::error("ServerHandler: PrintToPDF: can't convert string '%s' to double. Error: %s", val.c_str(), ex.what());
     field = 1.f;
   }
 }
@@ -749,6 +864,8 @@ void ServerHandler::Browser_PrintToPDF(
     const std::map<std::string, std::string>& pdfPrintSettings,
     const thrift_codegen::RObject& pdfPrintCallback) {
   LNDCT();
+  if (doTraceBrowser && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Browser_PrintToPDF, bid=%d", bid);
   GET_BROWSER_OR_RETURN()
 
   CefRefPtr<RemotePdfPrintCallback> callback = new RemotePdfPrintCallback(myCtx, pdfPrintCallback);
@@ -808,6 +925,8 @@ void ServerHandler::Browser_PrintToPDF(
 
 void ServerHandler::Browser_Print(const int32_t bid) {
   LNDCT();
+  if (doTraceBrowser && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Browser_Print, bid=%d", bid);
   GET_BROWSER_OR_RETURN()
   browser->GetHost()->Print();
 }
@@ -819,6 +938,8 @@ void ServerHandler::Browser_ImeSetComposition(
     const thrift_codegen::Range& replacementRange,
     const thrift_codegen::Range& selectionRange) {
   LNDCT();
+  if (doTraceBrowser && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Browser_ImeSetComposition, bid=%d", bid);
   GET_BROWSER_OR_RETURN()
 
   std::vector<CefCompositionUnderline> cef_underlines;
@@ -855,6 +976,8 @@ void ServerHandler::Browser_ImeCommitText(
     const thrift_codegen::Range& replacementRange,
     const int32_t relativeCursorPos) {
   LNDCT();
+  if (doTraceBrowser && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Browser_ImeCommitText, bid=%d", bid);
   GET_BROWSER_OR_RETURN()
   browser->GetHost()->ImeCommitText(
       CefString(text),
@@ -865,17 +988,24 @@ void ServerHandler::Browser_ImeCommitText(
 
 void ServerHandler::Browser_ImeFinishComposingText(const int32_t bid, const bool keepSelection) {
   LNDCT();
+  if (doTraceBrowser && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Browser_ImeFinishComposingText, bid=%d", bid);
   GET_BROWSER_OR_RETURN()
   browser->GetHost()->ImeFinishComposingText(keepSelection);
 }
 
 void ServerHandler::Browser_ImeCancelComposing(const int32_t bid) {
   LNDCT();
+  if (doTraceBrowser && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Browser_ImeCancelComposing, bid=%d", bid);
   GET_BROWSER_OR_RETURN()
   browser->GetHost()->ImeCancelComposition();
 }
 
 void ServerHandler::Request_Create(thrift_codegen::RObject& result) {
+  LNDCT();
+  if (doTraceRequest && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Request_Create");
   CefRefPtr<CefRequest> request = CefRequest::Create();
   std::shared_ptr<RemoteRequest> rr = RemoteRequest::create(request);
   if (rr != nullptr) {
@@ -886,10 +1016,15 @@ void ServerHandler::Request_Create(thrift_codegen::RObject& result) {
 
 void ServerHandler::Request_Dispose(int requestId) {
   LNDCT();
+  if (doTraceRequest && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Request_Dispose, id=%d", requestId);
   RemoteRequest::dispose(requestId);
 }
 
 void ServerHandler::Request_Update(const thrift_codegen::RObject & request) {
+  LNDCT();
+  if (doTraceRequest && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Request_Update, id=%d", request.objId);
   std::shared_ptr<RemoteRequest> rr = RemoteRequest::get(request.objId);
   if (rr == nullptr)
     return;
@@ -898,6 +1033,9 @@ void ServerHandler::Request_Update(const thrift_codegen::RObject & request) {
 }
 
 void ServerHandler::Response_Update(const thrift_codegen::RObject& response) {
+  LNDCT();
+  if (doTraceRequest && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Response_Update, id=%d", response.objId);
   std::shared_ptr<RemoteResponse> rr = RemoteResponse::get(response.objId);
   if (rr == nullptr)
     return;
@@ -909,6 +1047,10 @@ void ServerHandler::Request_GetHeaderByName(
     std::string& _return,
     const thrift_codegen::RObject& request,
     const std::string& name) {
+  LNDCT();
+  if (doTraceRequest && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Request_GetHeaderByName, id=%d, name=%s", request.objId, name.c_str());
+
   std::shared_ptr<RemoteRequest> rr = RemoteRequest::get(request.objId);
   if (rr == nullptr)
     return;
@@ -922,6 +1064,10 @@ void ServerHandler::Request_SetHeaderByName(
     const std::string& name,
     const std::string& value,
     const bool overwrite) {
+  LNDCT();
+  if (doTraceRequest && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Request_SetHeaderByName, id=%d, name=%s, value=%s", request.objId, name.c_str(), value.c_str());
+
   std::shared_ptr<RemoteRequest> rr = RemoteRequest::get(request.objId);
   if (rr == nullptr)
     return;
@@ -932,6 +1078,10 @@ void ServerHandler::Request_SetHeaderByName(
 void ServerHandler::Request_GetHeaderMap(
     std::map<std::string, std::string>& _return,
     const thrift_codegen::RObject& request) {
+  LNDCT();
+  if (doTraceRequest && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Request_GetHeaderMap, id=%d", request.objId);
+
   std::shared_ptr<RemoteRequest> rr = RemoteRequest::get(request.objId);
   if (rr == nullptr)
     return;
@@ -944,6 +1094,10 @@ void ServerHandler::Request_GetHeaderMap(
 void ServerHandler::Request_SetHeaderMap(
     const thrift_codegen::RObject& request,
     const std::map<std::string, std::string>& headerMap) {
+  LNDCT();
+  if (doTraceRequest && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Request_SetHeaderMap, id=%d", request.objId);
+
   std::shared_ptr<RemoteRequest> rr = RemoteRequest::get(request.objId);
   if (rr == nullptr)
     return;
@@ -957,6 +1111,10 @@ void ServerHandler::Response_GetHeaderByName(
     std::string& _return,
     const thrift_codegen::RObject& response,
     const std::string& name) {
+  LNDCT();
+  if (doTraceRequest && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Response_GetHeaderByName, id=%d, name=%s", response.objId, name.c_str());
+
   std::shared_ptr<RemoteResponse> rr = RemoteResponse::get(response.objId);
   if (rr == nullptr)
     return;
@@ -970,6 +1128,10 @@ void ServerHandler::Response_SetHeaderByName(
     const std::string& name,
     const std::string& value,
     const bool overwrite) {
+  LNDCT();
+  if (doTraceRequest && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Response_SetHeaderByName, id=%d, name=%s, value=%s", response.objId, name.c_str(), value.c_str());
+
   std::shared_ptr<RemoteResponse> rr = RemoteResponse::get(response.objId);
   if (rr == nullptr)
     return;
@@ -980,6 +1142,10 @@ void ServerHandler::Response_SetHeaderByName(
 void ServerHandler::Response_GetHeaderMap(
     std::map<std::string, std::string>& _return,
     const thrift_codegen::RObject& response) {
+  LNDCT();
+  if (doTraceRequest && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Response_GetHeaderMap, id=%d", response.objId);
+
   std::shared_ptr<RemoteResponse> rr = RemoteResponse::get(response.objId);
   if (rr == nullptr)
     return;
@@ -992,6 +1158,10 @@ void ServerHandler::Response_GetHeaderMap(
 void ServerHandler::Response_SetHeaderMap(
     const thrift_codegen::RObject& response,
     const std::map<std::string, std::string>& headerMap) {
+  LNDCT();
+  if (doTraceRequest && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Response_SetHeaderMap, id=%d", response.objId);
+
   std::shared_ptr<RemoteResponse> rr = RemoteResponse::get(response.objId);
   if (rr == nullptr)
     return;
@@ -1005,6 +1175,10 @@ void ServerHandler::Request_GetPostData(
     thrift_codegen::PostData& _return,
     const thrift_codegen::RObject& request
 ) {
+  LNDCT();
+  if (doTraceRequest && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Request_GetPostData, id=%d", request.objId);
+
   std::shared_ptr<RemoteRequest> rr = RemoteRequest::get(request.objId);
   if (rr == nullptr) return;
 
@@ -1041,6 +1215,10 @@ void ServerHandler::Request_GetPostData(
 void ServerHandler::Request_SetPostData(
     const thrift_codegen::RObject& request,
     const thrift_codegen::PostData& postData) {
+  LNDCT();
+  if (doTraceRequest && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Request_SetPostData, id=%d, PostData isNull=%d", request.objId, postData.isNull);
+
   std::shared_ptr<RemoteRequest> rr = RemoteRequest::get(request.objId);
   if (rr == nullptr)
     return;
@@ -1055,6 +1233,10 @@ void ServerHandler::Request_Set(
     const std::string& method,
     const thrift_codegen::PostData& postData,
     const std::map<std::string, std::string>& headerMap) {
+  LNDCT();
+  if (doTraceRequest && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Request_Set, id=%d, url=%s, method=%s, PostData isNull=%d", request.objId, url.c_str(), method.c_str(), postData.isNull);
+
   std::shared_ptr<RemoteRequest> rr = RemoteRequest::get(request.objId);
   if (rr == nullptr)
     return;
@@ -1066,6 +1248,10 @@ void ServerHandler::Request_Set(
 }
 
 void ServerHandler::AuthCallback_Dispose(const thrift_codegen::RObject& authCallback) {
+  LNDCT();
+  if (doTraceCallbacks && Log::isTraceEnabled())
+    Log::trace("ServerHandler: AuthCallback_Dispose, id=%d", authCallback.objId);
+
   RemoteAuthCallback::dispose(authCallback.objId);
 }
 
@@ -1074,6 +1260,10 @@ void ServerHandler::AuthCallback_Continue(
     const std::string& username,
     const std::string& password
 ) {
+  LNDCT();
+  if (doTraceCallbacks && Log::isTraceEnabled())
+    Log::trace("ServerHandler: AuthCallback_Continue, id=%d", authCallback.objId);
+
   std::shared_ptr<RemoteAuthCallback> rc = RemoteAuthCallback::get(authCallback.objId);
   if (rc == nullptr) return;
   rc->getDelegate()->Continue(username, password);
@@ -1081,6 +1271,10 @@ void ServerHandler::AuthCallback_Continue(
 }
 
 void ServerHandler::AuthCallback_Cancel(const thrift_codegen::RObject& authCallback) {
+  LNDCT();
+  if (doTraceCallbacks && Log::isTraceEnabled())
+    Log::trace("ServerHandler: AuthCallback_Cancel, id=%d", authCallback.objId);
+
   std::shared_ptr<RemoteAuthCallback> rc = RemoteAuthCallback::get(authCallback.objId);
   if (rc == nullptr) return;
   rc->getDelegate()->Cancel();
@@ -1088,10 +1282,18 @@ void ServerHandler::AuthCallback_Cancel(const thrift_codegen::RObject& authCallb
 }
 
 void ServerHandler::Callback_Dispose(const thrift_codegen::RObject& callback) {
+  LNDCT();
+  if (doTraceCallbacks && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Callback_Dispose, id=%d", callback.objId);
+
   RemoteCallback::dispose(callback.objId);
 }
 
 void ServerHandler::Callback_Continue(const thrift_codegen::RObject& callback) {
+  LNDCT();
+  if (doTraceCallbacks && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Callback_Continue, id=%d", callback.objId);
+
   std::shared_ptr<RemoteCallback> rc = RemoteCallback::get(callback.objId);
   if (rc == nullptr) return;
   rc->getDelegate()->Continue();
@@ -1099,14 +1301,21 @@ void ServerHandler::Callback_Continue(const thrift_codegen::RObject& callback) {
 }
 
 void ServerHandler::Callback_Cancel(const thrift_codegen::RObject& callback) {
+  LNDCT();
+  if (doTraceCallbacks && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Callback_Cancel, id=%d", callback.objId);
+
   std::shared_ptr<RemoteCallback> rc = RemoteCallback::get(callback.objId);
   if (rc == nullptr) return;
   rc->getDelegate()->Cancel();
   RemoteCallback::dispose(callback.objId);
 }
 
-void ServerHandler::CefRunContextMenuCallback_Dispose(
-    const thrift_codegen::RObject& self) {
+void ServerHandler::CefRunContextMenuCallback_Dispose(const thrift_codegen::RObject& self) {
+  LNDCT();
+  if (doTraceCallbacks && Log::isTraceEnabled())
+    Log::trace("ServerHandler: CefRunContextMenuCallback_Dispose, id=%d", self.objId);
+
   RemoteCefRunContextMenuCallback::dispose(self.objId);
 }
 
@@ -1114,6 +1323,10 @@ void ServerHandler::CefRunContextMenuCallback_Continue(
     const thrift_codegen::RObject& self,
     const int32_t command_id,
     const int32_t event_flag) {
+  LNDCT();
+  if (doTraceCallbacks && Log::isTraceEnabled())
+    Log::trace("ServerHandler: CefRunContextMenuCallback_Continue, id=%d", self.objId);
+
   const auto self_wrapper = RemoteCefRunContextMenuCallback::get(self.objId);
   if (self_wrapper == nullptr) return;
   self_wrapper->getDelegate()->Continue(command_id,
@@ -1121,8 +1334,11 @@ void ServerHandler::CefRunContextMenuCallback_Continue(
   RemoteCefRunContextMenuCallback::dispose(self.objId);
 }
 
-void ServerHandler::CefRunContextMenuCallback_Cancel(
-    const thrift_codegen::RObject& self) {
+void ServerHandler::CefRunContextMenuCallback_Cancel(const thrift_codegen::RObject& self) {
+  LNDCT();
+  if (doTraceCallbacks && Log::isTraceEnabled())
+    Log::trace("ServerHandler: CefRunContextMenuCallback_Cancel, id=%d", self.objId);
+
   const auto self_wrapper = RemoteCefRunContextMenuCallback::get(self.objId);
   if (self_wrapper == nullptr)
     return;
@@ -1133,24 +1349,36 @@ void ServerHandler::CefRunContextMenuCallback_Cancel(
 void ServerHandler::MessageRouter_Create(thrift_codegen::RObject& _return,
                                         const std::string& query,
                                         const std::string& cancel) {
+  LNDCT();
+
   _return = RemoteMessageRouter::create(myCtx, query, cancel)->serverId();
+
+  if (doTraceMessageRouter && Log::isTraceEnabled())
+    Log::trace("ServerHandler: MessageRouter_Create, query='%s', cancel='%s', created id=%d", query.c_str(), cancel.c_str(), _return.objId);
 }
 
 void ServerHandler::MessageRouter_Dispose(const thrift_codegen::RObject& msgRouter) {
+  LNDCT();
+  if (doTraceMessageRouter && Log::isTraceEnabled())
+    Log::trace("ServerHandler: MessageRouter_Dispose, id=%d", msgRouter.objId);
+
   RemoteMessageRouter::dispose(msgRouter.objId);
 }
 
 void ServerHandler::Client_AddMessageRouter(int cid, const thrift_codegen::RObject& msgRouter) {
   LNDCT();
+  if ((doTraceMessageRouter || doTraceClient) && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Client_AddMessageRouter, cid=%d, id=%d", cid, msgRouter.objId);
+
   std::shared_ptr<RemoteMessageRouter> rmr = RemoteMessageRouter::get(msgRouter.objId);
   if (rmr == nullptr) {
-    Log::error("Client_AddMessageRouter: can't find RemoteMessageRouter by objId=%d", msgRouter.objId);
+    Log::error("ServerHandler: Client_AddMessageRouter: can't find RemoteMessageRouter by objId=%d", msgRouter.objId);
     return;
   }
 
   std::shared_ptr<RemoteClient> rc = myCtx->findRemoteClient(cid);
   if (!rc) {
-    Log::error("Client_AddMessageRouter: can't find RemoteClient by cid=%d", cid);
+    Log::error("ServerHandler: Client_AddMessageRouter: can't find RemoteClient by cid=%d", cid);
     return;
   }
 
@@ -1159,15 +1387,18 @@ void ServerHandler::Client_AddMessageRouter(int cid, const thrift_codegen::RObje
 
 void ServerHandler::Client_RemoveMessageRouter(int cid, const thrift_codegen::RObject& msgRouter) {
   LNDCT();
+  if ((doTraceMessageRouter || doTraceClient) && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Client_RemoveMessageRouter, cid=%d, id=%d", cid, msgRouter.objId);
+
   std::shared_ptr<RemoteMessageRouter> rmr = RemoteMessageRouter::get(msgRouter.objId);
   if (rmr == nullptr) {
-    Log::error("Client_RemoveMessageRouter: can't find RemoteMessageRouter by objId=%d", msgRouter.objId);
+    Log::error("ServerHandler: Client_RemoveMessageRouter: can't find RemoteMessageRouter by objId=%d", msgRouter.objId);
     return;
   }
 
   std::shared_ptr<RemoteClient> rc = myCtx->findRemoteClient(cid);
   if (!rc) {
-    Log::error("Client_RemoveMessageRouter: can't find RemoteClient by cid=%d", cid);
+    Log::error("ServerHandler: Client_RemoveMessageRouter: can't find RemoteClient by cid=%d", cid);
     return;
   }
 
@@ -1181,9 +1412,12 @@ namespace {
       const thrift_codegen::RObject& msgRouter,
       const thrift_codegen::RObject& handler, bool first) {
     LNDCT();
+    if (doTraceMessageRouter && Log::isTraceEnabled())
+      Log::trace("ServerHandler: MessageRouter_AddHandler, router id=%d, handler id=%d", msgRouter.objId, handler.objId);
+
     std::shared_ptr<RemoteMessageRouter> rmr = RemoteMessageRouter::get(msgRouter.objId);
     if (rmr == nullptr) {
-      Log::error("Can't find router %d", msgRouter.objId);
+      Log::error("ServerHandler: can't find router %d", msgRouter.objId);
       return;
     }
     rmr->AddRemoteHandler(handler, first);
@@ -1192,11 +1426,14 @@ namespace {
       const thrift_codegen::RObject& msgRouter,
       const thrift_codegen::RObject& handler) {
     LNDCT();
+    if (doTraceMessageRouter && Log::isTraceEnabled())
+      Log::trace("ServerHandler: MessageRouter_RemoveHandler, router id=%d, handler id=%d", msgRouter.objId, handler.objId);
+
     std::shared_ptr<RemoteMessageRouter> rmr = RemoteMessageRouter::get(msgRouter.objId);
     if (rmr != nullptr) {
       rmr->RemoveRemoteHandler(handler);
     } else
-      Log::error("Can't find router %d for removing handler %d", msgRouter.objId, handler.objId);
+      Log::error("ServerHandler: can't find router %d for removing handler %d", msgRouter.objId, handler.objId);
   }
 }
 
@@ -1238,6 +1475,9 @@ void ServerHandler::MessageRouter_CancelPending(
     const int32_t bid,
     const thrift_codegen::RObject& handler) {
   LNDCT();
+  if (doTraceMessageRouter && Log::isTraceEnabled())
+    Log::trace("ServerHandler: MessageRouter_CancelPending, router id=%d, handler id=%d, bid=%d", msgRouter.objId, handler.objId, bid);
+
   std::shared_ptr<RemoteMessageRouter> rmr = RemoteMessageRouter::get(msgRouter.objId);
   if (!rmr)
     return;
@@ -1254,12 +1494,20 @@ void ServerHandler::MessageRouter_CancelPending(
 }
 
 void ServerHandler::QueryCallback_Dispose(const thrift_codegen::RObject& qcallback) {
+  LNDCT();
+  if (doTraceMessageRouterCallbacks && Log::isTraceEnabled())
+    Log::trace("ServerHandler: QueryCallback_Dispose, id=%d", qcallback.objId);
+
   RemoteQueryCallback::dispose(qcallback.objId);
 }
 
 void ServerHandler::QueryCallback_Success(
     const thrift_codegen::RObject& qcallback,
     const std::string& response) {
+  LNDCT();
+  if (doTraceMessageRouterCallbacks && Log::isTraceEnabled())
+    Log::trace("ServerHandler: QueryCallback_Success, id=%d, response='%s'", qcallback.objId, response.c_str());
+
   std::shared_ptr<RemoteQueryCallback> rc = RemoteQueryCallback::get(qcallback.objId);
   if (rc == nullptr) return;
   rc->getDelegate()->Success(response);
@@ -1270,6 +1518,10 @@ void ServerHandler::QueryCallback_Failure(
     const thrift_codegen::RObject& qcallback,
     const int32_t error_code,
     const std::string& error_message) {
+  LNDCT();
+  if (doTraceMessageRouterCallbacks && Log::isTraceEnabled())
+    Log::trace("ServerHandler: QueryCallback_Failure, id=%d, err_code=%d, err_msg='%s'", qcallback.objId, error_code, error_message.c_str());
+
   std::shared_ptr<RemoteQueryCallback> rc = RemoteQueryCallback::get(qcallback.objId);
   if (rc == nullptr) return;
   rc->getDelegate()->Failure(error_code, error_message);
@@ -1294,16 +1546,18 @@ void ServerHandler::SchemeHandlerFactory_Register(
     const std::string& schemeName,
     const std::string& domainName,
     const thrift_codegen::RObject& schemeHandlerFactory) {
+  LNDCT();
   CefRefPtr<RemoteSchemeHandlerFactory> factory = new RemoteSchemeHandlerFactory(myCtx, schemeHandlerFactory);
   const bool result = CefRegisterSchemeHandlerFactory(schemeName,domainName, factory);
   if (result)
-    Log::trace("Registered SchemeHandlerFactory: schemeName=%s, domainName=%s, peer-id=%d", schemeName.c_str(), domainName.c_str(), schemeHandlerFactory.objId);
+    Log::trace("ServerHandler: registered SchemeHandlerFactory: schemeName=%s, domainName=%s, peer-id=%d", schemeName.c_str(), domainName.c_str(), schemeHandlerFactory.objId);
   else
-    Log::error("Can't register SchemeHandlerFactory: schemeName=%s, domainName=%s, peer-id=%d", schemeName.c_str(), domainName.c_str(), schemeHandlerFactory.objId);
+    Log::error("ServerHandler: can't register SchemeHandlerFactory: schemeName=%s, domainName=%s, peer-id=%d", schemeName.c_str(), domainName.c_str(), schemeHandlerFactory.objId);
 }
 
 void ServerHandler::ClearAllSchemeHandlerFactories() {
-  Log::trace("Cleared all SchemeHandlerFactory instances.");
+  LNDCT();
+  Log::trace("ServerHandler: cleared all SchemeHandlerFactory instances.");
   CefClearSchemeHandlerFactories();
 }
 
@@ -1317,7 +1571,7 @@ void ServerHandler::RequestContext_ClearCertificateExceptions(const int32_t bid,
     CefRefPtr<CefRequestContext> globalContext = CefRequestContext::GetGlobalContext();
     if (globalContext) {
       globalContext->ClearCertificateExceptions(cb);
-      Log::debug("Cleared all certificate exceptions in global RequestContext.");
+      Log::debug("ServerHandler: cleared all certificate exceptions in global RequestContext.");
     }
     return;
   }
@@ -1326,6 +1580,8 @@ void ServerHandler::RequestContext_ClearCertificateExceptions(const int32_t bid,
   if (!rb)
     return;
   rb->getRequestContext()->ClearCertificateExceptions(cb);
+  if (doTraceBrowser && Log::isTraceEnabled())
+    Log::trace("ServerHandler: RequestContext_ClearCertificateExceptions, bid=%d.", bid);
 }
 
 void ServerHandler::RequestContext_CloseAllConnections(const int32_t bid, const thrift_codegen::RObject& rcompletionCallback) {
@@ -1338,7 +1594,7 @@ void ServerHandler::RequestContext_CloseAllConnections(const int32_t bid, const 
     CefRefPtr<CefRequestContext> globalContext = CefRequestContext::GetGlobalContext();
     if (globalContext) {
       globalContext->CloseAllConnections(cb);
-      Log::debug("Closed all connections in global RequestContext.");
+      Log::debug("ServerHandler: closed all connections in global RequestContext.");
     }
     return;
   }
@@ -1346,9 +1602,13 @@ void ServerHandler::RequestContext_CloseAllConnections(const int32_t bid, const 
   if (!rb)
     return;
   rb->getRequestContext()->CloseAllConnections(cb);
+  if (doTraceBrowser && Log::isTraceEnabled())
+    Log::trace("ServerHandler: RequestContext_CloseAllConnections, bid=%d.", bid);
 }
 
 void ServerHandler::CookieManager_Create(thrift_codegen::RObject& _return) {
+  LNDCT();
+
   // TODO(JCEF): Expose the callback object.
   CefRefPtr<CefCookieManager> manager = CefCookieManager::GetGlobalManager(nullptr);
   if (!manager)
@@ -1356,13 +1616,23 @@ void ServerHandler::CookieManager_Create(thrift_codegen::RObject& _return) {
 
   std::shared_ptr<RemoteCookieManager> rm = RemoteCookieManager::create(myCtx->javaServiceIO(), manager);
   _return = rm->serverId();
+  if (doTraceCookie && Log::isTraceEnabled())
+    Log::trace("ServerHandler: CookieManager_Create, created id=%d", rm->getId());
 }
 
 void ServerHandler::CookieManager_Dispose(const thrift_codegen::RObject& cookieManager) {
+  LNDCT();
+  if (doTraceCookie && Log::isTraceEnabled())
+    Log::trace("ServerHandler: CookieManager_Dispose, id=%d", cookieManager.objId);
+
   RemoteCookieManager::dispose(cookieManager.objId);
 }
 
 bool ServerHandler::CookieManager_VisitAllCookies(const thrift_codegen::RObject& cookieManager, const thrift_codegen::RObject& visitor) {
+  LNDCT();
+  if (doTraceCookie && Log::isTraceEnabled())
+    Log::trace("ServerHandler: CookieManager_VisitAllCookies, id=%d", cookieManager.objId);
+
   GET_COOKIE_MANAGER_OR_RETURN_VAL(false);
   CefRefPtr<RemoteCookieVisitor> rvisitor(new RemoteCookieVisitor(myCtx, visitor));
   return manager->getDelegate()->VisitAllCookies(rvisitor);
@@ -1374,6 +1644,10 @@ bool ServerHandler::CookieManager_VisitUrlCookies(
     const std::string& url,
     const bool includeHttpOnly
 ) {
+  LNDCT();
+  if (doTraceCookie && Log::isTraceEnabled())
+    Log::trace("ServerHandler: CookieManager_VisitUrlCookies, id=%d, url=%s", cookieManager.objId, url.c_str());
+
   GET_COOKIE_MANAGER_OR_RETURN_VAL(false);
   CefRefPtr<RemoteCookieVisitor> rvisitor(new RemoteCookieVisitor(myCtx, visitor));
   return manager->getDelegate()->VisitUrlCookies(url, includeHttpOnly, rvisitor);
@@ -1384,6 +1658,10 @@ bool ServerHandler::CookieManager_SetCookie(
     const std::string& url,
     const thrift_codegen::Cookie& c
 ) {
+  LNDCT();
+  if (doTraceCookie && Log::isTraceEnabled())
+    Log::trace("ServerHandler: CookieManager_SetCookie, id=%d, url=%s", cookieManager.objId, url.c_str());
+
   GET_COOKIE_MANAGER_OR_RETURN_VAL(false);
   CefCookie cookie;
   RemoteCookieVisitor::toCefCookie(c, cookie);
@@ -1404,6 +1682,10 @@ bool ServerHandler::CookieManager_DeleteCookies(
     const std::string& url,
     const std::string& cookieName
 ) {
+  LNDCT();
+  if (doTraceCookie && Log::isTraceEnabled())
+    Log::trace("ServerHandler: CookieManager_DeleteCookies, id=%d, url=%s, name=%s", cookieManager.objId, url.c_str(), cookieName.c_str());
+
   GET_COOKIE_MANAGER_OR_RETURN_VAL(false);
 
   // The method CefCookieManager::DeleteCookies must be called on the IO thread.
@@ -1421,6 +1703,10 @@ bool ServerHandler::CookieManager_FlushStore(
     const thrift_codegen::RObject& cookieManager,
     const thrift_codegen::RObject& rcompletionCallback
 ) {
+  LNDCT();
+  if (doTraceCookie && Log::isTraceEnabled())
+    Log::trace("ServerHandler: CookieManager_FlushStore, id=%d", cookieManager.objId);
+
   GET_COOKIE_MANAGER_OR_RETURN_VAL(false);
 
   CefRefPtr<RemoteCompletionCallback> cb;
@@ -1430,14 +1716,26 @@ bool ServerHandler::CookieManager_FlushStore(
 }
 
 void ServerHandler::Registration_Dispose(const thrift_codegen::RObject& registration) {
+  LNDCT();
+  if (doTraceCallbacks && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Registration_Dispose, id=%d", registration.objId);
+
   RemoteRegistration::dispose(registration.objId);
 }
 
 void ServerHandler::MediaAccessCallback_Dispose(const thrift_codegen::RObject& mediaAccessCallback) {
+  LNDCT();
+  if (doTraceCallbacks && Log::isTraceEnabled())
+    Log::trace("ServerHandler: MediaAccessCallback_Dispose, id=%d", mediaAccessCallback.objId);
+
   RemoteMediaAccessCallback::dispose(mediaAccessCallback.objId);
 }
 
 void ServerHandler::MediaAccessCallback_Continue(const thrift_codegen::RObject& mediaAccessCallback, const int32_t allowed_permissions) {
+  LNDCT();
+  if (doTraceCallbacks && Log::isTraceEnabled())
+    Log::trace("ServerHandler: MediaAccessCallback_Continue, id=%d, permissions=%d", mediaAccessCallback.objId, allowed_permissions);
+
   auto rc = RemoteMediaAccessCallback::get(mediaAccessCallback.objId);
   if (rc == nullptr) return;
   rc->getDelegate()->Continue(allowed_permissions);
@@ -1445,6 +1743,10 @@ void ServerHandler::MediaAccessCallback_Continue(const thrift_codegen::RObject& 
 }
 
 void ServerHandler::MediaAccessCallback_Cancel(const thrift_codegen::RObject& mediaAccessCallback) {
+  LNDCT();
+  if (doTraceCallbacks && Log::isTraceEnabled())
+    Log::trace("ServerHandler: MediaAccessCallback_Cancel, id=%d", mediaAccessCallback.objId);
+
   auto rc = RemoteMediaAccessCallback::get(mediaAccessCallback.objId);
   if (rc == nullptr) return;
   rc->getDelegate()->Cancel();
