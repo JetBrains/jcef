@@ -50,7 +50,7 @@ public class LoopTest {
         settings.log_file = "loop_test_chromium.log";
         settings.log_severity = CefSettings.LogSeverity.LOGSEVERITY_INFO;
 
-        CefApp app = CefApp.getInstance(settings);
+        CefApp app = CefApp.getInstance(null, settings, null);
 
         {// Wait for initialization
             CountDownLatch latch = new CountDownLatch(1);

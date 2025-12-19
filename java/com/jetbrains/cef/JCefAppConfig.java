@@ -2,6 +2,7 @@
 
 package com.jetbrains.cef;
 
+import com.jetbrains.cef.remote.NativeServerManager;
 import org.cef.CefApp;
 import org.cef.CefSettings;
 import org.cef.OS;
@@ -24,6 +25,7 @@ public abstract class JCefAppConfig {
     protected SystemBootstrap.Loader loader = null;
     private String cefFrameworkPathOSX = null;
     private static final AtomicReference<Double> forceDeviceScaleFactor = new AtomicReference<>(Double.valueOf(0));
+    private String nativeBundlePath = null;
 
     public String[] getAppArgs() {
         return appArgs.toArray(new String[0]);
@@ -41,6 +43,10 @@ public abstract class JCefAppConfig {
         return cefFrameworkPathOSX;
     }
 
+    public String getNativeBundlePath() {
+        return nativeBundlePath;
+    }
+
     public SystemBootstrap.Loader getLoader() {
         return loader;
     }
@@ -52,6 +58,7 @@ public abstract class JCefAppConfig {
     public static JCefAppConfig getInstance(String nativeBundlePath, boolean outOfProcess) {
         JCefAppConfig appConfig = new JCefAppConfig() {
         };
+        appConfig.nativeBundlePath = nativeBundlePath;
         if (OS.isMacintosh()) {
             appConfig.cefFrameworkPathOSX = Utils.pathOf(nativeBundlePath, "Frameworks/Chromium Embedded Framework.framework");
             if (!outOfProcess) {
@@ -59,6 +66,11 @@ public abstract class JCefAppConfig {
                 appConfig.appArgs.add("--main-bundle-path=" + Utils.pathOf(nativeBundlePath, "Frameworks/jcef Helper.app"));
                 appConfig.appArgs.add("--browser-subprocess-path=" + Utils.pathOf(nativeBundlePath, "Frameworks/jcef Helper.app/Contents/MacOS/jcef Helper"));
             }
+
+            appConfig.appArgs.add("--disable-in-process-stack-traces");
+            appConfig.appArgs.add("--use-mock-keychain");
+            appConfig.appArgs.add("--disable-features=SpareRendererForSitePerProcess");
+
             appConfig.appArgs.add("--disable-notifications");
             //  NOTE: some other switches are also could be usefull:
             //    "suppress-message-center-popups"
@@ -253,5 +265,27 @@ public abstract class JCefAppConfig {
             }
         }
         return forceDeviceScaleFactor.get();
+    }
+
+    public boolean isRemoteSupported() {
+        return nativeBundlePath != null || NativeServerManager.isRemoteSupported();
+    }
+
+    public boolean isRemoteEnabled() {
+        return isRemoteSupported() && Boolean.getBoolean("jcef.remote.enabled");
+    }
+
+    public File getServerExe() {
+        if (nativeBundlePath == null) {
+            return null;
+        } else if (OS.isMacintosh()) {
+            return new File(nativeBundlePath, "Frameworks/cef_server.app/Contents/MacOS/cef_server");
+        } else if (OS.isLinux()) {
+            return new File(nativeBundlePath, "cef_server");
+        } else if (OS.isWindows()) {
+            return new File(nativeBundlePath, "cef_server.exe");
+        }
+
+        throw new IllegalStateException("Unsupported platform: " + System.getProperty("os.name", "unknown"));
     }
 }

@@ -65,7 +65,7 @@ public class MultipleCefAppInstanceTest {
         CefSettings settings1 = config.getCefSettings().clone();
         settings1.log_severity = CefSettings.LogSeverity.LOGSEVERITY_VERBOSE;
         //settings1.log_file = "/Users/bocha/jcef_test1.log";
-        CefApp cefApp1 = CefApp.getInstance(args, settings1);
+        CefApp cefApp1 = CefApp.getInstance(args, settings1, null);
         create(cefApp1, "http://www.google.com", test1);
 
         CountDownLatch test2 = new CountDownLatch(2);
@@ -74,7 +74,7 @@ public class MultipleCefAppInstanceTest {
         //settings2.log_file = "/Users/bocha/jcef_test2.log";
         appArgs.add("-fake-test-argument");
         args = appArgs.toArray(new String[0]);
-        CefApp cefApp2 = CefApp.getInstance(args, settings2);
+        CefApp cefApp2 = CefApp.getInstance(args, settings2, null);
         create(cefApp2, "http://www.ya.ru", test2);
 
         try {

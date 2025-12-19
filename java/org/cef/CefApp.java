@@ -29,6 +29,7 @@ import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Supplier;
 
 /**
@@ -157,8 +158,7 @@ public class CefApp extends CefAppHandlerAdapter {
     private static final int PREINIT_TEST_DELAY_MS = Utils.getInteger("jcef_app_preinit_test_delay_ms", 0);
     private static final int INIT_TEST_DELAY_MS = Utils.getInteger("jcef_app_init_test_delay_ms", 0);
 
-    // Support for JBR-4430
-    private static final boolean IS_REMOTE_ENABLED = isRemoteSupported() ? Boolean.getBoolean("jcef.remote.enabled") : false;
+    private static final AtomicReference<Boolean> isRemoteEnabled_ = new AtomicReference<>();
 
     /**
      * To get an instance of this class, use the method
@@ -255,7 +255,7 @@ public class CefApp extends CefAppHandlerAdapter {
      * @throws IllegalStateException in case of CefApp is already initialized
      */
     public static void addAppHandler(CefAppHandler appHandler) throws IllegalStateException {
-        if (self != null && !IS_REMOTE_ENABLED)
+        if (self != null)
             throw new IllegalStateException("Must be called before CefApp is initialized");
         userAppHandler_ = appHandler;
     }
@@ -270,24 +270,22 @@ public class CefApp extends CefAppHandlerAdapter {
      * @return an instance of this class
      */
     public static synchronized CefApp getInstance() {
-        if (IS_REMOTE_ENABLED) {
-            // Return default instance if exists.
-            if (self != null)
-                return self;
-        }
-        return getInstance(null, null);
+       if (self == null)
+           return self;
+
+        return getInstance(null, null, null);
     }
 
-    public static synchronized CefApp getInstance(String[] args) {
-        return getInstance(args, null);
-    }
+//    public static synchronized CefApp getInstance(String[] args) {
+//        return getInstance(args, null);
+//    }
 
-    public static synchronized CefApp getInstance(CefSettings settings) {
-        return getInstance(null, settings);
-    }
+//    public static synchronized CefApp getInstance(CefSettings settings) {
+//        return getInstance(null, settings);
+//    }
 
-    public static synchronized CefApp getInstance(String[] args, CefSettings settings) {
-        if (IS_REMOTE_ENABLED) {
+    public static synchronized CefApp getInstance(String[] args, CefSettings settings, File serverExe) {
+        if (isRemoteEnabled()) {
             // 1. Get command line args (from passed arguments and userAppHandler_)
             final String[] realArgs;
             if (args != null && args.length > 0)
@@ -323,7 +321,7 @@ public class CefApp extends CefAppHandlerAdapter {
                     st = new ThriftTransport(ThriftTransport.getServerPipe(suffix));
                 }
             }
-            s = new CefServer(st, ct, realArgs, settings);
+            s = new CefServer(st, ct, realArgs, settings, serverExe);
             CefApp result = new CefApp(realArgs, settings, s);
 
             // 4. Set default instance
@@ -347,7 +345,7 @@ public class CefApp extends CefAppHandlerAdapter {
     }
 
     public static synchronized CefApp findRunningInstance(String[] args, CefSettings settings) {
-        if (!IS_REMOTE_ENABLED)
+        if (!isRemoteEnabled())
             return null;
 
         final CefServer s = CefServer.findRunningInstance(args, settings);
@@ -402,7 +400,19 @@ public class CefApp extends CefAppHandlerAdapter {
         return NativeServerManager.isRemoteSupported();
     }
 
-    public static final boolean isRemoteEnabled() { return IS_REMOTE_ENABLED; }
+    public static void setIsRemoteEnabled(boolean value) {
+        if(!isRemoteEnabled_.compareAndSet(null, value)) {
+            throw new IllegalStateException("CefApp: setIsRemoteEnabled can be called only once.");
+        }
+    }
+
+    public static boolean isRemoteEnabled() {
+        Boolean value = isRemoteEnabled_.get();
+        if (value != null) {
+            return value;
+        }
+        throw new IllegalStateException("CefApp: isRemoteEnabled is not initialized.");
+    }
 
     public final CefServer getServer() { return server_; }
 
@@ -701,7 +711,7 @@ public class CefApp extends CefAppHandlerAdapter {
      * @param args Command-line arguments were used only to get CEF framework path in OSX.
      */
     public static boolean startup(String[] args) {
-        if (IS_REMOTE_ENABLED)
+        if (isRemoteEnabled())
             return true;
 
         if (OS.isMacintosh() && args.length == 0) {
@@ -747,7 +757,7 @@ public class CefApp extends CefAppHandlerAdapter {
      *                      Used only on macOS.
      */
     public static void startupAsync(String frameworkPath) {
-        if (IS_REMOTE_ENABLED)
+        if (isRemoteEnabled())
             return;
 
         new NamedThreadExecutor("CefStartup-thread").execute(()->{
