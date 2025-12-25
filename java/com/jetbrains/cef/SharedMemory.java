@@ -11,6 +11,7 @@ import java.nio.ByteBuffer;
 
 public class SharedMemory {
     private static final String ALT_MEM_HELPER_PATH;
+    private static volatile boolean isLoaded = false;
     public final String mname;
     public final long boostHandle;
     public long lasUsedMs = 0;
@@ -43,12 +44,32 @@ public class SharedMemory {
         loadDynamicLib();
     }
 
+    public static boolean isIsLoaded() { return isLoaded; }
+
     public static void loadDynamicLib() {
+        if (isLoaded)
+            return;
         try {
-            if (ALT_MEM_HELPER_PATH == null || ALT_MEM_HELPER_PATH.isEmpty())
+            if (ALT_MEM_HELPER_PATH == null || ALT_MEM_HELPER_PATH.isEmpty()) {
+                CefLog.Debug("Load shared_mem_helper library from jbr bundle.");
                 SystemBootstrap.loadLibrary("shared_mem_helper");
-            else
+            } else {
+                CefLog.Debug("Load shared_mem_helper library from alt path %s", ALT_MEM_HELPER_PATH);
                 System.load(ALT_MEM_HELPER_PATH.trim());
+            }
+            isLoaded = true;
+        } catch (UnsatisfiedLinkError e) {
+            CefLog.Error("Can't load shared_mem_helper, exception: %s", e.getMessage());
+        }
+    }
+
+    public static void loadDynamicLib(String path) {
+        if (isLoaded)
+            return;
+        try {
+            CefLog.Debug("Load shared_mem_helper library from file %s", path);
+            System.load(path.trim());
+            isLoaded = true;
         } catch (UnsatisfiedLinkError e) {
             CefLog.Error("Can't load shared_mem_helper, exception: %s", e.getMessage());
         }

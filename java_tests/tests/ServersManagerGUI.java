@@ -1,39 +1,92 @@
 package tests;
 
-import com.jetbrains.cef.remote.NativeServerManager;
-import com.jetbrains.cef.remote.RpcExecutor;
-import com.jetbrains.cef.remote.ServerStarter;
-import com.jetbrains.cef.remote.ThriftTransport;
+import com.jetbrains.cef.SharedMemory;
+import com.jetbrains.cef.remote.*;
 import com.jetbrains.cef.remote.thrift.transport.TTransportException;
 import org.cef.CefApp;
 import org.cef.CefSettings;
 import org.cef.OS;
 import org.cef.handler.CefAppHandler;
 import org.cef.misc.CefLog;
+import tests.detailed.MainFrame;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.ServerSocket;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
 import java.util.stream.Stream;
 
 public class ServersManagerGUI {
     JFrame frame;
-    DefaultListModel<Integer> listModel;
-    JList<Integer> numberList;
+    DefaultListModel<NativeServerManager.RunningServerInfo> listModel;
+    JList<NativeServerManager.RunningServerInfo> runningList;
+    static TextArea logArea = new TextArea();
+
+    // Remembered settings
+    static Path ourSettingsPath;
+    static Properties ourProperties;
+    static final List<String> ourLastExePaths = new ArrayList<>();
+    static final int maxPathsCount = 10;
+
+    private static void log(String msg, Object... args) {
+        logArea.append(String.format(msg, args) + "\n");
+    }
+
+    private static void loadProperties() {
+        ourProperties = new Properties();
+        try (InputStream inputStream = new FileInputStream(ourSettingsPath.toString())) {
+            ourProperties.load(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
+            for (int c = 0; c < maxPathsCount; c++) {
+                String lastPath = ourProperties.getProperty("lastExePath." + c);
+                if (lastPath != null)
+                    ourLastExePaths.add(lastPath);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void saveProperties(String comment) {
+        try (OutputStream outputStream = new FileOutputStream(ourSettingsPath.toString())) {
+            try (Writer writer = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8)) {
+                for (int c = 0; c < ourLastExePaths.size(); c++)
+                    ourProperties.setProperty("lastExePath." + c, ourLastExePaths.get(c));
+                ourProperties.store(writer, comment);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void main(String[] args) {
         System.out.println("Start GUI for NativeServerManager.");
+        System.setProperty("jcef.remote.force_enabled", "true");
+
+        ourSettingsPath = Path.of(System.getProperty("java.io.tmpdir")).resolve("ServersManagerGUI.txt");
+        loadProperties();
+
+        String lastSharedMemHelperPath = ourProperties.getProperty("lastSharedMemHelperPath");
+        if (lastSharedMemHelperPath != null) {
+            File fpath = new File(lastSharedMemHelperPath);
+            if (fpath.exists() && !fpath.isDirectory()) {
+                log("Try last shared mem helper path: " + lastSharedMemHelperPath + "\n");
+                SharedMemory.loadDynamicLib(lastSharedMemHelperPath);
+                if (!SharedMemory.isIsLoaded())
+                    log("ERROR: Can't load shared mem helper library.\n");
+            }
+        }
 
         SwingUtilities.invokeLater(() -> {
             try {
@@ -46,100 +99,103 @@ public class ServersManagerGUI {
         });
     }
 
+    private void updateRunningServersList() {
+        SwingUtilities.invokeLater(()->{
+            listModel.clear();
+            NativeServerManager.listRunningInstancesPorts().forEach(s -> listModel.addElement(s));
+        });
+    }
+
     private void initUI() {
         frame = new JFrame("CEF servers manager");
         frame.setLayout(new BorderLayout());
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                CefApp.getInstance().dispose();
+                CefApp cefApp = CefApp.getInstanceIfAny();
+                if (cefApp != null)
+                    cefApp.dispose();
+                frame.dispose();
+                System.exit(0);
             }
         });
 
         // Create model and populate with port numbers
         listModel = new DefaultListModel<>();
-        java.util.List<Integer> numbers = NativeServerManager.listRunningInstancesPorts();
-        numbers.forEach(listModel::addElement);
+        Thread updater = new Thread(()->{
+            while (true) {
+                updateRunningServersList();
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+        updater.start();
 
         // Create JList with model
-        numberList = new JList<>(listModel);
-        numberList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        numberList.setVisibleRowCount(8);
-        numberList.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 14));
+        runningList = new JList<>(listModel);
+        runningList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        runningList.setVisibleRowCount(8);
+        runningList.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 14));
 
         // Optional: customize cell appearance
-        numberList.setCellRenderer(new DefaultListCellRenderer() {
+        runningList.setCellRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(JList<?> list, Object value,
                                                           int index, boolean isSelected, boolean cellHasFocus) {
                 JLabel label = (JLabel) super.getListCellRendererComponent(
                         list, value, index, isSelected, cellHasFocus);
-                label.setText(String.format("%2d", value)); // right-align 2-digit numbers
+                NativeServerManager.RunningServerInfo si = (NativeServerManager.RunningServerInfo)value;
+                label.setText(String.format("port %2d (parent: %s)", si.transport.getPort(), si.getParentProcessCmd())); // right-align 2-digit numbers
                 return label;
             }
         });
 
-        // 🔑Add click handler
-        numberList.addMouseListener(new MouseAdapter() {
+        runningList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 1) {
-                    handleSingleClick(e);
+                    int index = runningList.locationToIndex(e.getPoint());
+                    if (index >= 0 && index < listModel.size())
+                        runningList.setSelectedIndex(index);
                 } else if (e.getClickCount() == 2) {
-                    handleDoubleClick(e);
+                    int index = runningList.locationToIndex(e.getPoint());
+                    if (index >= 0 && index < listModel.size()) {
+                        NativeServerManager.RunningServerInfo value = listModel.get(index);
+                        new ServerControls(value);
+                    }
                 }
             }
         });
 
-        // Optional: also respond to Enter key (accessibility)
-        numberList.addKeyListener(new KeyAdapter() {
+        runningList.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER && !numberList.isSelectionEmpty()) {
-                    int value = numberList.getSelectedValue();
-                    JOptionPane.showMessageDialog(
-                            frame,
-                            "✅ Selected: " + value + "\n(Square: " + (value * value) + ")",
-                            "Info",
-                            JOptionPane.INFORMATION_MESSAGE
-                    );
+                if (e.getKeyCode() == KeyEvent.VK_ENTER && !runningList.isSelectionEmpty()) {
+                    NativeServerManager.RunningServerInfo value = runningList.getSelectedValue();
+                    new ServerControls(value);
                 }
             }
         });
 
         // 1. List of running servers
-        JScrollPane scrollPane = new JScrollPane(numberList);
+        JScrollPane scrollPane = new JScrollPane(runningList);
         scrollPane.setBorder(BorderFactory.createTitledBorder("Running cef_server instances"));
         frame.add(scrollPane, BorderLayout.NORTH);
 
-        // 2. Panel for starting cef_server instances
-        PathSelectionPanel pathSelectionPanel = new PathSelectionPanel();
-        frame.add(pathSelectionPanel, BorderLayout.CENTER);
+        // 2. Panel for logger
+        frame.add(logArea, BorderLayout.CENTER);
+
+        // 3. Panel for starting cef_server instances
+        ServerStartOptionsPanel pathSelectionPanel = new ServerStartOptionsPanel();
+        frame.add(pathSelectionPanel, BorderLayout.SOUTH);
 
         frame.pack();
         frame.setSize(800, 600);
         frame.setVisible(true);
         frame.setLocationRelativeTo(null); // center on screen
-    }
-
-    private void handleSingleClick(MouseEvent e) {
-        int index = numberList.locationToIndex(e.getPoint());
-        if (index >= 0 && index < listModel.size()) {
-            numberList.setSelectedIndex(index);
-            // int value = listModel.get(index);
-            // System.out.println("Selected: " + value);
-        }
-    }
-
-    private void handleDoubleClick(MouseEvent e) {
-        int index = numberList.locationToIndex(e.getPoint());
-        if (index >= 0 && index < listModel.size()) {
-            int value = listModel.get(index);
-            JFrame sc = new ServerControls(value);
-            sc.setSize(800, 600);
-            sc.setVisible(true);
-            sc.setLocationRelativeTo(null); // center on screen
-        }
     }
 
     // NOTE: user must manually call closeTransport() after usage.
@@ -149,30 +205,26 @@ public class ServersManagerGUI {
             RpcExecutor result = new RpcExecutor().openTransport(serverPort);
             return result;
         } catch (TTransportException e) {
-            CefLog.Debug("Exception when trying to connect server, err: %s", e.getMessage());
+            log("Exception when trying to connect server, err: %s", e.getMessage());
         }
         return null;
     }
 
-    private static boolean startCefServerAndWait(String exePath, int port, String logPath, int logLevel) {
+    private static boolean startCefServerAndWait(String exePath, int port, String logPath, int logLevel, String[] args, CefSettings settings, CefAppHandler appHandler, Map<String, String> env) {
         ThriftTransport thriftTransport = new ThriftTransport(port);
         String runningRoot = NativeServerManager.isRunning(thriftTransport);
         if (runningRoot != null) {
-            CefLog.Debug("cef_server instance is already running on port %d, root=%s", port, runningRoot);
+            log("cef_server instance is already running on port %d, root=%s", port, runningRoot);
             return false;
         }
 
         File exeFile = new File(exePath);
         if (!exeFile.exists() || !exeFile.isFile()) {
-            CefLog.Debug("File '%s' doesn't exist (or it's directory).", exePath);
+            log("File '%s' doesn't exist (or it's directory).", exePath);
             return false;
         }
 
-        // TODO: support AppHandler, args and settings
-        CefAppHandler appHandler = null;
-        String[] args = null;
-        CefSettings settings = new CefSettings();
-        final boolean success = ServerStarter.startProcessAndWait(exeFile, thriftTransport, appHandler, args, settings, logPath, NativeServerManager.ServerLogLevel.nativeDesc(logLevel), false, 20000);
+        final boolean success = ServerStarter.startProcessAndWait(exeFile, thriftTransport, appHandler, args, settings, logPath, NativeServerManager.ServerLogLevel.nativeDesc(logLevel), false, env, 20000);
         return success;
     }
 
@@ -210,28 +262,54 @@ public class ServersManagerGUI {
         return gb;
     }
 
-    private static class PathSelectionPanel extends JPanel {
-        public PathSelectionPanel() {
+    private static class ServerStartOptionsPanel extends JPanel {
+        public ServerStartOptionsPanel() {
             // 1. Path selection panel
-            JTextField pathField = new JTextField(getCurrentRuntimePath(), 100);
+            ArrayList<String> items = new ArrayList<>();
+            final String currenRuntimePath = getCurrentRuntimePath();
+            final File currenRuntimeExeFile = findCefServerExe(currenRuntimePath);
+            if (currenRuntimeExeFile != null)
+                items.add(currenRuntimeExeFile.getAbsolutePath());
+
+            final Path currenRuntimeExePath = currenRuntimeExeFile != null ? currenRuntimeExeFile.toPath() : null;
+            for (String p: ourLastExePaths) {
+                if (currenRuntimeExePath != null && currenRuntimeExePath.equals(p))
+                    continue;
+                final File exeFile = findCefServerExe(p);
+                if (exeFile != null)
+                    items.add(exeFile.getAbsolutePath());
+            }
+            JComboBox<String> pathComboBox = new JComboBox<>(items.toArray(new String[0]));
+            pathComboBox.setEditable(true);
+            JTextField textField = (JTextField) pathComboBox.getEditor().getEditorComponent();
+            textField.setColumns(128); // Adjust width
+
             JButton pathSelect = new JButton("Select folder");
             pathSelect.addActionListener(e -> {
                 JFileChooser chooser = new JFileChooser();
-                chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+                chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
                 chooser.showOpenDialog(null);
                 String path = chooser.getSelectedFile().getAbsolutePath();
-                pathField.setText(path);
+                final File exeFile = findCefServerExe(path);
+                if (exeFile == null)
+                    JOptionPane.showMessageDialog(null, "Can't find cef_server executable in path: " + path);
+                else {
+                    pathComboBox.insertItemAt(exeFile.getAbsolutePath(), 0);
+                    pathComboBox.setSelectedIndex(0);
+                    ourLastExePaths.add(exeFile.getAbsolutePath());
+                    saveProperties("");
+                }
             });
-            // TODO: remember last 100 path-items and show dropdown list with them when user clicks on pathField
+
             JPanel pathPanel = new JPanel(new BorderLayout());
-            pathPanel.add(pathField, BorderLayout.CENTER);
+            pathPanel.add(pathComboBox, BorderLayout.CENTER);
             pathPanel.add(pathSelect, BorderLayout.EAST);
 
             // 2. Arguments and params panel
             // log level and path
             JTextField logLevelField = new JTextField("trace", 10);
             logLevelField.setSize(new Dimension(100, logLevelField.getSize().height));
-            JTextField logPathField = new JTextField("stderr", 128);
+            JTextField logPathField = new JTextField(Path.of(System.getProperty("user.home")).resolve("cef_server_log.txt").toAbsolutePath().toString(), 128);
             JPanel gbLogging = creatGroupBox("Logging options", BoxLayout.Y_AXIS);
             gbLogging.add(addLabelForComponent(logLevelField, "Level"));
             gbLogging.add(addLabelForComponent(logPathField, "Path "));
@@ -252,10 +330,22 @@ public class ServersManagerGUI {
             gbPort.add(freePortButton);
             gbPort.add(Box.createHorizontalGlue());
 
+            JPanel gbArgs = creatGroupBox("Cmd line switches", BoxLayout.X_AXIS);
+            JTextField argsField = new JTextField();
+            gbArgs.add(argsField);
+
+            JPanel gbCefSettings = creatGroupBox("CefSettings", BoxLayout.X_AXIS);
+            JTextField rootField = new JTextField();
+            gbCefSettings.add(addLabelForComponent(rootField, "Root"));
+
+            JPanel gbEnv = creatGroupBox("Env vars separated with ';'", BoxLayout.X_AXIS);
+            JTextField envField = new JTextField();
+            gbEnv.add(envField);
+
             // run button
             JButton runButton = new JButton("Run");
             runButton.addActionListener(e -> {
-                File exeFile = findCefServerExe(pathField.getText());
+                File exeFile = findCefServerExe((String) pathComboBox.getSelectedItem());
                 if (exeFile == null) {
                     JOptionPane.showMessageDialog(null, "Can't find cef_server in selected folder.");
                     return;
@@ -272,19 +362,49 @@ public class ServersManagerGUI {
 
                 int finalLogLevel = logLevel;
                 new Thread(()-> {
-                    boolean success = startCefServerAndWait(exeFile.getAbsolutePath(), port, logPath, finalLogLevel);
-                    if (!success)
-                        JOptionPane.showMessageDialog(null, "Failed to start cef_server.");
-                });
-            });
+                    CefSettings settings = new CefSettings();
+                    settings.cache_path = rootField.getText();
+                    String[] args = null;
+                    final String argsString = argsField.getText();
+                    if (argsString != null && !argsString.isEmpty()) {
+                        args = argsString.split(" ");
+                        for (int ci = 0; ci < args.length; ci++)
+                            args[ci] = args[ci].replace("_SPACESYMBOL_", " ");
+                    }
+                    Map<String, String> envs = null;
+                    final String envsString = envField.getText();
+                    if (envsString != null && !envsString.isEmpty()) {
+                        envs = new HashMap<>();
+                        for (String env: envsString.split(";")) {
+                            String[] kv = env.split("=");
+                            if (kv.length == 2)
+                                envs.put(kv[0].trim(), kv[1].trim());
+                            else
+                                log("WARNING: invalid env var syntax: '%s'", env);
+                        }
+                    }
 
-            // TODO: add ability to set some important params
-            // TODO: add possibility to run cef_server without --params (with good default params)
+                    CefAppHandler appHandler = null; // TODO: support custom schemes later
+
+                    log("Start cef_server: path=%s, port=%d, logLevel=%s, root=%s, args=%s", exeFile.getAbsolutePath(), port, NativeServerManager.ServerLogLevel.nativeDesc(finalLogLevel), settings.cache_path, Arrays.toString(args));
+                    boolean success = startCefServerAndWait(exeFile.getAbsolutePath(), port, logPath, finalLogLevel, args, settings, appHandler, envs);
+                    if (!success) {
+                        log("ERROR: failed to start.");
+                        JOptionPane.showMessageDialog(null, "Failed to start cef_server.");
+                    }
+                }).start();
+            });
 
             JPanel argsPanel = new JPanel(new BorderLayout());
             argsPanel.add(gbLogging, BorderLayout.NORTH);
-            argsPanel.add(gbPort, BorderLayout.SOUTH);
-            argsPanel.add(runButton, BorderLayout.CENTER);
+            JPanel p = new JPanel();
+            p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
+            p.add(gbPort);
+            p.add(gbCefSettings);
+            p.add(gbArgs);
+            p.add(gbEnv);
+            argsPanel.add(p, BorderLayout.CENTER);
+            argsPanel.add(runButton, BorderLayout.SOUTH);
 
             // 3. Populate self.
             setLayout(new BorderLayout());
@@ -293,25 +413,48 @@ public class ServersManagerGUI {
         }
     }
 
-    private static String getServerInfo(int port) {
-        RpcExecutor result = connect(port);
-        if (result == null)
-            return null;
+    private static void execServerRpc(int port, RpcExecutor.Rpc r) {
+        RpcExecutor rpcExecutor = connect(port);
+        if (rpcExecutor != null) {
+            try {
+                rpcExecutor.exec(r);
+            } finally {
+                rpcExecutor.closeTransport();
+            }
+        } else
+            log("execServerRpc: failed to connect to server on port " + port + "\n");
+    }
 
-        String state = result.execObj(s -> s.getServerInfo("state_with_details"));
-        CefLog.Debug("Server state: %s", state);
-        result.closeTransport();
-        return state;
+    private static <T> T execServerRpcObj(int port, RpcExecutor.RpcObj<T> r) {
+        RpcExecutor rpcExecutor = connect(port);
+        if (rpcExecutor != null) {
+            try {
+                return rpcExecutor.execObj(r);
+            } finally {
+                rpcExecutor.closeTransport();
+            }
+        } else
+            log("execServerRpcObj: failed to connect to server on port " + port + "\n");
+        return null;
     }
 
     private static class ServerControls extends JFrame {
-        ServerControls(int port) {
-            setTitle("Server " + port);
+        private static CefApp createCefApp(int port, boolean connectAsMaster) {
+            CefApp.startup(null);
+            CefLog.initVerbose();
+            ThriftTransport transport = new ThriftTransport(port);
+            // NOTE: file, args and settings won't be used since it will be connected to an already running instance.
+            return CefApp.getInstance(new CefServer(null, transport, null, null, connectAsMaster));
+        }
+
+        ServerControls(NativeServerManager.RunningServerInfo serverInfo) {
+            setTitle("Server " + serverInfo.transport.toString() + " | parent: " + serverInfo.getParentProcessCmd());
             setLayout(new BorderLayout());
 
             // 1. State of the server (with detailed info).
             Component stateComponent;
-            String serverState = getServerInfo(port);
+            final int port = serverInfo.transport.getPort();
+            String serverState = execServerRpcObj(port, s -> s.getServerInfo("state_with_details"));
             if (serverState == null) {
                 stateComponent = new JLabel("Can't connect to server...");
             } else {
@@ -325,10 +468,14 @@ public class ServersManagerGUI {
                 updatePanel.add(updateDelayLabel, BorderLayout.WEST);
                 updatePanel.add(updateDelayField, BorderLayout.EAST);
 
-                JTextArea textArea = new JTextArea(serverState);
+                final String serverVersion = execServerRpcObj(port, s -> s.getServerInfo("version"));
+                final String serverRoot = execServerRpcObj(port, s -> s.getServerInfo("root"));
+                final String stateTextPrefix = "Version: " + serverVersion + "\n" + "Root: " + serverRoot + "\n";
+                JTextArea textArea = new JTextArea(stateTextPrefix + serverState);
                 JScrollPane scrollPane = new JScrollPane(textArea);
                 scrollPane.setBorder(BorderFactory.createTitledBorder("State of the server"));
 
+                boolean[] stopRequested = new boolean[]{false};
                 Thread updater = new Thread(() -> {
                     while (true) {
                         try {
@@ -336,20 +483,23 @@ public class ServersManagerGUI {
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                        String newState = getServerInfo(port);
+                        if (stopRequested[0])
+                            return;
+
+                        String newState = execServerRpcObj(port, s -> s.getServerInfo("state_with_details"));
                         if (newState == null)
                             newState = "Can't connect to server...";
 
                         String finalNewState = newState;
-                        SwingUtilities.invokeLater(()-> textArea.setText(finalNewState));
+                        SwingUtilities.invokeLater(()-> textArea.setText(stateTextPrefix + finalNewState));
                     }
                 });
 
                 updater.start();
                 addWindowListener(new WindowAdapter() {
                     @Override
-                    public void windowClosed(WindowEvent e) {
-                        updater.interrupt();
+                    public void windowClosing(WindowEvent e) {
+                        stopRequested[0] = true;
                     }
                 });
 
@@ -362,17 +512,109 @@ public class ServersManagerGUI {
             add(stateComponent, BorderLayout.CENTER);
 
             // 2. Panel for operations with the running server
-            JCheckBox cbxMaster = new JCheckBox("Connect as master");
+            boolean[] connectAsMaster = new boolean[]{false};
+            JCheckBox cbxMaster = new JCheckBox("Connect as master", connectAsMaster[0]);
+            cbxMaster.addActionListener(e -> {
+                connectAsMaster[0] = cbxMaster.isSelected();
+            });
 
             JButton runSimple = new JButton("Run simple frame");
+            runSimple.addActionListener(e -> {
+                new tests.simple.MainFrame(createCefApp(port, connectAsMaster[0]));
+            });
+
             JButton runDetailed = new JButton("Run detailed frame");
+            runDetailed.addActionListener(e -> {
+                final MainFrame frame = new tests.detailed.MainFrame(createCefApp(port, connectAsMaster[0]));
+                frame.setSize(800, 600);
+                frame.setVisible(true);
+            });
 
             JButton crash = new JButton("Crash");
+            crash.addActionListener(e -> {
+                execServerRpc(port, r -> r.getServerInfo("doCrash"));
+            });
             JButton stop = new JButton("Stop");
+            stop.addActionListener(e -> {
+                execServerRpc(port, r -> r.stop());
+            });
             JButton openLog = new JButton("Open log");
+            openLog.addActionListener(e -> {
+                String logInfo = execServerRpcObj(port, s -> s.getServerInfo("logger_details"));
+                if (logInfo == null)
+                    return;
+
+                // format: "level=%d,file=%s"
+                final int pos0 = logInfo.indexOf(",");
+                if (pos0 < 0) {
+                    log("openLog: invalid logInfo: " + logInfo + "\n");
+                    return;
+                }
+                String slevel = logInfo.substring(6, pos0).trim();
+                String path = logInfo.substring(pos0 + 6).trim();
+
+                int level = Integer.parseInt(slevel);
+                if (level >= 100) {
+                    JOptionPane.showMessageDialog(null, "This instance of cef_server has disabled logger.");
+                    return;
+                }
+
+                if (path.equals("stdout") || path.equals("stderr") || path.equals("null") || path.isEmpty()) {
+                    // 1. If we use stdout/stderr logger then show dialog with message "Look at console"
+                    JOptionPane.showMessageDialog(null, "This instance of cef_server uses stderr logger (probably it is visible at some console).");
+                } else {
+                    // 2. Open log file with default editor
+                    String textViewer = ourProperties.getProperty("textViewer");
+                    if (textViewer == null || textViewer.isEmpty()) {
+                        textViewer = (String) JOptionPane.showInputDialog(
+                                null,                              // parent component (null = center on screen)
+                                "Enter text editor command:",
+                                "Set text editor",
+                                JOptionPane.QUESTION_MESSAGE,
+                                null,
+                                null,
+                                "sublime"
+                        );
+                        ourProperties.setProperty("textViewer", textViewer);
+                    }
+
+                    if (textViewer == null || textViewer.isEmpty()) {
+                        Desktop desktop = Desktop.getDesktop();
+                        try {
+                            desktop.open(new File(path));
+                        } catch (IOException e1) {
+                            JOptionPane.showMessageDialog(null, "Failed to open log file: " + path);
+                        }
+                    } else {
+                        ProcessBuilder pb = new ProcessBuilder(textViewer, path);
+                        try {
+                            pb.start();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                            ourProperties.remove("textViewer");
+                        }
+                    }
+                }
+            });
 
             JPanel optionsPanel = creatGroupBox("Server operations", BoxLayout.Y_AXIS);
             optionsPanel.add(cbxMaster);
+            if (!SharedMemory.isIsLoaded()) {
+                JButton selectShMem = new JButton("SharedMemHelper path");
+                selectShMem.addActionListener(e -> {
+                    JFileChooser chooser = new JFileChooser();
+                    chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+                    chooser.showOpenDialog(null);
+                    String path = chooser.getSelectedFile().getAbsolutePath();
+                    SharedMemory.loadDynamicLib(path);
+                    if (SharedMemory.isIsLoaded()) {
+                        ourProperties.setProperty("lastSharedMemHelperPath", path);
+                        saveProperties("");
+                    } else
+                        JOptionPane.showMessageDialog(null, "Failed to load SharedMemHelper.");
+                });
+                optionsPanel.add(selectShMem);
+            }
             optionsPanel.add(runSimple);
             optionsPanel.add(runDetailed);
             optionsPanel.add(crash);
@@ -382,6 +624,9 @@ public class ServersManagerGUI {
             add(optionsPanel, BorderLayout.WEST);
 
             pack();
+
+            setSize(1000, 800);
+            setVisible(true);
         }
     }
 
@@ -393,7 +638,7 @@ public class ServersManagerGUI {
                     found.add(f);
             });
         } catch (IOException e) {
-            CefLog.Debug("findFile: failed to walk path '%s', exception: ", dir, e.getMessage());
+            // log("findFile: failed to walk path '%s', exception: %s", dir, e.getMessage());
         }
         return found;
     }
@@ -401,7 +646,7 @@ public class ServersManagerGUI {
     private static File findCefServerExe(String pathString) {
         File fpath = new File(pathString);
         if (!fpath.exists()) {
-            CefLog.Debug("findCefServerExe: path '%s' doesn't exist.", pathString);
+            log("findCefServerExe: path '%s' doesn't exist.", pathString);
             return null;
         }
         if (fpath.isFile())
@@ -427,7 +672,7 @@ public class ServersManagerGUI {
         if (found.size() > 1)
             return found.get(0).toFile();
 
-        CefLog.Debug("findCefServerExe: can't find cef_server in path '%s'", pathString);
+        // log("findCefServerExe: can't find cef_server in path '%s'", pathString);
         return null;
     }
 }

@@ -14,6 +14,7 @@ namespace {
   thread_local std::string ourThreadName;
   const std::string ourNdcSeparator = " | ";
   int ourLogLevel = Log::LEVEL_INFO;
+  std::string ourLogFilePath;
   FILE * ourLogFile = nullptr;
   bool ourDoFlush = false;
   bool ourAddNewLine = true;
@@ -84,6 +85,8 @@ void Log::init(int level, std::string logfile) {
     return;
   }
 
+  ourLogFilePath = logfile;
+
   fprintf(stderr, "Initialize cef_server logger: level=%s file='%s'\n", level2str(level).c_str(), logfile.c_str());
   if (!logfile.empty() && logfile.compare("stderr") != 0) {
     FILE* flog = fopen(logfile.c_str(), "a");
@@ -118,6 +121,10 @@ bool Log::isTraceEnabled() {
 
 bool Log::isStdStreamLogger() {
   return ourLogFile == stderr;
+}
+
+std::string Log::printLevelAndPath() {
+  return string_format("level=%d,file=%s", ourLogLevel, ourLogFilePath.c_str());
 }
 
 void Log::log(int level, const char *const format, ...) {

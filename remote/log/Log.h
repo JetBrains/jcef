@@ -21,6 +21,7 @@ public:
   static bool isDebugEnabled();
   static bool isTraceEnabled();
   static bool isStdStreamLogger();
+  static std::string printLevelAndPath();
   
   template <class ... Args>
   static void fatal(const char *const format, Args ... args) {

@@ -45,6 +45,11 @@ public class ServerStarter {
 
     // Should be called in bg thread
     public static boolean startProcessAndWait(ThriftTransport thriftServer, CefAppHandler appHandler, String[] args, CefSettings settings, boolean deleteRootDir, long timeoutMs) {
+        return startProcessAndWait(NativeServerManager.getServerExe(), thriftServer, appHandler, args, settings, deleteRootDir, null, timeoutMs);
+    }
+
+    // Should be called in bg thread
+    public static boolean startProcessAndWait(File serverExe, ThriftTransport thriftServer, CefAppHandler appHandler, String[] args, CefSettings settings, boolean deleteRootDir, Map<String, String> env, long timeoutMs) {
         // Select log path
         String serverLogPath = Utils.getString("CEF_SERVER_LOG_PATH");
         if (serverLogPath == null || serverLogPath.trim().isEmpty())
@@ -62,11 +67,11 @@ public class ServerStarter {
             }
         }
 
-        return startProcessAndWait(NativeServerManager.getServerExe(), thriftServer, appHandler, args, settings, serverLogPath, serverLogLevel, deleteRootDir, timeoutMs);
+        return startProcessAndWait(serverExe, thriftServer, appHandler, args, settings, serverLogPath, serverLogLevel, deleteRootDir, env, timeoutMs);
     }
 
     // Should be called in bg thread
-    public static boolean startProcessAndWait(File serverExe, ThriftTransport thriftServer, CefAppHandler appHandler, String[] args, CefSettings settings, String logPath, String logLevel, boolean deleteRootDir, long timeoutMs) {
+    public static boolean startProcessAndWait(File serverExe, ThriftTransport thriftServer, CefAppHandler appHandler, String[] args, CefSettings settings, String logPath, String logLevel, boolean deleteRootDir, Map<String, String> env, long timeoutMs) {
         if (serverExe == null) {
             CefLog.Error("Can't start native cef_server, file is null.");
             return false;
@@ -76,15 +81,17 @@ public class ServerStarter {
             return false;
         }
 
-        Integer exitVal = startAndWaitImpl(serverExe, thriftServer, appHandler, args, settings, logPath, logLevel, deleteRootDir, timeoutMs);
+        Integer exitVal = startAndWaitImpl(serverExe, thriftServer, appHandler, args, settings, logPath, logLevel, deleteRootDir, env, timeoutMs);
         if (exitVal != null) {
             if (exitVal == 101) {
                 // CefInitialize returns false. Probably, JCEF cache dir is locked.
                 final SimpleDateFormat f = new SimpleDateFormat("hh_mm_ss_SSS");
                 final String newCacheDir = Path.of(System.getProperty("java.io.tmpdir")).resolve("cef_cache_" + thriftServer.toStringShort() + "_" + f.format(new Date())).toString();
                 CefLog.Info("Try to restart cef_server with another cache_dir '%s'.", newCacheDir);
+                if (settings == null)
+                    settings = new CefSettings();
                 settings.cache_path = newCacheDir;
-                exitVal = startAndWaitImpl(serverExe, thriftServer, appHandler, args, settings, logPath, logLevel, true, timeoutMs);
+                exitVal = startAndWaitImpl(serverExe, thriftServer, appHandler, args, settings, logPath, logLevel, true, env, timeoutMs);
             }
         }
 
@@ -251,7 +258,7 @@ public class ServerStarter {
     // null when the process has been started successfully
     // Integer.MIN_VALUE when can't start process because of IO-errors
     // exit code, otherwise
-    private static Integer startAndWaitImpl(File serverExe, ThriftTransport thriftServer, CefAppHandler appHandler, String[] args, CefSettings settings, String logPath, String logLevel, boolean deleteRootDir, long timeoutMs) {
+    private static Integer startAndWaitImpl(File serverExe, ThriftTransport thriftServer, CefAppHandler appHandler, String[] args, CefSettings settings, String logPath, String logLevel, boolean deleteRootDir, Map<String, String> env, long timeoutMs) {
         final long t0 = System.nanoTime();
         CefLog.Info("Start native cef_server with cache path: %s", settings == null ? null : settings.cache_path);
         CefLog.Debug("cef_server executable path='%s'", serverExe.getAbsolutePath());
@@ -265,6 +272,19 @@ public class ServerStarter {
         builder.directory(serverExe.getParentFile());
         builder.redirectOutput(ProcessBuilder.Redirect.INHERIT);
         builder.redirectError(ProcessBuilder.Redirect.INHERIT);
+
+        if (env != null && env.size() > 0) {
+            builder.environment().putAll(env);
+            if (CefLog.IsDebugEnabled()) {
+                String logTxt = "";
+                for (Map.Entry<String, String> entry : env.entrySet()) {
+                    if (logTxt.length() > 0)
+                        logTxt += "; ";
+                    logTxt += entry.getKey() + "=" + entry.getValue();
+                }
+                CefLog.Debug("\tEnvironment vars: %s", logTxt);
+            }
+        }
 
         if (thriftServer.isTcp()) {
             CefLog.Debug("\tUse tcp-port %d", thriftServer.getPort());

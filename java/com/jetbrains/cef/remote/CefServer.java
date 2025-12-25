@@ -13,6 +13,7 @@ import org.cef.handler.CefAppHandler;
 import org.cef.misc.CefLog;
 import org.cef.misc.Utils;
 
+import java.io.File;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicLong;
@@ -26,6 +27,8 @@ public class CefServer {
     private static HashSet<CefServer> ourInstances = new HashSet<>();
 
     private final ThriftTransport myThriftServer;
+    private final File myServerExe;
+    private final boolean myConnectAsMaster;
     private ThriftTransport myThriftBackward;
     private final CefParams myParams;
 
@@ -51,7 +54,12 @@ public class CefServer {
     public final Map<Integer, RemoteBrowser> bid2Browser = new ConcurrentHashMap<>();
 
     public CefServer(ThriftTransport transport, String[] args, CefSettings settings) {
+        this(NativeServerManager.getServerExe(), transport, args, settings, true);
+    }
+    public CefServer(File serverExe, ThriftTransport transport, String[] args, CefSettings settings, boolean connectAsMaster) {
         myThriftServer = transport;
+        myServerExe = serverExe;
+        myConnectAsMaster = connectAsMaster;
         myParams = new CefParams(settings, args);
 
         myRpc = new RpcContext(this);
@@ -108,6 +116,9 @@ public class CefServer {
 
     public ThriftTransport getThriftServer() { return myThriftServer; }
 
+    public String[] getArgs() { return myParams.args; }
+    public CefSettings getCefSettings() { return myParams.settings; }
+
     public String toStringShort() { return myThriftServer.toStringShort(); }
     public String toStringDetailed() { return "CefServer_" + myThriftServer.toStringShort() + ", params: " + myParams.toString(); }
 
@@ -129,7 +140,7 @@ public class CefServer {
                 // NOTE: pipe-names/ports are unique for each client process, so we can go here only when custom transport is specified manually.
                 CefLog.Info("Going to connect with already running cef_server: transport '%s', root '%s'", myThriftServer, runningRoot);
             } else {
-                final boolean success = ServerStarter.startProcessAndWait(myThriftServer, appHandler, myParams.args, myParams.settings, false, WAIT_FOR_SERVER_START_SEC*1000l);
+                final boolean success = ServerStarter.startProcessAndWait(myServerExe, myThriftServer, appHandler, myParams.args, myParams.settings, false, null, WAIT_FOR_SERVER_START_SEC*1000l);
                 if (!success)
                     return false;
             }
@@ -236,7 +247,7 @@ public class CefServer {
             myClientHandlersThread.start();
 
             // 4. Connect to CefServer.
-            cid = myRpc.connect(myThriftBackward);
+            cid = myRpc.connect(myThriftBackward, myConnectAsMaster);
             if (cid == -1) {
                 CefLog.Error("Can't connect to '%s', cid==-1", this.toStringDetailed());
                 return false;

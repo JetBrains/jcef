@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: jcef-tests
+Main-Class: tests.ServersManagerGUI
+Class-Path: jcef.jar

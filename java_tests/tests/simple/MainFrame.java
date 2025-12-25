@@ -53,8 +53,6 @@ import java.util.stream.Collectors;
  */
 public class MainFrame extends JFrame {
     private static final long serialVersionUID = -5570653778104813836L;
-    private static MainFrame ourInstance = null;
-    private static String[] ourArgs = null;
     private final JTextField address_;
     private final CefApp cefApp_;
     private final CefClient client_;
@@ -63,14 +61,7 @@ public class MainFrame extends JFrame {
     private boolean browserFocus_ = true;
     private JFrame fullscreenFrame_;
 
-    /**
-     * To display a simple browser window, it suffices completely to create an
-     * instance of the class CefBrowser and to assign its UI component to your
-     * application (e.g. to your content pane).
-     * But to be more verbose, this CTOR keeps an instance of each object on the
-     * way to the browser UI.
-     */
-    private MainFrame(String[] args, String startURL, boolean useOSR, boolean isTransparent) {
+    private static CefApp prepareCefApp(String[] args) {
         JCefAppConfig config = JCefAppConfig.getInstance();
         List<String> appArgs = new ArrayList<>(Arrays.asList(args));
         appArgs.addAll(config.getAppArgsAsList());
@@ -94,16 +85,16 @@ public class MainFrame extends JFrame {
         };
         CefApp.addAppHandler(appHandler);
         CefSettings settings = config.getCefSettings();
-        cefApp_ = CefApp.getInstance(settings);
+        CefApp result = CefApp.getInstance(settings);
 
         if (CefApp.isRemoteEnabled()) {
-            cefApp_.setDisconnectionCallback(()->{
+            result.setDisconnectionCallback(()->{
                 int chioce =  JOptionPane.showConfirmDialog(null,
-                        "The application was disconnected from cef_server, do you want to restart JCEF?", "Disconnected from cef_server", JOptionPane.YES_NO_OPTION);
+                        "The application was disconnected from cef_server, do you want to create new frame with restarted JCEF?", "Disconnected from cef_server", JOptionPane.YES_NO_OPTION);
 
                 if (chioce == JOptionPane.YES_OPTION) {
-                    if (cefApp_ != null)
-                        cefApp_.dispose();
+                    if (result != null)
+                        result.dispose();
 
                     settings.log_severity = CefSettings.LogSeverity.LOGSEVERITY_VERBOSE;
                     settings.log_file = Utils.getString("jcef.chromium_log.path");
@@ -114,16 +105,33 @@ public class MainFrame extends JFrame {
                         CefLog.Error("JCEF wasn't restarted (new instance is null).");
                         return;
                     }
-                    if (cefApp_ == newCefApp) {
+                    if (result == newCefApp) {
                         CefLog.Info("JCEF wasn't restarted. It seems that args and settings were the same - please dispose current CefApp and then create a new one.");
                         return;
                     }
                     CefApp.setDefaultInstance(newCefApp);
-                    restart(null);
+                    new MainFrame(newCefApp);
                 }
             });
         }
 
+        return result;
+    }
+
+    public MainFrame(CefApp cefApp) {
+        this(cefApp, "http://www.google.com", OsrSupport.isEnabled(), false);
+    }
+
+    private MainFrame(CefApp cefApp, String startURL, boolean useOSR, boolean isTransparent) {
+        cefApp_ = cefApp;
+
+        /**
+         * To display a simple browser window, it suffices completely to create an
+         * instance of the class CefBrowser and to assign its UI component to your
+         * application (e.g. to your content pane).
+         * But to be more verbose, this CTOR keeps an instance of each object on the
+         * way to the browser UI.
+         */
 
         // (2) JCEF can handle one to many browser instances simultaneous. These
         //     browser instances are logically grouped together by an instance of
@@ -250,10 +258,15 @@ public class MainFrame extends JFrame {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                CefApp.getInstance().dispose();
                 dispose();
             }
         });
+    }
+
+    @Override
+    public void dispose() {
+        cefApp_.dispose();
+        super.dispose();
     }
 
     private static String normalize(String path) {
@@ -338,20 +351,11 @@ public class MainFrame extends JFrame {
         });
     }
 
-    private static void restart(String[] args) {
-        if (ourInstance != null)
-            ourInstance.dispose();
-
-        if (args != null)
-            ourArgs = args;
-        ourInstance = new MainFrame(ourArgs, "http://www.google.com", OsrSupport.isEnabled(), false);
-    }
-
     public static void main(String[] args) {
         // Perform startup initialization on platforms that require it.
         CefApp.startup(args);
         CefLog.initVerbose();
 
-        restart(args);
+        new MainFrame(prepareCefApp(args));
     }
 }
