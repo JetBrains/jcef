@@ -8,7 +8,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class RpcContext {
     private static final boolean REWIND_QUEUE = Utils.getBoolean("JCEF_REWIND_QUEUE"); // temporary key for advanced teamcity tests
-    private static final boolean CONNECT_AS_SLAVE = Utils.getBoolean("JCEF_CONNECT_AS_SLAVE");
     private static final RpcExecutor.Rpc NO_RPC = s -> {};
     public final CefServer server;
     private final RpcExecutor myMain;
@@ -44,8 +43,8 @@ public class RpcContext {
         myBackground.openTransport(thriftServer);
     }
 
-    public int connect(ThriftTransport thriftBackward) {
-        int cid = myMain.connect(thriftBackward, !CONNECT_AS_SLAVE);
+    public int connect(ThriftTransport thriftBackward, boolean asMaster) {
+        int cid = myMain.connect(thriftBackward, asMaster);
         myBackground.exec(s -> s.attach(cid));
         return cid;
     }

@@ -313,7 +313,17 @@ public class CefApp extends CefAppHandlerAdapter {
         return getInstance(args, settings, st, serverExe);
     }
 
-    public static synchronized CefApp getInstance(String[] args, CefSettings settings, ThriftTransport st, File serverExe) {
+    public static synchronized CefApp getInstance(CefServer server) {
+        if (isRemoteEnabled()) {
+            CefApp result = new CefApp(server.getArgs(), server.getCefSettings(), server);
+            if (self == null) // Set default instance
+                self = result;
+            return result;
+        }
+        return self;
+    }
+
+    public static synchronized CefApp getInstance(String[] args, CefSettings settings, ThriftTransport st) {
         if (isRemoteEnabled()) {
             // 1. Get command line args (from passed arguments and userAppHandler_)
             final String[] realArgs;

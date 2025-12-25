@@ -59,12 +59,13 @@ public class ThriftTransport {
                 JPanel panel = new JPanel(new BorderLayout());
                 panel.add(portComponent, BorderLayout.SOUTH);
 
-                List<Integer> runningPorts = NativeServerManager.listRunningInstancesPorts();
+                List<NativeServerManager.RunningServerInfo> runningPorts = NativeServerManager.listRunningInstancesPorts();
                 if (runningPorts != null && !runningPorts.isEmpty()) {
                     // Fill list
                     String[] runningList = new String[runningPorts.size()];
-                    for (int i = 0; i < runningList.length; ++i)
-                        runningList[i] = String.valueOf(runningPorts.get(i));
+                    int c = 0;
+                    for (NativeServerManager.RunningServerInfo s : runningPorts)
+                        runningList[c++] = s.transport.myPort + ", parent: " + s.getParentProcessCmd();
                     JList<String> list = new JList<>(runningList);
                     list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
                     list.setFont(list.getFont().deriveFont(13f));
@@ -73,7 +74,8 @@ public class ThriftTransport {
                     list.addListSelectionListener(new ListSelectionListener() {
                         @Override
                         public void valueChanged(ListSelectionEvent e) {
-                            customPort[0] = Integer.parseInt(list.getSelectedValue().trim());
+                            final String selected = list.getSelectedValue().trim();
+                            customPort[0] = Integer.parseInt(selected.substring(0, selected.indexOf(',')));
                             textField.setText(list.getSelectedValue());
                             CefLog.Debug("MANUAL_SERVER_SELECT: selected port %d", customPort[0]);
                         }

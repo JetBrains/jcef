@@ -132,7 +132,7 @@
 
   <target name="tests-jar" depends="compile.tests">
     <mkdir dir="${out.path}"/>
-    <jar destfile="${out.path}/jcef-tests.jar" index="true" update="false">
+    <jar destfile="${out.path}/jcef-tests.jar" index="true" update="false" manifest="java_tests/MANIFEST.MF">
       <fileset dir="${out.path}">
         <include name="tests/**"/>
         <include name="com/**"/>

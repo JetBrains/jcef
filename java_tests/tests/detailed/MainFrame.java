@@ -52,8 +52,8 @@ public class MainFrame extends BrowserFrame {
         int windowless_frame_rate = 0;
         for (String arg : args) {
             arg = arg.toLowerCase();
-            if (arg.equals("--off-screen-rendering-enabled")) {
-                osrEnabledArg = true;
+            if (arg.equals("--off-screen-rendering-disabled")) {
+                osrEnabledArg = false;
             } else if (arg.equals("--transparent-painting-enabled")) {
                 transparentPaintingEnabledArg = true;
             } else if (arg.equals("--create-immediately")) {
@@ -95,13 +95,21 @@ public class MainFrame extends BrowserFrame {
     private JPanel contentPanel_;
     private JFrame fullscreenFrame_;
 
+    public MainFrame(CefApp cefApp) {
+        this(cefApp, true, false, false, 0, null);
+    }
+
     public MainFrame(boolean osrEnabled, boolean transparentPaintingEnabled,
+                     boolean createImmediately, int windowless_frame_rate, String[] args) {
+        this(CefApp.getInstanceIfAny(), osrEnabled, transparentPaintingEnabled, createImmediately, windowless_frame_rate, args);
+    }
+
+    public MainFrame(CefApp cefApp, boolean osrEnabled, boolean transparentPaintingEnabled,
             boolean createImmediately, int windowless_frame_rate, String[] args) {
         this.osr_enabled_ = osrEnabled;
         this.transparent_painting_enabled_ = transparentPaintingEnabled;
 
-        CefApp myApp = CefApp.getInstanceIfAny();
-        if (myApp == null) {
+        if (cefApp == null) {
             JCefAppConfig config = JCefAppConfig.getInstance();
             List<String> appArgs = new ArrayList<>(Arrays.asList(args));
             appArgs.addAll(config.getAppArgsAsList());
@@ -121,9 +129,9 @@ public class MainFrame extends BrowserFrame {
             settings.windowless_rendering_enabled = osrEnabled;
             // try to load URL "about:blank" to see the background color
             settings.background_color = settings.new ColorType(100, 255, 242, 211);
-            myApp = CefApp.getInstance(args, settings, null);
+            cefApp = CefApp.getInstance(args, settings);
 
-            CefVersion version = myApp.getVersion();
+            CefVersion version = cefApp.getVersion();
             System.out.println("Using:\n" + version);
         }
 
@@ -131,7 +139,7 @@ public class MainFrame extends BrowserFrame {
         //    of JCEF/CEF will be initialized and an  instance of
         //    CefClient will be created. You can create one to many
         //    instances of CefClient.
-        client_ = myApp.createClient();
+        client_ = cefApp.createClient();
 
         // 2) You have the ability to pass different handlers to your
         //    instance of CefClient. Each handler is responsible to

@@ -247,9 +247,14 @@ void ServerHandler::getServerInfo(std::string& _return, const std::string& reque
     _return = ServerApplication::instance().getState();
   else if (request.compare("state_with_details") == 0)
     _return = ServerApplication::instance().getStateWithDetails();
+  else if (request.compare("logger_details") == 0)
+    _return = Log::printLevelAndPath();
   else if (request.compare("root") == 0)
     _return = ServerApplication::instance().getCefAppHandler()->getRootPath();
-  else
+  else if (request.compare("doCrash") == 0) {
+    Log::trace("ServerHandler: %p will crash server now.", this);
+    fprintf(stdout, "%d", *((int*)1));
+  } else
     _return = "Unknown request: " + request;
 }
 
@@ -319,7 +324,7 @@ void ServerHandler::Browser_ReloadIgnoreCache(const int32_t bid) {
 
 void ServerHandler::Browser_LoadURL(const int32_t bid, const std::string& url) {
   MEASURE;
-  if (url.compare("crash") == 0) {
+  if (url.compare("doCrash") == 0) {
     Log::trace("ServerHandler: browser %d will crash server now.", bid);
     Log::trace("%d", *((int*)1));
   }
