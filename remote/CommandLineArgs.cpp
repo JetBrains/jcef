@@ -53,6 +53,8 @@ bool CommandLineArgs::init(int argc, char* argv[]) {
   // This method is called very early.
 
   // 1. Initialize logger at first and check '--help'
+  if (doTrace)
+    Log::trace("CommandLineArgs: init with args:");
   for (int c = 0; c < argc; ++c) {
     const char * arg = argv[c];
     if (arg == nullptr || arg[0] == 0) continue;
@@ -73,6 +75,8 @@ bool CommandLineArgs::init(int argc, char* argv[]) {
         myLogLevel = Log::str2level(word);
       }
     }
+    if (doTrace)
+      Log::trace("\t%s", word.c_str());
   } // for
 
   Log::init(myLogLevel, myPathLogFile);
@@ -185,7 +189,7 @@ bool CommandLineArgs::init(int argc, char* argv[]) {
 #endif
   }
 
-  trace("final (merged)", myChromiumSwitches, myParsedCefSettings, myCustomSchemes);
+  trace("merged", myChromiumSwitches, myParsedCefSettings, myCustomSchemes);
   return true;
 }
 
@@ -242,4 +246,28 @@ void CommandLineArgs::prepareCefSettings(void * pCefSettings) {
 #if defined(OS_POSIX)
   settings.disable_signal_handlers = true;
 #endif
+
+  if (Log::isTraceEnabled()) {
+    std::stringstream ss;
+    ss << "browser_subprocess_path=" << CefString(&settings.browser_subprocess_path).c_str() << std::endl;
+    ss << "cache_path=" << CefString(&settings.cache_path).c_str() << std::endl;
+    ss << "user_agent_product=" << CefString(&settings.user_agent_product).c_str() << std::endl;
+    ss << "user_agent=" << CefString(&settings.user_agent).c_str() << std::endl;
+    ss << "locales_dir_path=" << CefString(&settings.locales_dir_path).c_str() << std::endl;
+    ss << "locale=" << CefString(&settings.locale).c_str() << std::endl;
+    ss << "log_file=" << CefString(&settings.log_file).c_str() << std::endl;
+    ss << "log_severity=" << settings.log_severity << std::endl;
+    ss << "javascript_flags=" << CefString(&settings.javascript_flags).c_str() << std::endl;
+    ss << "resources_dir_path=" << CefString(&settings.resources_dir_path).c_str() << std::endl;
+    ss << "cookieable_schemes_list=" << CefString(&settings.cookieable_schemes_list).c_str() << std::endl;
+    ss << "windowless_rendering_enabled=" << settings.windowless_rendering_enabled << std::endl;
+    ss << "command_line_args_disabled=" << settings.command_line_args_disabled << std::endl;
+    ss << "persist_session_cookies=" << settings.persist_session_cookies << std::endl;
+    ss << "cookieable_schemes_exclude_defaults=" << settings.cookieable_schemes_exclude_defaults << std::endl;
+    ss << "no_sandbox=" << settings.no_sandbox << std::endl;
+    ss << "remote_debugging_port=" << settings.remote_debugging_port << std::endl;
+    ss << "uncaught_exception_stack_size=" << settings.uncaught_exception_stack_size << std::endl;
+    ss << "background_color=" << settings.background_color << std::endl;
+    Log::trace("Prepared CefSettings:\n%s", ss.str().c_str());
+  }
 }

@@ -24,6 +24,7 @@ public class ServerStarter {
     private static final boolean USE_PARAMS_FILE = Utils.getBoolean("JCEF_USE_PARAMS_FILE");
     private static final boolean USE_SHORT_CMDLINE_PREFIXES = Utils.getBoolean("JCEF_USE_SHORT_CMDLINE_PREFIXES", true);
     private static final int WAIT_START_LOOP_SLEEP_MS = Utils.getInteger("JCEF_WAIT_START_LOOP_SLEEP_MS", 200);
+    private static final String SPACE = "_SPACESYMBOL_";
 
     static Map<String, Process> ourNativeServerProcesses = new HashMap<>();
 
@@ -161,11 +162,11 @@ public class ServerStarter {
 
         // 1. command line args
         List<String> prefixedArgs = new ArrayList<>();
-        String prefix = USE_SHORT_CMDLINE_PREFIXES ? "--cw" : "--cef_switch_";
+        String prefix = USE_SHORT_CMDLINE_PREFIXES ? "arg:" : "cmd_switch:";
         if (args != null && args.length > 0)
             for (String arg: args) {
                 String finalPrefix = prefix;
-                processArg(arg, s -> prefixedArgs.add(finalPrefix + s));
+                processArg(arg, s -> prefixedArgs.add(finalPrefix + s.replace(" ", SPACE)));
             }
 
         if (DISABLE_GPU) {
@@ -175,12 +176,12 @@ public class ServerStarter {
 
         // 2. settings
         List<String> prefixedSettings = new ArrayList<>();
-        prefix = USE_SHORT_CMDLINE_PREFIXES ? "--cs_" : "--cef_setting_";
+        prefix = USE_SHORT_CMDLINE_PREFIXES ? "cs:" : "cef_setting:";
         if (settings != null) {
             Map<String, String> settingsMap = settings.toMap();
             for (Map.Entry<String, String> entry : settingsMap.entrySet()) {
                 String finalPrefix = prefix;
-                processSetting(entry.getKey(), entry.getValue(), (n, v) -> prefixedSettings.add(finalPrefix + n + "=" + v));
+                processSetting(entry.getKey(), entry.getValue(), (n, v) -> prefixedSettings.add(finalPrefix + n + "=" + v.replace(" ", SPACE)));
             }
         }
 
@@ -188,12 +189,12 @@ public class ServerStarter {
             File subprocess = new File(serverExe.getParentFile().getParentFile(), "Frameworks/cef_server Helper.app/Contents/MacOS/cef_server Helper");
             if (settings != null && settings.browser_subprocess_path != null)
                 CefLog.Debug("browser_subprocess_path setting '%s' will be overridden with bundled path '%s'", settings.browser_subprocess_path, subprocess.getAbsolutePath());
-            prefixedSettings.add(prefix + "browser_subprocess_path=" + subprocess.getAbsolutePath());
+            prefixedSettings.add(prefix + "browser_subprocess_path=" + subprocess.getAbsolutePath().replace(" ", SPACE));
         }
 
         // 3. custom schemes
         List<String> prefixedCS = new ArrayList<>();
-        String finalPrefix = USE_SHORT_CMDLINE_PREFIXES ? "--ccs_" : "--cef_customscheme_";
+        String finalPrefix = USE_SHORT_CMDLINE_PREFIXES ? "sch:" : "customscheme:";
         processCustomSchemes(appHandler, (n,o) -> prefixedCS.add(finalPrefix + n + "=" + o));
 
         // 4. add results to builder's command line args
