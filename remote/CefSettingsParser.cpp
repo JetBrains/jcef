@@ -7,6 +7,7 @@
 
 namespace {
 const bool doTrace = getBoolEnv("CEF_SERVER_TRACE_CefSettingsParser");
+const std::string SPACE = "_SPACESYMBOL_";
 
 template <typename T>
 bool stoi_safe(std::string arg, T & out) {
@@ -44,6 +45,16 @@ bool parseSchemeLine(const std::string & settingLine, std::string & name, int & 
   name.assign(settingLine.substr(0, pos - 1));
   stoi_safe(settingLine.substr(pos + 1), options);
   return true;
+}
+
+void replaceAll(std::string& str, const std::string& from, const std::string& to) {
+  if(from.empty())
+    return;
+  size_t start_pos = 0;
+  while((start_pos = str.find(from, start_pos)) != std::string::npos) {
+    str.replace(start_pos, from.length(), to);
+    start_pos += to.length();
+  }
 }
 
 }
@@ -129,54 +140,73 @@ bool setSettingItem(CefSettings & out, const std::string & name, const std::stri
 }
 
 bool parseCefSettingWord(const std::string & arg, std::vector<std::pair<std::string, std::string>> & out) {
-  auto eqPos = arg.find("=");
-  auto tokenPos = arg.find("--cef_setting_");
-  auto tokenShortPos = arg.find("--cs_");
-  if (eqPos == arg.npos || (tokenPos == arg.npos && tokenShortPos == arg.npos)) {
+  const std::string prefixes[] = {"cs:", "cef_setting:"};
+  std::string name;
+  std::string val;
+  for (auto prefix: prefixes) {
+    const auto pos = arg.find(prefix);
+    if (pos == arg.npos)
+      continue;
+    const auto eqPos = arg.find("=", pos);
+    if (eqPos == arg.npos)
+      continue;
+    const int startPos = pos + prefix.size();
+    name.assign(arg.substr(startPos, eqPos - startPos));
+    val.assign(arg.substr(eqPos + 1));
+    replaceAll(val, SPACE, " ");
+    break;
+  }
+
+  if (name.empty()) {
     // Log::trace("Can't parse cef-setting word: %s", arg.c_str());
     return false;
   }
-  std::string name = tokenPos != arg.npos ?
-    arg.substr(tokenPos + 14, eqPos - 1) :
-    arg.substr(tokenShortPos + 5, eqPos - 1);
-  std::string val = arg.substr(eqPos + 1);
   if (doTrace)
-    Log::trace("\t parseCefSettingWord: parsed name=%s val=%s", name.c_str(), val.c_str());
+    Log::trace("\t parseCefSettingWord: parsed name=%s val='%s'", name.c_str(), val.c_str());
   out.push_back(std::pair<std::string, std::string>(name, val));
   return true;
 }
 
 bool parseCefSchemeWord(const std::string & arg, std::string & name, int & options) {
-  auto eqPos = arg.find("=");
-  auto tokenPos = arg.find("--cef_customscheme_");
-  auto tokenShortPos = arg.find("--ccs_");
-  if (eqPos == arg.npos || (tokenPos == arg.npos && tokenShortPos == arg.npos)) {
+  const std::string prefixes[] = {"sch:", "customscheme:"};
+  name = "";
+  options = 0;
+  for (auto prefix: prefixes) {
+    const auto pos = arg.find(prefix);
+    if (pos == arg.npos)
+      continue;
+    const auto eqPos = arg.find("=", pos);
+    if (eqPos == arg.npos)
+      continue;
+    const int startPos = pos + prefix.size();
+    name.assign(arg.substr(startPos, eqPos - startPos));
+    stoi_safe(arg.substr(eqPos + 1), options);
+    break;
+  }
+  if (name.empty()) {
     // Log::trace("Can't parse cef-scheme word: %s", arg.c_str());
     return false;
   }
-  if (tokenPos != arg.npos) {
-    name.assign(arg.substr(tokenPos + 19, eqPos - 1));
-  } else {
-    name.assign(arg.substr(tokenShortPos + 6, eqPos - 1));
-  }
-  stoi_safe(arg.substr(eqPos + 1), options);
   if (doTrace)
     Log::trace("\t parseCefSchemeWord: parsed name=%s options=%d", name.c_str(), options);
   return true;
 }
 
 bool parseCefCmdLineSwitch(const std::string & arg, std::string & out) {
-  auto tokenPos = arg.find("--cef_switch_");
-  auto tokenShortPos = arg.find("--cw");
-  if (tokenPos == arg.npos && tokenShortPos == arg.npos) {
+  const std::string prefixes[] = {"arg:", "cmd_switch:"};
+  out = "";
+  for (auto prefix: prefixes) {
+    const auto pos = arg.find(prefix);
+    if (pos == arg.npos)
+      continue;
+    out.assign(arg.substr(pos + prefix.size()));
+    replaceAll(out, SPACE, " ");
+    break;
+  }
+  if (out.empty()) {
     // Log::trace("Can't parse cef-switch word: %s", arg.c_str());
     return false;
   }
-
-  if (tokenPos != arg.npos)
-    out.assign(arg.substr(tokenPos + 13));
-  else
-    out.assign(arg.substr(tokenPos + 4));
   if (doTrace)
     Log::trace("\t parseCefCmdLineSwitch: parsed %s", out.c_str());
   return true;
