@@ -296,6 +296,24 @@ public class CefApp extends CefAppHandlerAdapter {
     }
 
     public static synchronized CefApp getInstance(String[] args, CefSettings settings) {
+        ThriftTransport st = null;
+        if (IS_REMOTE_ENABLED) {
+            st = ThriftTransport.ourDefaultServer;
+            final int count = CefServer.getInstancesCount();
+            if (count > 0) {
+                if (ThriftTransport.isTcpUsed()) {
+                    st = new ThriftTransport(ThriftTransport.findFreePort());
+                } else {
+                    final String suffix = "" + System.currentTimeMillis();
+                    st = new ThriftTransport(ThriftTransport.getServerPipe(suffix));
+                }
+                CefLog.Debug("CefApp.getInstance: found %d instances of CefServer, so change default server transport %s to %s", count, ThriftTransport.ourDefaultServer, st);
+            }
+        }
+        return getInstance(args, settings, st);
+    }
+
+    public static synchronized CefApp getInstance(String[] args, CefSettings settings, ThriftTransport st) {
         if (IS_REMOTE_ENABLED) {
             // 1. Get command line args (from passed arguments and userAppHandler_)
             final String[] realArgs;
@@ -317,22 +335,7 @@ public class CefApp extends CefAppHandlerAdapter {
             }
 
             // 3. Create new CefApp instance.
-            ThriftTransport st = ThriftTransport.ourDefaultServer;
-            ThriftTransport ct = ThriftTransport.ourDefaultClient;
-            if (CefServer.getInstancesCount() > 0) {
-                if (ThriftTransport.isTcpUsed()) {
-                    // change tcp transport with use of new free port
-                    ct = new ThriftTransport(ThriftTransport.findFreePort(null));
-                    Set<Integer> exclude = new HashSet<>(); exclude.add(ct.getPort());
-                    st = new ThriftTransport(ThriftTransport.findFreePort(exclude));
-                } else {
-                    // Change pipe transport with use of suffix.
-                    final String suffix = "" + System.currentTimeMillis();
-                    ct = new ThriftTransport(ThriftTransport.getJavaHandlersPipe(suffix));
-                    st = new ThriftTransport(ThriftTransport.getServerPipe(suffix));
-                }
-            }
-            s = new CefServer(st, ct, realArgs, settings);
+            s = new CefServer(st, realArgs, settings);
             CefApp result = new CefApp(realArgs, settings, s);
 
             // 4. Set default instance

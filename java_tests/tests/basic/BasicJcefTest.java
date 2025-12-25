@@ -138,7 +138,8 @@ public class BasicJcefTest {
         } else {
             CefLog.Info("Server is running, try to stop it now via master client.");
             CountDownLatch testServiceFinished = new CountDownLatch(1);
-            TServer dummy = CefServer.startTestHandlersService(testServiceFinished);
+            ThriftTransport backward = ThriftTransport.ourDefaultClient;
+            TServer dummy = CefServer.startTestHandlersService(backward, testServiceFinished);
             if (dummy == null)
                 throw new AssertionError("Can't start test java-handlers service.");
             try {
@@ -146,7 +147,7 @@ public class BasicJcefTest {
                 CefLog.Info("Test 'slave' connection.");
                 try {
                     test.openTransport(thriftServer);
-                    int cid = test.connect(ThriftTransport.ourDefaultClient, false);
+                    int cid = test.connect(backward, false);
                     if (cid < 0)
                         throw new AssertionError("'connect' returns invalid cid=" + cid);
                 } catch (TTransportException e) {
@@ -167,7 +168,7 @@ public class BasicJcefTest {
                 test = new RpcExecutor();
                 try {
                     test.openTransport(thriftServer);
-                    int cid = test.connect(ThriftTransport.ourDefaultClient, true);
+                    int cid = test.connect(backward, true);
                     if (cid < 0)
                         throw new AssertionError("'connect' returns invalid cid=" + cid);
                 } catch (TTransportException e) {
@@ -239,15 +240,12 @@ public class BasicJcefTest {
         Set<Integer> ports = new HashSet<>();
         for (int i = 0; i < count; i++) {
             CefAppHandler appHandler = new CefAppHandlerAdapter(argsArr){};
-            ThriftTransport ts, tb;
+            ThriftTransport ts;
             if (ThriftTransport.isTcpUsed()) {
                 ts = new ThriftTransport(ThriftTransport.findFreePort(ports));
                 ports.add(ts.getPort());
-                tb = new ThriftTransport(ThriftTransport.findFreePort(ports));
-                ports.add(tb.getPort());
             } else {
                 ts = new ThriftTransport(ThriftTransport.getServerPipe(String.format("test_%d", i)));
-                tb = new ThriftTransport(ThriftTransport.getJavaHandlersPipe(String.format("test_%d", i)));
             }
             CefSettings settings = basicSettings.clone();
             try {
@@ -256,8 +254,8 @@ public class BasicJcefTest {
                 CefLog.Error("Can't set cache_path: %s", e.getMessage());
             }
 
-            CefLog.Info("Starting server #%d over %s(%s)", i, ts, tb);
-            CefServer s = new CefServer(ts, tb, argsArr, settings);
+            CefLog.Info("Starting server #%d over %s", i, ts);
+            CefServer s = new CefServer(ts, argsArr, settings);
             boolean started = s.start(appHandler);
             if (!started)
                 throw new AssertionError("Can't start server.");
