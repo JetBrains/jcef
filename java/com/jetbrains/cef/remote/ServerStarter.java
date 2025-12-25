@@ -71,6 +71,8 @@ public class ServerStarter {
     }
     // Should be called in bg thread
     public static boolean startProcessAndWait(File serverExe, ThriftTransport thriftServer, CefAppHandler appHandler, String[] args, CefSettings settings, String logPath, String logLevel, boolean deleteRootDir, long timeoutMs) {
+        if (serverExe == null)
+            serverExe = NativeServerManager.getServerExe();
         if (serverExe == null) {
             CefLog.Error("Can't start native cef_server, file is null.");
             return false;

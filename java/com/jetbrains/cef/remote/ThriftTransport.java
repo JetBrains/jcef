@@ -208,11 +208,6 @@ public class ThriftTransport {
         return false;
     }
 
-    public void close() {
-        if (!OS.isWindows() && !isTcp())
-            new File(myPipe).delete();
-    }
-
     public static String getJavaHandlersPipe(String suffix) {
         if (OS.isWindows())
             return PIPENAME_JAVA_HANDLERS + "_" + suffix;
@@ -314,6 +309,11 @@ public class ThriftTransport {
                     serverChannel.close();
                 } catch (IOException e) {
                     CefLog.Error("Exception occurred during pipe closing: %s", e);
+                }
+                try {
+                    new File(myPipe).delete();
+                } catch (RuntimeException e) {
+                    CefLog.Error("RuntimeException occurred when trying to delete file of pipe '%s', error: %s", myPipe, e);
                 }
             }
         };

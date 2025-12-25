@@ -27,7 +27,7 @@ public class CefServer {
     private static HashSet<CefServer> ourInstances = new HashSet<>();
 
     private final ThriftTransport myThriftServer;
-    private final ThriftTransport myThriftBackward;
+    private ThriftTransport myThriftBackward;
     private final CefParams myParams;
 
     private CefApp myCefApp = null;
@@ -53,9 +53,8 @@ public class CefServer {
     public final Map<Integer, RemoteClient> cid2Client = new ConcurrentHashMap<>();
     public final Map<Integer, RemoteBrowser> bid2Browser = new ConcurrentHashMap<>();
 
-    public CefServer(ThriftTransport thriftServer, ThriftTransport thriftBackward, String[] args, CefSettings settings, File serverExe) {
-        myThriftServer = thriftServer;
-        myThriftBackward = thriftBackward;
+    public CefServer(ThriftTransport transport, String[] args, CefSettings settings, File serverExe) {
+        myThriftServer = transport;
         myParams = new CefParams(settings, args);
         this.serverExe = serverExe;
 
@@ -67,7 +66,7 @@ public class CefServer {
             CefLog.Error("Found running CefServer instance for params:\n%s", myParams);
         ourInstances.add(this);
 
-        CefLog.Debug("Created CefServer instance '%s'. Transport %s (backward %s). Params:\n%s", toStringShort(), thriftServer, thriftBackward, myParams);
+        CefLog.Debug("Created CefServer instance '%s' with transport '%s'. Params:\n%s", toStringShort(), transport, myParams);
     }
 
     public static CefServer findInstance(CefParams params, boolean onlyRunning) {
@@ -112,7 +111,6 @@ public class CefServer {
     }
 
     public ThriftTransport getThriftServer() { return myThriftServer; }
-    public ThriftTransport getThriftBackward() { return myThriftBackward; }
 
     public String toStringShort() { return myThriftServer.toStringShort(); }
     public String toStringDetailed() { return "CefServer_" + myThriftServer.toStringShort() + ", params: " + myParams.toString(); }
@@ -206,18 +204,22 @@ public class CefServer {
 
             CefLog.Info("cef_server version: %s", (String)myRpc.execObj(r->r.getServerInfo("version")));
 
-            // 2. Start service for backward rpc calls (from native to java)
+            // 2. Open transport for backward rpc calls (from native to java)
+            if (ThriftTransport.isTcpUsed())
+                myThriftBackward = new ThriftTransport(ThriftTransport.findFreePort(null));
+            else {
+                // Use unique suffix for pipe name to avoid filename collisions.
+                final String suffix = "" + System.currentTimeMillis();
+                myThriftBackward = new ThriftTransport(ThriftTransport.getJavaHandlersPipe(suffix));
+            }
             try {
                 myClientHandlersTransport = myThriftBackward.createServerTransport();
             } catch (Exception e) {
-                CefLog.Error("Exception when opening client %s : %s", myThriftBackward.isTcp() ? "tcp-socket" : "pipe", e.getMessage());
-                if (myThriftBackward.isTcp())
-                    CefLog.Error("Port : %d", myThriftBackward.getPort());
-                else
-                    CefLog.Error("Pipe : %s", myThriftBackward.getPipe());
+                CefLog.Error("Exception when opening backward transport '%s'", myThriftBackward.toString(), e.getMessage());
                 return false;
             }
 
+            // 3. Start service for backward rpc calls (from native to java)
             ClientHandlers.Processor processor = new ClientHandlers.Processor(myClientHandlersImpl);
             TThreadPoolServer.Args serverArgs = new TThreadPoolServer.Args(myClientHandlersTransport)
                 .processor(processor).executorService(new ThreadPoolExecutor(3, 10, 60L, TimeUnit.SECONDS, new SynchronousQueue(), new ThreadFactory() {
@@ -237,7 +239,7 @@ public class CefServer {
             myClientHandlersThread.setName("CefHandlers-listening");
             myClientHandlersThread.start();
 
-            // 3. Connect to CefServer
+            // 4. Connect to CefServer.
             cid = myRpc.connect(myThriftBackward);
             if (cid == -1) {
                 CefLog.Error("Can't connect to '%s', cid==-1", this.toStringDetailed());
@@ -308,9 +310,6 @@ public class CefServer {
             myClientHandlersTransport.close();
             myClientHandlersTransport = null;
         }
-
-        if (myThriftBackward != null)
-            myThriftBackward.close();
     }
 
     private void onDisconnected(TException e) {
@@ -342,17 +341,13 @@ public class CefServer {
         disconnect();
     }
 
-    public static TServer startTestHandlersService(CountDownLatch finished) {
+    public static TServer startTestHandlersService(ThriftTransport backward, CountDownLatch finished) {
         // Start dummy service for backward rpc calls (from native to java)
         TServerTransport transport;
         try {
-            transport = ThriftTransport.ourDefaultClient.createServerTransport();
+            transport = backward.createServerTransport();
         } catch (Exception e) {
-            CefLog.Error("Exception when opening test-client %s : %s", ThriftTransport.ourDefaultClient.isTcp() ? "tcp-socket" : "pipe", e.getMessage());
-            if (ThriftTransport.ourDefaultClient.isTcp())
-                CefLog.Error("Port : %d", ThriftTransport.ourDefaultClient.getPort());
-            else
-                CefLog.Error("Pipe : %s", ThriftTransport.ourDefaultClient.getPipe());
+            CefLog.Error("Exception when opening transport '%s' for test-client, error: %s", backward.toString(), e.getMessage());
             return null;
         }
 
