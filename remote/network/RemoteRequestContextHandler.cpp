@@ -25,7 +25,7 @@ CefRefPtr<CefResourceRequestHandler> RemoteRequestContextHandler::GetResourceReq
 ) {
   // Called on the browser process IO thread before a resource request is initiated.
   TRACE();
-  LogNdc ndc(__FILE_NAME__, __FUNCTION__, 500, false, false, "ChromeIO");
+  LogNdc ndc(__FILE_NAME__, __FUNCTION__, "ChromeIO");
   std::shared_ptr<RemoteBrowser> rb = RemoteBrowser::findByCefBrowser(browser);
   if (!rb)
     return nullptr;

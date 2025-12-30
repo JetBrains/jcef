@@ -19,7 +19,7 @@ namespace {
   bool ourDoFlush = false;
   bool ourAddNewLine = true;
   bool ourPureMsg = false;
-  const std::string ourFinishedMsg = "Finished.";
+  const bool doPrintLogLevel = getBoolEnv("CEF_SERVER_LOG_PrintLogLevel", true);
 }
 
 std::string Log::level2str(int serverLogLevel) {
@@ -171,10 +171,15 @@ void Log::log(int level, const char *const format, ...) {
   char timeBuf[64];
   sprintf(timeBuf, "%02ld:%02ld:%02ld.%03ld", hours, minutes, seconds, milliseconds);
 
-  char * logLevel = "";
-  if (level == LEVEL_FATAL) logLevel = "[FATAL]";
-  else if (level == LEVEL_ERROR) logLevel = "[ERROR]";
-  else if (level == LEVEL_WARN) logLevel = "[WARN]";
+  const char * logLevel = "";
+  if (doPrintLogLevel) {
+    if (level == LEVEL_FATAL) logLevel = "[FATAL]";
+    else if (level == LEVEL_ERROR) logLevel = "[ERROR]";
+    else if (level == LEVEL_WARN) logLevel = "[WARN]";
+    else if (level == LEVEL_INFO) logLevel = "[I]";
+    else if (level == LEVEL_DEBUG) logLevel = "[D]";
+    else if (level == LEVEL_TRACE) logLevel = "[T]";
+  }
 
   const char * end = ourAddNewLine ? "\n" : "";
   if (ourPureMsg)
@@ -187,21 +192,7 @@ void Log::log(int level, const char *const format, ...) {
     fflush(ourLogFile);
 }
 
-LogNdc::LogNdc(std::string file, std::string func, std::string threadName) :
-      startTime(std::chrono::steady_clock::now())
-{
-  std::string msg(file);
-  if (!func.empty()) {
-    msg.append(":");
-    msg.append(func);
-  }
-  if (!threadName.empty())
-    ourThreadName.assign(threadName);
-}
-
-LogNdc::LogNdc(std::string file, std::string func, int thresholdMcs, bool logStart, bool logFinish, std::string threadName) :
-      startTime(std::chrono::steady_clock::now())
-{
+LogNdc::LogNdc(std::string file, std::string func, std::string threadName) {
   std::string msg;
   if (func.empty()) {
     msg.assign(file);
@@ -210,39 +201,16 @@ LogNdc::LogNdc(std::string file, std::string func, int thresholdMcs, bool logSta
     for (auto ch: file)
       if (std::isupper(ch))
         msg += ch;
-
     if (msg.empty())
       msg.assign(file);
     msg.append(":");
     msg.append(func);
   }
   ourNDC.push_back(msg);
-
   if (!threadName.empty())
     ourThreadName.assign(threadName);
-
-  this->thresholdMcs = thresholdMcs;
-  this->logStart = logStart;
-  this->logFinish = logFinish;
-
-  if (logStart) {
-    Log::debug("Start.");
-  }
 }
 
 LogNdc::~LogNdc() {
-  bool logged = false;
-  if (thresholdMcs >= 0) {
-    auto elapsedMcs = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - startTime);
-    const long spentMcs = (long)elapsedMcs.count();
-    if (spentMcs >= thresholdMcs) {
-      Log::debug("Finished, spent %d msc.", spentMcs);
-      logged = true;
-    }
-  }
-  if (!logged && logFinish) {
-    Log::debug(ourFinishedMsg.c_str());
-  }
-
   ourNDC.pop_back();
 }

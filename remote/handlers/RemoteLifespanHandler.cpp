@@ -29,7 +29,7 @@ bool RemoteLifespanHandler::OnBeforePopup(
   RemoteFrame::Holder frm(frame);
   return myService->exec<bool>([&](const JavaService& s){
     // TODO: support other params and return values
-    Log::error("Unimplemented some params transferring");
+    Log::error("RemoteLifespanHandler: unimplemented some params transferring");
     return s->LifeSpanHandler_OnBeforePopup(bid, frm.serverId(), target_url.ToString(), target_frame_name.ToString(), user_gesture);
   }, false);
 }
@@ -39,7 +39,7 @@ void RemoteLifespanHandler::OnAfterCreated(CefRefPtr<CefBrowser> browser) {
   {
     std::unique_lock lock(myCreatingMutex);
     if (myCreatingBids.empty()) {
-      Log::trace("Created dev-tools popup with identifier=%d", browser->GetIdentifier());
+      Log::trace("RemoteLifespanHandler: created dev-tools popup with identifier=%d", browser->GetIdentifier());
       // NOTE: don't notify LSH because it's unnecessary now:
       // dev-tool is completely independent popup-window, and we don't process events of it
       return;
@@ -50,17 +50,17 @@ void RemoteLifespanHandler::OnAfterCreated(CefRefPtr<CefBrowser> browser) {
 
    std::shared_ptr<RemoteBrowser> remoteBrowser = RemoteBrowser::find(bid);
    if (!remoteBrowser) {
-     Log::error("OnAfterCreated: can't find RemoteBrowser by bid=%d", bid);
+     Log::error("RemoteLifespanHandler: OnAfterCreated: can't find RemoteBrowser by bid=%d", bid);
      return;
    }
 
   if (remoteBrowser->getCefBrowser())
-    Log::error("OnAfterCreated: getCefBrowser != null, bid=%d", bid);
+    Log::error("RemoteLifespanHandler: OnAfterCreated: getCefBrowser != null, bid=%d", bid);
 
    remoteBrowser->setCefBrowser(browser);
    RemoteBrowser::linkCefBrowser(browser, remoteBrowser);
 
-   Log::trace("Created native CefBrowser with identifier=%d [bid=%d]", browser->GetIdentifier(), bid);
+   Log::trace("RemoteLifespanHandler: created native CefBrowser with identifier=%d [bid=%d]", browser->GetIdentifier(), bid);
    myService->exec([&](const JavaService& s){
      s->LifeSpanHandler_OnAfterCreated(bid, browser->GetIdentifier());
    });
@@ -76,7 +76,7 @@ bool RemoteLifespanHandler::DoClose(CefRefPtr<CefBrowser> browser) {
 void RemoteLifespanHandler::OnBeforeClose(CefRefPtr<CefBrowser> browser) {
   const auto & rb = RemoteBrowser::findByCefBrowser(browser);
   if (!rb) {
-    Log::trace("Closed dev-tools popup with identifier=%d", browser->GetIdentifier());
+    Log::trace("RemoteLifespanHandler: closed dev-tools popup with identifier=%d", browser->GetIdentifier());
     // NOTE: don't notify LSH because it's unnecessary now:
     // dev-tool is completely independent popup-window, and we don't process events of it
     return;
@@ -88,7 +88,7 @@ void RemoteLifespanHandler::OnBeforeClose(CefRefPtr<CefBrowser> browser) {
   });
   rb->onBeforeClose();
   RemoteBrowser::unlinkCefBrowser(browser);
-  Log::trace("Destroyed native CefBrowser with identifier=%d [bid=%d]", browser->GetIdentifier(), rb->getBid());
+  Log::trace("RemoteLifespanHandler: destroyed native CefBrowser with identifier=%d [bid=%d]", browser->GetIdentifier(), rb->getBid());
 }
 
 void RemoteLifespanHandler::addCreating(int bid) {

@@ -138,7 +138,6 @@ public class ServersManagerGUI {
         runningList = new JList<>(listModel);
         runningList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         runningList.setVisibleRowCount(8);
-        runningList.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 14));
 
         // Optional: customize cell appearance
         runningList.setCellRenderer(new DefaultListCellRenderer() {
@@ -148,7 +147,7 @@ public class ServersManagerGUI {
                 JLabel label = (JLabel) super.getListCellRendererComponent(
                         list, value, index, isSelected, cellHasFocus);
                 ProcessLister.RunningServerInfo si = (ProcessLister.RunningServerInfo)value;
-                label.setText(String.format("port %2d (parent: %s)", si.transport.getPort(), si.getParentProcessCmd())); // right-align 2-digit numbers
+                label.setText(String.format("port %2d (parent: %s)", si.transport.getPort(), si.getParentProcessInfo())); // right-align 2-digit numbers
                 return label;
             }
         });
@@ -330,7 +329,7 @@ public class ServersManagerGUI {
             gbPort.add(freePortButton);
             gbPort.add(Box.createHorizontalGlue());
 
-            JPanel gbArgs = creatGroupBox("Cmd line switches", BoxLayout.X_AXIS);
+            JPanel gbArgs = creatGroupBox("Cmd line args", BoxLayout.X_AXIS);
             JTextField argsField = new JTextField();
             gbArgs.add(argsField);
 
@@ -353,6 +352,13 @@ public class ServersManagerGUI {
 
                 int port = Integer.parseInt(portField.getText());
                 String logPath = logPathField.getText();
+                if (logPath != null && !logPath.trim().isEmpty()) {
+                    File logFile = new File(logPath);
+                    if (logFile.exists()) {
+                        log("Delete old log file: '%s'", logPath);
+                        logFile.delete();
+                    }
+                }
                 int logLevel = NativeServerManager.ServerLogLevel.LEVEL_INFO;
                 try {
                     Integer.parseInt(logLevelField.getText());
@@ -386,11 +392,14 @@ public class ServersManagerGUI {
 
                     CefAppHandler appHandler = null; // TODO: support custom schemes later
 
-                    log("Start cef_server: path=%s, port=%d, logLevel=%s, root=%s, args=%s", exeFile.getAbsolutePath(), port, NativeServerManager.ServerLogLevel.nativeDesc(finalLogLevel), settings.cache_path, Arrays.toString(args));
+                    log("Start cef_server: path=%s, port=%d, logLevel=%s, root=%s, args=%s, env=%s", exeFile.getAbsolutePath(), port, NativeServerManager.ServerLogLevel.nativeDesc(finalLogLevel), settings.cache_path, Arrays.toString(args), envs);
                     boolean success = startCefServerAndWait(exeFile.getAbsolutePath(), port, logPath, finalLogLevel, args, settings, appHandler, envs);
                     if (!success) {
                         log("ERROR: failed to start.");
                         JOptionPane.showMessageDialog(null, "Failed to start cef_server.");
+                    } else {
+                        ourLastExePaths.add(exeFile.getAbsolutePath());
+                        saveProperties("");
                     }
                 }).start();
             });
@@ -444,11 +453,13 @@ public class ServersManagerGUI {
             CefLog.initVerbose();
             ThriftTransport transport = new ThriftTransport(port);
             // NOTE: file, args and settings won't be used since it will be connected to an already running instance.
-            return CefApp.getInstance(new CefServer(null, transport, null, null, connectAsMaster));
+            CefApp result = CefApp.getInstance(new CefServer(null, transport, null, null, connectAsMaster));
+            CefApp.setDefaultInstance(result); // To avoid collisions when creating routers
+            return result;
         }
 
         ServerControls(ProcessLister.RunningServerInfo serverInfo) {
-            setTitle("Server " + serverInfo.transport.toString() + " | parent: " + serverInfo.getParentProcessCmd());
+            setTitle("Server " + serverInfo.transport.toString() + " | parent: " + serverInfo.getParentProcessInfo());
             setLayout(new BorderLayout());
 
             // 1. State of the server (with detailed info).

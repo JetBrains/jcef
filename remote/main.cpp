@@ -200,7 +200,6 @@ int main(int argc, char* argv[]) {
   Log::trace("Create server transport. CEF initialization spent %d ms.", (t3 - t2).total_milliseconds());
   std::shared_ptr<TServerTransport> serverTransport;
   if (cmdArgs.useTcp()) {
-    Log::info("TCP transport will be used, port=%d", cmdArgs.getPort());
     serverTransport = std::make_shared<TServerSocket>("127.0.0.1", cmdArgs.getPort());
   } else {
     std::string pipePath = cmdArgs.getPipe();
@@ -214,7 +213,6 @@ int main(int argc, char* argv[]) {
     Log::info("Windows-pipe transport will be used, path=%s", pipePath.c_str());
     serverTransport = std::make_shared<PipeTransportServer>(pipePath);
 #else
-    Log::info("Pipe transport will be used, path=%s", pipePath.c_str());
     std::remove(pipePath.c_str());
     serverTransport = std::make_shared<TServerSocket>(pipePath.c_str());
 #endif //WIN32

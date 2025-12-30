@@ -85,19 +85,7 @@ public:
 class LogNdc {
  public:
   LogNdc(std::string file, std::string func, std::string threadName);
-  LogNdc(std::string file,
-         std::string func = "",
-         int thresholdMcs = -1,
-         bool logStart = false,
-         bool logFinish = false,
-         std::string threadName = "");
   virtual ~LogNdc();
-
- private:
-  const std::chrono::steady_clock::time_point startTime;
-  int thresholdMcs = -1;
-  bool logStart = false;
-  bool logFinish = false;
 };
 
 #ifdef _WIN32

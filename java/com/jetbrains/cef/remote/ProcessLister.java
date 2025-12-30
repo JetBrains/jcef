@@ -13,13 +13,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Predicate;
+import java.util.regex.Pattern;
 
-// TODO: remove System.out err
 public class ProcessLister {
 
     public static List<RunningServerInfo> listRunningInstancesPorts() {
+        final ArrayList<RunningServerInfo> result = new ArrayList<>();
+
         if (OS.isLinux() || OS.isMacintosh()) {
-            final ArrayList<RunningServerInfo> result = new ArrayList<>();
             final String cmd = "ps -Af | grep -E 'cef_server .*'";
             RunningServerInfo defaultArgsServer = null;
 
@@ -44,21 +46,27 @@ public class ProcessLister {
                         int posSp2End = posSp2 + 1;
                         while (posSp2End < line.length() && line.charAt(posSp2End) == ' ') ++posSp2End;
 
-                        final int pid = Integer.parseInt(line.substring(posSp0End, posSp1));
-                        final int ppid = Integer.parseInt(line.substring(posSp1End, posSp2));
+                        final int pid = parseIntSafe(line.substring(posSp0End, posSp1), -1);
+                        final int ppid = parseIntSafe(line.substring(posSp1End, posSp2), -1);
+
+                        final String cmdPrefix = OS.isMacintosh() ? "MacOS/cef_server" : "bin/cef_server";
+                        final int prefixPos = line.indexOf(cmdPrefix);
+                        final String cmdLine = prefixPos >= 0 ? line.substring(prefixPos + cmdPrefix.length()) : "";
 
                         final int pos0 = line.indexOf("--port=");
                         if (pos0 < 0) {
                             if (OS.isMacintosh() && line.contains("cef_server Helper"))
                                 continue;
-                            defaultArgsServer = new RunningServerInfo(new ThriftTransport(9999), pid, ppid);
+                            if (OS.isLinux() && line.contains("--type="))
+                                continue;
+                            defaultArgsServer = new RunningServerInfo(new ThriftTransport(9999), pid, ppid, cmdLine);
                         } else {
                             final int pos1 = line.indexOf(" ", pos0 + 7);
                             String sport = line.substring(pos0 + 7, pos1);
                             try {
-                                result.add(new RunningServerInfo(new ThriftTransport(Integer.parseInt(sport)), pid, ppid));
+                                result.add(new RunningServerInfo(new ThriftTransport(Integer.parseInt(sport)), pid, ppid, cmdLine));
                             } catch (NumberFormatException e) {
-                                System.out.println("Can't parse port number: " + sport);
+                                CefLog.Error("Can't parse port number: " + sport);
                             }
                         }
                     }
@@ -66,7 +74,7 @@ public class ProcessLister {
 
                 process.waitFor();
             } catch (IOException | InterruptedException e) {
-                System.err.println("Failed to execute command: " + e.getMessage());
+                CefLog.Error("Failed to execute command: " + e.getMessage());
                 e.printStackTrace();
             }
 
@@ -77,8 +85,32 @@ public class ProcessLister {
         }
 
         // Windows
-        System.out.println("listAllRunningInstances: not implemented for Windows yet.");
-        return new ArrayList<>();
+        Pattern p = Pattern.compile("--type=[^ ]+");
+        List<WindowsProcessInfo> processes = null;
+        try {
+            processes = listWindowsProcesses(".*cef_server.exe", s -> !p.matcher(s).find());
+            for (WindowsProcessInfo pi : processes) {
+                final int pos0 = pi.commandLine.indexOf("--port=");
+                if (pos0 >= 0) {
+                    final int pos1 = pi.commandLine.indexOf(" ", pos0 + 7);
+                    String sport = pi.commandLine.substring(pos0 + 7, pos1);
+                    try {
+                        result.add(new RunningServerInfo(new ThriftTransport(Integer.parseInt(sport)), pi.pid, pi.parentPid == null ? -1 : pi.parentPid, pi.commandLine, pi.parentName, pi.parentCommandLine));
+                    } catch (NumberFormatException e) {
+                        CefLog.Error("Can't parse port number: " + sport);
+                    }
+                } else {
+                    CefLog.Debug("Found cef_server instance without --port parameter.");
+                    result.add(new RunningServerInfo(new ThriftTransport(9999), pi.pid, -1, pi.commandLine, pi.parentName, pi.parentCommandLine));
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return result;
     }
 
     public static List<RunningServerInfo> listRunningInstances() {
@@ -95,7 +127,7 @@ public class ProcessLister {
             if (pipes != null && pipes.length > 0) {
                 CefLog.Debug("Found %d running instances (pipes).", pipes.length);
                 for (File pipe : pipes)
-                    running.add(new RunningServerInfo(new ThriftTransport(pipe), -1, -1));
+                    running.add(new RunningServerInfo(new ThriftTransport(pipe), -1, -1, ""));
             }
         }
         return running;
@@ -126,38 +158,67 @@ public class ProcessLister {
         return existingRoots.isEmpty() ? null : existingRoots;
     }
 
-    public static class ProcessInfo {
+    static class WindowsProcessInfo {
         public final int pid;
         public final String name;
         public final String commandLine;
+        public final Integer parentPid;
+        public final String parentName;
+        public final String parentCommandLine;
 
-        public ProcessInfo(int pid, String name, String commandLine) {
+        public WindowsProcessInfo(int pid, String name, String commandLine,
+                                  Integer parentPid, String parentName, String parentCommandLine) {
             this.pid = pid;
             this.name = name;
-            this.commandLine = commandLine != null ? commandLine.trim() : "";
+            this.commandLine = commandLine;
+            this.parentPid = parentPid;
+            this.parentName = parentName;
+            this.parentCommandLine = parentCommandLine;
         }
 
         @Override
         public String toString() {
-            return String.format("[%5d] %-20s %s", pid, name, commandLine);
+            return String.format(
+                    "[%d] %s — %s | parent[%s]: %s — %s",
+                    pid, name, commandLine,
+                    parentPid != null ? parentPid.toString() : "–",
+                    parentName != null ? parentName : "–",
+                    parentCommandLine != null ? parentCommandLine : "–"
+            );
         }
     }
 
-    private static List<ProcessInfo> getAllProcessesWithCommandLine() throws IOException, InterruptedException {
-        List<ProcessInfo> processes = new ArrayList<>();
+    private static List<WindowsProcessInfo> listWindowsProcesses(String regexNameFilter, Predicate<String> cmdFilter) throws IOException, InterruptedException {
+        List<WindowsProcessInfo> result = new ArrayList<>();
+        Pattern patternName = regexNameFilter == null || regexNameFilter.isEmpty() ? null : Pattern.compile(regexNameFilter);
 
-        // PowerShell command to get PID, Name, and CommandLine
-        String psCommand = "Get-CimInstance Win32_Process | Select-Object ProcessId, Name, CommandLine | ConvertTo-Csv -NoTypeInformation";
+        // Optimized PowerShell: fetch all once, join in memory, output CSV
+        String psScript =
+                "$procs = @{}; " +
+                        "Get-CimInstance Win32_Process | ForEach-Object { $procs[$_.ProcessId] = $_ }; " +
+                        "$output = foreach ($p in $procs.Values) { " +
+                        "  $parent = $null; " +
+                        "  if ($p.ParentProcessId -and $procs.ContainsKey($p.ParentProcessId)) { " +
+                        "    $parent = $procs[$p.ParentProcessId] " +
+                        "  } " +
+                        "  [PSCustomObject]@{ " +
+                        "    PID=$p.ProcessId; " +
+                        "    Name=$p.Name; " +
+                        "    CmdLine=$p.CommandLine; " +
+                        "    ParentPID=($p.ParentProcessId -as [string]); " +
+                        "    ParentName=($parent.Name -as [string]); " +
+                        "    ParentCmdLine=($parent.CommandLine -as [string]) " +
+                        "  } " +
+                        "}; " +
+                        "$output | ConvertTo-Csv -NoTypeInformation";
 
-        ProcessBuilder pb = new ProcessBuilder("powershell.exe", "-NoProfile", "-Command", psCommand);
-        pb.redirectErrorStream(true);
-        //pb.redirectOutput(ProcessBuilder.Redirect.INHERIT);
+        ProcessBuilder pb = new ProcessBuilder(
+                "powershell", "-NoProfile", "-Command", psScript
+        );
+        pb.redirectErrorStream(true); // merge stderr into stdout for easier handling
 
         Process process = pb.start();
-        int exitCode = process.waitFor();
-        if (exitCode != 0)
-            throw new IOException("PowerShell command failed with exit code " + exitCode);
-
+        // NOTE: don't call process.waitFor() before reading stdout of the process (otherwise deadlock occurred).
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
             String line;
             boolean firstLine = true; // Skip CSV header
@@ -167,63 +228,89 @@ public class ProcessLister {
                     continue;
                 }
 
-                // Parse CSV line (handle quoted fields with commas)
-                String[] fields = parseCsvLine(line);
-                if (fields.length >= 3) {
-                    try {
-                        int pid = Integer.parseInt(stripQuotes(fields[0]));
-                        String name = stripQuotes(fields[1]);
-                        String cmd = stripQuotes(fields[2]);
-                        processes.add(new ProcessInfo(pid, name, cmd));
-                    } catch (NumberFormatException ignored) { }
-                }
+                // CSV: "1234","java.exe","\"C:\\...\\java.exe\" -Xmx512m ..."
+                line = line.trim();
+                if (line.isEmpty() || line.equals("\"\"")) continue;
+
+                // Expect: PID, Name, CmdLine, ParentPID, ParentName, ParentCmdLine
+                List<String> fields = parseCsvLine(line);
+                if (fields.size() < 6) continue;
+
+                final String name = unquote(fields.get(1));
+                if (patternName != null && !patternName.matcher(name).find())
+                    continue;
+
+                final String cmdLine = unquote(fields.get(2));
+                if (cmdFilter != null && !cmdFilter.test(cmdLine))
+                    continue;
+
+                final int pid = parseIntSafe(fields.get(0), -1);
+                Integer parentPid = parseIntSafe(fields.get(3), null);
+
+                    result.add(new WindowsProcessInfo(pid, name, cmdLine, parentPid,
+                        unquote(fields.get(4)),
+                        unquote(fields.get(5))));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        int exitCode = process.waitFor();
+        if (exitCode != 0) {
+            CefLog.Error("PowerShell command failed with exit code " + exitCode);
+            try (BufferedReader err = new BufferedReader(
+                    new InputStreamReader(process.getErrorStream()))) {
+                err.lines().forEach(CefLog::Error);
             }
         }
 
-        return processes;
+        return result;
     }
 
-    // Simple CSV parser (handles basic quoted strings)
-    private static String[] parseCsvLine(String line) {
-        // This is a simplified parser — for robustness, consider using OpenCSV
-        List<String> fields = new ArrayList<>();
-        boolean inQuotes = false;
-        StringBuilder current = new StringBuilder();
-        for (char c : line.toCharArray()) {
-            if (c == '"') {
-                inQuotes = !inQuotes;
-            } else if (c == ',' && !inQuotes) {
-                fields.add(current.toString());
-                current = new StringBuilder();
-            } else {
-                current.append(c);
-            }
-        }
-        fields.add(current.toString());
-        return fields.toArray(new String[0]);
-    }
-
-    private static String stripQuotes(String s) {
-        if (s.startsWith("\"") && s.endsWith("\"")) {
-            return s.substring(1, s.length() - 1).replace("\"\"", "\"");
-        }
+    private static String unquote(String s) {
+        if (s == null) return "";
+        s = s.replaceAll("^\"|\"$", "").replace("\"\"", "\"");
         return s;
     }
 
-    // 🔍 Example: Find processes containing "chrome"
+    private static Integer parseIntSafe(String s, Integer def) {
+        s = unquote(s).trim();
+        if (s.isEmpty() || s.equalsIgnoreCase("null")) return def;
+        try { return Integer.valueOf(s); } catch (NumberFormatException e) { return def; }
+    }
+
+    // Simple CSV parser (handles quoted fields, escaped quotes)
+    private static List<String> parseCsvLine(String line) {
+        List<String> result = new ArrayList<>();
+        boolean inQuotes = false;
+        StringBuilder field = new StringBuilder();
+
+        for (int i = 0; i < line.length(); i++) {
+            char c = line.charAt(i);
+            if (c == '"') {
+                if (i + 1 < line.length() && line.charAt(i + 1) == '"') {
+                    field.append('"');
+                    i++; // skip next quote
+                } else {
+                    inQuotes = !inQuotes;
+                }
+            } else if (c == ',' && !inQuotes) {
+                result.add(field.toString());
+                field.setLength(0); // clear
+            } else {
+                field.append(c);
+            }
+        }
+        result.add(field.toString());
+        return result;
+    }
+
     public static void main(String[] args) {
         try {
-            List<ProcessInfo> processes = getAllProcessesWithCommandLine();
-
-            System.out.println("PID     Name                 Command Line");
-            System.out.println("------- -------------------- --------------------------------------------------");
-            for (ProcessInfo p : processes) {
-                // Optional: filter
-                // if (p.name.toLowerCase().contains("chrome")) {
-                System.out.println(p);
-                // }
-            }
-
+            Pattern p = Pattern.compile("--type=[^ ]+");
+            List<WindowsProcessInfo> processes = listWindowsProcesses(".*cef_server.exe", s -> !p.matcher(s).find());
+            for (WindowsProcessInfo processInfo : processes)
+                System.out.println(processInfo);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -233,16 +320,32 @@ public class ProcessLister {
         public final ThriftTransport transport;
         public final int pid;
         public final int ppid; // parent process id
+        public final String commandLine;
+        private String parentName;
+        private String parentCommandLine;
 
-        public RunningServerInfo(ThriftTransport transport, int pid, int ppid) {
+        public RunningServerInfo(ThriftTransport transport, int pid, int ppid, String commandLine) {
             this.transport = transport;
             this.pid = pid;
             this.ppid = ppid;
+            this.commandLine = commandLine;
+        }
+
+        public RunningServerInfo(ThriftTransport transport, int pid, int ppid, String commandLine, String parentName, String parentCommandLine) {
+            this.transport = transport;
+            this.pid = pid;
+            this.ppid = ppid;
+            this.commandLine = commandLine;
+            this.parentName = parentName;
+            this.parentCommandLine = parentCommandLine;
         }
 
         private static Map<Integer, String> ourPpid2Cmd = new ConcurrentHashMap<>();
 
-        public String getParentProcessCmd() {
+        public String getParentProcessInfo() {
+            if (parentName != null) return parentName + " (" + parentCommandLine + ")";
+            if (parentCommandLine != null) return parentCommandLine;
+
             if (ourPpid2Cmd.containsKey(ppid))
                 return ourPpid2Cmd.get(ppid);
 
@@ -263,8 +366,7 @@ public class ProcessLister {
                 }
                 process.waitFor();
             } catch (IOException | InterruptedException e) {
-                System.err.println("Failed to execute command: " + e.getMessage());
-                e.printStackTrace();
+                CefLog.Error("Failed to execute command: " + e.getMessage());
             }
             return null;
         }
