@@ -102,7 +102,7 @@ CefRefPtr<CefResourceRequestHandler> RemoteRequestHandler::GetResourceRequestHan
   // Called on the browser process IO thread before a resource request is initiated.
   TRACE();
   FIND_BID_OR_RETURN_VAL(nullptr);
-  LogNdc ndc(__FILE_NAME__, __FUNCTION__, 500, false, false, "ChromeIO");
+  LogNdc ndc(__FILE_NAME__, __FUNCTION__, "ChromeIO");
   RemoteRequest::Holder req(request);
   RemoteFrame::Holder frm(frame);
   thrift_codegen::RObject peer;

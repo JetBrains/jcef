@@ -33,17 +33,17 @@ void trace(const std::string & from, const std::vector<std::string> & cmdlineSwi
     return;
 
   if (!cmdlineSwitches.empty()) {
-    Log::trace("Command line switches (from %s):", from.c_str());
+    Log::trace("Command line switches (%s):", from.c_str());
     for (auto& sw : cmdlineSwitches)
       Log::trace("\t%s", sw.c_str());
   }
   if (!parsedSettings.empty()) {
-    Log::trace("Settings (from %s):", from.c_str());
+    Log::trace("Settings (%s):", from.c_str());
     for (auto& st : parsedSettings)
       Log::trace("\t%s=%s", st.first.c_str(), st.second.c_str());
   }
   if (!schemes.empty()) {
-    Log::trace("Custom schemes (from %s):", from.c_str());
+    Log::trace("Custom schemes (%s):", from.c_str());
     for (auto& sch : schemes)
       Log::trace("\t%s [%d]", sch.first.c_str(), sch.second);
   }
@@ -157,7 +157,10 @@ bool CommandLineArgs::init(int argc, char* argv[]) {
   if (myChromiumSwitches.empty() && !dontUseDefaultChromiumSwitches) { // NOTE: dontUseDefaultChromiumSwitches == false by default
     Log::debug("Use default chromium switches.");
 #if defined(OS_WIN)
-    // TODO: implement
+     myChromiumSwitches.push_back("--disable-features=SpareRendererForSitePerProcess");
+     myChromiumSwitches.push_back("--disable-gpu-process-crash-limit");
+     myChromiumSwitches.push_back("--autoplay-policy=no-user-gesture-required");
+     myChromiumSwitches.push_back("--disable-component-update");
 #elif defined(OS_MAC)
     myChromiumSwitches.push_back("--disable-in-process-stack-traces");
     myChromiumSwitches.push_back("--use-mock-keychain");
@@ -167,26 +170,19 @@ bool CommandLineArgs::init(int argc, char* argv[]) {
     myChromiumSwitches.push_back("--autoplay-policy=no-user-gesture-required");
     myChromiumSwitches.push_back("--disable-component-update");
   #else
-    // OS_LINUX
-    // TODO: implement
+    myChromiumSwitches.push_back("--disable-features=SpareRendererForSitePerProcess");
+    myChromiumSwitches.push_back("--disable-gpu-process-crash-limit");
+    myChromiumSwitches.push_back("--autoplay-policy=no-user-gesture-required");
+    myChromiumSwitches.push_back("--disable-component-update");
+    myChromiumSwitches.push_back("--no-proxy-server");
   #endif
   } // myChromiumSwitches.empty()
 
   if (myParsedCefSettings.empty()) {
     Log::debug("Use default cef settings.");
     myParsedCefSettings.push_back(std::make_pair("log_severity", Log::cefLogLevel2str(myLogLevelChromium)));
-    myParsedCefSettings.push_back(std::make_pair("no_sandbox", "true"));
     if (!myPathChromiumLogFile.empty())
       myParsedCefSettings.push_back(std::make_pair("log_file", myPathChromiumLogFile));
-    myParsedCefSettings.push_back(std::make_pair("windowless_rendering_enabled", "true"));
-
-#if defined(OS_WIN)
-    // TODO: implement
-#elif defined(OS_MAC)
-#else
-    // OS_LINUX
-    // TODO: implement
-#endif
   }
 
   trace("merged", myChromiumSwitches, myParsedCefSettings, myCustomSchemes);
@@ -196,7 +192,7 @@ bool CommandLineArgs::init(int argc, char* argv[]) {
 void CommandLineArgs::prepareCefSettings(void * pCefSettings) {
   CefSettings & settings = *reinterpret_cast<CefSettings*>(pCefSettings);
   for (const auto & p: myParsedCefSettings) {
-    if (p.first.compare("cache_path") && !myPathRootCache.empty()) {
+    if (p.first.compare("cache_path") == 0 && !myPathRootCache.empty()) {
       Log::debug("Setting 'cache_path' from params file (or cmd line) with value '%s' will be overrriden with cmd line arg '--root=%s'", p.second.c_str(), myPathRootCache.c_str());
       CefString(&settings.cache_path) = myPathRootCache;
     } else

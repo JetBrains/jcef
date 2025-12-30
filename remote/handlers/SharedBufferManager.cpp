@@ -8,6 +8,7 @@
 using namespace boost::interprocess;
 
 namespace {
+  const bool doTrace = getBoolEnv("CEF_SERVER_TRACE_SharedBuffer");
   size_t nearestMemorySize(size_t len) {
     constexpr int latticeSizeBits = 19; // i.e. 512 Kb
     return ((len >> latticeSizeBits) + 1) << latticeSizeBits;
@@ -23,11 +24,12 @@ SharedBuffer::SharedBuffer(std::string uid, size_t len)
     if (additionalBytes != defVal) {
       if (additionalBytes < 0) additionalBytes = 0;
       if (additionalBytes > 1024*8) additionalBytes = 1024*8;
-      Log::debug("Set additional bytes for shared memory: %d bytes\n", additionalBytes);
+      Log::debug("SharedBuffer: set additional bytes for shared memory: %d bytes\n", additionalBytes);
     }
   }
 
-  Log::trace("Allocate shared buffer '%s' | %.2f Mb", uid.c_str(), len/(1024*1024.f));
+  if (doTrace)
+    Log::trace("SharedBuffer: allocate shared buffer '%s' | %.2f Mb", uid.c_str(), len/(1024*1024.f));
   const std::chrono::steady_clock::time_point startTime = std::chrono::steady_clock::now();
   shared_memory_object::remove(uid.c_str());
 
@@ -49,7 +51,7 @@ SharedBuffer::SharedBuffer(std::string uid, size_t len)
   const std::chrono::steady_clock::time_point t4 = std::chrono::steady_clock::now();
   myMutex = new named_mutex(create_only, myUid.c_str());
 
-  if (Log::isTraceEnabled()) {
+  if (doTrace && Log::isTraceEnabled()) {
     const std::chrono::steady_clock::time_point entTime = std::chrono::steady_clock::now();
     const long spentMs = (long)std::chrono::duration_cast<std::chrono::microseconds>(entTime - startTime).count();
     if (spentMs > 5*1000) {
@@ -58,7 +60,7 @@ SharedBuffer::SharedBuffer(std::string uid, size_t len)
       auto d3 = std::chrono::duration_cast<std::chrono::microseconds>(t3 - t2);
       auto d4 = std::chrono::duration_cast<std::chrono::microseconds>(t4 - t3);
       auto d5 = std::chrono::duration_cast<std::chrono::microseconds>(entTime - t4);
-      Log::trace("\t SharedBuffer '%s' (%d bytes), ctor spent mcs: remove mem %d; ctor %d; alloc %d; remove mutex %d; mutex ctor %d",
+      Log::trace("SharedBuffer '%s': %d bytes, ctor spent mcs: remove mem %d; ctor %d; alloc %d; remove mutex %d; mutex ctor %d",
                  uid.c_str(), len, (int)d1.count(), (int)d2.count(), (int)d3.count(), (int)d4.count(), (int)d5.count());
     }
   }
@@ -115,9 +117,9 @@ SharedBuffer* SharedBufferManager::_getOrCreateBuffer(size_t size, int index) {
       myPool[index] = buf =
           new SharedBuffer(string_format("R%d_%d", utils::GetPid(), counter.fetch_add(1)),nearestMemorySize(size));
     } catch (const std::exception& e) {
-      Log::error("Exception during shared buffer allocation, err: %s", e.what());
+      Log::error("SharedBuffer: exception during shared buffer allocation, err: %s", e.what());
     } catch (...) {
-      Log::error("Unknown exception during shared buffer allocation");
+      Log::error("SharedBuffer: unknown exception during shared buffer allocation");
     }
   }
   return buf;

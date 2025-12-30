@@ -150,7 +150,7 @@ bool parseCefSettingWord(const std::string & arg, std::vector<std::pair<std::str
     const auto eqPos = arg.find("=", pos);
     if (eqPos == arg.npos)
       continue;
-    const int startPos = pos + prefix.size();
+    const auto startPos = pos + prefix.size();
     name.assign(arg.substr(startPos, eqPos - startPos));
     val.assign(arg.substr(eqPos + 1));
     replaceAll(val, SPACE, " ");
@@ -178,7 +178,7 @@ bool parseCefSchemeWord(const std::string & arg, std::string & name, int & optio
     const auto eqPos = arg.find("=", pos);
     if (eqPos == arg.npos)
       continue;
-    const int startPos = pos + prefix.size();
+    const auto startPos = pos + prefix.size();
     name.assign(arg.substr(startPos, eqPos - startPos));
     stoi_safe(arg.substr(eqPos + 1), options);
     break;

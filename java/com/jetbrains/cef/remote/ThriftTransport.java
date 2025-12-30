@@ -65,7 +65,7 @@ public class ThriftTransport {
                     String[] runningList = new String[runningPorts.size()];
                     int c = 0;
                     for (ProcessLister.RunningServerInfo s : runningPorts)
-                        runningList[c++] = s.transport.myPort + ", parent: " + s.getParentProcessCmd();
+                        runningList[c++] = s.transport.myPort + ", parent: " + s.getParentProcessInfo();
                     JList<String> list = new JList<>(runningList);
                     list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
                     list.setFont(list.getFont().deriveFont(13f));

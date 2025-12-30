@@ -156,14 +156,53 @@ public class ServerStarter {
         }
     }
 
+    private static boolean isPrefixedArg(String arg) {
+        final String[] ourPrefixes = new String[] { "arg:", "cmd_switch:" };
+        for (String prefix: ourPrefixes)
+            if (arg.startsWith(prefix))
+                return true;
+        return false;
+    }
+
+    private static boolean isPrefixedCS(String arg) {
+        final String[] ourPrefixes = new String[] { "sch:", "customscheme:" };
+        for (String prefix: ourPrefixes)
+            if (arg.startsWith(prefix))
+                return true;
+        return false;
+    }
+
+    private static boolean isPrefixedSetting(String arg) {
+        final String[] ourPrefixes = new String[] { "cs:", "cef_setting:" };
+        for (String prefix: ourPrefixes)
+            if (arg.startsWith(prefix))
+                return true;
+        return false;
+    }
+
+
     private static void prepareStartParamsWithCmdLine(ProcessBuilder builder, File serverExe, CefAppHandler appHandler, String[] args, CefSettings settings) {
         // Use prefixed command line switches, CefSettings and custom schemes (from CefAppHandler).
 
         // 1. command line args
         List<String> prefixedArgs = new ArrayList<>();
+        List<String> prefixedSettings = new ArrayList<>();
+        List<String> prefixedCS = new ArrayList<>();
         String prefix = USE_SHORT_CMDLINE_PREFIXES ? "arg:" : "cmd_switch:";
         if (args != null && args.length > 0)
             for (String arg: args) {
+                if (isPrefixedArg(arg)) {
+                    prefixedArgs.add(arg);
+                    continue;
+                }
+                if (isPrefixedCS(arg)) {
+                    prefixedCS.add(arg);
+                    continue;
+                }
+                if (isPrefixedSetting(arg)) {
+                    prefixedSettings.add(arg);
+                    continue;
+                }
                 String finalPrefix = prefix;
                 processArg(arg, s -> prefixedArgs.add(finalPrefix + s.replace(" ", SPACE)));
             }
@@ -174,7 +213,6 @@ public class ServerStarter {
         }
 
         // 2. settings
-        List<String> prefixedSettings = new ArrayList<>();
         prefix = USE_SHORT_CMDLINE_PREFIXES ? "cs:" : "cef_setting:";
         if (settings != null) {
             Map<String, String> settingsMap = settings.toMap();
@@ -192,7 +230,6 @@ public class ServerStarter {
         }
 
         // 3. custom schemes
-        List<String> prefixedCS = new ArrayList<>();
         String finalPrefix = USE_SHORT_CMDLINE_PREFIXES ? "sch:" : "customscheme:";
         processCustomSchemes(appHandler, (n,o) -> prefixedCS.add(finalPrefix + n + "=" + o));
 

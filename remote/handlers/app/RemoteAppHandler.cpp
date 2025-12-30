@@ -118,7 +118,8 @@ void RemoteAppHandler::OnBeforeCommandLineProcessing(
     }
   }
 
-  Log::debug("OnBeforeCommandLineProcessing: additional command line switches:\n%s", additionalItems.c_str());
+  if (additionalItems.length() > 0)
+    Log::debug("OnBeforeCommandLineProcessing: additional command line switches:\n%s", additionalItems.c_str());
 
   // Copy-paste from ClientApp::OnBeforeCommandLineProcessing
 #if defined(OS_MAC)
