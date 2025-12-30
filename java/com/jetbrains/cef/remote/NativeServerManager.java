@@ -13,11 +13,9 @@ import java.net.ServerSocket;
 import java.net.StandardProtocolFamily;
 import java.net.UnixDomainSocketAddress;
 import java.nio.channels.SocketChannel;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BooleanSupplier;
 
 public class NativeServerManager {
@@ -183,155 +181,6 @@ public class NativeServerManager {
         return true;
     }
 
-    public static class RunningServerInfo {
-        public final ThriftTransport transport;
-        public final int pid;
-        public final int ppid; // parent process id
-
-        public RunningServerInfo(ThriftTransport transport, int pid, int ppid) {
-            this.transport = transport;
-            this.pid = pid;
-            this.ppid = ppid;
-        }
-
-        private static Map<Integer, String> ourPpid2Cmd = new ConcurrentHashMap<>();
-
-        public String getParentProcessCmd() {
-            if (ourPpid2Cmd.containsKey(ppid))
-                return ourPpid2Cmd.get(ppid);
-
-            final String cmd = "ps -o command -p " + ppid;
-            try {
-                Process process = new ProcessBuilder("bash", "-c", cmd).redirectErrorStream(true).start();
-                try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream(), StandardCharsets.UTF_8))) {
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        if (line.contains("COMMAND"))
-                            continue;
-                        line = line.trim();
-                        if (!line.isEmpty()) {
-                            ourPpid2Cmd.put(ppid, line);
-                            return line;
-                        }
-                    }
-                }
-                process.waitFor();
-            } catch (IOException | InterruptedException e) {
-                System.err.println("Failed to execute command: " + e.getMessage());
-                e.printStackTrace();
-            }
-            return null;
-        }
-    }
-    public static List<RunningServerInfo> listRunningInstancesPorts() {
-        if (OS.isLinux() || OS.isMacintosh()) {
-            final ArrayList<RunningServerInfo> result = new ArrayList<>();
-            final String cmd = "ps -Af | grep -E 'cef_server .*'";
-            RunningServerInfo defaultArgsServer = null;
-
-            try {
-                Process process = new ProcessBuilder("bash", "-c", cmd).redirectErrorStream(true).start();
-                try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream(), StandardCharsets.UTF_8))) {
-                    //   UID PID   PPID ....
-                    //   501 80516 80489   0 Fri07AM ??         1:52.31 /Users/..../Contents/Frameworks/cef_server.app/Contents/MacOS/cef_server --port=6188 --logfile=/Users/.../jcef_80489.log --loglevel=5 --params=/var/folders/1k/hmmg06wx2bn4dwfq53wy6c_c0000gn/T/cef_server_params.txt
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        if (line.contains("grep -E"))
-                            continue;
-
-                        line = line.trim();
-                        final int posSp0 = line.indexOf(" ");
-                        int posSp0End = posSp0 + 1;
-                        while (posSp0End < line.length() && line.charAt(posSp0End) == ' ') ++posSp0End;
-                        final int posSp1 = line.indexOf(" ", posSp0End);
-                        int posSp1End = posSp1 + 1;
-                        while (posSp1End < line.length() && line.charAt(posSp1End) == ' ') ++posSp1End;
-                        final int posSp2 = line.indexOf(" ", posSp1End);
-                        int posSp2End = posSp2 + 1;
-                        while (posSp2End < line.length() && line.charAt(posSp2End) == ' ') ++posSp2End;
-
-                        final int pid = Integer.parseInt(line.substring(posSp0End, posSp1));
-                        final int ppid = Integer.parseInt(line.substring(posSp1End, posSp2));
-
-                        final int pos0 = line.indexOf("--port=");
-                        if (pos0 < 0) {
-                            if (OS.isMacintosh() && line.contains("cef_server Helper"))
-                                continue;
-                            defaultArgsServer = new RunningServerInfo(new ThriftTransport(9999), pid, ppid);
-                        } else {
-                            final int pos1 = line.indexOf(" ", pos0 + 7);
-                            String sport = line.substring(pos0 + 7, pos1);
-                            try {
-                                result.add(new RunningServerInfo(new ThriftTransport(Integer.parseInt(sport)), pid, ppid));
-                            } catch (NumberFormatException e) {
-                                System.out.println("Can't parse port number: " + sport);
-                            }
-                        }
-                    }
-                }
-
-                process.waitFor();
-            } catch (IOException | InterruptedException e) {
-                System.err.println("Failed to execute command: " + e.getMessage());
-                e.printStackTrace();
-            }
-
-            if (defaultArgsServer != null)
-                result.add(defaultArgsServer);
-
-            return result;
-        }
-
-        // Windows
-        System.out.println("listAllRunningInstances: not implemented for Windows yet.");
-        return new ArrayList<>();
-    }
-
-    public static List<RunningServerInfo> listRunningInstances() {
-        final List<RunningServerInfo> running = new ArrayList<>();
-        if (ThriftTransport.isTcpUsed()) {
-            final List<RunningServerInfo> ports = listRunningInstancesPorts();
-            if (!ports.isEmpty()) {
-                CefLog.Debug("Found %d running instances (ports).", ports.size());
-                for (RunningServerInfo s : ports)
-                    running.add(s);
-            }
-        } else {
-            File[] pipes = ThriftTransport.findPipes();
-            if (pipes != null && pipes.length > 0) {
-                CefLog.Debug("Found %d running instances (pipes).", pipes.length);
-                for (File pipe : pipes)
-                    running.add(new RunningServerInfo(new ThriftTransport(pipe), -1, -1));
-            }
-        }
-        return running;
-    }
-
-    public static List<String> findRunningInstancesRoots() {
-        final List<RunningServerInfo> running = listRunningInstances();
-        if (running == null || running.isEmpty())
-            return null;
-
-        List<String> existingRoots = new ArrayList<>();
-        for (RunningServerInfo server: running) {
-            RpcExecutor exec = new RpcExecutor();
-            try {
-                exec.openPipeTransport(server.transport);
-                String newRoot = exec.execObj(s -> s.getServerInfo("root"));
-                if (newRoot != null) {
-                    existingRoots.add(newRoot);
-                    CefLog.Info("Found cef_server instance root_cache_path '%s' (transport=%s).", newRoot, server.transport);
-                } else
-                    CefLog.Debug("cef_server instance (transport=%s) returns null root", server.transport);
-                exec.closeTransport();
-            } catch (TTransportException e) {
-                CefLog.Debug("getServerInfo (with transport '%s') failed with exception: %s", server.transport  , e.getMessage());
-            }
-        }
-
-        return existingRoots.isEmpty() ? null : existingRoots;
-    }
-
     private static boolean isDefaultRoot(String rootPath) {
         if (OS.isWindows())
             return rootPath.compareToIgnoreCase("~\\AppData\\Local\\CEF\\User Data") == 0;
@@ -350,7 +199,7 @@ public class NativeServerManager {
     }
 
     private static boolean fixRootInSettingsImpl(CefSettings settings, String newRootDirName) {
-        List<String> runningInstancesRoots = NativeServerManager.findRunningInstancesRoots();
+        List<String> runningInstancesRoots = ProcessLister.findRunningInstancesRoots();
         if (runningInstancesRoots == null || runningInstancesRoots.isEmpty())
             return false;
 

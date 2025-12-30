@@ -28,8 +28,8 @@ import java.util.stream.Stream;
 
 public class ServersManagerGUI {
     JFrame frame;
-    DefaultListModel<NativeServerManager.RunningServerInfo> listModel;
-    JList<NativeServerManager.RunningServerInfo> runningList;
+    DefaultListModel<ProcessLister.RunningServerInfo> listModel;
+    JList<ProcessLister.RunningServerInfo> runningList;
     static TextArea logArea = new TextArea();
 
     // Remembered settings
@@ -102,7 +102,7 @@ public class ServersManagerGUI {
     private void updateRunningServersList() {
         SwingUtilities.invokeLater(()->{
             listModel.clear();
-            NativeServerManager.listRunningInstancesPorts().forEach(s -> listModel.addElement(s));
+            ProcessLister.listRunningInstancesPorts().forEach(s -> listModel.addElement(s));
         });
     }
 
@@ -147,7 +147,7 @@ public class ServersManagerGUI {
                                                           int index, boolean isSelected, boolean cellHasFocus) {
                 JLabel label = (JLabel) super.getListCellRendererComponent(
                         list, value, index, isSelected, cellHasFocus);
-                NativeServerManager.RunningServerInfo si = (NativeServerManager.RunningServerInfo)value;
+                ProcessLister.RunningServerInfo si = (ProcessLister.RunningServerInfo)value;
                 label.setText(String.format("port %2d (parent: %s)", si.transport.getPort(), si.getParentProcessCmd())); // right-align 2-digit numbers
                 return label;
             }
@@ -163,7 +163,7 @@ public class ServersManagerGUI {
                 } else if (e.getClickCount() == 2) {
                     int index = runningList.locationToIndex(e.getPoint());
                     if (index >= 0 && index < listModel.size()) {
-                        NativeServerManager.RunningServerInfo value = listModel.get(index);
+                        ProcessLister.RunningServerInfo value = listModel.get(index);
                         new ServerControls(value);
                     }
                 }
@@ -174,7 +174,7 @@ public class ServersManagerGUI {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER && !runningList.isSelectionEmpty()) {
-                    NativeServerManager.RunningServerInfo value = runningList.getSelectedValue();
+                    ProcessLister.RunningServerInfo value = runningList.getSelectedValue();
                     new ServerControls(value);
                 }
             }
@@ -447,7 +447,7 @@ public class ServersManagerGUI {
             return CefApp.getInstance(new CefServer(null, transport, null, null, connectAsMaster));
         }
 
-        ServerControls(NativeServerManager.RunningServerInfo serverInfo) {
+        ServerControls(ProcessLister.RunningServerInfo serverInfo) {
             setTitle("Server " + serverInfo.transport.toString() + " | parent: " + serverInfo.getParentProcessCmd());
             setLayout(new BorderLayout());
 

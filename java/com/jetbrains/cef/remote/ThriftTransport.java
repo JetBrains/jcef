@@ -59,12 +59,12 @@ public class ThriftTransport {
                 JPanel panel = new JPanel(new BorderLayout());
                 panel.add(portComponent, BorderLayout.SOUTH);
 
-                List<NativeServerManager.RunningServerInfo> runningPorts = NativeServerManager.listRunningInstancesPorts();
+                List<ProcessLister.RunningServerInfo> runningPorts = ProcessLister.listRunningInstancesPorts();
                 if (runningPorts != null && !runningPorts.isEmpty()) {
                     // Fill list
                     String[] runningList = new String[runningPorts.size()];
                     int c = 0;
-                    for (NativeServerManager.RunningServerInfo s : runningPorts)
+                    for (ProcessLister.RunningServerInfo s : runningPorts)
                         runningList[c++] = s.transport.myPort + ", parent: " + s.getParentProcessCmd();
                     JList<String> list = new JList<>(runningList);
                     list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
