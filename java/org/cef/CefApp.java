@@ -270,7 +270,7 @@ public class CefApp extends CefAppHandlerAdapter {
      * @return an instance of this class
      */
     public static synchronized CefApp getInstance() {
-       if (self == null)
+       if (self != null)
            return self;
 
         return getInstance(null, null, null);

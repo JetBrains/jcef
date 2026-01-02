@@ -105,7 +105,7 @@ public abstract class JCefAppConfig {
             }
 
             appConfig.loader = new SystemBootstrap.Loader() {
-                final private Set<String> bundledLibs = new HashSet<>(Arrays.asList("chrome_elf", "jcef", "libcef"));
+                final private Set<String> bundledLibs = new HashSet<>(Arrays.asList("chrome_elf", "jcef", "libcef", "shared_mem_helper"));
                 @Override
                 public void loadLibrary(String libname) {
                     if (bundledLibs.contains(libname)) {
