@@ -158,7 +158,7 @@ public class CefApp extends CefAppHandlerAdapter {
     private static final int PREINIT_TEST_DELAY_MS = Utils.getInteger("jcef_app_preinit_test_delay_ms", 0);
     private static final int INIT_TEST_DELAY_MS = Utils.getInteger("jcef_app_init_test_delay_ms", 0);
 
-    private static final AtomicReference<Boolean> isRemoteEnabled_ = new AtomicReference<>();
+    private static boolean isRemoteEnabled_ = isRemoteSupported() && Boolean.getBoolean("jcef.remote.enabled");
 
     /**
      * To get an instance of this class, use the method
@@ -403,17 +403,11 @@ public class CefApp extends CefAppHandlerAdapter {
     }
 
     public static void setIsRemoteEnabled(boolean value) {
-        if(!isRemoteEnabled_.compareAndSet(null, value)) {
-            throw new IllegalStateException("CefApp: setIsRemoteEnabled can be called only once.");
-        }
+        isRemoteEnabled_ = value;
     }
 
     public static boolean isRemoteEnabled() {
-        Boolean value = isRemoteEnabled_.get();
-        if (value != null) {
-            return value;
-        }
-        throw new IllegalStateException("CefApp: isRemoteEnabled is not initialized.");
+        return isRemoteEnabled_;
     }
 
     public final CefServer getServer() { return server_; }
