@@ -23,6 +23,7 @@ export -f clean
 RELEASE_PATH="$JCEF_ROOT_DIR"/jcef_build/native/${CEF_BUILD_TYPE}
 ARTIFACT=jcef_mac_${TARGET_ARCH}
 ARTIFACT_SERVER=cef_server_mac_${TARGET_ARCH}
+ARTIFACT_NATIVE_BUNDLE=jcef_native_bundle_mac_${TARGET_ARCH}
 
 clean arm64
 clean x86_64
@@ -53,6 +54,14 @@ cp -r "${RELEASE_PATH}/jcef_app.app/Contents/Frameworks/Chromium Embedded Framew
 echo "*** create jcef.version file..."
 bash "$JB_TOOLS_DIR"/common/create_version_file.sh $ARTIFACT
 
+echo "*** create standalone native bundle..."
+rm -rf "$ARTIFACT_NATIVE_BUNDLE" && mkdir -p "$ARTIFACT_NATIVE_BUNDLE"/jcef
+cp -R "$RELEASE_PATH"/jcef_app.app/Contents/Frameworks "$ARTIFACT_NATIVE_BUNDLE"/jcef/
+cp -R "$RELEASE_PATH"/../../remote/"$CEF_BUILD_TYPE"/cef_server.app "$ARTIFACT_NATIVE_BUNDLE"/jcef/Frameworks/
+cp "$RELEASE_PATH"/../../remote/"$CEF_BUILD_TYPE"/libshared_mem_helper.dylib "$ARTIFACT_NATIVE_BUNDLE"/jcef/
+cp "$RELEASE_PATH"/../../native/"$CEF_BUILD_TYPE"/libjcef.dylib "$ARTIFACT_NATIVE_BUNDLE"/jcef/
+cp "$ARTIFACT/jcef.version" "$ARTIFACT_NATIVE_BUNDLE"/jcef
+
 echo "*** create archive..."
 # shellcheck disable=SC2046
 tar -cvzf "$ARTIFACT.tar.gz" -C "$ARTIFACT" $(ls "$ARTIFACT")
@@ -63,6 +72,11 @@ echo "*** create cef_server archive..."
 tar -cvzf "$ARTIFACT_SERVER.tar.gz" -C "$ARTIFACT_SERVER" $(ls "$ARTIFACT_SERVER")
 rm -rf "$ARTIFACT_SERVER"
 ls -lah "$ARTIFACT_SERVER.tar.gz"
+
+echo "*** create standalone native bundle archive..."
+tar -cvzf "$ARTIFACT_NATIVE_BUNDLE.tar.gz" -C "$ARTIFACT_NATIVE_BUNDLE" jcef
+rm -rf "$ARTIFACT_NATIVE_BUNDLE"
+ls -lah "$ARTIFACT_NATIVE_BUNDLE.tar.gz"
 
 cp "$OUT_CLS_DIR"/jcef-tests.jar .
 
