@@ -62,6 +62,21 @@ cp "$RELEASE_PATH"/../../remote/"$CEF_BUILD_TYPE"/libshared_mem_helper.dylib "$A
 cp "$RELEASE_PATH"/../../native/"$CEF_BUILD_TYPE"/libjcef.dylib "$ARTIFACT_NATIVE_BUNDLE"/jcef/
 cp "$ARTIFACT/jcef.version" "$ARTIFACT_NATIVE_BUNDLE"/jcef
 
+echo "*** singing native bundle..."
+if [[ -n "${CODESIGN_CLIENT:-}" ]]; then
+  # 1) dylibs + executables
+  find "$ARTIFACT_NATIVE_BUNDLE"/jcef -type f \( -name '*.dylib' -o -perm -111 \) | while read -r line; do
+    "$script_dir"/sign.sh "$line" || exit 1
+  done
+
+  # 2) frameworks + apps, deepest first
+  find "$ARTIFACT_NATIVE_BUNDLE"/jcef -depth -type d \( -name '*.framework' -o -name '*.app' \) | while read -r line; do
+    "$script_dir"/sign.sh "$line" || exit 1
+  done
+else
+    echo "No CODESIGN_CLIENT defined: code sign skipped"
+fi
+
 echo "*** create archive..."
 # shellcheck disable=SC2046
 tar -cvzf "$ARTIFACT.tar.gz" -C "$ARTIFACT" $(ls "$ARTIFACT")

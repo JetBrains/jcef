@@ -87,7 +87,7 @@ elif [[ -d "$INPUT_ABS" ]]; then
 
   sign_with_retry -log-format text -max-wait 1m -denoted-content-type application/x-mac-app-targz -extensions mac_codesign_identity="$CODESIGN_STRING",mac_codesign_options=runtime,mac_codesign_force=true,mac_codesign_entitlements="$script_dir"/entitlements.xml "$TMP_TAR"
 
-  SIGNED_TAR="$SIGNED_DIR/$(basename "$TMP_TAR")"  # expects ./signed/to_be_signed.tar.gz
+  SIGNED_TAR="$SIGNED_DIR/$(basename "$TMP_TAR")"
   if [[ ! -f "$SIGNED_TAR" ]]; then
     echo "Error: expected signed archive not found: $SIGNED_TAR" >&2
     exit 1
