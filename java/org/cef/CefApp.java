@@ -25,11 +25,9 @@ import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Supplier;
 
 /**
@@ -323,7 +321,7 @@ public class CefApp extends CefAppHandlerAdapter {
         return self;
     }
 
-    public static synchronized CefApp getInstance(String[] args, CefSettings settings, ThriftTransport st) {
+    public static synchronized CefApp getInstance(String[] args, CefSettings settings, ThriftTransport st, File serverExe) {
         if (isRemoteEnabled()) {
             // 1. Get command line args (from passed arguments and userAppHandler_)
             final String[] realArgs;
@@ -345,7 +343,7 @@ public class CefApp extends CefAppHandlerAdapter {
             }
 
             // 3. Create new CefApp instance.
-            s = new CefServer(st, realArgs, settings, serverExe);
+            s = new CefServer(serverExe, st, realArgs, settings);
             CefApp result = new CefApp(realArgs, settings, s);
 
             // 4. Set default instance

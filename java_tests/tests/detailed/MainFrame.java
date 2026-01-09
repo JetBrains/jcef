@@ -129,7 +129,7 @@ public class MainFrame extends BrowserFrame {
             settings.windowless_rendering_enabled = osrEnabled;
             // try to load URL "about:blank" to see the background color
             settings.background_color = settings.new ColorType(100, 255, 242, 211);
-            cefApp = CefApp.getInstance(args, settings);
+            cefApp = CefApp.getInstance(args, settings, null);
 
             CefVersion version = cefApp.getVersion();
             System.out.println("Using:\n" + version);

@@ -54,7 +54,10 @@ public class CefServer {
     public final Map<Integer, RemoteBrowser> bid2Browser = new ConcurrentHashMap<>();
 
     public CefServer(ThriftTransport transport, String[] args, CefSettings settings) {
-        this(NativeServerManager.getServerExe(), transport, args, settings, true);
+        this(NativeServerManager.getServerExe(), transport, args, settings);
+    }
+    public CefServer(File serverExe, ThriftTransport transport, String[] args, CefSettings settings) {
+        this(serverExe, transport, args, settings, true);
     }
     public CefServer(File serverExe, ThriftTransport transport, String[] args, CefSettings settings, boolean connectAsMaster) {
         myThriftServer = transport;

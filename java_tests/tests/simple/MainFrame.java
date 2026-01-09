@@ -85,7 +85,7 @@ public class MainFrame extends JFrame {
         };
         CefApp.addAppHandler(appHandler);
         CefSettings settings = config.getCefSettings();
-        CefApp result = CefApp.getInstance(settings);
+        CefApp result = CefApp.getInstance(null, settings, null);
 
         if (CefApp.isRemoteEnabled()) {
             result.setDisconnectionCallback(()->{
