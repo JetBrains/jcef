@@ -43,7 +43,6 @@ import java.util.concurrent.TimeUnit;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class BasicJcefTest {
-    private static final boolean SKIP_BASIC_CHECK = Utils.getBoolean("JCEF_TESTS_SKIP_BASIC_CHECK");
     private static final boolean BASIC_CHECK_WITHOUT_UI = Utils.getBoolean("JCEF_TESTS_BASIC_CHECK_WITHOUT_UI");
     private static final long WAIT_TIMEOUT_MS = Utils.getInteger("WAIT_SERVER_TIMEOUT_MS", 30000); // 30 sec
     private static final String TCP_KEY = "CEF_SERVER_USE_TCP";
@@ -54,28 +53,8 @@ public class BasicJcefTest {
 
     @Test
     @Order(1)
-    void testServerManagerPipe() {
-        if (SKIP_BASIC_CHECK || !CefApp.isRemoteEnabled())
-            return;
-
-        final String isTcpPrev = System.getProperty(TCP_KEY);
-        System.setProperty(TCP_KEY, "false");
-        try {
-            CefLog.Info("Test NativeServerManager with PIPE transport (timeout=%d ms).", WAIT_TIMEOUT_MS);
-            testServerManagerImpl(WAIT_TIMEOUT_MS, true);
-            testServerManagerImpl(WAIT_TIMEOUT_MS, false);
-        } finally {
-            if (isTcpPrev != null && !isTcpPrev.isEmpty())
-                System.setProperty(TCP_KEY, isTcpPrev);
-            else
-                System.clearProperty(TCP_KEY);
-        }
-    }
-
-    @Test
-    @Order(2)
     void testServerManagerTcp() {
-        if (SKIP_BASIC_CHECK || !CefApp.isRemoteEnabled())
+        if (!CefApp.isRemoteEnabled())
             return;
 
         final String isTcpPrev = System.getProperty(TCP_KEY);
@@ -211,9 +190,9 @@ public class BasicJcefTest {
     }
 
     @Test
-    @Order(3)
+    @Order(2)
     void testMultipleInstances() {
-        if (SKIP_BASIC_CHECK || !CefApp.isRemoteEnabled())
+        if (!CefApp.isRemoteEnabled())
             return;
 
         ThriftTransport thriftServer = ThriftTransport.ourDefaultServer;
@@ -277,11 +256,8 @@ public class BasicJcefTest {
     }
 
     @Test
-    @Order(4)
+    @Order(3)
     void testBrowserCreation() {
-        if (SKIP_BASIC_CHECK)
-            return;
-
         final long start = System.currentTimeMillis();
         CefInitHelper.initializeCef();
 
@@ -586,6 +562,24 @@ public class BasicJcefTest {
             ps.flush();
         }, "Client");
         threadClient.start();
+    }
+
+    void testServerManagerPipe() {
+        if (!CefApp.isRemoteEnabled())
+            return;
+
+        final String isTcpPrev = System.getProperty(TCP_KEY);
+        System.setProperty(TCP_KEY, "false");
+        try {
+            CefLog.Info("Test NativeServerManager with PIPE transport (timeout=%d ms).", WAIT_TIMEOUT_MS);
+            testServerManagerImpl(WAIT_TIMEOUT_MS, true);
+            testServerManagerImpl(WAIT_TIMEOUT_MS, false);
+        } finally {
+            if (isTcpPrev != null && !isTcpPrev.isEmpty())
+                System.setProperty(TCP_KEY, isTcpPrev);
+            else
+                System.clearProperty(TCP_KEY);
+        }
     }
 
     public static void main(String[] args) {
