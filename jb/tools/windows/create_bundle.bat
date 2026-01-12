@@ -49,6 +49,18 @@ if exist "%JCEF_ROOT_DIR%\%ARTIFACT_SERVER%.tar.gz" (
 bash -c "tar -cvzf $ARTIFACT_SERVER.tar.gz -C cef_server $(ls cef_server)" || goto:__exit
 rmdir /s /q cef_server || goto:__exit
 
+echo *** create native standalone bundle...
+if exist native_bundle rd /s /q native_bundle
+mkdir native_bundle
+xcopy /E /Y "%OUT_REMOTE_DIR%\bin\*" native_bundle\
+xcopy /E /Y "%OUT_REMOTE_DIR%\lib\*" native_bundle\
+copy /Y "%OUT_REMOTE_DIR%\shared_mem_helper.dll" native_bundle\
+copy /Y "%OUT_NATIVE_DIR%\jcef.dll" native_bundle\
+copy /Y "%OUT_NATIVE_DIR%\jcef_helper.dll" native_bundle\
+copy /Y "%OUT_NATIVE_DIR%\jcef_helper.exe" native_bundle\
+del /f /q native_bundle\*.pdb
+del /f /q native_bundle\*.log
+
 sed -i "s/\r$//" "%JB_TOOLS_DIR%"\common\create_version_file.sh
 bash "%JB_TOOLS_DIR%"\common\create_version_file.sh %ARTIFACT_DIR%
 
