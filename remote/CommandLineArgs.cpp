@@ -217,26 +217,31 @@ void CommandLineArgs::prepareCefSettings(void * pCefSettings) {
                                        .append("cef_server Helper")
                                        .lexically_normal();
     if (utils::isFileExist(path.c_str())) {
-      Log::debug("Will be used browser_subprocess_path '%s'", path.c_str());
+      Log::debug("Set CefSettings.browser_subprocess_path=%s", path.c_str());
       CefString(&settings.browser_subprocess_path) = path.string();
     } else
       Log::error("Empty browser_subprocess_path.");
   }
 #elif defined(OS_WIN)
-  auto installation_root =
-      boost::filesystem::current_path().append("..").lexically_normal();
+  const bool doSetResourcesPath = getBoolEnv("CEF_SERVER_CommandLineArgs_SetResourcesPath");
+  if (doSetResourcesPath) {
+    auto installation_root =
+        boost::filesystem::current_path().append("..").lexically_normal();
 
-  boost::filesystem::path resources_dir_path =
-      installation_root.append("lib");
-  boost::filesystem::path framework_dir_path =
-      installation_root.append("bin");
+    boost::filesystem::path resources_dir_path =
+        installation_root.append("lib");
+    boost::filesystem::path framework_dir_path =
+        installation_root.append("bin");
 
-  std::string resources_path = resources_dir_path.string();
-  std::string locales_dir_path =
-      resources_dir_path.append("locales").string();
+    std::string resources_path = resources_dir_path.string();
+    std::string locales_dir_path =
+        resources_dir_path.append("locales").string();
 
-  CefString(&settings.resources_dir_path).FromString(resources_path);
-  CefString(&settings.locales_dir_path).FromString(locales_dir_path);
+    CefString(&settings.resources_dir_path).FromString(resources_path);
+    CefString(&settings.locales_dir_path).FromString(locales_dir_path);
+    Log::debug("Set CefSettings.resources_dir_path=%s", resources_path.c_str());
+    Log::debug("Set CefSettings.locales_dir_path=%s", locales_dir_path.c_str());
+  }
 #endif
 
 #if defined(OS_POSIX)
