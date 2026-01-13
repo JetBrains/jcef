@@ -45,6 +45,26 @@ INPUT_ABS="$(cd "$(dirname "$INPUT_PATH")" && pwd)/$(basename "$INPUT_PATH")"
 INPUT_DIRNAME="$(dirname "$INPUT_ABS")"
 INPUT_BASENAME="$(basename "$INPUT_ABS")"
 
+EXEC_ABS_PATHS=()
+
+snapshot_execs() {
+    EXEC_ABS_PATHS=()
+    while IFS= read -r -d '' f; do
+      EXEC_ABS_PATHS+=("$f")
+      echo "Found executable: '$f'" >&2
+    done < <(find "$INPUT_ABS" -type f -perm -111 -print0)
+}
+
+restore_exec() {
+  local f
+  for f in "${EXEC_ABS_PATHS[@]}"; do
+    if [[ -f "$f" ]]; then
+      chmod a+x "$f"
+      echo "Restored executable: '$f'" >&2
+    fi
+  done
+}
+
 sign_with_retry() {
   local attempts=3
   local delay_sec=30
@@ -68,6 +88,10 @@ sign_with_retry() {
   echo "Error: signing failed after $attempts attempts." >&2
   return 1
 }
+
+# Begin
+
+snapshot_execs
 
 if [[ -f "$INPUT_ABS" ]]; then
   sign_with_retry -log-format text -max-wait 1m -denoted-content-type application/x-mac-app-bin "$INPUT_ABS"
@@ -102,3 +126,7 @@ else
   echo "Error: path is neither a regular file nor a directory: $INPUT_ABS" >&2
   exit 1
 fi
+
+restore_exec
+
+# End
