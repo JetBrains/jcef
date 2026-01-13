@@ -30,7 +30,7 @@ void fillDummy(CefRect& rect) {
 
 void RemoteRenderHandler::GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect) {
     fillDummy(rect);
-    Rect result;
+    thrift_codegen::Rect result;
     result.w = -1; // invalidate
     FIND_BID_OR_RETURN();
     myService->exec([&](const JavaService& s){
@@ -84,7 +84,7 @@ void fillDummy(CefScreenInfo& screen_info) {
 bool RemoteRenderHandler::GetScreenInfo(CefRefPtr<CefBrowser> browser,
                                   CefScreenInfo& screen_info) {
     fillDummy(screen_info);
-    ScreenInfo result;
+    thrift_codegen::ScreenInfo result;
     result.depth = -1;// invalidate
     FIND_BID_OR_RETURN_VAL(false);
     myService->exec([&](const JavaService& s){
@@ -154,7 +154,7 @@ void RemoteRenderHandler::OnPopupSize(CefRefPtr<CefBrowser> browser,
   if (doTrace)
     Log::trace("RemoteRenderHandler::OnPopupSize: bid=%d, x=%d y=%d w=%d h=%d)", bid, rect.x, rect.y, rect.width, rect.height);
   myService->exec([&](const JavaService& s) {
-    Rect size;
+    thrift_codegen::Rect size;
     size.x = rect.x;
     size.y = rect.y;
     size.w = rect.width;
@@ -340,10 +340,10 @@ void RemoteRenderHandler::OnImeCompositionRangeChanged(
   if (doTrace)
     Log::trace("RemoteRenderHandler::OnImeCompositionRangeChanged: bid=%d, cef_character_bounds.size=%d", bid, cef_character_bounds.size());
   myService->exec([&](const JavaService& s) {
-    Range selected_range;
+    thrift_codegen::Range selected_range;
     selected_range.from = cef_selected_range.from;
     selected_range.to = cef_selected_range.to;
-    std::vector<Rect> character_bounds;
+    std::vector<thrift_codegen::Rect> character_bounds;
 
     for (const auto& r : cef_character_bounds) {
       character_bounds.emplace_back();
