@@ -10,7 +10,7 @@
 
     <groupId>org.jetbrains.intellij.deps.jcef</groupId>
     <artifactId>jcef</artifactId>
-    <version>137.0.17-gf354b0e-chromium-137.0.7151.104-api-1.20-${revision}</version>
+    <version>137.0.17-gf354b0e-chromium-137.0.7151.104-api-1.21-${revision}</version>
 
     <build>
         <plugins>
