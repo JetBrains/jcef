@@ -49,8 +49,9 @@ void RemoteRenderHandler::GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& re
     rect.height = result.h;
 
     if (rect.width < 1 || rect.height < 1) {
+      if (doTrace)
         Log::trace("RemoteRenderHandler::GetViewRect: bid=%d, small size %d %d", bid, rect.width, rect.height);
-        fillDummy(rect);
+      fillDummy(rect);
     }
     if (doTrace)
       Log::trace("RemoteRenderHandler::GetViewRect: bid=%d, result: %d %d %d %d", bid, rect.x, rect.y, rect.width, rect.height);

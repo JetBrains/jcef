@@ -284,19 +284,15 @@ void ServerHandler::getServerInfo(std::string& _return, const std::string& reque
   if (!client)                                              \
     return val;
 
-#define GET_COOKIE_MANAGER_OR_RETURN()                                            \
-  auto manager = RemoteCookieManager::find(cookieManager.objId); \
-  if (manager == nullptr) {                                                       \
-    Log::error("ServerHandler: can't find RemoteCookieManager by id=%d", cookieManager.objId);   \
-    return;                                                                       \
-  }
+#define GET_COOKIE_MANAGER_OR_RETURN()                          \
+  auto manager = RemoteCookieManager::get(cookieManager.objId); \
+  if (manager == nullptr)                                       \
+    return;
 
-#define GET_COOKIE_MANAGER_OR_RETURN_VAL(val)                                     \
-  auto manager = RemoteCookieManager::find(cookieManager.objId); \
-  if (manager == nullptr) {                                                       \
-    Log::error("ServerHandler: can't find RemoteCookieManager by id=%d", cookieManager.objId);   \
-    return val;                                                                       \
-  }
+#define GET_COOKIE_MANAGER_OR_RETURN_VAL(val)                   \
+  auto manager = RemoteCookieManager::get(cookieManager.objId); \
+  if (manager == nullptr)                                       \
+    return val;
 
 void ServerHandler::Browser_CloseDevTools(const int32_t bid) {
   MEASURE;

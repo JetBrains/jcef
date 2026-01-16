@@ -11,10 +11,10 @@
 template <class T>
 class ServerObjectsFactory {
  public:
-  ServerObjectsFactory() {
+  ServerObjectsFactory() : myTemplateName(utils::demangle(typeid(T).name())) {
     DebugInfo::addInfoProvider([&]() -> std::string {
       std::unique_lock lock(myMapMutex);
-      return string_format("Factory<%s>: size=%d", utils::demangle(typeid(T).name()).c_str(), myItems.size());
+      return string_format("Factory<%s>: size=%d", myTemplateName.c_str(), myItems.size());
     });
   }
 
@@ -51,12 +51,14 @@ class ServerObjectsFactory {
   }
 
   void setTrace(const std::string & prefix) { myTracePrefix = prefix; }
+  const std::string & getTemplateName() const { return myTemplateName; }
 
  private:
   std::map<int, std::shared_ptr<T>> myItems;
   std::recursive_mutex myMapMutex;
   std::mutex myIdMutex;
   std::string myTracePrefix; // only for debugging
+  const std::string myTemplateName; // only for debugging
 };
 
 template <class T, class D>
@@ -78,14 +80,10 @@ class RemoteServerObjectBase {
     return robj;
   }
 
-  static std::shared_ptr<T> find(int id) {
-    return FACTORY.find(id);
-  }
-
   static std::shared_ptr<T> get(int id) {
     std::shared_ptr<T> result = FACTORY.find(id);
     if (result == nullptr)
-      Log::error("Can't find remote object by id %d", id);
+      Log::error("Can't find remote object of type '%s' by id %d", FACTORY.getTemplateName().c_str(), id);
     return result;
   }
 

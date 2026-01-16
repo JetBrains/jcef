@@ -4,6 +4,9 @@
 #include "../browser/RemoteFrame.h"
 #include "../browser/RemoteBrowser.h"
 
+namespace {
+const bool doTrace = getBoolEnv("CEF_SERVER_TRACE_RemoteLoadHandler");
+}
 
 RemoteLoadHandler::RemoteLoadHandler(std::shared_ptr<RpcExecutor> service) : myService(service) {}
 
@@ -12,6 +15,8 @@ void RemoteLoadHandler::OnLoadingStateChange(CefRefPtr<CefBrowser> browser,
                           bool canGoBack,
                           bool canGoForward) {
   FIND_BID_OR_RETURN();
+  if (doTrace)
+    Log::trace("RemoteLoadHandler::OnLoadingStateChange: bid=%d, isLoading=%d", bid, isLoading);
   myService->exec([&](const JavaService& s){
     s->LoadHandler_OnLoadingStateChange(
         bid,
@@ -24,6 +29,8 @@ void RemoteLoadHandler::OnLoadStart(CefRefPtr<CefBrowser> browser,
                  CefRefPtr<CefFrame> frame,
                  CefLoadHandler::TransitionType transition_type) {
   FIND_BID_OR_RETURN();
+  if (doTrace)
+    Log::trace("RemoteLoadHandler::OnLoadStart: bid=%d, frame->GetIdentifier()=%s", bid, frame->GetIdentifier().c_str());
   RemoteFrame::Holder frm(frame);
   myService->exec([&](const JavaService& s){
     s->LoadHandler_OnLoadStart(bid, frm.serverId(), transition_type);
@@ -34,10 +41,14 @@ void RemoteLoadHandler::OnLoadEnd(CefRefPtr<CefBrowser> browser,
                CefRefPtr<CefFrame> frame,
                int httpStatusCode) {
   FIND_BID_OR_RETURN();
+  if (doTrace)
+    Log::trace("RemoteLoadHandler::OnLoadEnd: bid=%d, frame->GetIdentifier()=%s", bid, frame->GetIdentifier().c_str());
   RemoteFrame::Holder frm(frame);
   myService->exec([&](const JavaService& s){
     s->LoadHandler_OnLoadEnd(bid, frm.serverId(), httpStatusCode);
   });
+  if (doTrace)
+    Log::trace("RemoteLoadHandler::OnLoadEnd: finished");
 }
 
 void RemoteLoadHandler::OnLoadError(CefRefPtr<CefBrowser> browser,
@@ -46,6 +57,8 @@ void RemoteLoadHandler::OnLoadError(CefRefPtr<CefBrowser> browser,
                  const CefString& errorText,
                  const CefString& failedUrl) {
   FIND_BID_OR_RETURN();
+  if (doTrace)
+    Log::trace("RemoteLoadHandler::OnLoadError: bid=%d, frame->GetIdentifier()=%s, errCode=%d, errText=%s, failedUrl=%s", bid, frame->GetIdentifier().c_str(), errorCode, errorText.c_str(), failedUrl.c_str());
   RemoteFrame::Holder frm(frame);
   myService->exec([&](const JavaService& s){
     s->LoadHandler_OnLoadError(bid, frm.serverId(), errorCode, errorText.ToString(), failedUrl.ToString());
