@@ -8971,6 +8971,83 @@ uint32_t Server_Frame_ExecuteJavaScript_pargs::write(::apache::thrift::protocol:
 }
 
 
+Server_Frame_ExecuteJavaScript_result::~Server_Frame_ExecuteJavaScript_result() noexcept {
+}
+
+
+uint32_t Server_Frame_ExecuteJavaScript_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    xfer += iprot->skip(ftype);
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Server_Frame_ExecuteJavaScript_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("Server_Frame_ExecuteJavaScript_result");
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_Frame_ExecuteJavaScript_presult::~Server_Frame_ExecuteJavaScript_presult() noexcept {
+}
+
+
+uint32_t Server_Frame_ExecuteJavaScript_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    xfer += iprot->skip(ftype);
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+
 Server_Frame_Dispose_args::~Server_Frame_Dispose_args() noexcept {
 }
 
@@ -9316,6 +9393,83 @@ uint32_t Server_Frame_Undo_pargs::write(::apache::thrift::protocol::TProtocol* o
 }
 
 
+Server_Frame_Undo_result::~Server_Frame_Undo_result() noexcept {
+}
+
+
+uint32_t Server_Frame_Undo_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    xfer += iprot->skip(ftype);
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Server_Frame_Undo_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("Server_Frame_Undo_result");
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_Frame_Undo_presult::~Server_Frame_Undo_presult() noexcept {
+}
+
+
+uint32_t Server_Frame_Undo_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    xfer += iprot->skip(ftype);
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+
 Server_Frame_Redo_args::~Server_Frame_Redo_args() noexcept {
 }
 
@@ -9391,6 +9545,83 @@ uint32_t Server_Frame_Redo_pargs::write(::apache::thrift::protocol::TProtocol* o
 
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_Frame_Redo_result::~Server_Frame_Redo_result() noexcept {
+}
+
+
+uint32_t Server_Frame_Redo_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    xfer += iprot->skip(ftype);
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Server_Frame_Redo_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("Server_Frame_Redo_result");
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_Frame_Redo_presult::~Server_Frame_Redo_presult() noexcept {
+}
+
+
+uint32_t Server_Frame_Redo_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    xfer += iprot->skip(ftype);
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
   return xfer;
 }
 
@@ -9474,6 +9705,83 @@ uint32_t Server_Frame_Cut_pargs::write(::apache::thrift::protocol::TProtocol* op
 }
 
 
+Server_Frame_Cut_result::~Server_Frame_Cut_result() noexcept {
+}
+
+
+uint32_t Server_Frame_Cut_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    xfer += iprot->skip(ftype);
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Server_Frame_Cut_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("Server_Frame_Cut_result");
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_Frame_Cut_presult::~Server_Frame_Cut_presult() noexcept {
+}
+
+
+uint32_t Server_Frame_Cut_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    xfer += iprot->skip(ftype);
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+
 Server_Frame_Copy_args::~Server_Frame_Copy_args() noexcept {
 }
 
@@ -9549,6 +9857,83 @@ uint32_t Server_Frame_Copy_pargs::write(::apache::thrift::protocol::TProtocol* o
 
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_Frame_Copy_result::~Server_Frame_Copy_result() noexcept {
+}
+
+
+uint32_t Server_Frame_Copy_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    xfer += iprot->skip(ftype);
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Server_Frame_Copy_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("Server_Frame_Copy_result");
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_Frame_Copy_presult::~Server_Frame_Copy_presult() noexcept {
+}
+
+
+uint32_t Server_Frame_Copy_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    xfer += iprot->skip(ftype);
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
   return xfer;
 }
 
@@ -9632,6 +10017,83 @@ uint32_t Server_Frame_Paste_pargs::write(::apache::thrift::protocol::TProtocol* 
 }
 
 
+Server_Frame_Paste_result::~Server_Frame_Paste_result() noexcept {
+}
+
+
+uint32_t Server_Frame_Paste_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    xfer += iprot->skip(ftype);
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Server_Frame_Paste_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("Server_Frame_Paste_result");
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_Frame_Paste_presult::~Server_Frame_Paste_presult() noexcept {
+}
+
+
+uint32_t Server_Frame_Paste_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    xfer += iprot->skip(ftype);
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+
 Server_Frame_Delete_args::~Server_Frame_Delete_args() noexcept {
 }
 
@@ -9711,6 +10173,83 @@ uint32_t Server_Frame_Delete_pargs::write(::apache::thrift::protocol::TProtocol*
 }
 
 
+Server_Frame_Delete_result::~Server_Frame_Delete_result() noexcept {
+}
+
+
+uint32_t Server_Frame_Delete_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    xfer += iprot->skip(ftype);
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Server_Frame_Delete_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("Server_Frame_Delete_result");
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_Frame_Delete_presult::~Server_Frame_Delete_presult() noexcept {
+}
+
+
+uint32_t Server_Frame_Delete_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    xfer += iprot->skip(ftype);
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+
 Server_Frame_SelectAll_args::~Server_Frame_SelectAll_args() noexcept {
 }
 
@@ -9786,6 +10325,83 @@ uint32_t Server_Frame_SelectAll_pargs::write(::apache::thrift::protocol::TProtoc
 
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_Frame_SelectAll_result::~Server_Frame_SelectAll_result() noexcept {
+}
+
+
+uint32_t Server_Frame_SelectAll_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    xfer += iprot->skip(ftype);
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Server_Frame_SelectAll_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("Server_Frame_SelectAll_result");
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_Frame_SelectAll_presult::~Server_Frame_SelectAll_presult() noexcept {
+}
+
+
+uint32_t Server_Frame_SelectAll_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    xfer += iprot->skip(ftype);
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
   return xfer;
 }
 
@@ -19024,12 +19640,13 @@ void ServerClient::send_Browser_ImeCancelComposing(const int32_t bid)
 void ServerClient::Frame_ExecuteJavaScript(const int32_t frameId, const std::string& code, const std::string& url, const int32_t line)
 {
   send_Frame_ExecuteJavaScript(frameId, code, url, line);
+  recv_Frame_ExecuteJavaScript();
 }
 
 void ServerClient::send_Frame_ExecuteJavaScript(const int32_t frameId, const std::string& code, const std::string& url, const int32_t line)
 {
   int32_t cseqid = 0;
-  oprot_->writeMessageBegin("Frame_ExecuteJavaScript", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+  oprot_->writeMessageBegin("Frame_ExecuteJavaScript", ::apache::thrift::protocol::T_CALL, cseqid);
 
   Server_Frame_ExecuteJavaScript_pargs args;
   args.frameId = &frameId;
@@ -19041,6 +19658,39 @@ void ServerClient::send_Frame_ExecuteJavaScript(const int32_t frameId, const std
   oprot_->writeMessageEnd();
   oprot_->getTransport()->writeEnd();
   oprot_->getTransport()->flush();
+}
+
+void ServerClient::recv_Frame_ExecuteJavaScript()
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("Frame_ExecuteJavaScript") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  Server_Frame_ExecuteJavaScript_presult result;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  return;
 }
 
 void ServerClient::Frame_Dispose(const int32_t frameId)
@@ -19123,12 +19773,13 @@ void ServerClient::recv_Frame_GetParent( ::thrift_codegen::RObject& _return)
 void ServerClient::Frame_Undo(const int32_t frameId)
 {
   send_Frame_Undo(frameId);
+  recv_Frame_Undo();
 }
 
 void ServerClient::send_Frame_Undo(const int32_t frameId)
 {
   int32_t cseqid = 0;
-  oprot_->writeMessageBegin("Frame_Undo", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+  oprot_->writeMessageBegin("Frame_Undo", ::apache::thrift::protocol::T_CALL, cseqid);
 
   Server_Frame_Undo_pargs args;
   args.frameId = &frameId;
@@ -19139,15 +19790,49 @@ void ServerClient::send_Frame_Undo(const int32_t frameId)
   oprot_->getTransport()->flush();
 }
 
+void ServerClient::recv_Frame_Undo()
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("Frame_Undo") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  Server_Frame_Undo_presult result;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  return;
+}
+
 void ServerClient::Frame_Redo(const int32_t frameId)
 {
   send_Frame_Redo(frameId);
+  recv_Frame_Redo();
 }
 
 void ServerClient::send_Frame_Redo(const int32_t frameId)
 {
   int32_t cseqid = 0;
-  oprot_->writeMessageBegin("Frame_Redo", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+  oprot_->writeMessageBegin("Frame_Redo", ::apache::thrift::protocol::T_CALL, cseqid);
 
   Server_Frame_Redo_pargs args;
   args.frameId = &frameId;
@@ -19158,15 +19843,49 @@ void ServerClient::send_Frame_Redo(const int32_t frameId)
   oprot_->getTransport()->flush();
 }
 
+void ServerClient::recv_Frame_Redo()
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("Frame_Redo") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  Server_Frame_Redo_presult result;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  return;
+}
+
 void ServerClient::Frame_Cut(const int32_t frameId)
 {
   send_Frame_Cut(frameId);
+  recv_Frame_Cut();
 }
 
 void ServerClient::send_Frame_Cut(const int32_t frameId)
 {
   int32_t cseqid = 0;
-  oprot_->writeMessageBegin("Frame_Cut", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+  oprot_->writeMessageBegin("Frame_Cut", ::apache::thrift::protocol::T_CALL, cseqid);
 
   Server_Frame_Cut_pargs args;
   args.frameId = &frameId;
@@ -19177,15 +19896,49 @@ void ServerClient::send_Frame_Cut(const int32_t frameId)
   oprot_->getTransport()->flush();
 }
 
+void ServerClient::recv_Frame_Cut()
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("Frame_Cut") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  Server_Frame_Cut_presult result;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  return;
+}
+
 void ServerClient::Frame_Copy(const int32_t frameId)
 {
   send_Frame_Copy(frameId);
+  recv_Frame_Copy();
 }
 
 void ServerClient::send_Frame_Copy(const int32_t frameId)
 {
   int32_t cseqid = 0;
-  oprot_->writeMessageBegin("Frame_Copy", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+  oprot_->writeMessageBegin("Frame_Copy", ::apache::thrift::protocol::T_CALL, cseqid);
 
   Server_Frame_Copy_pargs args;
   args.frameId = &frameId;
@@ -19196,15 +19949,49 @@ void ServerClient::send_Frame_Copy(const int32_t frameId)
   oprot_->getTransport()->flush();
 }
 
+void ServerClient::recv_Frame_Copy()
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("Frame_Copy") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  Server_Frame_Copy_presult result;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  return;
+}
+
 void ServerClient::Frame_Paste(const int32_t frameId)
 {
   send_Frame_Paste(frameId);
+  recv_Frame_Paste();
 }
 
 void ServerClient::send_Frame_Paste(const int32_t frameId)
 {
   int32_t cseqid = 0;
-  oprot_->writeMessageBegin("Frame_Paste", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+  oprot_->writeMessageBegin("Frame_Paste", ::apache::thrift::protocol::T_CALL, cseqid);
 
   Server_Frame_Paste_pargs args;
   args.frameId = &frameId;
@@ -19215,15 +20002,49 @@ void ServerClient::send_Frame_Paste(const int32_t frameId)
   oprot_->getTransport()->flush();
 }
 
+void ServerClient::recv_Frame_Paste()
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("Frame_Paste") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  Server_Frame_Paste_presult result;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  return;
+}
+
 void ServerClient::Frame_Delete(const int32_t frameId)
 {
   send_Frame_Delete(frameId);
+  recv_Frame_Delete();
 }
 
 void ServerClient::send_Frame_Delete(const int32_t frameId)
 {
   int32_t cseqid = 0;
-  oprot_->writeMessageBegin("Frame_Delete", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+  oprot_->writeMessageBegin("Frame_Delete", ::apache::thrift::protocol::T_CALL, cseqid);
 
   Server_Frame_Delete_pargs args;
   args.frameId = &frameId;
@@ -19234,15 +20055,49 @@ void ServerClient::send_Frame_Delete(const int32_t frameId)
   oprot_->getTransport()->flush();
 }
 
+void ServerClient::recv_Frame_Delete()
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("Frame_Delete") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  Server_Frame_Delete_presult result;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  return;
+}
+
 void ServerClient::Frame_SelectAll(const int32_t frameId)
 {
   send_Frame_SelectAll(frameId);
+  recv_Frame_SelectAll();
 }
 
 void ServerClient::send_Frame_SelectAll(const int32_t frameId)
 {
   int32_t cseqid = 0;
-  oprot_->writeMessageBegin("Frame_SelectAll", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+  oprot_->writeMessageBegin("Frame_SelectAll", ::apache::thrift::protocol::T_CALL, cseqid);
 
   Server_Frame_SelectAll_pargs args;
   args.frameId = &frameId;
@@ -19251,6 +20106,39 @@ void ServerClient::send_Frame_SelectAll(const int32_t frameId)
   oprot_->writeMessageEnd();
   oprot_->getTransport()->writeEnd();
   oprot_->getTransport()->flush();
+}
+
+void ServerClient::recv_Frame_SelectAll()
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("Frame_SelectAll") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  Server_Frame_SelectAll_presult result;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  return;
 }
 
 void ServerClient::Request_Create( ::thrift_codegen::RObject& _return)
@@ -24013,7 +24901,7 @@ void ServerProcessor::process_Browser_ImeCancelComposing(int32_t, ::apache::thri
   return;
 }
 
-void ServerProcessor::process_Frame_ExecuteJavaScript(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+void ServerProcessor::process_Frame_ExecuteJavaScript(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = nullptr;
   if (this->eventHandler_.get() != nullptr) {
@@ -24034,20 +24922,36 @@ void ServerProcessor::process_Frame_ExecuteJavaScript(int32_t, ::apache::thrift:
     this->eventHandler_->postRead(ctx, "Server.Frame_ExecuteJavaScript", bytes);
   }
 
+  Server_Frame_ExecuteJavaScript_result result;
   try {
     iface_->Frame_ExecuteJavaScript(args.frameId, args.code, args.url, args.line);
-  } catch (const std::exception&) {
+  } catch (const std::exception& e) {
     if (this->eventHandler_.get() != nullptr) {
       this->eventHandler_->handlerError(ctx, "Server.Frame_ExecuteJavaScript");
     }
+
+    ::apache::thrift::TApplicationException x(e.what());
+    oprot->writeMessageBegin("Frame_ExecuteJavaScript", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    x.write(oprot);
+    oprot->writeMessageEnd();
+    oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
     return;
   }
 
   if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->asyncComplete(ctx, "Server.Frame_ExecuteJavaScript");
+    this->eventHandler_->preWrite(ctx, "Server.Frame_ExecuteJavaScript");
   }
 
-  return;
+  oprot->writeMessageBegin("Frame_ExecuteJavaScript", ::apache::thrift::protocol::T_REPLY, seqid);
+  result.write(oprot);
+  oprot->writeMessageEnd();
+  bytes = oprot->getTransport()->writeEnd();
+  oprot->getTransport()->flush();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postWrite(ctx, "Server.Frame_ExecuteJavaScript", bytes);
+  }
 }
 
 void ServerProcessor::process_Frame_Dispose(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
@@ -24141,7 +25045,7 @@ void ServerProcessor::process_Frame_GetParent(int32_t seqid, ::apache::thrift::p
   }
 }
 
-void ServerProcessor::process_Frame_Undo(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+void ServerProcessor::process_Frame_Undo(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = nullptr;
   if (this->eventHandler_.get() != nullptr) {
@@ -24162,23 +25066,39 @@ void ServerProcessor::process_Frame_Undo(int32_t, ::apache::thrift::protocol::TP
     this->eventHandler_->postRead(ctx, "Server.Frame_Undo", bytes);
   }
 
+  Server_Frame_Undo_result result;
   try {
     iface_->Frame_Undo(args.frameId);
-  } catch (const std::exception&) {
+  } catch (const std::exception& e) {
     if (this->eventHandler_.get() != nullptr) {
       this->eventHandler_->handlerError(ctx, "Server.Frame_Undo");
     }
+
+    ::apache::thrift::TApplicationException x(e.what());
+    oprot->writeMessageBegin("Frame_Undo", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    x.write(oprot);
+    oprot->writeMessageEnd();
+    oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
     return;
   }
 
   if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->asyncComplete(ctx, "Server.Frame_Undo");
+    this->eventHandler_->preWrite(ctx, "Server.Frame_Undo");
   }
 
-  return;
+  oprot->writeMessageBegin("Frame_Undo", ::apache::thrift::protocol::T_REPLY, seqid);
+  result.write(oprot);
+  oprot->writeMessageEnd();
+  bytes = oprot->getTransport()->writeEnd();
+  oprot->getTransport()->flush();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postWrite(ctx, "Server.Frame_Undo", bytes);
+  }
 }
 
-void ServerProcessor::process_Frame_Redo(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+void ServerProcessor::process_Frame_Redo(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = nullptr;
   if (this->eventHandler_.get() != nullptr) {
@@ -24199,23 +25119,39 @@ void ServerProcessor::process_Frame_Redo(int32_t, ::apache::thrift::protocol::TP
     this->eventHandler_->postRead(ctx, "Server.Frame_Redo", bytes);
   }
 
+  Server_Frame_Redo_result result;
   try {
     iface_->Frame_Redo(args.frameId);
-  } catch (const std::exception&) {
+  } catch (const std::exception& e) {
     if (this->eventHandler_.get() != nullptr) {
       this->eventHandler_->handlerError(ctx, "Server.Frame_Redo");
     }
+
+    ::apache::thrift::TApplicationException x(e.what());
+    oprot->writeMessageBegin("Frame_Redo", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    x.write(oprot);
+    oprot->writeMessageEnd();
+    oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
     return;
   }
 
   if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->asyncComplete(ctx, "Server.Frame_Redo");
+    this->eventHandler_->preWrite(ctx, "Server.Frame_Redo");
   }
 
-  return;
+  oprot->writeMessageBegin("Frame_Redo", ::apache::thrift::protocol::T_REPLY, seqid);
+  result.write(oprot);
+  oprot->writeMessageEnd();
+  bytes = oprot->getTransport()->writeEnd();
+  oprot->getTransport()->flush();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postWrite(ctx, "Server.Frame_Redo", bytes);
+  }
 }
 
-void ServerProcessor::process_Frame_Cut(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+void ServerProcessor::process_Frame_Cut(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = nullptr;
   if (this->eventHandler_.get() != nullptr) {
@@ -24236,23 +25172,39 @@ void ServerProcessor::process_Frame_Cut(int32_t, ::apache::thrift::protocol::TPr
     this->eventHandler_->postRead(ctx, "Server.Frame_Cut", bytes);
   }
 
+  Server_Frame_Cut_result result;
   try {
     iface_->Frame_Cut(args.frameId);
-  } catch (const std::exception&) {
+  } catch (const std::exception& e) {
     if (this->eventHandler_.get() != nullptr) {
       this->eventHandler_->handlerError(ctx, "Server.Frame_Cut");
     }
+
+    ::apache::thrift::TApplicationException x(e.what());
+    oprot->writeMessageBegin("Frame_Cut", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    x.write(oprot);
+    oprot->writeMessageEnd();
+    oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
     return;
   }
 
   if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->asyncComplete(ctx, "Server.Frame_Cut");
+    this->eventHandler_->preWrite(ctx, "Server.Frame_Cut");
   }
 
-  return;
+  oprot->writeMessageBegin("Frame_Cut", ::apache::thrift::protocol::T_REPLY, seqid);
+  result.write(oprot);
+  oprot->writeMessageEnd();
+  bytes = oprot->getTransport()->writeEnd();
+  oprot->getTransport()->flush();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postWrite(ctx, "Server.Frame_Cut", bytes);
+  }
 }
 
-void ServerProcessor::process_Frame_Copy(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+void ServerProcessor::process_Frame_Copy(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = nullptr;
   if (this->eventHandler_.get() != nullptr) {
@@ -24273,23 +25225,39 @@ void ServerProcessor::process_Frame_Copy(int32_t, ::apache::thrift::protocol::TP
     this->eventHandler_->postRead(ctx, "Server.Frame_Copy", bytes);
   }
 
+  Server_Frame_Copy_result result;
   try {
     iface_->Frame_Copy(args.frameId);
-  } catch (const std::exception&) {
+  } catch (const std::exception& e) {
     if (this->eventHandler_.get() != nullptr) {
       this->eventHandler_->handlerError(ctx, "Server.Frame_Copy");
     }
+
+    ::apache::thrift::TApplicationException x(e.what());
+    oprot->writeMessageBegin("Frame_Copy", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    x.write(oprot);
+    oprot->writeMessageEnd();
+    oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
     return;
   }
 
   if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->asyncComplete(ctx, "Server.Frame_Copy");
+    this->eventHandler_->preWrite(ctx, "Server.Frame_Copy");
   }
 
-  return;
+  oprot->writeMessageBegin("Frame_Copy", ::apache::thrift::protocol::T_REPLY, seqid);
+  result.write(oprot);
+  oprot->writeMessageEnd();
+  bytes = oprot->getTransport()->writeEnd();
+  oprot->getTransport()->flush();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postWrite(ctx, "Server.Frame_Copy", bytes);
+  }
 }
 
-void ServerProcessor::process_Frame_Paste(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+void ServerProcessor::process_Frame_Paste(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = nullptr;
   if (this->eventHandler_.get() != nullptr) {
@@ -24310,23 +25278,39 @@ void ServerProcessor::process_Frame_Paste(int32_t, ::apache::thrift::protocol::T
     this->eventHandler_->postRead(ctx, "Server.Frame_Paste", bytes);
   }
 
+  Server_Frame_Paste_result result;
   try {
     iface_->Frame_Paste(args.frameId);
-  } catch (const std::exception&) {
+  } catch (const std::exception& e) {
     if (this->eventHandler_.get() != nullptr) {
       this->eventHandler_->handlerError(ctx, "Server.Frame_Paste");
     }
+
+    ::apache::thrift::TApplicationException x(e.what());
+    oprot->writeMessageBegin("Frame_Paste", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    x.write(oprot);
+    oprot->writeMessageEnd();
+    oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
     return;
   }
 
   if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->asyncComplete(ctx, "Server.Frame_Paste");
+    this->eventHandler_->preWrite(ctx, "Server.Frame_Paste");
   }
 
-  return;
+  oprot->writeMessageBegin("Frame_Paste", ::apache::thrift::protocol::T_REPLY, seqid);
+  result.write(oprot);
+  oprot->writeMessageEnd();
+  bytes = oprot->getTransport()->writeEnd();
+  oprot->getTransport()->flush();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postWrite(ctx, "Server.Frame_Paste", bytes);
+  }
 }
 
-void ServerProcessor::process_Frame_Delete(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+void ServerProcessor::process_Frame_Delete(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = nullptr;
   if (this->eventHandler_.get() != nullptr) {
@@ -24347,23 +25331,39 @@ void ServerProcessor::process_Frame_Delete(int32_t, ::apache::thrift::protocol::
     this->eventHandler_->postRead(ctx, "Server.Frame_Delete", bytes);
   }
 
+  Server_Frame_Delete_result result;
   try {
     iface_->Frame_Delete(args.frameId);
-  } catch (const std::exception&) {
+  } catch (const std::exception& e) {
     if (this->eventHandler_.get() != nullptr) {
       this->eventHandler_->handlerError(ctx, "Server.Frame_Delete");
     }
+
+    ::apache::thrift::TApplicationException x(e.what());
+    oprot->writeMessageBegin("Frame_Delete", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    x.write(oprot);
+    oprot->writeMessageEnd();
+    oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
     return;
   }
 
   if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->asyncComplete(ctx, "Server.Frame_Delete");
+    this->eventHandler_->preWrite(ctx, "Server.Frame_Delete");
   }
 
-  return;
+  oprot->writeMessageBegin("Frame_Delete", ::apache::thrift::protocol::T_REPLY, seqid);
+  result.write(oprot);
+  oprot->writeMessageEnd();
+  bytes = oprot->getTransport()->writeEnd();
+  oprot->getTransport()->flush();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postWrite(ctx, "Server.Frame_Delete", bytes);
+  }
 }
 
-void ServerProcessor::process_Frame_SelectAll(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+void ServerProcessor::process_Frame_SelectAll(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = nullptr;
   if (this->eventHandler_.get() != nullptr) {
@@ -24384,20 +25384,36 @@ void ServerProcessor::process_Frame_SelectAll(int32_t, ::apache::thrift::protoco
     this->eventHandler_->postRead(ctx, "Server.Frame_SelectAll", bytes);
   }
 
+  Server_Frame_SelectAll_result result;
   try {
     iface_->Frame_SelectAll(args.frameId);
-  } catch (const std::exception&) {
+  } catch (const std::exception& e) {
     if (this->eventHandler_.get() != nullptr) {
       this->eventHandler_->handlerError(ctx, "Server.Frame_SelectAll");
     }
+
+    ::apache::thrift::TApplicationException x(e.what());
+    oprot->writeMessageBegin("Frame_SelectAll", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    x.write(oprot);
+    oprot->writeMessageEnd();
+    oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
     return;
   }
 
   if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->asyncComplete(ctx, "Server.Frame_SelectAll");
+    this->eventHandler_->preWrite(ctx, "Server.Frame_SelectAll");
   }
 
-  return;
+  oprot->writeMessageBegin("Frame_SelectAll", ::apache::thrift::protocol::T_REPLY, seqid);
+  result.write(oprot);
+  oprot->writeMessageEnd();
+  bytes = oprot->getTransport()->writeEnd();
+  oprot->getTransport()->flush();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postWrite(ctx, "Server.Frame_SelectAll", bytes);
+  }
 }
 
 void ServerProcessor::process_Request_Create(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
@@ -29610,14 +30626,15 @@ void ServerConcurrentClient::send_Browser_ImeCancelComposing(const int32_t bid)
 
 void ServerConcurrentClient::Frame_ExecuteJavaScript(const int32_t frameId, const std::string& code, const std::string& url, const int32_t line)
 {
-  send_Frame_ExecuteJavaScript(frameId, code, url, line);
+  int32_t seqid = send_Frame_ExecuteJavaScript(frameId, code, url, line);
+  recv_Frame_ExecuteJavaScript(seqid);
 }
 
-void ServerConcurrentClient::send_Frame_ExecuteJavaScript(const int32_t frameId, const std::string& code, const std::string& url, const int32_t line)
+int32_t ServerConcurrentClient::send_Frame_ExecuteJavaScript(const int32_t frameId, const std::string& code, const std::string& url, const int32_t line)
 {
-  int32_t cseqid = 0;
+  int32_t cseqid = this->sync_->generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
-  oprot_->writeMessageBegin("Frame_ExecuteJavaScript", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+  oprot_->writeMessageBegin("Frame_ExecuteJavaScript", ::apache::thrift::protocol::T_CALL, cseqid);
 
   Server_Frame_ExecuteJavaScript_pargs args;
   args.frameId = &frameId;
@@ -29631,6 +30648,61 @@ void ServerConcurrentClient::send_Frame_ExecuteJavaScript(const int32_t frameId,
   oprot_->getTransport()->flush();
 
   sentry.commit();
+  return cseqid;
+}
+
+void ServerConcurrentClient::recv_Frame_ExecuteJavaScript(const int32_t seqid)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  // the read mutex gets dropped and reacquired as part of waitForWork()
+  // The destructor of this sentry wakes up other clients
+  ::apache::thrift::async::TConcurrentRecvSentry sentry(this->sync_.get(), seqid);
+
+  while(true) {
+    if(!this->sync_->getPending(fname, mtype, rseqid)) {
+      iprot_->readMessageBegin(fname, mtype, rseqid);
+    }
+    if(seqid == rseqid) {
+      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+        ::apache::thrift::TApplicationException x;
+        x.read(iprot_);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+        sentry.commit();
+        throw x;
+      }
+      if (mtype != ::apache::thrift::protocol::T_REPLY) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+      }
+      if (fname.compare("Frame_ExecuteJavaScript") != 0) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+
+        // in a bad state, don't commit
+        using ::apache::thrift::protocol::TProtocolException;
+        throw TProtocolException(TProtocolException::INVALID_DATA);
+      }
+      Server_Frame_ExecuteJavaScript_presult result;
+      result.read(iprot_);
+      iprot_->readMessageEnd();
+      iprot_->getTransport()->readEnd();
+
+      sentry.commit();
+      return;
+    }
+    // seqid != rseqid
+    this->sync_->updatePending(fname, mtype, rseqid);
+
+    // this will temporarily unlock the readMutex, and let other clients get work done
+    this->sync_->waitForWork(seqid);
+  } // end while(true)
 }
 
 void ServerConcurrentClient::Frame_Dispose(const int32_t frameId)
@@ -29741,14 +30813,15 @@ void ServerConcurrentClient::recv_Frame_GetParent( ::thrift_codegen::RObject& _r
 
 void ServerConcurrentClient::Frame_Undo(const int32_t frameId)
 {
-  send_Frame_Undo(frameId);
+  int32_t seqid = send_Frame_Undo(frameId);
+  recv_Frame_Undo(seqid);
 }
 
-void ServerConcurrentClient::send_Frame_Undo(const int32_t frameId)
+int32_t ServerConcurrentClient::send_Frame_Undo(const int32_t frameId)
 {
-  int32_t cseqid = 0;
+  int32_t cseqid = this->sync_->generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
-  oprot_->writeMessageBegin("Frame_Undo", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+  oprot_->writeMessageBegin("Frame_Undo", ::apache::thrift::protocol::T_CALL, cseqid);
 
   Server_Frame_Undo_pargs args;
   args.frameId = &frameId;
@@ -29759,18 +30832,74 @@ void ServerConcurrentClient::send_Frame_Undo(const int32_t frameId)
   oprot_->getTransport()->flush();
 
   sentry.commit();
+  return cseqid;
+}
+
+void ServerConcurrentClient::recv_Frame_Undo(const int32_t seqid)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  // the read mutex gets dropped and reacquired as part of waitForWork()
+  // The destructor of this sentry wakes up other clients
+  ::apache::thrift::async::TConcurrentRecvSentry sentry(this->sync_.get(), seqid);
+
+  while(true) {
+    if(!this->sync_->getPending(fname, mtype, rseqid)) {
+      iprot_->readMessageBegin(fname, mtype, rseqid);
+    }
+    if(seqid == rseqid) {
+      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+        ::apache::thrift::TApplicationException x;
+        x.read(iprot_);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+        sentry.commit();
+        throw x;
+      }
+      if (mtype != ::apache::thrift::protocol::T_REPLY) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+      }
+      if (fname.compare("Frame_Undo") != 0) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+
+        // in a bad state, don't commit
+        using ::apache::thrift::protocol::TProtocolException;
+        throw TProtocolException(TProtocolException::INVALID_DATA);
+      }
+      Server_Frame_Undo_presult result;
+      result.read(iprot_);
+      iprot_->readMessageEnd();
+      iprot_->getTransport()->readEnd();
+
+      sentry.commit();
+      return;
+    }
+    // seqid != rseqid
+    this->sync_->updatePending(fname, mtype, rseqid);
+
+    // this will temporarily unlock the readMutex, and let other clients get work done
+    this->sync_->waitForWork(seqid);
+  } // end while(true)
 }
 
 void ServerConcurrentClient::Frame_Redo(const int32_t frameId)
 {
-  send_Frame_Redo(frameId);
+  int32_t seqid = send_Frame_Redo(frameId);
+  recv_Frame_Redo(seqid);
 }
 
-void ServerConcurrentClient::send_Frame_Redo(const int32_t frameId)
+int32_t ServerConcurrentClient::send_Frame_Redo(const int32_t frameId)
 {
-  int32_t cseqid = 0;
+  int32_t cseqid = this->sync_->generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
-  oprot_->writeMessageBegin("Frame_Redo", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+  oprot_->writeMessageBegin("Frame_Redo", ::apache::thrift::protocol::T_CALL, cseqid);
 
   Server_Frame_Redo_pargs args;
   args.frameId = &frameId;
@@ -29781,18 +30910,74 @@ void ServerConcurrentClient::send_Frame_Redo(const int32_t frameId)
   oprot_->getTransport()->flush();
 
   sentry.commit();
+  return cseqid;
+}
+
+void ServerConcurrentClient::recv_Frame_Redo(const int32_t seqid)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  // the read mutex gets dropped and reacquired as part of waitForWork()
+  // The destructor of this sentry wakes up other clients
+  ::apache::thrift::async::TConcurrentRecvSentry sentry(this->sync_.get(), seqid);
+
+  while(true) {
+    if(!this->sync_->getPending(fname, mtype, rseqid)) {
+      iprot_->readMessageBegin(fname, mtype, rseqid);
+    }
+    if(seqid == rseqid) {
+      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+        ::apache::thrift::TApplicationException x;
+        x.read(iprot_);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+        sentry.commit();
+        throw x;
+      }
+      if (mtype != ::apache::thrift::protocol::T_REPLY) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+      }
+      if (fname.compare("Frame_Redo") != 0) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+
+        // in a bad state, don't commit
+        using ::apache::thrift::protocol::TProtocolException;
+        throw TProtocolException(TProtocolException::INVALID_DATA);
+      }
+      Server_Frame_Redo_presult result;
+      result.read(iprot_);
+      iprot_->readMessageEnd();
+      iprot_->getTransport()->readEnd();
+
+      sentry.commit();
+      return;
+    }
+    // seqid != rseqid
+    this->sync_->updatePending(fname, mtype, rseqid);
+
+    // this will temporarily unlock the readMutex, and let other clients get work done
+    this->sync_->waitForWork(seqid);
+  } // end while(true)
 }
 
 void ServerConcurrentClient::Frame_Cut(const int32_t frameId)
 {
-  send_Frame_Cut(frameId);
+  int32_t seqid = send_Frame_Cut(frameId);
+  recv_Frame_Cut(seqid);
 }
 
-void ServerConcurrentClient::send_Frame_Cut(const int32_t frameId)
+int32_t ServerConcurrentClient::send_Frame_Cut(const int32_t frameId)
 {
-  int32_t cseqid = 0;
+  int32_t cseqid = this->sync_->generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
-  oprot_->writeMessageBegin("Frame_Cut", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+  oprot_->writeMessageBegin("Frame_Cut", ::apache::thrift::protocol::T_CALL, cseqid);
 
   Server_Frame_Cut_pargs args;
   args.frameId = &frameId;
@@ -29803,18 +30988,74 @@ void ServerConcurrentClient::send_Frame_Cut(const int32_t frameId)
   oprot_->getTransport()->flush();
 
   sentry.commit();
+  return cseqid;
+}
+
+void ServerConcurrentClient::recv_Frame_Cut(const int32_t seqid)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  // the read mutex gets dropped and reacquired as part of waitForWork()
+  // The destructor of this sentry wakes up other clients
+  ::apache::thrift::async::TConcurrentRecvSentry sentry(this->sync_.get(), seqid);
+
+  while(true) {
+    if(!this->sync_->getPending(fname, mtype, rseqid)) {
+      iprot_->readMessageBegin(fname, mtype, rseqid);
+    }
+    if(seqid == rseqid) {
+      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+        ::apache::thrift::TApplicationException x;
+        x.read(iprot_);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+        sentry.commit();
+        throw x;
+      }
+      if (mtype != ::apache::thrift::protocol::T_REPLY) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+      }
+      if (fname.compare("Frame_Cut") != 0) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+
+        // in a bad state, don't commit
+        using ::apache::thrift::protocol::TProtocolException;
+        throw TProtocolException(TProtocolException::INVALID_DATA);
+      }
+      Server_Frame_Cut_presult result;
+      result.read(iprot_);
+      iprot_->readMessageEnd();
+      iprot_->getTransport()->readEnd();
+
+      sentry.commit();
+      return;
+    }
+    // seqid != rseqid
+    this->sync_->updatePending(fname, mtype, rseqid);
+
+    // this will temporarily unlock the readMutex, and let other clients get work done
+    this->sync_->waitForWork(seqid);
+  } // end while(true)
 }
 
 void ServerConcurrentClient::Frame_Copy(const int32_t frameId)
 {
-  send_Frame_Copy(frameId);
+  int32_t seqid = send_Frame_Copy(frameId);
+  recv_Frame_Copy(seqid);
 }
 
-void ServerConcurrentClient::send_Frame_Copy(const int32_t frameId)
+int32_t ServerConcurrentClient::send_Frame_Copy(const int32_t frameId)
 {
-  int32_t cseqid = 0;
+  int32_t cseqid = this->sync_->generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
-  oprot_->writeMessageBegin("Frame_Copy", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+  oprot_->writeMessageBegin("Frame_Copy", ::apache::thrift::protocol::T_CALL, cseqid);
 
   Server_Frame_Copy_pargs args;
   args.frameId = &frameId;
@@ -29825,18 +31066,74 @@ void ServerConcurrentClient::send_Frame_Copy(const int32_t frameId)
   oprot_->getTransport()->flush();
 
   sentry.commit();
+  return cseqid;
+}
+
+void ServerConcurrentClient::recv_Frame_Copy(const int32_t seqid)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  // the read mutex gets dropped and reacquired as part of waitForWork()
+  // The destructor of this sentry wakes up other clients
+  ::apache::thrift::async::TConcurrentRecvSentry sentry(this->sync_.get(), seqid);
+
+  while(true) {
+    if(!this->sync_->getPending(fname, mtype, rseqid)) {
+      iprot_->readMessageBegin(fname, mtype, rseqid);
+    }
+    if(seqid == rseqid) {
+      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+        ::apache::thrift::TApplicationException x;
+        x.read(iprot_);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+        sentry.commit();
+        throw x;
+      }
+      if (mtype != ::apache::thrift::protocol::T_REPLY) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+      }
+      if (fname.compare("Frame_Copy") != 0) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+
+        // in a bad state, don't commit
+        using ::apache::thrift::protocol::TProtocolException;
+        throw TProtocolException(TProtocolException::INVALID_DATA);
+      }
+      Server_Frame_Copy_presult result;
+      result.read(iprot_);
+      iprot_->readMessageEnd();
+      iprot_->getTransport()->readEnd();
+
+      sentry.commit();
+      return;
+    }
+    // seqid != rseqid
+    this->sync_->updatePending(fname, mtype, rseqid);
+
+    // this will temporarily unlock the readMutex, and let other clients get work done
+    this->sync_->waitForWork(seqid);
+  } // end while(true)
 }
 
 void ServerConcurrentClient::Frame_Paste(const int32_t frameId)
 {
-  send_Frame_Paste(frameId);
+  int32_t seqid = send_Frame_Paste(frameId);
+  recv_Frame_Paste(seqid);
 }
 
-void ServerConcurrentClient::send_Frame_Paste(const int32_t frameId)
+int32_t ServerConcurrentClient::send_Frame_Paste(const int32_t frameId)
 {
-  int32_t cseqid = 0;
+  int32_t cseqid = this->sync_->generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
-  oprot_->writeMessageBegin("Frame_Paste", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+  oprot_->writeMessageBegin("Frame_Paste", ::apache::thrift::protocol::T_CALL, cseqid);
 
   Server_Frame_Paste_pargs args;
   args.frameId = &frameId;
@@ -29847,18 +31144,74 @@ void ServerConcurrentClient::send_Frame_Paste(const int32_t frameId)
   oprot_->getTransport()->flush();
 
   sentry.commit();
+  return cseqid;
+}
+
+void ServerConcurrentClient::recv_Frame_Paste(const int32_t seqid)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  // the read mutex gets dropped and reacquired as part of waitForWork()
+  // The destructor of this sentry wakes up other clients
+  ::apache::thrift::async::TConcurrentRecvSentry sentry(this->sync_.get(), seqid);
+
+  while(true) {
+    if(!this->sync_->getPending(fname, mtype, rseqid)) {
+      iprot_->readMessageBegin(fname, mtype, rseqid);
+    }
+    if(seqid == rseqid) {
+      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+        ::apache::thrift::TApplicationException x;
+        x.read(iprot_);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+        sentry.commit();
+        throw x;
+      }
+      if (mtype != ::apache::thrift::protocol::T_REPLY) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+      }
+      if (fname.compare("Frame_Paste") != 0) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+
+        // in a bad state, don't commit
+        using ::apache::thrift::protocol::TProtocolException;
+        throw TProtocolException(TProtocolException::INVALID_DATA);
+      }
+      Server_Frame_Paste_presult result;
+      result.read(iprot_);
+      iprot_->readMessageEnd();
+      iprot_->getTransport()->readEnd();
+
+      sentry.commit();
+      return;
+    }
+    // seqid != rseqid
+    this->sync_->updatePending(fname, mtype, rseqid);
+
+    // this will temporarily unlock the readMutex, and let other clients get work done
+    this->sync_->waitForWork(seqid);
+  } // end while(true)
 }
 
 void ServerConcurrentClient::Frame_Delete(const int32_t frameId)
 {
-  send_Frame_Delete(frameId);
+  int32_t seqid = send_Frame_Delete(frameId);
+  recv_Frame_Delete(seqid);
 }
 
-void ServerConcurrentClient::send_Frame_Delete(const int32_t frameId)
+int32_t ServerConcurrentClient::send_Frame_Delete(const int32_t frameId)
 {
-  int32_t cseqid = 0;
+  int32_t cseqid = this->sync_->generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
-  oprot_->writeMessageBegin("Frame_Delete", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+  oprot_->writeMessageBegin("Frame_Delete", ::apache::thrift::protocol::T_CALL, cseqid);
 
   Server_Frame_Delete_pargs args;
   args.frameId = &frameId;
@@ -29869,18 +31222,74 @@ void ServerConcurrentClient::send_Frame_Delete(const int32_t frameId)
   oprot_->getTransport()->flush();
 
   sentry.commit();
+  return cseqid;
+}
+
+void ServerConcurrentClient::recv_Frame_Delete(const int32_t seqid)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  // the read mutex gets dropped and reacquired as part of waitForWork()
+  // The destructor of this sentry wakes up other clients
+  ::apache::thrift::async::TConcurrentRecvSentry sentry(this->sync_.get(), seqid);
+
+  while(true) {
+    if(!this->sync_->getPending(fname, mtype, rseqid)) {
+      iprot_->readMessageBegin(fname, mtype, rseqid);
+    }
+    if(seqid == rseqid) {
+      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+        ::apache::thrift::TApplicationException x;
+        x.read(iprot_);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+        sentry.commit();
+        throw x;
+      }
+      if (mtype != ::apache::thrift::protocol::T_REPLY) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+      }
+      if (fname.compare("Frame_Delete") != 0) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+
+        // in a bad state, don't commit
+        using ::apache::thrift::protocol::TProtocolException;
+        throw TProtocolException(TProtocolException::INVALID_DATA);
+      }
+      Server_Frame_Delete_presult result;
+      result.read(iprot_);
+      iprot_->readMessageEnd();
+      iprot_->getTransport()->readEnd();
+
+      sentry.commit();
+      return;
+    }
+    // seqid != rseqid
+    this->sync_->updatePending(fname, mtype, rseqid);
+
+    // this will temporarily unlock the readMutex, and let other clients get work done
+    this->sync_->waitForWork(seqid);
+  } // end while(true)
 }
 
 void ServerConcurrentClient::Frame_SelectAll(const int32_t frameId)
 {
-  send_Frame_SelectAll(frameId);
+  int32_t seqid = send_Frame_SelectAll(frameId);
+  recv_Frame_SelectAll(seqid);
 }
 
-void ServerConcurrentClient::send_Frame_SelectAll(const int32_t frameId)
+int32_t ServerConcurrentClient::send_Frame_SelectAll(const int32_t frameId)
 {
-  int32_t cseqid = 0;
+  int32_t cseqid = this->sync_->generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
-  oprot_->writeMessageBegin("Frame_SelectAll", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+  oprot_->writeMessageBegin("Frame_SelectAll", ::apache::thrift::protocol::T_CALL, cseqid);
 
   Server_Frame_SelectAll_pargs args;
   args.frameId = &frameId;
@@ -29891,6 +31300,61 @@ void ServerConcurrentClient::send_Frame_SelectAll(const int32_t frameId)
   oprot_->getTransport()->flush();
 
   sentry.commit();
+  return cseqid;
+}
+
+void ServerConcurrentClient::recv_Frame_SelectAll(const int32_t seqid)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  // the read mutex gets dropped and reacquired as part of waitForWork()
+  // The destructor of this sentry wakes up other clients
+  ::apache::thrift::async::TConcurrentRecvSentry sentry(this->sync_.get(), seqid);
+
+  while(true) {
+    if(!this->sync_->getPending(fname, mtype, rseqid)) {
+      iprot_->readMessageBegin(fname, mtype, rseqid);
+    }
+    if(seqid == rseqid) {
+      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+        ::apache::thrift::TApplicationException x;
+        x.read(iprot_);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+        sentry.commit();
+        throw x;
+      }
+      if (mtype != ::apache::thrift::protocol::T_REPLY) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+      }
+      if (fname.compare("Frame_SelectAll") != 0) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+
+        // in a bad state, don't commit
+        using ::apache::thrift::protocol::TProtocolException;
+        throw TProtocolException(TProtocolException::INVALID_DATA);
+      }
+      Server_Frame_SelectAll_presult result;
+      result.read(iprot_);
+      iprot_->readMessageEnd();
+      iprot_->getTransport()->readEnd();
+
+      sentry.commit();
+      return;
+    }
+    // seqid != rseqid
+    this->sync_->updatePending(fname, mtype, rseqid);
+
+    // this will temporarily unlock the readMutex, and let other clients get work done
+    this->sync_->waitForWork(seqid);
+  } // end while(true)
 }
 
 void ServerConcurrentClient::Request_Create( ::thrift_codegen::RObject& _return)
