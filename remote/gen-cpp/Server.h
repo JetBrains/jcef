@@ -5664,6 +5664,43 @@ class Server_Frame_ExecuteJavaScript_pargs {
 
 };
 
+
+class Server_Frame_ExecuteJavaScript_result {
+ public:
+
+  Server_Frame_ExecuteJavaScript_result(const Server_Frame_ExecuteJavaScript_result&) noexcept;
+  Server_Frame_ExecuteJavaScript_result& operator=(const Server_Frame_ExecuteJavaScript_result&) noexcept;
+  Server_Frame_ExecuteJavaScript_result() noexcept {
+  }
+
+  virtual ~Server_Frame_ExecuteJavaScript_result() noexcept;
+
+  bool operator == (const Server_Frame_ExecuteJavaScript_result & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const Server_Frame_ExecuteJavaScript_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_Frame_ExecuteJavaScript_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_Frame_ExecuteJavaScript_presult {
+ public:
+
+
+  virtual ~Server_Frame_ExecuteJavaScript_presult() noexcept;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
 typedef struct _Server_Frame_Dispose_args__isset {
   _Server_Frame_Dispose_args__isset() : frameId(false) {}
   bool frameId :1;
@@ -5869,6 +5906,43 @@ class Server_Frame_Undo_pargs {
 
 };
 
+
+class Server_Frame_Undo_result {
+ public:
+
+  Server_Frame_Undo_result(const Server_Frame_Undo_result&) noexcept;
+  Server_Frame_Undo_result& operator=(const Server_Frame_Undo_result&) noexcept;
+  Server_Frame_Undo_result() noexcept {
+  }
+
+  virtual ~Server_Frame_Undo_result() noexcept;
+
+  bool operator == (const Server_Frame_Undo_result & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const Server_Frame_Undo_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_Frame_Undo_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_Frame_Undo_presult {
+ public:
+
+
+  virtual ~Server_Frame_Undo_presult() noexcept;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
 typedef struct _Server_Frame_Redo_args__isset {
   _Server_Frame_Redo_args__isset() : frameId(false) {}
   bool frameId :1;
@@ -5916,6 +5990,43 @@ class Server_Frame_Redo_pargs {
   const int32_t* frameId;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_Frame_Redo_result {
+ public:
+
+  Server_Frame_Redo_result(const Server_Frame_Redo_result&) noexcept;
+  Server_Frame_Redo_result& operator=(const Server_Frame_Redo_result&) noexcept;
+  Server_Frame_Redo_result() noexcept {
+  }
+
+  virtual ~Server_Frame_Redo_result() noexcept;
+
+  bool operator == (const Server_Frame_Redo_result & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const Server_Frame_Redo_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_Frame_Redo_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_Frame_Redo_presult {
+ public:
+
+
+  virtual ~Server_Frame_Redo_presult() noexcept;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
 
 };
 
@@ -5969,6 +6080,43 @@ class Server_Frame_Cut_pargs {
 
 };
 
+
+class Server_Frame_Cut_result {
+ public:
+
+  Server_Frame_Cut_result(const Server_Frame_Cut_result&) noexcept;
+  Server_Frame_Cut_result& operator=(const Server_Frame_Cut_result&) noexcept;
+  Server_Frame_Cut_result() noexcept {
+  }
+
+  virtual ~Server_Frame_Cut_result() noexcept;
+
+  bool operator == (const Server_Frame_Cut_result & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const Server_Frame_Cut_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_Frame_Cut_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_Frame_Cut_presult {
+ public:
+
+
+  virtual ~Server_Frame_Cut_presult() noexcept;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
 typedef struct _Server_Frame_Copy_args__isset {
   _Server_Frame_Copy_args__isset() : frameId(false) {}
   bool frameId :1;
@@ -6016,6 +6164,43 @@ class Server_Frame_Copy_pargs {
   const int32_t* frameId;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_Frame_Copy_result {
+ public:
+
+  Server_Frame_Copy_result(const Server_Frame_Copy_result&) noexcept;
+  Server_Frame_Copy_result& operator=(const Server_Frame_Copy_result&) noexcept;
+  Server_Frame_Copy_result() noexcept {
+  }
+
+  virtual ~Server_Frame_Copy_result() noexcept;
+
+  bool operator == (const Server_Frame_Copy_result & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const Server_Frame_Copy_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_Frame_Copy_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_Frame_Copy_presult {
+ public:
+
+
+  virtual ~Server_Frame_Copy_presult() noexcept;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
 
 };
 
@@ -6069,6 +6254,43 @@ class Server_Frame_Paste_pargs {
 
 };
 
+
+class Server_Frame_Paste_result {
+ public:
+
+  Server_Frame_Paste_result(const Server_Frame_Paste_result&) noexcept;
+  Server_Frame_Paste_result& operator=(const Server_Frame_Paste_result&) noexcept;
+  Server_Frame_Paste_result() noexcept {
+  }
+
+  virtual ~Server_Frame_Paste_result() noexcept;
+
+  bool operator == (const Server_Frame_Paste_result & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const Server_Frame_Paste_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_Frame_Paste_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_Frame_Paste_presult {
+ public:
+
+
+  virtual ~Server_Frame_Paste_presult() noexcept;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
 typedef struct _Server_Frame_Delete_args__isset {
   _Server_Frame_Delete_args__isset() : frameId(false) {}
   bool frameId :1;
@@ -6119,6 +6341,43 @@ class Server_Frame_Delete_pargs {
 
 };
 
+
+class Server_Frame_Delete_result {
+ public:
+
+  Server_Frame_Delete_result(const Server_Frame_Delete_result&) noexcept;
+  Server_Frame_Delete_result& operator=(const Server_Frame_Delete_result&) noexcept;
+  Server_Frame_Delete_result() noexcept {
+  }
+
+  virtual ~Server_Frame_Delete_result() noexcept;
+
+  bool operator == (const Server_Frame_Delete_result & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const Server_Frame_Delete_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_Frame_Delete_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_Frame_Delete_presult {
+ public:
+
+
+  virtual ~Server_Frame_Delete_presult() noexcept;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
 typedef struct _Server_Frame_SelectAll_args__isset {
   _Server_Frame_SelectAll_args__isset() : frameId(false) {}
   bool frameId :1;
@@ -6166,6 +6425,43 @@ class Server_Frame_SelectAll_pargs {
   const int32_t* frameId;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_Frame_SelectAll_result {
+ public:
+
+  Server_Frame_SelectAll_result(const Server_Frame_SelectAll_result&) noexcept;
+  Server_Frame_SelectAll_result& operator=(const Server_Frame_SelectAll_result&) noexcept;
+  Server_Frame_SelectAll_result() noexcept {
+  }
+
+  virtual ~Server_Frame_SelectAll_result() noexcept;
+
+  bool operator == (const Server_Frame_SelectAll_result & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const Server_Frame_SelectAll_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_Frame_SelectAll_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_Frame_SelectAll_presult {
+ public:
+
+
+  virtual ~Server_Frame_SelectAll_presult() noexcept;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
 
 };
 
@@ -10184,6 +10480,7 @@ class ServerClient : virtual public ServerIf {
   void send_Browser_ImeCancelComposing(const int32_t bid);
   void Frame_ExecuteJavaScript(const int32_t frameId, const std::string& code, const std::string& url, const int32_t line) override;
   void send_Frame_ExecuteJavaScript(const int32_t frameId, const std::string& code, const std::string& url, const int32_t line);
+  void recv_Frame_ExecuteJavaScript();
   void Frame_Dispose(const int32_t frameId) override;
   void send_Frame_Dispose(const int32_t frameId);
   void Frame_GetParent( ::thrift_codegen::RObject& _return, const int32_t frameId) override;
@@ -10191,18 +10488,25 @@ class ServerClient : virtual public ServerIf {
   void recv_Frame_GetParent( ::thrift_codegen::RObject& _return);
   void Frame_Undo(const int32_t frameId) override;
   void send_Frame_Undo(const int32_t frameId);
+  void recv_Frame_Undo();
   void Frame_Redo(const int32_t frameId) override;
   void send_Frame_Redo(const int32_t frameId);
+  void recv_Frame_Redo();
   void Frame_Cut(const int32_t frameId) override;
   void send_Frame_Cut(const int32_t frameId);
+  void recv_Frame_Cut();
   void Frame_Copy(const int32_t frameId) override;
   void send_Frame_Copy(const int32_t frameId);
+  void recv_Frame_Copy();
   void Frame_Paste(const int32_t frameId) override;
   void send_Frame_Paste(const int32_t frameId);
+  void recv_Frame_Paste();
   void Frame_Delete(const int32_t frameId) override;
   void send_Frame_Delete(const int32_t frameId);
+  void recv_Frame_Delete();
   void Frame_SelectAll(const int32_t frameId) override;
   void send_Frame_SelectAll(const int32_t frameId);
+  void recv_Frame_SelectAll();
   void Request_Create( ::thrift_codegen::RObject& _return) override;
   void send_Request_Create();
   void recv_Request_Create( ::thrift_codegen::RObject& _return);
@@ -11919,26 +12223,34 @@ class ServerConcurrentClient : virtual public ServerIf {
   void Browser_ImeCancelComposing(const int32_t bid) override;
   void send_Browser_ImeCancelComposing(const int32_t bid);
   void Frame_ExecuteJavaScript(const int32_t frameId, const std::string& code, const std::string& url, const int32_t line) override;
-  void send_Frame_ExecuteJavaScript(const int32_t frameId, const std::string& code, const std::string& url, const int32_t line);
+  int32_t send_Frame_ExecuteJavaScript(const int32_t frameId, const std::string& code, const std::string& url, const int32_t line);
+  void recv_Frame_ExecuteJavaScript(const int32_t seqid);
   void Frame_Dispose(const int32_t frameId) override;
   void send_Frame_Dispose(const int32_t frameId);
   void Frame_GetParent( ::thrift_codegen::RObject& _return, const int32_t frameId) override;
   int32_t send_Frame_GetParent(const int32_t frameId);
   void recv_Frame_GetParent( ::thrift_codegen::RObject& _return, const int32_t seqid);
   void Frame_Undo(const int32_t frameId) override;
-  void send_Frame_Undo(const int32_t frameId);
+  int32_t send_Frame_Undo(const int32_t frameId);
+  void recv_Frame_Undo(const int32_t seqid);
   void Frame_Redo(const int32_t frameId) override;
-  void send_Frame_Redo(const int32_t frameId);
+  int32_t send_Frame_Redo(const int32_t frameId);
+  void recv_Frame_Redo(const int32_t seqid);
   void Frame_Cut(const int32_t frameId) override;
-  void send_Frame_Cut(const int32_t frameId);
+  int32_t send_Frame_Cut(const int32_t frameId);
+  void recv_Frame_Cut(const int32_t seqid);
   void Frame_Copy(const int32_t frameId) override;
-  void send_Frame_Copy(const int32_t frameId);
+  int32_t send_Frame_Copy(const int32_t frameId);
+  void recv_Frame_Copy(const int32_t seqid);
   void Frame_Paste(const int32_t frameId) override;
-  void send_Frame_Paste(const int32_t frameId);
+  int32_t send_Frame_Paste(const int32_t frameId);
+  void recv_Frame_Paste(const int32_t seqid);
   void Frame_Delete(const int32_t frameId) override;
-  void send_Frame_Delete(const int32_t frameId);
+  int32_t send_Frame_Delete(const int32_t frameId);
+  void recv_Frame_Delete(const int32_t seqid);
   void Frame_SelectAll(const int32_t frameId) override;
-  void send_Frame_SelectAll(const int32_t frameId);
+  int32_t send_Frame_SelectAll(const int32_t frameId);
+  void recv_Frame_SelectAll(const int32_t seqid);
   void Request_Create( ::thrift_codegen::RObject& _return) override;
   int32_t send_Request_Create();
   void recv_Request_Create( ::thrift_codegen::RObject& _return, const int32_t seqid);
