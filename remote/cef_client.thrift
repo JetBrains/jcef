@@ -236,10 +236,10 @@ service ClientHandlers {
     //
     // CefPdfPrintCallback
     //
-    oneway void PdfPrintCallback_OnPdfPrintFinished(1:i32 pdfPrintCallback, 2:string path, 3:bool ok),
+    oneway void PdfPrintCallback_OnPdfPrintFinished(1:i32 pdfPrintCallback, 2:string path, 3:bool ok),  // NOTE: can be oneway (because java peer is disposed on java side after callback execution)
 
     //
     // CefRunFileDialogCallback
     //
-    oneway void RunFileDialogCallback_OnFileDialogDismissed(1:i32 runFileDialogCallback, 2:list<string> filePaths),
+    oneway void RunFileDialogCallback_OnFileDialogDismissed(1:i32 runFileDialogCallback, 2:list<string> filePaths), // NOTE: can be oneway (because java peer is disposed on java side after callback execution)
 }

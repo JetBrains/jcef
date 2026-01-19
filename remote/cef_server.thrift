@@ -110,16 +110,16 @@ service Server {
     //
     // CefFrame
     //
-    oneway void    Frame_ExecuteJavaScript(1:i32 frameId, 2:string code, 3:string url, 4:i32 line),
+    void    Frame_ExecuteJavaScript(1:i32 frameId, 2:string code, 3:string url, 4:i32 line), // NOTE: methods of RemoteFrame can't be oneway (because RemoteFrame::get(frameId) is stack's object and can be disposed before method execution)
     oneway void    Frame_Dispose(1:i32 frameId),
     shared.RObject Frame_GetParent(1:i32 frameId),
-    oneway void    Frame_Undo(1:i32 frameId),
-    oneway void    Frame_Redo(1:i32 frameId),
-    oneway void    Frame_Cut(1:i32 frameId),
-    oneway void    Frame_Copy(1:i32 frameId),
-    oneway void    Frame_Paste(1:i32 frameId),
-    oneway void    Frame_Delete(1:i32 frameId),
-    oneway void    Frame_SelectAll(1:i32 frameId),
+    void    Frame_Undo(1:i32 frameId),
+    void    Frame_Redo(1:i32 frameId),
+    void    Frame_Cut(1:i32 frameId),
+    void    Frame_Copy(1:i32 frameId),
+    void    Frame_Paste(1:i32 frameId),
+    void    Frame_Delete(1:i32 frameId),
+    void    Frame_SelectAll(1:i32 frameId),
 
     //
     // CefRequest
