@@ -1,9 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="javaLauncher" default="default" basedir=".">
-
-  <property name="jcef.version" value="137.0.17-gf354b0e-chromium-137.0.7151.104-api-1.21"/>
-
   <property environment="env"/>
+
+  <condition property="jcefBranch"
+             value="${env.JCEF_BRANCH}"
+             else="unknown">
+    <and>
+      <isset property="env.JCEF_BRANCH"/>
+      <not>
+        <equals arg1="${env.JCEF_BRANCH}" arg2=""/>
+      </not>
+    </and>
+  </condition>
+
+  <condition property="buildNumber"
+             value="b${env.JCEF_BUILD_NUMBER}"
+             else="SNAPSHOT">
+    <and>
+      <isset property="env.JCEF_BUILD_NUMBER"/>
+      <not>
+        <equals arg1="${env.JCEF_BUILD_NUMBER}" arg2=""/>
+      </not>
+    </and>
+  </condition>
+
+  <property name="jcef.version" value="137.0.17-gf354b0e-chromium-137.0.7151.104-api-1.21-${jcefBranch}-${buildNumber}"/>
+
   <property name="out.path"   value="${env.OUT_PATH}"/>
   <property name="out.name"   value="${env.OUT_NAME}"/>
   <property name="out.id"     value="${env.OUT_ID}"/>

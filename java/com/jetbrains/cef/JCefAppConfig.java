@@ -11,6 +11,8 @@ import org.cef.misc.Utils;
 
 import java.awt.*;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
@@ -155,7 +157,6 @@ public abstract class JCefAppConfig {
             appConfig.appArgs.add("--disable-features=SpareRendererForSitePerProcess");
         } else if (OS.isWindows()) {
             String binPath = System.getProperty("java.home") + "/bin";
-            String libPath = System.getProperty("java.home") + "/lib";
             appConfig.cefSettings.browser_subprocess_path = binPath + "/jcef_helper.exe";
 
             appConfig.appArgs.add("--disable-features=SpareRendererForSitePerProcess");
@@ -217,6 +218,26 @@ public abstract class JCefAppConfig {
         }
     }
 
+    public JCefVersionDetails getNativeBundleVersionDetails() {
+        final Path versionFile = Path.of(nativeBundlePath, "version.info");
+        if (Files.exists(versionFile)) {
+            try {
+                for (String line : Files.readAllLines(versionFile)) {
+                    if (line.contains("JCEF_VERSION_DETAILED")) {
+                        String[] split = line.split("=");
+                        if (split.length == 2) {
+                            return new JCefVersionDetails(split[1].trim());
+                        }
+                    }
+                }
+                return null;
+            }
+            catch (JCefVersionDetails.VersionUnavailableException | IOException e) {
+                return null;
+            }
+        }
+        return null;
+    }
 
     public static double getDeviceScaleFactor(/*@Nullable*/Component component) {
         if (GraphicsEnvironment.isHeadless()) {
