@@ -90,12 +90,14 @@ public final class JCefVersionDetails {
 
 
     private static final Pattern PATTERN = Pattern.compile(
-            "#.#.#-g([0-9a-f]{7})-chromium-#.#.#.#-api-#.#"
+            "#.#.#-g([0-9a-f]{7})-chromium-#.#.#.#-api-#.#(?:-([^-]+)-([^-]+))?"
                     .replaceAll("\\.", "\\\\.").replaceAll("#", "(\\\\d+)"));
 
     public final CefVersion cefVersion;
     public final ChromiumVersion chromiumVersion;
     public final ApiVersion apiVersion;
+    public final String branchName;
+    public final String buildNumber;
     private final String stringValue;
 
     JCefVersionDetails(String stringValue) throws VersionUnavailableException {
@@ -119,6 +121,8 @@ public final class JCefVersionDetails {
                     Integer.parseInt(matcher.group(9)),
                     Integer.parseInt(matcher.group(10))
             );
+            branchName = matcher.group(11);
+            buildNumber = matcher.group(12);
         } catch(Exception e) {
             throw new VersionUnavailableException("Unable to parse JCEF version: " + stringValue, e);
         }
