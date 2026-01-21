@@ -61,7 +61,7 @@ copy /Y "%OUT_REMOTE_DIR%\shared_mem_helper.dll" native_bundle\
 copy /Y "%OUT_NATIVE_DIR%\jcef.dll" native_bundle\
 copy /Y "%OUT_NATIVE_DIR%\jcef_helper.dll" native_bundle\
 copy /Y "%OUT_NATIVE_DIR%\jcef_helper.exe" native_bundle\
-copy /Y "%ARTIFACT_DIR%\jcef.version"
+copy /Y "%ARTIFACT_DIR%\jcef.version" native_bundle\
 del /f /q native_bundle\*.pdb
 del /f /q native_bundle\*.log
 
