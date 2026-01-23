@@ -1,6 +1,7 @@
 {
     global:
         Java_org_cef_*;
+        Java_tests_junittests_StringTest_convertString;
     local:
         *;
 };
