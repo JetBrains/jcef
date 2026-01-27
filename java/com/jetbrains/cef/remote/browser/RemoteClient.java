@@ -394,11 +394,12 @@ public class RemoteClient {
         myBrowsers.clear();
 
         if (myCid != -1) {
-            myRpc.invokeLater((s) -> {
-                s.Client_Dispose(myCid);
-            });
+            final int cid = myCid;
             myCid = -1;
-            myRpc.server.cid2Client.remove(myCid);
+            myRpc.invokeLater((s) -> {
+                s.Client_Dispose(cid);
+            });
+            myRpc.server.cid2Client.remove(cid);
         }
     }
 
