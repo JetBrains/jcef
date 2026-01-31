@@ -574,9 +574,12 @@ void CefShutdownOnMainThread(void* tempWindow) {
 }
 
 void CefDoMessageLoopWorkOnMainThread() {
-  [[CefHandler class] performSelectorOnMainThread:@selector(doMessageLoopWork)
-                                       withObject:nil
-                                    waitUntilDone:NO];
+  [[CefHandler class]
+      performSelector:@selector(doMessageLoopWork)
+             onThread:[NSThread mainThread]
+           withObject:nil
+        waitUntilDone:NO
+                modes:@[ NSDefaultRunLoopMode, NSEventTrackingRunLoopMode ]];
 }
 
 void SetVisibility(CefWindowHandle handle, bool isVisible) {
