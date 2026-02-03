@@ -194,6 +194,13 @@ public class CefServer {
         return "unknown(not connected)";
     }
 
+    public String getExePath() {
+        if (myServerExe != null)
+            return myServerExe.getAbsolutePath();
+        final File f = NativeServerManager.getServerExe();
+        return f != null ? f.getAbsolutePath() : null;
+    }
+
     private boolean connect(Runnable onContextInitialized) {
         myClientHandlersImpl.setOnContextInitialized(() -> {
             myIsContextInitialized = true;

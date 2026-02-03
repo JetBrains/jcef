@@ -432,6 +432,8 @@ public class CefApp extends CefAppHandlerAdapter {
 
     public final CefServer getServer() { return server_; }
 
+    public final String getServerExePath() { return server_ == null ? null : server_.getExePath(); }
+
     @Override
     public String toString() {
         if (server_ == null)
