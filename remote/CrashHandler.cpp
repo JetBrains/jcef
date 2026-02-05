@@ -1,13 +1,10 @@
 #include "CrashHandler.h"
 #include "log/Log.h"
 
-#ifdef WIN32
-#include <windows.h>
-#include <dbghelp.h>
-
+#include <iostream>
 #include <fstream>
 #include <iomanip>
-#include <iostream>
+#include <filesystem>
 
 void CrashLog(const std::string& message, std::ofstream * logFile = nullptr) {
   std::cerr << message << std::endl;
@@ -19,6 +16,21 @@ void CrashLog(const std::string& message, std::ofstream * logFile = nullptr) {
     logFile->flush();
   }
 }
+
+void OpenCrashLog(std::ofstream & logFile) {
+  std::time_t now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+  char buf[64] = {0};
+  std::strftime(buf, sizeof(buf), "%Y-%m-%d_%H-%M-%S", std::localtime(&now));
+  const std::string logName = "crash_stacktrace_" + std::string(buf) + ".txt";
+  const std::string logPath = (std::filesystem::temp_directory_path()/std::filesystem::path(logName)).string();
+  Log::info("Crash stacktrace will be saved to file: %s", logPath.c_str());
+  logFile.open(logPath, std::ios::app);
+  CrashLog("*** APPLICATION CRASHED ***\n", &logFile);
+}
+
+#ifdef WIN32
+#include <windows.h>
+#include <dbghelp.h>
 
 void PrintStackTrace(std::stringstream & os, EXCEPTION_POINTERS* pExceptionPtrs = nullptr) {
   HANDLE hProcess = GetCurrentProcess();
@@ -162,16 +174,14 @@ LONG WINAPI ExceptionHandler(EXCEPTION_POINTERS* pExceptionPtrs) {
     return EXCEPTION_CONTINUE_EXECUTION;
 
   std::ofstream logFile;
-  std::time_t now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-  char buf[64] = {0};
-  std::strftime(buf, sizeof(buf), "%Y-%m-%d_%H-%M-%S", std::localtime(&now));
-  logFile.open("crash_stacktrace_" + std::string(buf) + ".txt", std::ios::app);
-  CrashLog("*** APPLICATION CRASHED ***\n", &logFile);
+  OpenCrashLog(logFile);
   CrashLog("Exception: " + GetExceptionDesc(exceptionCode), &logFile);
 
   std::stringstream os;
   PrintStackTrace(os, pExceptionPtrs);
   CrashLog(os.str(), &logFile);
+
+  logFile.close();
 
   return EXCEPTION_EXECUTE_HANDLER; // Terminate the application
 }
@@ -203,26 +213,28 @@ void setupCrashHandler() {
 #include <unistd.h>
 
 void signalHandler(int signum) {
-  Log::error("Received SIGNAL %d.", signum);
+  std::ofstream logFile;
+  OpenCrashLog(logFile);
+  CrashLog("Received SIGNAL " + std::to_string(signum), &logFile);
+
+  // 1. Print out all the frames to stderr.
   void *array[64];
   size_t size = backtrace(array, 64); // get void*'s for all entries on the stack
-
-  // print out all the frames to stderr
   backtrace_symbols_fd(array, size, STDERR_FILENO);
   Log::error("Stacktrace (size %d) was printed to stderr.", size);
 
-  if (!Log::isStdStreamLogger()) {
-    char** symbols = backtrace_symbols(array, size);
-    if (symbols == NULL) {
-      Log::error("Can't get stacktrace: backtrace_symbols returns null.");
-    } else {
-      Log::error("Stack trace:");
-      for (int i = 0; i < size; i++)
-        Log::error("%s", symbols[i]);
-      free(symbols);
-    }
+  // 2. Print stacktrace to the crash log (and both jcef-log)
+  char** symbols = backtrace_symbols(array, size);
+  if (symbols == NULL) {
+    CrashLog("Can't get stacktrace: backtrace_symbols returns null.");
+  } else {
+    CrashLog("Stack trace:", &logFile);
+    for (int i = 0; i < size; i++)
+      CrashLog(std::string(symbols[i]), &logFile);
+    free(symbols);
   }
 
+  logFile.close();
   std::exit(signum);
 }
 
