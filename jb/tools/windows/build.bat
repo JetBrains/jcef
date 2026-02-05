@@ -3,8 +3,6 @@ rem Copyright 2000-2022 JetBrains s.r.o. Use of this source code is governed by 
 
 call set_env.bat || exit /b 1
 
-call set_env.bat || exit /b 1
-
 if "%~1" == "" (
     call :help
     exit /b 0
@@ -75,6 +73,7 @@ echo "  [JCEF_JNI]         - Optional. Path to java home with the same CPU archi
 echo "                       Set it if you want to cross build JCEF (x86_64 -> arm64)."
 echo "                       Equals to JAVA_HOME by default."
 echo "  VS160COMNTOOLS     - Path to <Visual Studio 2019 installation>\Common7\Tools."
+echo "  VS170COMNTOOLS     - Path to <Visual Studio 2022 installation>\Common7\Tools."
 echo "  JCEF_CLEANUP_VCPKG - Cleanup the checkout dir before build"
 set PATH=%ORIGINAL_PATH% && cd "%JB_TOOLS_OS_DIR%" && exit /b 0
 

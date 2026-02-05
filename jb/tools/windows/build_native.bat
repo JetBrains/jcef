@@ -22,20 +22,34 @@ echo TARGET_ARCH=%TARGET_ARCH%
 
 cd "%JCEF_ROOT_DIR%\jcef_build" || goto:__exit
 
-echo *** set VS16 env...
-if "%env.VS160COMNTOOLS%" neq "" (
-    set "VS160COMNTOOLS=%env.VS160COMNTOOLS%"
+echo *** set VS17 env...
+if "%env.VS170COMNTOOLS%" neq "" (
+    set "VS_TOOLS=%env.VS170COMNTOOLS%"
 )
-if "%VS160COMNTOOLS%" == "" (
-    echo error: VS160COMNTOOLS is not set
+if "%VS170COMNTOOLS%" neq "" (
+    set "VS_TOOLS=%VS170COMNTOOLS%"
+)
+if "%VS_TOOLS%" == "" (
+    echo *** VS170COMNTOOLS is not set, will be used VS16
+    if "%env.VS160COMNTOOLS%" neq "" (
+        set "VS_TOOLS=%env.VS160COMNTOOLS%"
+    )
+    if "%VS160COMNTOOLS%" neq "" (
+        set "VS_TOOLS=%VS160COMNTOOLS%"
+    )
+)
+
+if "%VS_TOOLS%" == "" (
+    echo error: neither VS160COMNTOOLS or VS170COMNTOOLS is not set
     goto:__exit
 )
-echo VS160COMNTOOLS="%VS160COMNTOOLS%"
+
+echo VS_TOOLS="%VS_TOOLS%"
 
 if "%TARGET_ARCH%" == "arm64" (
-    call "%VS160COMNTOOLS%\..\..\VC\Auxiliary\Build\vcvarsall.bat" amd64_arm64 || goto:__exit
+    call "%VS_TOOLS%\..\..\VC\Auxiliary\Build\vcvarsall.bat" amd64_arm64 || goto:__exit
 ) else (
-    call "%VS160COMNTOOLS%\..\..\VC\Auxiliary\Build\vcvarsall.bat" amd64 || goto:__exit
+    call "%VS_TOOLS%\..\..\VC\Auxiliary\Build\vcvarsall.bat" amd64 || goto:__exit
 )
 
 echo *** run cmake...
