@@ -1,7 +1,13 @@
 echo off
 rem Copyright 2000-2022 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
 
+echo !!! ENV before:
+printenv
+
 call set_env.bat || exit /b 1
+
+echo !!! ENV after:
+printenv
 
 if "%~1" == "" (
     call :help

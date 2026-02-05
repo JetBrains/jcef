@@ -22,6 +22,9 @@ echo TARGET_ARCH=%TARGET_ARCH%
 
 cd "%JCEF_ROOT_DIR%\jcef_build" || goto:__exit
 
+echo !!! ENV:
+printenv
+
 echo *** set VS17 env...
 if "%env.VS170COMNTOOLS%" neq "" (
     set "VS_TOOLS=%env.VS170COMNTOOLS%"
