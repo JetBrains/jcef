@@ -245,6 +245,7 @@ void setupCrashHandler() {
   signal(SIGFPE,  signalHandler);
   signal(SIGILL,  signalHandler);
   signal(SIGBUS,  signalHandler);
+  signal(SIGTRAP, signalHandler);
 }
 
 #endif // WIN32

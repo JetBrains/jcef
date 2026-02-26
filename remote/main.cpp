@@ -192,10 +192,6 @@ int main(int argc, char* argv[]) {
     return 101;
   }
 
-  if (!getBoolEnv("CEF_SERVER_DONT_CATCH_SIGNALS")) {
-    setupCrashHandler();
-  }
-
   const boost::posix_time::ptime t3 =  boost::posix_time::microsec_clock::local_time();
   Log::trace("Create server transport. CEF initialization spent %d ms.", (t3 - t2).total_milliseconds());
   std::shared_ptr<TServerTransport> serverTransport;

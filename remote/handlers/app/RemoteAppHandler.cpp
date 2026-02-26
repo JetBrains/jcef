@@ -1,5 +1,6 @@
 #include "RemoteAppHandler.h"
 #include "../../log/Log.h"
+#include "../../CefUtils.h"
 
 #include <fstream>
 
@@ -18,13 +19,7 @@ std::string RemoteAppHandler::getRootPath() const {
   if (!rootFromSettings.empty())
     return rootFromSettings;
 
-#if defined(OS_WIN)
-  return "~\\AppData\\Local\\CEF\\User Data";
-#elif defined(OS_LINUX)
-  return "~/.config/cef_user_data";
-#elif defined(OS_MAC)
-  return "~/Library/Application Support/CEF/User Data";
-#endif
+  return CefUtils::getDefaultCachePath();
 }
 
 std::string RemoteAppHandler::getSettingRootPath() const {
