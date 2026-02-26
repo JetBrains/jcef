@@ -1,6 +1,7 @@
 #include "CommandLineArgs.h"
 
 #include "CefSettingsParser.h"
+#include "CefUtils.h"
 #include "Utils.h"
 #include "log/Log.h"
 
@@ -250,17 +251,18 @@ void CommandLineArgs::prepareCefSettings(void * pCefSettings) {
 
   if (Log::isTraceEnabled()) {
     std::stringstream ss;
-    ss << "browser_subprocess_path=" << CefString(&settings.browser_subprocess_path).c_str() << std::endl;
-    ss << "cache_path=" << CefString(&settings.cache_path).c_str() << std::endl;
-    ss << "user_agent_product=" << CefString(&settings.user_agent_product).c_str() << std::endl;
-    ss << "user_agent=" << CefString(&settings.user_agent).c_str() << std::endl;
-    ss << "locales_dir_path=" << CefString(&settings.locales_dir_path).c_str() << std::endl;
-    ss << "locale=" << CefString(&settings.locale).c_str() << std::endl;
-    ss << "log_file=" << CefString(&settings.log_file).c_str() << std::endl;
+    ss << "browser_subprocess_path=" << CefString(&settings.browser_subprocess_path).ToString() << std::endl;
+    const std::string cache_path = CefString(&settings.cache_path).ToString();
+    ss << "cache_path=" << cache_path << std::endl;
+    ss << "user_agent_product=" << CefString(&settings.user_agent_product).ToString() << std::endl;
+    ss << "user_agent=" << CefString(&settings.user_agent).ToString() << std::endl;
+    ss << "locales_dir_path=" << CefString(&settings.locales_dir_path).ToString() << std::endl;
+    ss << "locale=" << CefString(&settings.locale).ToString() << std::endl;
+    ss << "log_file=" << CefString(&settings.log_file).ToString() << std::endl;
     ss << "log_severity=" << settings.log_severity << std::endl;
-    ss << "javascript_flags=" << CefString(&settings.javascript_flags).c_str() << std::endl;
-    ss << "resources_dir_path=" << CefString(&settings.resources_dir_path).c_str() << std::endl;
-    ss << "cookieable_schemes_list=" << CefString(&settings.cookieable_schemes_list).c_str() << std::endl;
+    ss << "javascript_flags=" << CefString(&settings.javascript_flags).ToString() << std::endl;
+    ss << "resources_dir_path=" << CefString(&settings.resources_dir_path).ToString() << std::endl;
+    ss << "cookieable_schemes_list=" << CefString(&settings.cookieable_schemes_list).ToString() << std::endl;
     ss << "windowless_rendering_enabled=" << settings.windowless_rendering_enabled << std::endl;
     ss << "command_line_args_disabled=" << settings.command_line_args_disabled << std::endl;
     ss << "persist_session_cookies=" << settings.persist_session_cookies << std::endl;
@@ -270,5 +272,8 @@ void CommandLineArgs::prepareCefSettings(void * pCefSettings) {
     ss << "uncaught_exception_stack_size=" << settings.uncaught_exception_stack_size << std::endl;
     ss << "background_color=" << settings.background_color << std::endl;
     Log::trace("Prepared CefSettings:\n%s", ss.str().c_str());
+
+    if (cache_path.empty())
+      Log::trace("Empty cache_path in settings, will be used default path: %s.", CefUtils::getDefaultCachePath().c_str());
   }
 }

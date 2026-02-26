@@ -59,14 +59,9 @@ namespace CefUtils {
                                          .append("Chromium Embedded Framework")
                                          .lexically_normal();
       if (utils::isFileExist(path.c_str())) {
-        g_pathFrameworkDir = boost::filesystem::current_path()
-                                 .append("..")
-                                 .append("..")
-                                 .append("..")
-                                 .append("Chromium Embedded Framework.framework")
-                                 .lexically_normal().string();
+        g_pathFrameworkDir = path.parent_path().string();
         g_pathFramework = path.string();
-        Log::trace("Will be used CEF framework from JBR, path '%s'", g_pathFramework.c_str());
+        Log::trace("Will be used CEF framework from JBR bundle, path '%s'", g_pathFramework.c_str());
         return true;
       }
 
@@ -78,13 +73,9 @@ namespace CefUtils {
                  .append("Chromium Embedded Framework")
                  .lexically_normal();
       if (utils::isFileExist(path.c_str())) {
-        g_pathFrameworkDir = boost::filesystem::current_path()
-                                 .append("..")
-                                 .append("Frameworks")
-                                 .append("Chromium Embedded Framework.framework")
-                                 .lexically_normal().string();
+        g_pathFrameworkDir = path.parent_path().string();
         g_pathFramework = path.string();
-        Log::trace("Will be used CEF framework from bundle, path '%s'", g_pathFramework.c_str());
+        Log::trace("Will be used CEF framework from cef_server.app bundle, path '%s'", g_pathFramework.c_str());
         return true;
       }
 
@@ -136,6 +127,16 @@ namespace CefUtils {
                                  cef_version_info(2),   // CEF_VERSION_PATCH
                                  cef_version_info(3),   // CEF_COMMIT_NUMBER
                                  JCEF_COMMIT_HASH);
+  }
+
+  std::string getDefaultCachePath() {
+#if defined(OS_WIN)
+    return "~\\AppData\\Local\\CEF\\User Data";
+#elif defined(OS_LINUX)
+    return "~/.config/cef_user_data";
+#elif defined(OS_MAC)
+    return "~/Library/Application Support/CEF/User Data";
+#endif
   }
 } // CefUtils
 

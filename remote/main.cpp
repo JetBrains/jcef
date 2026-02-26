@@ -22,8 +22,6 @@ using namespace apache::thrift;
 using namespace apache::thrift::transport;
 using namespace apache::thrift::server;
 
-using namespace thrift_codegen;
-
 #ifdef OS_MAC
 extern void initMacApplication();
 #else
@@ -190,10 +188,6 @@ int main(int argc, char* argv[]) {
   if (!success) {
     Log::error("Cef initialization failed");
     return 101;
-  }
-
-  if (!getBoolEnv("CEF_SERVER_DONT_CATCH_SIGNALS")) {
-    setupCrashHandler();
   }
 
   const boost::posix_time::ptime t3 =  boost::posix_time::microsec_clock::local_time();
