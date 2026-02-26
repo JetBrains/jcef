@@ -66,3 +66,22 @@ void initMacApplication() {
     CHECK([NSApp isKindOfClass:[MacApplication class]]);
   }
 }
+
+// Temporary workaround for JBR-9842 What's New video is played neither in IDE, nor in browser
+// TODO: remove after update CEF to 144
+void openTempWindow() {
+    NSAlert *alert = [[NSAlert alloc] init];
+    [alert setMessageText:@"Temporary (hidden) native window"];
+    [alert addButtonWithTitle:@"OK"];
+
+    __block BOOL shouldClose = YES;
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (shouldClose) {
+            [alert.window orderOut:nil];
+            [NSApp stopModal];
+        }
+    });
+
+    [alert runModal];
+}

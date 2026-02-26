@@ -26,6 +26,7 @@ using namespace thrift_codegen;
 
 #ifdef OS_MAC
 extern void initMacApplication();
+extern void openTempWindow();
 #else
 #include "include/cef_app.h"
 #include "handlers/app/HelperApp.h"
@@ -195,6 +196,10 @@ int main(int argc, char* argv[]) {
   if (!getBoolEnv("CEF_SERVER_DONT_CATCH_SIGNALS")) {
     setupCrashHandler();
   }
+
+#ifdef OS_MAC
+  openTempWindow();
+#endif
 
   const boost::posix_time::ptime t3 =  boost::posix_time::microsec_clock::local_time();
   Log::trace("Create server transport. CEF initialization spent %d ms.", (t3 - t2).total_milliseconds());
