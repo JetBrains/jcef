@@ -859,6 +859,8 @@ void ServerHandler::Browser_RunFileDialog(
     fdMode = FILE_DIALOG_OPEN;
   else if (mode.find("FILE_DIALOG_SAVE") != std::string::npos)
     fdMode = FILE_DIALOG_SAVE;
+  else if (mode.find("FILE_DIALOG_OPEN_FOLDER") != std::string::npos)
+    fdMode = FILE_DIALOG_OPEN_FOLDER;
   else
     fdMode = FILE_DIALOG_OPEN;
 
