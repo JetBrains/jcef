@@ -78,7 +78,9 @@ bool setSettingItem(CefSettings & out, const std::string & name, const std::stri
   } else if (name.find("locales_dir_path") != name.npos) {
     CefString(&out.locales_dir_path) = val;
   } else if ((cachedPos = name.find("locale")) != name.npos && (name[cachedPos + 6] == ' ' || name[cachedPos + 6] == '=')) {
-      CefString(&out.locale) = val;
+    CefString(&out.locale) = val;
+  } else if (name.find("chrome_policy_id") != name.npos) {
+    CefString(&out.chrome_policy_id) = val;
   } else if (name.find("log_file") != name.npos) {
     CefString(&out.log_file) = val;
   } else if (name.find("log_severity") != name.npos) {

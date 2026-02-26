@@ -285,6 +285,7 @@ public class CefSettings {
         sb.append("resources_dir_path=" + resources_dir_path + ", ");
         sb.append("locales_dir_path=" + locales_dir_path + ", ");
         sb.append("remote_debugging_port=" + remote_debugging_port + ", ");
+        sb.append("chrome_policy_id=" + chrome_policy_id + ", ");
         sb.append("uncaught_exception_stack_size=" + uncaught_exception_stack_size + ", ");
         if (background_color != null) sb.append("background_color=" + background_color.clone() + ", ");
         sb.append("cookieable_schemes_list=" + cookieable_schemes_list + ", ");
@@ -314,6 +315,7 @@ public class CefSettings {
         putNonEmpty(result, "resources_dir_path", resources_dir_path);
         putNonEmpty(result, "locales_dir_path", locales_dir_path);
         putNonEmpty(result, "remote_debugging_port", String.valueOf(remote_debugging_port));
+        putNonEmpty(result, "chrome_policy_id", chrome_policy_id);
         putNonEmpty(result, "uncaught_exception_stack_size", String.valueOf(uncaught_exception_stack_size));
         if (background_color != null) putNonEmpty(result, "background_color", String.valueOf(background_color.getColor()));
         putNonEmpty(result, "cookieable_schemes_list", cookieable_schemes_list);
@@ -331,6 +333,7 @@ public class CefSettings {
                     && Objects.equals(locale, other.locale)
                     && Objects.equals(javascript_flags, other.javascript_flags)
                     && Objects.equals(remote_debugging_port, other.remote_debugging_port)
+                    && Objects.equals(chrome_policy_id, other.chrome_policy_id)
                     && Objects.equals(uncaught_exception_stack_size, other.uncaught_exception_stack_size)
                     && Objects.equals(cookieable_schemes_list, other.cookieable_schemes_list)
                     && Objects.equals(cookieable_schemes_exclude_defaults, other.cookieable_schemes_exclude_defaults);
