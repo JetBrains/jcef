@@ -34,7 +34,9 @@ public:
   SharedBufferManager &popup() { return myPopup; }
 
   static std::shared_ptr<RemoteBrowser> find(int bid);
+  static CefRefPtr<CefBrowser> findCefBrowser(int bid);
   static std::shared_ptr<RemoteBrowser> findByCefBrowser(CefRefPtr<CefBrowser> browser);
+  static int findBidByCefBrowser(CefRefPtr<CefBrowser> browser);
 
   static bool closeAllBrowsers(); // returns true when no browsers presented (i.e. all browsers are already closed)
   static std::vector<int> enumAllBrowsers();

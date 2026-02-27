@@ -7,7 +7,7 @@
 // All methods of this class will be called on the IO thread.
 class RemoteCookieAccessFilter : public CefCookieAccessFilter, public RemoteJavaObject<RemoteCookieAccessFilter> {
  public:
-  explicit RemoteCookieAccessFilter(int bid, std::shared_ptr<ServerHandlerContext> service, thrift_codegen::RObject peer);
+  explicit RemoteCookieAccessFilter(std::shared_ptr<ServerHandlerContext> service, thrift_codegen::RObject javaPeer);
 
   bool CanSendCookie(CefRefPtr<CefBrowser> browser,
                      CefRefPtr<CefFrame> frame,
@@ -21,8 +21,6 @@ class RemoteCookieAccessFilter : public CefCookieAccessFilter, public RemoteJava
                      const CefCookie& cookie) override;
 
  private:
-  const int myBid;
-
   IMPLEMENT_REFCOUNTING(RemoteCookieAccessFilter);
 };
 

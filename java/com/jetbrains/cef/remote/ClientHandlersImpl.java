@@ -1121,9 +1121,9 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
     @Override
     public RObject RequestContextHandler_GetResourceRequestHandler(int handlerId, int bid, RObject frame, RObject request, boolean isNavigation, boolean isDownload, String requestInitiator) throws TException {
         RemoteRequestContextHandler rhandler = RemoteRequestContextHandler.FACTORY.get(handlerId);
-        RemoteBrowser browser = getRemoteBrowser(bid);
-        if (browser == null || rhandler == null) return NULL_ROBJECT;
+        if (rhandler == null) return NULL_ROBJECT;
 
+        RemoteBrowser browser = getRemoteBrowser(bid);
         RemoteRequestImpl rr = new RemoteRequestImpl(myRpc, request);
         RemoteFrame rframe = new RemoteFrame(myRpc, frame);
         BoolRef disableDefaultHandling = new BoolRef(false);

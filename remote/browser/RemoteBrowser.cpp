@@ -60,6 +60,11 @@ std::shared_ptr<RemoteBrowser> RemoteBrowser::findByCefBrowser(CefRefPtr<CefBrow
     return i == ourCef2Remote.end() ? nullptr : i->second;
 }
 
+int RemoteBrowser::findBidByCefBrowser(CefRefPtr<CefBrowser> browser) {
+  auto rb = findByCefBrowser(browser);
+  return rb ? rb->getBid() : -1;
+}
+
 namespace {
   CefRefPtr<CefListValue> GetAllMessageRouterConfigs();
 
@@ -155,6 +160,11 @@ std::shared_ptr<RemoteBrowser> RemoteBrowser::find(int bid) {
     std::unique_lock lock(ourBid2BrowserMutex);
     const auto & i = ourBid2Browser.find(bid);
     return i == ourBid2Browser.end() ? nullptr : i->second;
+}
+
+CefRefPtr<CefBrowser> RemoteBrowser::findCefBrowser(int bid) {
+  const auto & rb = find(bid);
+  return rb ? rb->getCefBrowser() : nullptr;
 }
 
 std::vector<int> RemoteBrowser::enumAllBrowsers() {

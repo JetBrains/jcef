@@ -11,15 +11,14 @@ namespace {
 }
 
 RemoteResourceHandler::RemoteResourceHandler(
-    int bid,
     std::shared_ptr<ServerHandlerContext> service,
-    thrift_codegen::RObject peer)
+    thrift_codegen::RObject javaPeer)
     : RemoteJavaObject(
           service,
-          peer.objId,
+          javaPeer.objId,
           [=](JavaService service) {
-            service->ResourceHandler_Dispose(peer.objId);
-          }), myBid(bid) {
+            service->ResourceHandler_Dispose(javaPeer.objId);
+          }) {
   TRACE();
 }
 
