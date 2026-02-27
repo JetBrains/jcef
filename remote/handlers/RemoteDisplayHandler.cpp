@@ -13,7 +13,7 @@ void RemoteDisplayHandler::OnAddressChange(CefRefPtr<CefBrowser> browser,
   FIND_BID_OR_RETURN();
   RemoteFrame::Holder frm(frame);
   myService->exec([&](const JavaService& s){
-    s->DisplayHandler_OnAddressChange(bid, frm.serverId(), url.ToString());
+    s->DisplayHandler_OnAddressChange(bid, frm.toRObject(), url.ToString());
   });
 }
 

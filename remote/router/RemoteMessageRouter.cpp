@@ -26,42 +26,42 @@ std::shared_ptr<RemoteMessageRouter> RemoteMessageRouter::create(std::shared_ptr
 
 void RemoteMessageRouter::AddRemoteHandler(const thrift_codegen::RObject& handler, bool first) {
   if (doTrace)
-    Log::trace("RemoteMessageRouter: add handler with objId=%d, first=%d", handler.objId, first ? 1 : 0);
+    Log::trace("RemoteMessageRouter: add handler with uid=%d, first=%d", handler.uid, first ? 1 : 0);
 
   std::shared_ptr<RemoteMessageRouterHandler> rmrh = std::make_shared<RemoteMessageRouterHandler>(myCtx, handler);
   myDelegate->AddHandler(rmrh.get(), first);
 
   Lock lock(myMutex);
-  myHandlers[handler.objId] = rmrh;
+  myHandlers[handler.uid] = rmrh;
 }
 
 void RemoteMessageRouter::RemoveRemoteHandler(const thrift_codegen::RObject& handler) {
   if (doTrace)
-    Log::trace("RemoteMessageRouter: remove handler with objId=%d", handler.objId);
+    Log::trace("RemoteMessageRouter: remove handler with uid=%d", handler.uid);
 
   std::shared_ptr<RemoteMessageRouterHandler> rmrh;
   {
     Lock lock(myMutex);
-    rmrh = myHandlers[handler.objId];
-    myHandlers[handler.objId] = nullptr;
+    rmrh = myHandlers[handler.uid];
+    myHandlers[handler.uid] = nullptr;
   }
   if (rmrh)
     myDelegate->RemoveHandler(rmrh.get());
   else
-    Log::error("Can't find (to remove) RemoteMessageRouterHandler %d", handler.objId);
+    Log::error("Can't find (to remove) RemoteMessageRouterHandler %d", handler.uid);
 }
 
-std::shared_ptr<RemoteMessageRouterHandler> RemoteMessageRouter::FindRemoteHandler(int objId) {
+std::shared_ptr<RemoteMessageRouterHandler> RemoteMessageRouter::FindRemoteHandler(int uid) {
 
   std::shared_ptr<RemoteMessageRouterHandler> rmrh;
   {
     Lock lock(myMutex);
-    rmrh = myHandlers[objId];
+    rmrh = myHandlers[uid];
   }
   if (!rmrh)
-    Log::error("Can't find RemoteMessageRouterHandler %d", objId);
+    Log::error("Can't find RemoteMessageRouterHandler %d", uid);
   else if (doTrace)
-    Log::trace("RemoteMessageRouter: for id=%d found handler (with peer's objId=%d)", objId, rmrh->javaId().objId);
+    Log::trace("RemoteMessageRouter: for id=%d found handler (with peer's uid=%d)", uid, rmrh->javaId().uid);
 
   return rmrh;
 }

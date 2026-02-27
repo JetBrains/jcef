@@ -177,7 +177,7 @@ void RemoteContextMenuHandler::OnBeforeContextMenu(
   std::vector<thrift_codegen::MenuItem> result;
   myService->exec([&](const JavaService& s) {
     s->ContextMenuHandler_OnBeforeContextMenu(
-        result, bid, frm.serverId(), thriftParams, menu_model);
+        result, bid, frm.toRObject(), thriftParams, menu_model);
   });
 
   to_cef(model, result);
@@ -198,8 +198,8 @@ bool RemoteContextMenuHandler::RunContextMenu(
   bool result = myService->exec<bool>(
       [&](const JavaService& s) -> bool {
         return s->ContextMenuHandler_RunContextMenu(
-            bid, frm.serverId(), thriftParams, menu_model,
-            callback_wrapper->serverId());
+            bid, frm.toRObject(), thriftParams, menu_model,
+            callback_wrapper->toRObject());
       },
       false);
 
@@ -220,7 +220,7 @@ bool RemoteContextMenuHandler::OnContextMenuCommand(
   const auto thriftParams = convertParams(params);
   return myService->exec<bool>([&](const JavaService& s) {
     return s->ContextMenuHandler_OnContextMenuCommand(
-        bid, frm.serverId(), thriftParams, command_id,
+        bid, frm.toRObject(), thriftParams, command_id,
         event_flags);
   }, false);
 }
@@ -231,6 +231,6 @@ void RemoteContextMenuHandler::OnContextMenuDismissed(
   FIND_BID_OR_RETURN();
   RemoteFrame::Holder frm(frame);
   myService->exec([&](const JavaService& s) {
-    s->ContextMenuHandler_OnContextMenuDismissed(bid, frm.serverId());
+    s->ContextMenuHandler_OnContextMenuDismissed(bid, frm.toRObject());
   });
 }

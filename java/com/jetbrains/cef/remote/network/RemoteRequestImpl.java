@@ -2,8 +2,6 @@ package com.jetbrains.cef.remote.network;
 
 import com.jetbrains.cef.remote.RemoteServerObject;
 import com.jetbrains.cef.remote.RpcContext;
-import com.jetbrains.cef.remote.RpcExecutor;
-import com.jetbrains.cef.remote.RemoteServerObjectLocal;
 import com.jetbrains.cef.remote.thrift_codegen.PostData;
 import com.jetbrains.cef.remote.thrift_codegen.RObject;
 import org.cef.misc.CefLog;
@@ -31,7 +29,7 @@ public class RemoteRequestImpl extends RemoteServerObject {
     @Override
     public void flush() {
         myRpc.exec((s)->{
-            s.Request_Update(thriftIdWithCache());
+            s.Request_Update(toRObjectWithCache());
         });
     }
 
@@ -67,43 +65,43 @@ public class RemoteRequestImpl extends RemoteServerObject {
     }
 
     public CefPostData getPostData() {
-        PostData pd = myRpc.execObj((s)-> s.Request_GetPostData(thriftId()));
+        PostData pd = myRpc.execObj((s)-> s.Request_GetPostData(toRObject()));
         return pd == null || pd.isNull ? null : new RemotePostData(pd);
     }
 
     public void setPostData(CefPostData postData) {
         myRpc.exec((s)->{
-            s.Request_SetPostData(thriftId(), RemotePostData.toThriftWithMap(postData));
+            s.Request_SetPostData(toRObject(), RemotePostData.toThriftWithMap(postData));
         });
     }
 
     public void set(String url, String method, CefPostData postData, Map<String, String> headerMap) {
         myRpc.exec((s)->{
-            s.Request_Set(thriftId(), url, method, RemotePostData.toThriftWithMap(postData), headerMap);
+            s.Request_Set(toRObject(), url, method, RemotePostData.toThriftWithMap(postData), headerMap);
         });
     }
 
     public String getHeaderByName(String name) {
-        return myRpc.execObj((s)->s.Request_GetHeaderByName(thriftId(), name));
+        return myRpc.execObj((s)->s.Request_GetHeaderByName(toRObject(), name));
     }
 
     public void setHeaderByName(String name, String value, boolean overwrite) {
         myRpc.exec((s)->{
-            s.Request_SetHeaderByName(thriftId(), name, value, overwrite);
+            s.Request_SetHeaderByName(toRObject(), name, value, overwrite);
         });
     }
 
     public void getHeaderMap(Map<String, String> headerMap) {
         if (headerMap == null)
             return;
-        Map<String, String> result = myRpc.execObj((s)-> s.Request_GetHeaderMap(thriftId()));
+        Map<String, String> result = myRpc.execObj((s)-> s.Request_GetHeaderMap(toRObject()));
         if (result != null)
             headerMap.putAll(result);
     }
 
     public void setHeaderMap(Map<String, String> headerMap) {
         myRpc.exec((s)->{
-            s.Request_SetHeaderMap(thriftId(), headerMap);
+            s.Request_SetHeaderMap(toRObject(), headerMap);
         });
     }
 

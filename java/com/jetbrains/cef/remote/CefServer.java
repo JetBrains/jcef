@@ -158,7 +158,8 @@ public class CefServer {
             CefLog.Error("RuntimeException in CefServer.start: %s", e.getMessage());
             return false;
         } finally {
-            myDelayed.dispose();
+            if (!myDelayed.isFinished() && !myDelayed.isDisposed())
+                myDelayed.dispose();
         }
     }
 

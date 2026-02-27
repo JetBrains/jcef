@@ -23,17 +23,17 @@ public class RemoteQueryCallback extends RemoteServerObject implements CefQueryC
     protected void disposeOnServerImpl() {
         // NOTE: server object will be disposed after Continue or Cancel invocations.
         // But if callback wasn't used we should dispose server object here
-        final RObject id = thriftId();
+        final RObject id = toRObject();
         myRpc.invokeLater(s -> s.QueryCallback_Dispose(id));
     }
 
     @Override
     public void success(String response) {
-        myRpc.exec((s)-> s.QueryCallback_Success(thriftId(), response));
+        myRpc.exec((s)-> s.QueryCallback_Success(toRObject(), response));
     }
 
     @Override
     public void failure(int error_code, String error_message) {
-        myRpc.exec((s)-> s.QueryCallback_Failure(thriftId(), error_code, error_message));
+        myRpc.exec((s)-> s.QueryCallback_Failure(toRObject(), error_code, error_message));
     }
 }

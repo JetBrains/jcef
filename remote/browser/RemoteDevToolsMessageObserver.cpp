@@ -10,12 +10,12 @@ RemoteDevToolsMessageObserver::RemoteDevToolsMessageObserver(
     thrift_codegen::RObject peer)
     : RemoteJavaObject<RemoteDevToolsMessageObserver>(
           ctx,
-          peer.objId,
+          peer.uid,
           [=](JavaService service) {
-            service->DevToolsMessageObserver_Dispose(peer.objId);
-            Log::trace("Disposed DevToolsMessageObserver, peer-id=%d", peer.objId);
+            service->DevToolsMessageObserver_Dispose(peer.uid);
+            Log::trace("Disposed DevToolsMessageObserver, peer-id=%d", peer.uid);
           }) {
-  Log::trace("Created DevToolsMessageObserver, peer-id=%d", peer.objId);
+  Log::trace("Created DevToolsMessageObserver, peer-id=%d", peer.uid);
 }
 
 void RemoteDevToolsMessageObserver::OnDevToolsEvent(

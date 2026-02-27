@@ -53,7 +53,7 @@ service Server {
     //
     // CefBrowser
     //
-    i32            Browser_Create(1: i32 cid, 2:shared.RObject requestContextHandler),
+    i32            Browser_Create(1: i32 cid, 2:shared.RObject requestContext),
     oneway void    Browser_StartNativeCreation(1: i32 bid, 2: string url),
     oneway void    Browser_OpenDevTools(1: i32 bid, 2: i32 x, 3: i32 y),
     oneway void    Browser_Close(1: i32 bid),
@@ -184,8 +184,16 @@ service Server {
     //
     // CefRequestContext
     //
-    oneway void RequestContext_ClearCertificateExceptions(1:i32 bid, 2:shared.RObject completionCallback),  // NOTE: can be oneway (because java peer of completionCallback is disposed (on java side) after callback execution)
-    oneway void RequestContext_CloseAllConnections(1:i32 bid, 2:shared.RObject completionCallback),         // NOTE: can be oneway (because java peer of completionCallback is disposed (on java side) after callback execution)
+    shared.RObject               RequestContext_GetGlobal(),
+    shared.RObject               RequestContext_Create(1:shared.RObject requestContextHandler),
+    oneway void                  RequestContext_Dispose(1:shared.RObject requestContext),
+    bool                         RequestContext_HasPreference(1:shared.RObject requestContext, 2:string name),
+    shared.CefValue              RequestContext_GetPreference(1:shared.RObject requestContext, 2:string name),
+    map<string, shared.CefValue> RequestContext_GetAllPreferences(1:shared.RObject requestContext, 2:bool includeDefaults),
+    bool                         RequestContext_CanSetPreference(1:shared.RObject requestContext, 2:string name),
+    string                       RequestContext_SetPreference(1:shared.RObject requestContext, 2:string name, 3:shared.CefValue value),
+    oneway void                  RequestContext_ClearCertificateExceptions(1:shared.RObject requestContext, 2:shared.RObject completionCallback),  // NOTE: can be oneway (because java peer of completionCallback is disposed (on java side) after callback execution)
+    oneway void                  RequestContext_CloseAllConnections(1:shared.RObject requestContext, 2:shared.RObject completionCallback),         // NOTE: can be oneway (because java peer of completionCallback is disposed (on java side) after callback execution)
 
     //
     // CefCookieManager

@@ -2,7 +2,7 @@
 
 RemoteCookieVisitor::RemoteCookieVisitor(std::shared_ptr<ServerHandlerContext> service, thrift_codegen::RObject peer) : RemoteJavaObject<RemoteCookieVisitor>(
           service,
-          peer.objId,
+          peer.uid,
           [=](JavaService service) {
             service->CookieVisitor_Dispose(myPeerId);
           }) {}

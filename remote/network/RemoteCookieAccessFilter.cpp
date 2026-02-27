@@ -15,9 +15,9 @@ RemoteCookieAccessFilter::RemoteCookieAccessFilter(
     thrift_codegen::RObject javaPeer)
     : RemoteJavaObject<RemoteCookieAccessFilter>(
           service,
-          javaPeer.objId,
+          javaPeer.uid,
           [=](JavaService service) {
-            service->CookieAccessFilter_Dispose(javaPeer.objId);
+            service->CookieAccessFilter_Dispose(javaPeer.uid);
           }) {}
 
 ///
@@ -37,7 +37,7 @@ bool RemoteCookieAccessFilter::CanSendCookie(CefRefPtr<CefBrowser> browser,
   RemoteRequest::Holder req(request);
   RemoteFrame::Holder frm(frame);
   return myCtx->javaServiceIO()->exec<bool>([&](JavaService s){
-    return s->CookieAccessFilter_CanSendCookie(myPeerId, bid, frm.serverId(), req.serverId(), cookie2list(cookie));
+    return s->CookieAccessFilter_CanSendCookie(myPeerId, bid, frm.toRObject(), req.toRObject(), cookie2list(cookie));
   }, true);
 }
 
@@ -61,8 +61,8 @@ bool RemoteCookieAccessFilter::CanSaveCookie(CefRefPtr<CefBrowser> browser,
   RemoteResponse::Holder resp(response);
   RemoteFrame::Holder frm(frame);
   return myCtx->javaServiceIO()->exec<bool>([&](JavaService s){
-    return s->CookieAccessFilter_CanSaveCookie(myPeerId, bid, frm.serverId(), req.serverId(),
-                                               resp.serverId(), cookie2list(cookie));
+    return s->CookieAccessFilter_CanSaveCookie(myPeerId, bid, frm.toRObject(), req.toRObject(),
+                                               resp.toRObject(), cookie2list(cookie));
   }, true);
 }
 

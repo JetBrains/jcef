@@ -33,7 +33,7 @@ void RemoteLoadHandler::OnLoadStart(CefRefPtr<CefBrowser> browser,
     Log::trace("RemoteLoadHandler::OnLoadStart: bid=%d, frame->GetIdentifier()=%s", bid, frame->GetIdentifier().c_str());
   RemoteFrame::Holder frm(frame);
   myService->exec([&](const JavaService& s){
-    s->LoadHandler_OnLoadStart(bid, frm.serverId(), transition_type);
+    s->LoadHandler_OnLoadStart(bid, frm.toRObject(), transition_type);
   });
 }
 
@@ -45,7 +45,7 @@ void RemoteLoadHandler::OnLoadEnd(CefRefPtr<CefBrowser> browser,
     Log::trace("RemoteLoadHandler::OnLoadEnd: bid=%d, frame->GetIdentifier()=%s", bid, frame->GetIdentifier().c_str());
   RemoteFrame::Holder frm(frame);
   myService->exec([&](const JavaService& s){
-    s->LoadHandler_OnLoadEnd(bid, frm.serverId(), httpStatusCode);
+    s->LoadHandler_OnLoadEnd(bid, frm.toRObject(), httpStatusCode);
   });
   if (doTrace)
     Log::trace("RemoteLoadHandler::OnLoadEnd: finished");
@@ -61,6 +61,6 @@ void RemoteLoadHandler::OnLoadError(CefRefPtr<CefBrowser> browser,
     Log::trace("RemoteLoadHandler::OnLoadError: bid=%d, frame->GetIdentifier()=%s, errCode=%d, errText=%s, failedUrl=%s", bid, frame->GetIdentifier().c_str(), errorCode, errorText.c_str(), failedUrl.c_str());
   RemoteFrame::Holder frm(frame);
   myService->exec([&](const JavaService& s){
-    s->LoadHandler_OnLoadError(bid, frm.serverId(), errorCode, errorText.ToString(), failedUrl.ToString());
+    s->LoadHandler_OnLoadError(bid, frm.toRObject(), errorCode, errorText.ToString(), failedUrl.ToString());
   });
 }

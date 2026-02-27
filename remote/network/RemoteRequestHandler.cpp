@@ -57,7 +57,7 @@ bool RemoteRequestHandler::OnBeforeBrowse(CefRefPtr<CefBrowser> browser,
   RemoteRequest::Holder req(request);
   RemoteFrame::Holder frm(frame);
   return myCtx->javaService()->exec<bool>([&](JavaService s){
-    return s->RequestHandler_OnBeforeBrowse(bid, frm.serverId(), req.serverId(), user_gesture, is_redirect);
+    return s->RequestHandler_OnBeforeBrowse(bid, frm.toRObject(), req.toRObject(), user_gesture, is_redirect);
   }, false);
 }
 
@@ -71,7 +71,7 @@ bool RemoteRequestHandler::OnOpenURLFromTab(CefRefPtr<CefBrowser> browser,
   FIND_BID_OR_RETURN_VAL(false);
   RemoteFrame::Holder frm(frame);
   return myCtx->javaService()->exec<bool>([&](JavaService s){
-    return s->RequestHandler_OnOpenURLFromTab(bid, frm.serverId(), target_url.ToString(), user_gesture);
+    return s->RequestHandler_OnOpenURLFromTab(bid, frm.toRObject(), target_url.ToString(), user_gesture);
   }, false);
 }
 
@@ -108,7 +108,7 @@ CefRefPtr<CefResourceRequestHandler> RemoteRequestHandler::GetResourceRequestHan
   thrift_codegen::RObject peer;
   myCtx->javaServiceIO()->exec([&](JavaService s){
     s->RequestHandler_GetResourceRequestHandler(
-        peer, bid, frm.serverId(), req.serverId(), is_navigation, is_download, request_initiator.ToString());
+        peer, bid, frm.toRObject(), req.toRObject(), is_navigation, is_download, request_initiator.ToString());
   });
 
   disable_default_handling = peer.__isset.flags ? peer.flags != 0 : false;
@@ -139,14 +139,14 @@ bool RemoteRequestHandler::GetAuthCredentials(CefRefPtr<CefBrowser> browser,
 ) {
   TRACE();
   FIND_BID_OR_RETURN_VAL(false);
-  thrift_codegen::RObject rc = RemoteAuthCallback::wrapDelegate(callback)->serverId();
+  thrift_codegen::RObject rc = RemoteAuthCallback::wrapDelegate(callback)->toRObject();
   const bool handled = myCtx->javaServiceIO()->exec<bool>([&](JavaService s){
       return s->RequestHandler_GetAuthCredentials(bid, origin_url.ToString(), isProxy, host.ToString(), port, realm.ToString(), scheme.ToString(), rc);
   }, false);
   if (!handled)
-    RemoteAuthCallback::dispose(rc.objId);
+    RemoteAuthCallback::dispose(rc.uid);
   else
-    myAuthCallbacks.insert(rc.objId); // Callback will be disposed with RemoteRequestHandler (just for insurance)
+    myAuthCallbacks.insert(rc.uid); // Callback will be disposed with RemoteRequestHandler (just for insurance)
   return handled;
 }
 
@@ -175,7 +175,7 @@ bool RemoteRequestHandler::OnCertificateError(CefRefPtr<CefBrowser> browser,
   if (buf.capacity() > 1024*128)
     Log::warn("Large SSL certificate data: %d bytes. Consider to use shared memory for IPC transport.", buf.capacity());
   const bool handled = myCtx->javaService()->exec<bool>([&](JavaService s){
-      return s->RequestHandler_OnCertificateError(bid, err2str(cert_error), request_url, buf, rc->serverId());
+      return s->RequestHandler_OnCertificateError(bid, err2str(cert_error), request_url, buf, rc->toRObject());
   }, false);
   if (!handled)
     RemoteCallback::dispose(rc->getId());

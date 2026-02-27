@@ -21,7 +21,7 @@ class RemoteMessageRouter : public RemoteServerObject<RemoteMessageRouter, CefMe
 
   void AddRemoteHandler(const thrift_codegen::RObject& handler, bool first);
   void RemoveRemoteHandler(const thrift_codegen::RObject& handler);
-  std::shared_ptr<RemoteMessageRouterHandler> FindRemoteHandler(int objId);
+  std::shared_ptr<RemoteMessageRouterHandler> FindRemoteHandler(int uid);
 
  private:
   std::shared_ptr<ServerHandlerContext> myCtx;

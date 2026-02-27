@@ -3,9 +3,9 @@ namespace java com.jetbrains.cef.remote.thrift_codegen
 
 struct RObject {
     1: required bool isNull = true,
-    2: required i32 objId = -1,
+    2: required i32 uid = -1,
     3: optional i32 flags,
-    4: optional map<string, string> objInfo,
+    4: optional map<string, string> info
 }
 
 struct ResponseHeaders {
@@ -83,3 +83,23 @@ struct CompositionUnderline {
     5: required Style style
 }
 
+enum CefValueType {
+    BOOL,
+    INT,
+    DOUBLE,
+    STRING,
+    BYTE_BUFFER,
+    MAP,
+    LIST,
+    NONE
+}
+
+struct CefValue {
+    1: required CefValueType type = CefValueType.NONE,
+    2: optional i64 intVal,
+    3: optional double doubleVal,
+    4: optional string strVal,
+    5: optional binary binVal,
+    6: optional map<string, CefValue> mapVal
+    7: optional list<CefValue> listVal
+}

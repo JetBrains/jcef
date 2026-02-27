@@ -24,19 +24,19 @@ public class RemoteAuthCallback extends RemoteServerObject implements CefAuthCal
     protected void disposeOnServerImpl() {
         // NOTE: server object will be disposed after Continue or Cancel invocations.
         // But if callback wasn't used we should dispose server object here
-        final RObject id = thriftId();
+        final RObject id = toRObject();
         myRpc.invokeLater(s -> s.AuthCallback_Dispose(id));
     }
 
     @Override
     public void Continue(String username, String password) {
         // NOTE: server object will be disposed after this call
-        myRpc.exec((s)-> s.AuthCallback_Continue(thriftId(), username, password));
+        myRpc.exec((s)-> s.AuthCallback_Continue(toRObject(), username, password));
     }
 
     @Override
     public void cancel() {
         // NOTE: server object will be disposed after this call
-        myRpc.exec((s)-> s.AuthCallback_Cancel(thriftId()));
+        myRpc.exec((s)-> s.AuthCallback_Cancel(toRObject()));
     }
 }

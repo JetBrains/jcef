@@ -500,7 +500,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         if (handler == null) return NULL_ROBJECT;
 
         RemoteResourceRequestHandler resultHandler = RemoteResourceRequestHandler.create(handler);
-        return resultHandler.thriftId(disableDefaultHandling.get() ? 1 : 0);
+        return resultHandler.toRObject(disableDefaultHandling.get() ? 1 : 0);
     }
 
     ///
@@ -526,7 +526,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         }
         if (filter == null) return NULL_ROBJECT;
         RemoteCookieAccessFilter resultHandler = RemoteCookieAccessFilter.create(filter);
-        return resultHandler.thriftId();
+        return resultHandler.toRObject();
     }
 
     @Override
@@ -725,7 +725,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         if (handler == null) return NULL_ROBJECT;
 
         RemoteResourceHandler result = RemoteResourceHandler.create(handler);
-        return result.thriftId();
+        return result.toRObject();
     }
 
     ///
@@ -1049,7 +1049,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
 
     @Override
     public boolean MessageRouterHandler_onQuery(RObject handler, int bid, RObject frame, long queryId, String request, boolean persistent, RObject queryCallback) throws TException {
-        RemoteMessageRouterHandler rmrh = RemoteMessageRouterHandler.FACTORY.get(handler.objId);
+        RemoteMessageRouterHandler rmrh = RemoteMessageRouterHandler.FACTORY.get(handler.uid);
         if (rmrh == null) return false;
 
         RemoteQueryCallback rcb = new RemoteQueryCallback(myRpc, queryCallback);
@@ -1065,7 +1065,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
 
     @Override
     public void MessageRouterHandler_onQueryCanceled(RObject handler, int bid, RObject frame, long queryId) throws TException {
-        RemoteMessageRouterHandler rmrh = RemoteMessageRouterHandler.FACTORY.get(handler.objId);
+        RemoteMessageRouterHandler rmrh = RemoteMessageRouterHandler.FACTORY.get(handler.uid);
         if (rmrh == null) return;
 
         RemoteFrame rframe = new RemoteFrame(myRpc, frame);
@@ -1097,7 +1097,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         if (handler == null) return NULL_ROBJECT;
 
         RemoteResourceHandler result = RemoteResourceHandler.create(handler);
-        return result.thriftId();
+        return result.toRObject();
     }
 
     @Override
@@ -1136,7 +1136,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         if (handler == null) return NULL_ROBJECT;
 
         RemoteResourceRequestHandler resultHandler = RemoteResourceRequestHandler.create(handler);
-        return resultHandler.thriftId(disableDefaultHandling.get() ? 1 : 0);
+        return resultHandler.toRObject(disableDefaultHandling.get() ? 1 : 0);
     }
 
     @Override

@@ -23,7 +23,7 @@ bool RemotePermissionHandler::OnRequestMediaAccessPermission(
   RemoteFrame::Holder frm(frame);
   std::shared_ptr<RemoteMediaAccessCallback> mediaAccessCallback = RemoteMediaAccessCallback::wrapDelegate(callback);
   const bool handled = myService->exec<bool>([&](const JavaService& s){
-    return s->PermissionHandler_OnRequestMediaAccessPermission(bid, frm.serverId(), requesting_origin.ToString(), requested_permissions, mediaAccessCallback->serverId());
+    return s->PermissionHandler_OnRequestMediaAccessPermission(bid, frm.toRObject(), requesting_origin.ToString(), requested_permissions, mediaAccessCallback->toRObject());
   }, false);
   if (!handled)
     RemoteMediaAccessCallback::dispose(mediaAccessCallback->getId());

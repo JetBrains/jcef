@@ -17,7 +17,7 @@ public class RemoteRegistrationImpl extends RemoteServerObject {
 
     @Override
     protected void disposeOnServerImpl() {
-        final RObject id = thriftId();
+        final RObject id = toRObject();
         myRpc.invokeLater(s -> s.Registration_Dispose(id));
     }
 
