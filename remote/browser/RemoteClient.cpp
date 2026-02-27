@@ -3,6 +3,7 @@
 #include "../ServerApplication.h"
 #include "../handlers/RemoteClientHandler.h"
 #include "../network/RemoteRequestContextHandler.h"
+#include "../network/RemoteRequestContext.h"
 #include "../router/MessageRoutersManager.h"
 #include "RemoteBrowser.h"
 #include "../router/RemoteMessageRouter.h"
@@ -69,15 +70,10 @@ void RemoteClient::removeMessageRouter(std::shared_ptr<RemoteMessageRouter> rout
 std::shared_ptr<RemoteBrowser> RemoteClient::createBrowser(
     std::shared_ptr<RemoteClient> owner,
     std::shared_ptr<ServerHandlerContext> ctx,
-    const thrift_codegen::RObject& requestContextHandler
+    std::shared_ptr<RemoteRequestContext> requestContext
 ) {
-  // TODO: Expose CefRequestContextSettings.
-  CefRequestContextSettings settings;
-  CefRefPtr<CefRequestContext> requestContext = requestContextHandler.isNull
-          ? CefRequestContext::GetGlobalContext()
-          : CefRequestContext::CreateContext(settings,new RemoteRequestContextHandler(ctx, requestContextHandler));
-
-  std::shared_ptr<RemoteBrowser> result = RemoteBrowser::create(owner, requestContext);
+  CefRefPtr<CefRequestContext> cefReqCtx = requestContext ? requestContext->getDelegate() : CefRequestContext::GetGlobalContext();
+  std::shared_ptr<RemoteBrowser> result = RemoteBrowser::create(owner, cefReqCtx);
   {
     std::unique_lock lock(myMutex);
     myBrowsers[result->getBid()] = result;

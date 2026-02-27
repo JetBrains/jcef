@@ -207,6 +207,8 @@ set(SERVER_SOURCES
         DebugInfo.h
         CommandLineArgs.cpp
         CommandLineArgs.h
+        network/RemoteRequestContext.cpp
+        network/RemoteRequestContext.h
 )
 
 if (OS_WINDOWS)

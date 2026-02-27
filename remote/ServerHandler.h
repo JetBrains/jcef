@@ -40,7 +40,7 @@ class ServerHandler : public thrift_codegen::ServerIf {
   //
   // CefBrowser
   //
-  int32_t Browser_Create(int cid, const thrift_codegen::RObject& requestContextHandler) override;
+  int32_t Browser_Create(int cid, const thrift_codegen::RObject& requestContext) override;
   void Browser_StartNativeCreation(int bid, const std::string& url) override;
   void Browser_OpenDevTools(int bid, int x, int y) override;
   void Browser_Close(const int32_t bid) override;
@@ -188,9 +188,25 @@ class ServerHandler : public thrift_codegen::ServerIf {
   void SchemeHandlerFactory_Register(const std::string & schemeName, const std::string & domainName, const thrift_codegen::RObject& schemeHandlerFactory) override;
   void ClearAllSchemeHandlerFactories() override;
 
-  void RequestContext_ClearCertificateExceptions(const int32_t bid, const thrift_codegen::RObject& completionCallback) override;
-  void RequestContext_CloseAllConnections(const int32_t bid, const thrift_codegen::RObject& completionCallback) override;
+  //
+  // CefRequestContext
+  //
+  void RequestContext_GetGlobal(thrift_codegen::RObject& _return) override;
+  void RequestContext_Create(thrift_codegen::RObject& _return, const thrift_codegen::RObject& requestContextHandler) override;
+  void RequestContext_Dispose(const thrift_codegen::RObject& requestContext) override;
 
+  bool RequestContext_HasPreference(const thrift_codegen::RObject& requestContext, const std::string& name) override;
+  void RequestContext_GetPreference(thrift_codegen::CefValue& _return, const thrift_codegen::RObject& requestContext, const std::string& name) override;
+  void RequestContext_GetAllPreferences(std::map<std::string, thrift_codegen::CefValue> & _return, const thrift_codegen::RObject& requestContext, bool includeDefaults) override;
+  bool RequestContext_CanSetPreference(const thrift_codegen::RObject& requestContext, const std::string& name) override;
+  void RequestContext_SetPreference(std::string & _return, const thrift_codegen::RObject& requestContext, const std::string& name, const thrift_codegen::CefValue& value) override;
+
+  void RequestContext_ClearCertificateExceptions(const thrift_codegen::RObject& requestContext, const thrift_codegen::RObject& completionCallback) override;
+  void RequestContext_CloseAllConnections(const thrift_codegen::RObject& requestContext, const thrift_codegen::RObject& completionCallback) override;
+
+  //
+  // CefCookieManager
+  //
   void CookieManager_Create(thrift_codegen::RObject& _return) override;
   void CookieManager_Dispose(const thrift_codegen::RObject& cookieManager) override;
   bool CookieManager_VisitAllCookies(

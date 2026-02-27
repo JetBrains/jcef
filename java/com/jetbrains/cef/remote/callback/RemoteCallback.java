@@ -24,20 +24,20 @@ public class RemoteCallback extends RemoteServerObject implements CefCallback {
     protected void disposeOnServerImpl() {
         // NOTE: server object will be disposed after Continue or Cancel invocations.
         // But if callback wasn't used we should dispose server object here
-        final RObject id = thriftId();
+        final RObject id = toRObject();
         myRpc.invokeLater(s -> s.Callback_Dispose(id));
     }
 
     @Override
     public void Continue() {
         // NOTE: server object will be disposed after this call
-        myRpc.exec((s)-> s.Callback_Continue(thriftId()));
+        myRpc.exec((s)-> s.Callback_Continue(toRObject()));
     }
 
     @Override
     public void cancel() {
         // NOTE: server object will be disposed after this call
-        myRpc.exec((s)-> s.Callback_Cancel(thriftId()));
+        myRpc.exec((s)-> s.Callback_Cancel(toRObject()));
     }
 }
 

@@ -3,7 +3,7 @@
 RemotePdfPrintCallback::RemotePdfPrintCallback(
     std::shared_ptr<ServerHandlerContext> service,
     thrift_codegen::RObject peer)
-    : RemoteJavaObject<RemotePdfPrintCallback>(service, peer.objId) {
+    : RemoteJavaObject<RemotePdfPrintCallback>(service, peer.uid) {
 }  // Empty disposer because java-peer is disposed in the end of RunFileDialogCallback_OnFileDialogDismissed
 
 void RemotePdfPrintCallback::OnPdfPrintFinished(const CefString& path, bool ok) {

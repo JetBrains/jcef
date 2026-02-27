@@ -12,14 +12,14 @@ RemoteMessageRouterHandler::RemoteMessageRouterHandler(
     thrift_codegen::RObject peer)
     : RemoteJavaObject(
           service,
-          peer.objId,
+          peer.uid,
           [=](JavaService service) {
-            service->MessageRouterHandler_Dispose(peer.objId);
+            service->MessageRouterHandler_Dispose(peer.uid);
           }) {
   if (doTrace)
-    Log::trace("RemoteMessageRouterHandler: created instance with peerId=%d", peer.objId);
+    Log::trace("RemoteMessageRouterHandler: created instance with peerId=%d", peer.uid);
 
-  //Log::trace("new RouterHandler: peerId=%d", peer.objId);
+  //Log::trace("new RouterHandler: peerId=%d", peer.uid);
 }
 
 RemoteMessageRouterHandler::~RemoteMessageRouterHandler() {
@@ -56,7 +56,7 @@ bool RemoteMessageRouterHandler::OnQuery(CefRefPtr<CefBrowser> browser,
   RemoteFrame::Holder frm(frame);
   std::shared_ptr<RemoteQueryCallback> rcb = RemoteQueryCallback::wrapDelegate(callback);
   bool handled = myCtx->javaService()->exec<bool>([&](JavaService s){
-    return s->MessageRouterHandler_onQuery(javaId(), bid, frm.serverId(), query_id, request, persistent, rcb->serverId());
+    return s->MessageRouterHandler_onQuery(javaId(), bid, frm.toRObject(), query_id, request, persistent, rcb->toRObject());
   }, false);
   if (!handled) // NOTE: must delete callback when onQuery returns false
     RemoteQueryCallback::dispose(rcb->getId());
@@ -74,6 +74,6 @@ void RemoteMessageRouterHandler::OnQueryCanceled(CefRefPtr<CefBrowser> browser,
   const auto bid = RemoteBrowser::findBidByCefBrowser(browser);
   RemoteFrame::Holder frm(frame);
   myCtx->javaService()->exec([&](JavaService s){
-    return s->MessageRouterHandler_onQueryCanceled(javaId(), bid, frm.serverId(), query_id);
+    return s->MessageRouterHandler_onQueryCanceled(javaId(), bid, frm.toRObject(), query_id);
   });
 }

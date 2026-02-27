@@ -10,7 +10,7 @@ namespace {
 }
 
 RemoteRequestContextHandler::RemoteRequestContextHandler(std::shared_ptr<ServerHandlerContext> ctx, thrift_codegen::RObject peer) :
-      RemoteJavaObject<RemoteRequestContextHandler>(ctx, peer.objId), myCtx(ctx) { // Empty disposer because lifetime of java-peer is managed by java owner (RemoteRequestContext)
+      RemoteJavaObject<RemoteRequestContextHandler>(ctx, peer.uid), myCtx(ctx) { // Empty disposer because lifetime of java-peer is managed by java owner (RemoteRequestContext)
   TRACE();
 }
 
@@ -32,7 +32,7 @@ CefRefPtr<CefResourceRequestHandler> RemoteRequestContextHandler::GetResourceReq
   thrift_codegen::RObject peer;
   myCtx->javaService()->exec([&](JavaService s){
     s->RequestContextHandler_GetResourceRequestHandler(
-        peer, myPeerId, bid, frm.serverId(), req.serverId(), is_navigation, is_download, request_initiator.ToString());
+        peer, myPeerId, bid, frm.toRObject(), req.toRObject(), is_navigation, is_download, request_initiator.ToString());
   });
 
   disable_default_handling = peer.__isset.flags ? peer.flags != 0 : false;

@@ -1,7 +1,6 @@
 package com.jetbrains.cef.remote.network;
 
 import com.jetbrains.cef.remote.RpcContext;
-import com.jetbrains.cef.remote.RpcExecutor;
 import com.jetbrains.cef.remote.RemoteServerObjectLocal;
 import com.jetbrains.cef.remote.thrift_codegen.RObject;
 import org.cef.handler.CefLoadHandler;
@@ -23,7 +22,7 @@ public class RemoteResponseImpl extends RemoteServerObjectLocal {
     @Override
     public void flush() {
         myRpc.exec((s)->{
-            s.Response_Update(thriftIdWithCache());
+            s.Response_Update(toRObjectWithCache());
         });
     }
 
@@ -62,23 +61,23 @@ public class RemoteResponseImpl extends RemoteServerObjectLocal {
     public void setMimeType(String mimeType) { setStrVal("MimeType", mimeType); }
 
     public String getHeaderByName(String name) {
-        return myRpc.execObj((s)-> s.Response_GetHeaderByName(thriftId(), name));
+        return myRpc.execObj((s)-> s.Response_GetHeaderByName(toRObject(), name));
     }
 
     public void setHeaderByName(String name, String value, boolean overwrite) {
-        myRpc.exec((s)-> s.Response_SetHeaderByName(thriftId(), name, value, overwrite));
+        myRpc.exec((s)-> s.Response_SetHeaderByName(toRObject(), name, value, overwrite));
     }
 
     public void getHeaderMap(Map<String, String> headerMap) {
         if (headerMap == null)
             return;
-        Map<String, String> result = myRpc.execObj((s)-> s.Response_GetHeaderMap(thriftId()));
+        Map<String, String> result = myRpc.execObj((s)-> s.Response_GetHeaderMap(toRObject()));
         if (result != null)
             headerMap.putAll(result);
     }
 
     public void setHeaderMap(Map<String, String> headerMap) {
-        myRpc.exec((s)-> s.Response_SetHeaderMap(thriftId(), headerMap));
+        myRpc.exec((s)-> s.Response_SetHeaderMap(toRObject(), headerMap));
     }
 
     @Override

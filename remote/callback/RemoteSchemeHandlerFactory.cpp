@@ -9,12 +9,12 @@ RemoteSchemeHandlerFactory::RemoteSchemeHandlerFactory(
     thrift_codegen::RObject peer)
     : RemoteJavaObject<RemoteSchemeHandlerFactory>(
           service,
-          peer.objId,
+          peer.uid,
           [=](JavaService service) {
-            service->SchemeHandlerFactory_Dispose(peer.objId);
-            Log::trace("Disposed SchemeHandlerFactory, peer-id=%d", peer.objId);
+            service->SchemeHandlerFactory_Dispose(peer.uid);
+            Log::trace("Disposed SchemeHandlerFactory, peer-id=%d", peer.uid);
           }) {
-  Log::trace("Created SchemeHandlerFactory, peer-id=%d", peer.objId);
+  Log::trace("Created SchemeHandlerFactory, peer-id=%d", peer.uid);
 }
 
 CefRefPtr<CefResourceHandler> RemoteSchemeHandlerFactory::Create(
@@ -28,7 +28,7 @@ CefRefPtr<CefResourceHandler> RemoteSchemeHandlerFactory::Create(
   RemoteFrame::Holder frm(frame);
   thrift_codegen::RObject resultHandler;
   myCtx->javaService()->exec([&](JavaService s){
-    s->SchemeHandlerFactory_CreateHandler(resultHandler, myPeerId, bid, frm.serverId(), scheme_name.ToString(), req.serverId());
+    s->SchemeHandlerFactory_CreateHandler(resultHandler, myPeerId, bid, frm.toRObject(), scheme_name.ToString(), req.toRObject());
   });
   return !resultHandler.isNull ? new RemoteResourceHandler(myCtx, resultHandler) : nullptr;
 }

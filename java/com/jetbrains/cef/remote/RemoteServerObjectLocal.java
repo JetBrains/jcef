@@ -22,16 +22,16 @@ public abstract class RemoteServerObjectLocal {
     protected final Map<String, String> myCache = new HashMap<>();
 
     public RemoteServerObjectLocal(RpcContext rpcContext, RObject robj) {
-        myId = robj.objId;
+        myId = robj.uid;
         myRpc = rpcContext;
-        if (robj.objInfo != null)
-            myCache.putAll(robj.objInfo);
+        if (robj.info != null)
+            myCache.putAll(robj.info);
     }
 
     public abstract void flush();
 
-    public RObject thriftId() { return new RObject(false, myId); }
-    public RObject thriftIdWithCache() { return new RObject(false, myId).setObjInfo(myCache); }
+    public RObject toRObject() { return new RObject(false, myId); }
+    public RObject toRObjectWithCache() { return new RObject(false, myId).setInfo(myCache); }
 
     //
     // Protected API
