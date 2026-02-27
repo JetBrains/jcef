@@ -18,11 +18,11 @@ public class RemoteJavaObject<T> {
     public int getId() { return myId; }
     public T getDelegate() { return myDelegate; }
 
-    public RObject thriftId() {
+    public RObject toRObject() {
         RObject result = new RObject(false, myId);
         return result;
     }
-    public RObject thriftId(int flags) {
+    public RObject toRObject(int flags) {
         RObject result = new RObject(false, myId);
         result.setFlags(flags);
         return result;

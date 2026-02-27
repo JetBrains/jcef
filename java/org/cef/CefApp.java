@@ -551,7 +551,7 @@ public class CefApp extends CefAppHandlerAdapter {
         if (server_ != null) {
             server_.onConnected(()->{
                 RemoteSchemeHandlerFactory rf = RemoteSchemeHandlerFactory.create(factory);
-                server_.exec(s -> s.SchemeHandlerFactory_Register(schemeName, domainName, rf.thriftId()));
+                server_.exec(s -> s.SchemeHandlerFactory_Register(schemeName, domainName, rf.toRObject()));
             }, "registerSchemeHandlerFactory", true);
             return true;
         }

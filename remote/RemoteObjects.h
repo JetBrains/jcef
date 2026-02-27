@@ -73,11 +73,15 @@ class RemoteServerObjectBase {
 
   int getId() { return myId; }
 
-  virtual thrift_codegen::RObject serverId() {
+  virtual thrift_codegen::RObject toRObject() {
     thrift_codegen::RObject robj;
-    robj.__set_objId(myId);
+    robj.__set_uid(myId);
     robj.isNull = false;
     return robj;
+  }
+
+  static std::shared_ptr<T> get(thrift_codegen::RObject robj) {
+    return robj.isNull ? nullptr : get(robj.uid);
   }
 
   static std::shared_ptr<T> get(int id) {
@@ -129,10 +133,10 @@ class RemoteServerObjectWithCache : public RemoteServerObject<T, D> {
   explicit RemoteServerObjectWithCache(int id, CefRefPtr<D> delegate) : RemoteServerObject<T, D>(id, delegate) {}
   ~RemoteServerObjectWithCache() override {}
 
-  virtual thrift_codegen::RObject serverId() override {
+  virtual thrift_codegen::RObject toRObject() override {
     thrift_codegen::RObject robj;
-    robj.__set_objId(RemoteServerObject<T, D>::myId);
-    robj.__set_objInfo(toMap());
+    robj.__set_uid(RemoteServerObject<T, D>::myId);
+    robj.__set_info(toMap());
     robj.isNull = false;
     return robj;
   }
@@ -177,7 +181,7 @@ class RemoteJavaObject {
 
   thrift_codegen::RObject javaId() {
     thrift_codegen::RObject robj;
-    robj.__set_objId(myPeerId);
+    robj.__set_uid(myPeerId);
     robj.isNull = false;
     return robj;
   }
@@ -201,8 +205,8 @@ class RemoteServerObjectHolder {
       RemoteServerObject<T, D>::dispose(myRemoteObj->getId());
   }
 
-  thrift_codegen::RObject serverId() {
-    return myRemoteObj != nullptr ? myRemoteObj->serverId() : thrift_codegen::RObject();
+  thrift_codegen::RObject toRObject() {
+    return myRemoteObj != nullptr ? myRemoteObj->toRObject() : thrift_codegen::RObject();
   }
 
  private:

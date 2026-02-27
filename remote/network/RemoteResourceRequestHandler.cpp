@@ -19,9 +19,9 @@ RemoteResourceRequestHandler::RemoteResourceRequestHandler(
     thrift_codegen::RObject javaPeer)
     : RemoteJavaObject(
           serviceIO,
-          javaPeer.objId,
+          javaPeer.uid,
           [=](JavaService service) {
-            service->ResourceRequestHandler_Dispose(javaPeer.objId);
+            service->ResourceRequestHandler_Dispose(javaPeer.uid);
           }) {
   TRACE();
 }
@@ -46,7 +46,7 @@ CefRefPtr<CefCookieAccessFilter> RemoteResourceRequestHandler::GetCookieAccessFi
   thrift_codegen::RObject remoteHandler;
   
   myCtx->javaServiceIO()->exec([&](JavaService s){
-    s->ResourceRequestHandler_GetCookieAccessFilter(remoteHandler, myPeerId, bid, frm.serverId(), req.serverId());
+    s->ResourceRequestHandler_GetCookieAccessFilter(remoteHandler, myPeerId, bid, frm.toRObject(), req.toRObject());
   });
   return !remoteHandler.isNull ? new RemoteCookieAccessFilter(myCtx, remoteHandler) : nullptr;
 }
@@ -75,7 +75,7 @@ CefResourceRequestHandler::ReturnValue RemoteResourceRequestHandler::OnBeforeRes
   RemoteFrame::Holder frm(frame);
   CefResourceRequestHandler::ReturnValue result = RV_CONTINUE;
   myCtx->javaServiceIO()->exec([&](JavaService s){
-    bool boolRes = s->ResourceRequestHandler_OnBeforeResourceLoad(myPeerId, bid, frm.serverId(), req.serverId());
+    bool boolRes = s->ResourceRequestHandler_OnBeforeResourceLoad(myPeerId, bid, frm.toRObject(), req.toRObject());
     result = (boolRes ? RV_CANCEL : RV_CONTINUE);
   });
   return result;
@@ -101,7 +101,7 @@ CefRefPtr<CefResourceHandler> RemoteResourceRequestHandler::GetResourceHandler(
   RemoteFrame::Holder frm(frame);
   thrift_codegen::RObject remoteHandler;
   myCtx->javaServiceIO()->exec([&](JavaService s){
-    s->ResourceRequestHandler_GetResourceHandler(remoteHandler, myPeerId, bid, frm.serverId(), req.serverId());
+    s->ResourceRequestHandler_GetResourceHandler(remoteHandler, myPeerId, bid, frm.toRObject(), req.toRObject());
   });
   return !remoteHandler.isNull ? new RemoteResourceHandler(myCtx, remoteHandler) : nullptr;
 }
@@ -131,8 +131,8 @@ void RemoteResourceRequestHandler::OnResourceRedirect(
   RemoteFrame::Holder frm(frame);
   std::string result;
   myCtx->javaServiceIO()->exec([&](JavaService s){
-    s->ResourceRequestHandler_OnResourceRedirect(result, myPeerId, bid, frm.serverId(), req.serverId(),
-                                                 resp.serverId(), new_url.ToString());
+    s->ResourceRequestHandler_OnResourceRedirect(result, myPeerId, bid, frm.toRObject(), req.toRObject(),
+                                                 resp.toRObject(), new_url.ToString());
   });
   CefString tmp(result);
   new_url.swap(tmp);
@@ -164,8 +164,8 @@ bool RemoteResourceRequestHandler::OnResourceResponse(
   RemoteResponse::Holder resp(response);
   RemoteFrame::Holder frm(frame);
   return myCtx->javaServiceIO()->exec<bool>([&](JavaService s){
-    return s->ResourceRequestHandler_OnResourceResponse(myPeerId, bid, frm.serverId(), req.serverId(),
-                                                        resp.serverId());
+    return s->ResourceRequestHandler_OnResourceResponse(myPeerId, bid, frm.toRObject(), req.toRObject(),
+                                                        resp.toRObject());
   }, false);
 }
 
@@ -200,8 +200,8 @@ void RemoteResourceRequestHandler::OnResourceLoadComplete(
   RemoteResponse::Holder resp(response);
   RemoteFrame::Holder frm(frame);
   myCtx->javaServiceIO()->exec([&](JavaService s){
-    s->ResourceRequestHandler_OnResourceLoadComplete(myPeerId, bid, frm.serverId(), req.serverId(),
-                                                     resp.serverId(), status2str(status), received_content_length);
+    s->ResourceRequestHandler_OnResourceLoadComplete(myPeerId, bid, frm.toRObject(), req.toRObject(),
+                                                     resp.toRObject(), status2str(status), received_content_length);
   });
 }
 
@@ -226,7 +226,7 @@ void RemoteResourceRequestHandler::OnProtocolExecution(
   RemoteRequest::Holder req(request);
   RemoteFrame::Holder frm(frame);
   myCtx->javaServiceIO()->exec([&](JavaService s){
-    allow_os_execution = s->ResourceRequestHandler_OnProtocolExecution(myPeerId, bid, frm.serverId(), req.serverId(), allow_os_execution);
+    allow_os_execution = s->ResourceRequestHandler_OnProtocolExecution(myPeerId, bid, frm.toRObject(), req.toRObject(), allow_os_execution);
   });
 }
 

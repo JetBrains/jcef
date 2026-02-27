@@ -109,11 +109,9 @@ public class RemoteBrowser implements CefBrowser {
             myIsNativeBrowserCreationStarted.set(true);
             myOwner.requestCid();
 
+            final RObject reqCtx = myRequestContext == null ? new RObject() : myRequestContext.getPeer();
             myRpc.exec((s) -> {
-                RObject contextHandler = new RObject();
-                if (myRequestContext.getRemoteHandler() != null)
-                    contextHandler = myRequestContext.getRemoteHandler().thriftId();
-                myBid = s.Browser_Create(myOwner.getCid(), contextHandler);
+                myBid = s.Browser_Create(myOwner.getCid(), reqCtx);
             });
             if (myBid >= 0) {
                 myRpc.server.bid2Browser.put(myBid, this);
@@ -124,9 +122,6 @@ public class RemoteBrowser implements CefBrowser {
             } else
                 CefLog.Error("Can't obtain bid, createBrowser returns %d", myBid);
         }
-
-        if (myBid >= 0)
-            myRequestContext.setBid(myBid, myRpc);
     }
 
     @Override
@@ -355,7 +350,7 @@ public class RemoteBrowser implements CefBrowser {
         myDelayed.runOrSchedule(()->{
             myRpc.invokeLater((s)->{
                 RemoteStringVisitor rvisitor = RemoteStringVisitor.create(visitor);
-                s.Browser_GetSource(myBid, rvisitor.thriftId());
+                s.Browser_GetSource(myBid, rvisitor.toRObject());
             });
         }, "getSource");
     }
@@ -368,7 +363,7 @@ public class RemoteBrowser implements CefBrowser {
         myDelayed.runOrSchedule(()->{
             myRpc.invokeLater((s)->{
                 RemoteStringVisitor rvisitor = RemoteStringVisitor.create(visitor);
-                s.Browser_GetText(myBid, rvisitor.thriftId());
+                s.Browser_GetText(myBid, rvisitor.toRObject());
             });
         }, "getText");
     }
@@ -387,7 +382,7 @@ public class RemoteBrowser implements CefBrowser {
             RemoteRequestImpl rr = ((RemoteRequest)request).getImpl();
             if (rr != null) {
                 rr.flush(); // just for insurance
-                myRpc.exec((s) -> s.Browser_LoadRequest(myBid, rr.thriftIdWithCache()));
+                myRpc.exec((s) -> s.Browser_LoadRequest(myBid, rr.toRObjectWithCache()));
             } else
                 CefLog.Error("RemoteRequestImpl is null [bid=%d]", myBid);
         }, "loadRequest");
@@ -525,7 +520,7 @@ public class RemoteBrowser implements CefBrowser {
         final Vector<String> filters = acceptFilters == null ? new Vector<>() : acceptFilters;
         myDelayed.runOrSchedule(()->{
             myRpc.invokeLater((s)->{
-                s.Browser_RunFileDialog(myBid, mode.name(), title, defaultFilePath, filters, rcallback.thriftId());
+                s.Browser_RunFileDialog(myBid, mode.name(), title, defaultFilePath, filters, rcallback.toRObject());
             });
         }, "runFileDialog");
     }
@@ -588,7 +583,7 @@ public class RemoteBrowser implements CefBrowser {
         }
         myDelayed.runOrSchedule(()->{
             myRpc.invokeLater((s)->{
-                s.Browser_PrintToPDF(myBid, path, printSettings, rcallback.thriftId());
+                s.Browser_PrintToPDF(myBid, path, printSettings, rcallback.toRObject());
             });
         }, "printToPDF");
     }
@@ -836,7 +831,7 @@ public class RemoteBrowser implements CefBrowser {
         }
 
         RemoteDevToolsMessageObserver robserver = RemoteDevToolsMessageObserver.create(observer);
-        RObject registration = myRpc.execObj(s -> s.Browser_AddDevToolsMessageObserver(myBid, robserver.thriftId()));
+        RObject registration = myRpc.execObj(s -> s.Browser_AddDevToolsMessageObserver(myBid, robserver.toRObject()));
         RemoteRegistrationImpl impl = new RemoteRegistrationImpl(myRpc, registration);
         return new RemoteRegistration(impl);
     }
@@ -858,7 +853,7 @@ public class RemoteBrowser implements CefBrowser {
                 }
             });
             myDelayed.runOrSchedule(() -> {
-                myRpc.invokeLater(s -> s.Browser_ExecuteDevToolsMethod(myBid, method, parametersAsJson, ricb.thriftId()));
+                myRpc.invokeLater(s -> s.Browser_ExecuteDevToolsMethod(myBid, method, parametersAsJson, ricb.toRObject()));
             }, String.format("executeDevToolsMethod: %s(%s)", method, parametersAsJson));
         }
 

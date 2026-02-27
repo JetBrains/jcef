@@ -19,6 +19,7 @@ class RemoteBrowser;
 class CefBrowser;
 class ServerHandlerContext;
 class RemoteClientHandler;
+class RemoteRequestContext;
 
 class RemoteClient {
 public:
@@ -35,7 +36,7 @@ public:
 
     std::shared_ptr<RemoteBrowser> createBrowser(std::shared_ptr<RemoteClient> owner,
                                                  std::shared_ptr<ServerHandlerContext> ctx,
-                                                 const thrift_codegen::RObject &requestContextHandler);
+                                                 std::shared_ptr<RemoteRequestContext> requestContext);
 
     void close();
     static std::shared_ptr<RemoteClient> findByBid(int bid);

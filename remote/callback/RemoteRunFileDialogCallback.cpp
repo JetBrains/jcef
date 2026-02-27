@@ -3,7 +3,7 @@
 RemoteRunFileDialogCallback::RemoteRunFileDialogCallback(
     std::shared_ptr<ServerHandlerContext> service,
     thrift_codegen::RObject peer)
-    : RemoteJavaObject<RemoteRunFileDialogCallback>(service, peer.objId) {
+    : RemoteJavaObject<RemoteRunFileDialogCallback>(service, peer.uid) {
 }  // Empty disposer because java-peer is disposed in the end of RunFileDialogCallback_OnFileDialogDismissed
 
 void RemoteRunFileDialogCallback::OnFileDialogDismissed(const std::vector<CefString>& file_paths) {

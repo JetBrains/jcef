@@ -85,7 +85,7 @@ class ServerHandler : virtual public ServerIf {
     printf("Client_RemoveMessageRouter\n");
   }
 
-  int32_t Browser_Create(const int32_t cid, const  ::thrift_codegen::RObject& requestContextHandler) {
+  int32_t Browser_Create(const int32_t cid, const  ::thrift_codegen::RObject& requestContext) {
     // Your implementation goes here
     printf("Browser_Create\n");
   }
@@ -565,12 +565,52 @@ class ServerHandler : virtual public ServerIf {
     printf("ClearAllSchemeHandlerFactories\n");
   }
 
-  void RequestContext_ClearCertificateExceptions(const int32_t bid, const  ::thrift_codegen::RObject& completionCallback) {
+  void RequestContext_GetGlobal( ::thrift_codegen::RObject& _return) {
+    // Your implementation goes here
+    printf("RequestContext_GetGlobal\n");
+  }
+
+  void RequestContext_Create( ::thrift_codegen::RObject& _return, const  ::thrift_codegen::RObject& requestContextHandler) {
+    // Your implementation goes here
+    printf("RequestContext_Create\n");
+  }
+
+  void RequestContext_Dispose(const  ::thrift_codegen::RObject& requestContext) {
+    // Your implementation goes here
+    printf("RequestContext_Dispose\n");
+  }
+
+  bool RequestContext_HasPreference(const  ::thrift_codegen::RObject& requestContext, const std::string& name) {
+    // Your implementation goes here
+    printf("RequestContext_HasPreference\n");
+  }
+
+  void RequestContext_GetPreference( ::thrift_codegen::CefValue& _return, const  ::thrift_codegen::RObject& requestContext, const std::string& name) {
+    // Your implementation goes here
+    printf("RequestContext_GetPreference\n");
+  }
+
+  void RequestContext_GetAllPreferences(std::map<std::string,  ::thrift_codegen::CefValue> & _return, const  ::thrift_codegen::RObject& requestContext, const bool includeDefaults) {
+    // Your implementation goes here
+    printf("RequestContext_GetAllPreferences\n");
+  }
+
+  bool RequestContext_CanSetPreference(const  ::thrift_codegen::RObject& requestContext, const std::string& name) {
+    // Your implementation goes here
+    printf("RequestContext_CanSetPreference\n");
+  }
+
+  void RequestContext_SetPreference(std::string& _return, const  ::thrift_codegen::RObject& requestContext, const std::string& name, const  ::thrift_codegen::CefValue& value) {
+    // Your implementation goes here
+    printf("RequestContext_SetPreference\n");
+  }
+
+  void RequestContext_ClearCertificateExceptions(const  ::thrift_codegen::RObject& requestContext, const  ::thrift_codegen::RObject& completionCallback) {
     // Your implementation goes here
     printf("RequestContext_ClearCertificateExceptions\n");
   }
 
-  void RequestContext_CloseAllConnections(const int32_t bid, const  ::thrift_codegen::RObject& completionCallback) {
+  void RequestContext_CloseAllConnections(const  ::thrift_codegen::RObject& requestContext, const  ::thrift_codegen::RObject& completionCallback) {
     // Your implementation goes here
     printf("RequestContext_CloseAllConnections\n");
   }

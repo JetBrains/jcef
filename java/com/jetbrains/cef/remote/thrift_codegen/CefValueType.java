@@ -7,15 +7,19 @@
 package com.jetbrains.cef.remote.thrift_codegen;
 
 
-public enum Style implements com.jetbrains.cef.remote.thrift.TEnum {
-  SOLID(0),
-  DOT(1),
-  DASH(2),
-  NONE(3);
+public enum CefValueType implements com.jetbrains.cef.remote.thrift.TEnum {
+  BOOL(0),
+  INT(1),
+  DOUBLE(2),
+  STRING(3),
+  BYTE_BUFFER(4),
+  MAP(5),
+  LIST(6),
+  NONE(7);
 
   private final int value;
 
-  private Style(int value) {
+  private CefValueType(int value) {
     this.value = value;
   }
 
@@ -32,15 +36,23 @@ public enum Style implements com.jetbrains.cef.remote.thrift.TEnum {
    * @return null if the value is not found.
    */
   @com.jetbrains.cef.remote.thrift.annotation.Nullable
-  public static Style findByValue(int value) { 
+  public static CefValueType findByValue(int value) { 
     switch (value) {
       case 0:
-        return SOLID;
+        return BOOL;
       case 1:
-        return DOT;
+        return INT;
       case 2:
-        return DASH;
+        return DOUBLE;
       case 3:
+        return STRING;
+      case 4:
+        return BYTE_BUFFER;
+      case 5:
+        return MAP;
+      case 6:
+        return LIST;
+      case 7:
         return NONE;
       default:
         return null;

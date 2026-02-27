@@ -2,7 +2,7 @@
 
 RemoteStringVisitor::RemoteStringVisitor(std::shared_ptr<ServerHandlerContext> service, thrift_codegen::RObject peer) : RemoteJavaObject<RemoteStringVisitor>(
           service,
-          peer.objId,
+          peer.uid,
           [=](JavaService service) {
             service->StringVisitor_Dispose(myPeerId);
           }) {}
