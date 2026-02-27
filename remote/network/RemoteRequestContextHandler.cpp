@@ -26,18 +26,15 @@ CefRefPtr<CefResourceRequestHandler> RemoteRequestContextHandler::GetResourceReq
   // Called on the browser process IO thread before a resource request is initiated.
   TRACE();
   LogNdc ndc(__FILE_NAME__, __FUNCTION__, "ChromeIO");
-  std::shared_ptr<RemoteBrowser> rb = RemoteBrowser::findByCefBrowser(browser);
-  if (!rb)
-    return nullptr;
-
+  const auto bid = RemoteBrowser::findBidByCefBrowser(browser);
   RemoteRequest::Holder req(request);
   RemoteFrame::Holder frm(frame);
   thrift_codegen::RObject peer;
   myCtx->javaService()->exec([&](JavaService s){
     s->RequestContextHandler_GetResourceRequestHandler(
-        peer, myPeerId, rb->getBid(), frm.serverId(), req.serverId(), is_navigation, is_download, request_initiator.ToString());
+        peer, myPeerId, bid, frm.serverId(), req.serverId(), is_navigation, is_download, request_initiator.ToString());
   });
 
   disable_default_handling = peer.__isset.flags ? peer.flags != 0 : false;
-  return !peer.isNull ? new RemoteResourceRequestHandler(rb->getBid(), myCtx, peer) : nullptr;
+  return !peer.isNull ? new RemoteResourceRequestHandler(myCtx, peer) : nullptr;
 }

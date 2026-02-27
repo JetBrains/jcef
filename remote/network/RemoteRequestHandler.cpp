@@ -112,7 +112,7 @@ CefRefPtr<CefResourceRequestHandler> RemoteRequestHandler::GetResourceRequestHan
   });
 
   disable_default_handling = peer.__isset.flags ? peer.flags != 0 : false;
-  return !peer.isNull ? new RemoteResourceRequestHandler(bid, myCtx, peer) : nullptr;
+  return !peer.isNull ? new RemoteResourceRequestHandler(myCtx, peer) : nullptr;
 }
 
 ///

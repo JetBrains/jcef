@@ -1505,15 +1505,12 @@ void ServerHandler::MessageRouter_CancelPending(
   if (!rmr)
     return;
 
-  std::shared_ptr<RemoteBrowser> rb = RemoteBrowser::find(bid);
-  if (!rb)
+  std::shared_ptr<RemoteMessageRouterHandler> rmrh = rmr->FindRemoteHandler(handler.objId);
+  if (!rmrh)
     return;
 
-  CefRefPtr<CefBrowser> browser = rb->getCefBrowser();
-  if (!browser) return;
-  std::shared_ptr<RemoteMessageRouterHandler> rmrh = rmr->FindRemoteHandler(handler.objId);
-  if (rmrh)
-    rmr->getDelegate()->CancelPending(browser, rmrh.get());
+  CefRefPtr<CefBrowser> browser = RemoteBrowser::findCefBrowser(bid);
+  rmr->getDelegate()->CancelPending(browser, rmrh.get());
 }
 
 void ServerHandler::QueryCallback_Dispose(const thrift_codegen::RObject& qcallback) {
@@ -1600,7 +1597,7 @@ void ServerHandler::RequestContext_ClearCertificateExceptions(const int32_t bid,
   }
 
   auto rb = RemoteBrowser::find(bid);
-  if (!rb)
+  if (!rb)  // TODO: fixme in next commit
     return;
   rb->getRequestContext()->ClearCertificateExceptions(cb);
   if (doTraceBrowser && Log::isTraceEnabled())
@@ -1622,7 +1619,7 @@ void ServerHandler::RequestContext_CloseAllConnections(const int32_t bid, const 
     return;
   }
   auto rb = RemoteBrowser::find(bid);
-  if (!rb)
+  if (!rb) // TODO: fixme in next commit
     return;
   rb->getRequestContext()->CloseAllConnections(cb);
   if (doTraceBrowser && Log::isTraceEnabled())

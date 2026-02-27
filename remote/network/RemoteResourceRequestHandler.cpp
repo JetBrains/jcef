@@ -1,12 +1,13 @@
 #include "RemoteResourceRequestHandler.h"
 #include "../CefUtils.h"
+#include "../browser/RemoteBrowser.h"
+#include "../browser/RemoteFrame.h"
 #include "../handlers/RemoteClientHandler.h"
 #include "../log/Log.h"
 #include "RemoteCookieAccessFilter.h"
 #include "RemoteRequest.h"
 #include "RemoteResourceHandler.h"
 #include "RemoteResponse.h"
-#include "../browser/RemoteFrame.h"
 
 namespace {
   std::string status2str(cef_urlrequest_status_t type);
@@ -14,15 +15,14 @@ namespace {
 }
 
 RemoteResourceRequestHandler::RemoteResourceRequestHandler(
-    int bid,
     std::shared_ptr<ServerHandlerContext> serviceIO,
-    thrift_codegen::RObject peer)
+    thrift_codegen::RObject javaPeer)
     : RemoteJavaObject(
           serviceIO,
-          peer.objId,
+          javaPeer.objId,
           [=](JavaService service) {
-            service->ResourceRequestHandler_Dispose(peer.objId);
-          }), myBid(bid) {
+            service->ResourceRequestHandler_Dispose(javaPeer.objId);
+          }) {
   TRACE();
 }
 
@@ -40,14 +40,15 @@ CefRefPtr<CefCookieAccessFilter> RemoteResourceRequestHandler::GetCookieAccessFi
     CefRefPtr<CefRequest> request
 ) {
   TRACE();
+  const auto bid = RemoteBrowser::findBidByCefBrowser(browser);
   RemoteRequest::Holder req(request);
   RemoteFrame::Holder frm(frame);
   thrift_codegen::RObject remoteHandler;
   
   myCtx->javaServiceIO()->exec([&](JavaService s){
-    s->ResourceRequestHandler_GetCookieAccessFilter(remoteHandler, myPeerId, myBid, frm.serverId(), req.serverId());
+    s->ResourceRequestHandler_GetCookieAccessFilter(remoteHandler, myPeerId, bid, frm.serverId(), req.serverId());
   });
-  return !remoteHandler.isNull ? new RemoteCookieAccessFilter(myBid, myCtx, remoteHandler) : nullptr;
+  return !remoteHandler.isNull ? new RemoteCookieAccessFilter(myCtx, remoteHandler) : nullptr;
 }
 
 ///
@@ -69,11 +70,12 @@ CefResourceRequestHandler::ReturnValue RemoteResourceRequestHandler::OnBeforeRes
     CefRefPtr<CefCallback> callback
 ) {
   TRACE();
+  const auto bid = RemoteBrowser::findBidByCefBrowser(browser);
   RemoteRequest::Holder req(request);
   RemoteFrame::Holder frm(frame);
   CefResourceRequestHandler::ReturnValue result = RV_CONTINUE;
   myCtx->javaServiceIO()->exec([&](JavaService s){
-    bool boolRes = s->ResourceRequestHandler_OnBeforeResourceLoad(myPeerId, myBid, frm.serverId(), req.serverId());
+    bool boolRes = s->ResourceRequestHandler_OnBeforeResourceLoad(myPeerId, bid, frm.serverId(), req.serverId());
     result = (boolRes ? RV_CANCEL : RV_CONTINUE);
   });
   return result;
@@ -94,13 +96,14 @@ CefRefPtr<CefResourceHandler> RemoteResourceRequestHandler::GetResourceHandler(
     CefRefPtr<CefRequest> request
 ) {
   TRACE();
+  const auto bid = RemoteBrowser::findBidByCefBrowser(browser);
   RemoteRequest::Holder req(request);
   RemoteFrame::Holder frm(frame);
   thrift_codegen::RObject remoteHandler;
   myCtx->javaServiceIO()->exec([&](JavaService s){
-    s->ResourceRequestHandler_GetResourceHandler(remoteHandler, myPeerId, myBid, frm.serverId(), req.serverId());
+    s->ResourceRequestHandler_GetResourceHandler(remoteHandler, myPeerId, bid, frm.serverId(), req.serverId());
   });
-  return !remoteHandler.isNull ? new RemoteResourceHandler(myBid, myCtx, remoteHandler) : nullptr;
+  return !remoteHandler.isNull ? new RemoteResourceHandler(myCtx, remoteHandler) : nullptr;
 }
 
 ///
@@ -122,12 +125,13 @@ void RemoteResourceRequestHandler::OnResourceRedirect(
     CefString& new_url
 ) {
   TRACE();
+  const auto bid = RemoteBrowser::findBidByCefBrowser(browser);
   RemoteRequest::Holder req(request);
   RemoteResponse::Holder resp(response);
   RemoteFrame::Holder frm(frame);
   std::string result;
   myCtx->javaServiceIO()->exec([&](JavaService s){
-    s->ResourceRequestHandler_OnResourceRedirect(result, myPeerId, myBid, frm.serverId(), req.serverId(),
+    s->ResourceRequestHandler_OnResourceRedirect(result, myPeerId, bid, frm.serverId(), req.serverId(),
                                                  resp.serverId(), new_url.ToString());
   });
   CefString tmp(result);
@@ -155,11 +159,12 @@ bool RemoteResourceRequestHandler::OnResourceResponse(
     CefRefPtr<CefResponse> response
 ) {
   TRACE();
+  const auto bid = RemoteBrowser::findBidByCefBrowser(browser);
   RemoteRequest::Holder req(request);
   RemoteResponse::Holder resp(response);
   RemoteFrame::Holder frm(frame);
   return myCtx->javaServiceIO()->exec<bool>([&](JavaService s){
-    return s->ResourceRequestHandler_OnResourceResponse(myPeerId, myBid, frm.serverId(), req.serverId(),
+    return s->ResourceRequestHandler_OnResourceResponse(myPeerId, bid, frm.serverId(), req.serverId(),
                                                         resp.serverId());
   }, false);
 }
@@ -190,11 +195,12 @@ void RemoteResourceRequestHandler::OnResourceLoadComplete(
     int64_t received_content_length
 ) {
   TRACE();
+  const auto bid = RemoteBrowser::findBidByCefBrowser(browser);
   RemoteRequest::Holder req(request);
   RemoteResponse::Holder resp(response);
   RemoteFrame::Holder frm(frame);
   myCtx->javaServiceIO()->exec([&](JavaService s){
-    s->ResourceRequestHandler_OnResourceLoadComplete(myPeerId, myBid, frm.serverId(), req.serverId(),
+    s->ResourceRequestHandler_OnResourceLoadComplete(myPeerId, bid, frm.serverId(), req.serverId(),
                                                      resp.serverId(), status2str(status), received_content_length);
   });
 }
@@ -216,10 +222,11 @@ void RemoteResourceRequestHandler::OnProtocolExecution(
     CefRefPtr<CefRequest> request,
     bool& allow_os_execution) {
   TRACE();
+  const auto bid = RemoteBrowser::findBidByCefBrowser(browser);
   RemoteRequest::Holder req(request);
   RemoteFrame::Holder frm(frame);
   myCtx->javaServiceIO()->exec([&](JavaService s){
-    allow_os_execution = s->ResourceRequestHandler_OnProtocolExecution(myPeerId, myBid, frm.serverId(), req.serverId(), allow_os_execution);
+    allow_os_execution = s->ResourceRequestHandler_OnProtocolExecution(myPeerId, bid, frm.serverId(), req.serverId(), allow_os_execution);
   });
 }
 

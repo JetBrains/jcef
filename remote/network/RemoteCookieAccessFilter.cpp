@@ -4,21 +4,21 @@
 #include "RemoteRequest.h"
 #include "RemoteResponse.h"
 #include "../browser/RemoteFrame.h"
+#include "../browser/RemoteBrowser.h"
 
 namespace {
   std::vector<std::string> cookie2list(const CefCookie& cookie);
 }
 
 RemoteCookieAccessFilter::RemoteCookieAccessFilter(
-    int bid,
     std::shared_ptr<ServerHandlerContext> service,
-    thrift_codegen::RObject peer)
+    thrift_codegen::RObject javaPeer)
     : RemoteJavaObject<RemoteCookieAccessFilter>(
           service,
-          peer.objId,
+          javaPeer.objId,
           [=](JavaService service) {
-            service->CookieAccessFilter_Dispose(peer.objId);
-          }), myBid(bid) {}
+            service->CookieAccessFilter_Dispose(javaPeer.objId);
+          }) {}
 
 ///
 /// Called on the IO thread before a resource request is sent. The |browser|
@@ -33,10 +33,11 @@ bool RemoteCookieAccessFilter::CanSendCookie(CefRefPtr<CefBrowser> browser,
                                              CefRefPtr<CefRequest> request,
                                              const CefCookie& cookie
 ) {
+  const auto bid = RemoteBrowser::findBidByCefBrowser(browser);
   RemoteRequest::Holder req(request);
   RemoteFrame::Holder frm(frame);
   return myCtx->javaServiceIO()->exec<bool>([&](JavaService s){
-    return s->CookieAccessFilter_CanSendCookie(myPeerId, myBid, frm.serverId(), req.serverId(), cookie2list(cookie));
+    return s->CookieAccessFilter_CanSendCookie(myPeerId, bid, frm.serverId(), req.serverId(), cookie2list(cookie));
   }, true);
 }
 
@@ -55,11 +56,12 @@ bool RemoteCookieAccessFilter::CanSaveCookie(CefRefPtr<CefBrowser> browser,
                                              CefRefPtr<CefResponse> response,
                                              const CefCookie& cookie
 ) {
+  const auto bid = RemoteBrowser::findBidByCefBrowser(browser);
   RemoteRequest::Holder req(request);
   RemoteResponse::Holder resp(response);
   RemoteFrame::Holder frm(frame);
   return myCtx->javaServiceIO()->exec<bool>([&](JavaService s){
-    return s->CookieAccessFilter_CanSaveCookie(myPeerId, myBid, frm.serverId(), req.serverId(),
+    return s->CookieAccessFilter_CanSaveCookie(myPeerId, bid, frm.serverId(), req.serverId(),
                                                resp.serverId(), cookie2list(cookie));
   }, true);
 }
