@@ -11,6 +11,7 @@ import org.cef.CefApp;
 import org.cef.CefSettings;
 import org.cef.handler.CefAppHandler;
 import org.cef.misc.CefLog;
+import org.cef.misc.Delayed;
 import org.cef.misc.Utils;
 
 import java.io.File;
@@ -31,6 +32,7 @@ public class CefServer {
     private final boolean myConnectAsMaster;
     private ThriftTransport myThriftBackward;
     private final CefParams myParams;
+    private final Delayed myDelayed;
 
     private CefApp myCefApp = null;
 
@@ -45,8 +47,6 @@ public class CefServer {
     private volatile boolean myIsContextInitialized = false;
     private volatile boolean myIsDisconnected = false;
     private volatile boolean myIsCrashed = false;
-
-    private final LinkedList<Runnable> myDelayedActions = new LinkedList<>();
 
     private Runnable myDisconnectionCallback = null;
 
@@ -64,6 +64,7 @@ public class CefServer {
         myServerExe = serverExe;
         myConnectAsMaster = connectAsMaster;
         myParams = new CefParams(settings, args);
+        myDelayed = new Delayed("CefServer_" + toStringShort());
 
         myRpc = new RpcContext(this);
         myClientHandlersImpl = new ClientHandlersImpl(myRpc);
@@ -157,29 +158,13 @@ public class CefServer {
             CefLog.Error("RuntimeException in CefServer.start: %s", e.getMessage());
             return false;
         } finally {
-            synchronized (myDelayedActions) {
-                myDelayedActions.clear();
-            }
+            myDelayed.dispose();
         }
     }
 
     // returns true when server is connected and action was executed immediately
     public boolean onConnected(Runnable r, String name, boolean first) {
-        synchronized (myDelayedActions) {
-            if (myIsConnected) {
-                if (r != null)
-                    r.run();
-                return true;
-            }
-            if (r != null) {
-                if (first)
-                    myDelayedActions.addFirst(r);
-                else
-                    myDelayedActions.addLast(r);
-                CefLog.Debug("Delay action '%s' until server connected (first=%s).", name, String.valueOf(first));
-            }
-            return false;
-        }
+        return myDelayed.runOrSchedule(r, name, first);
     }
 
     public RpcContext getRpcContext() { return myRpc; }
@@ -268,13 +253,11 @@ public class CefServer {
             CefLog.Error("RuntimeException in CefServer.connect: %s", e.getMessage());
             return false;
         } finally {
-            synchronized (myDelayedActions) {
-                if (cid != -1) {
-                    myIsConnected = true;
-                    myDelayedActions.forEach(r -> r.run());
-                }
-                myDelayedActions.clear();
-            }
+            if (cid != -1) {
+                myIsConnected = true;
+                myDelayed.finishNow();
+            } else
+                myDelayed.dispose();
         }
         return true;
     }
