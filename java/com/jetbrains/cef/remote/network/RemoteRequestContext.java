@@ -2,20 +2,15 @@ package com.jetbrains.cef.remote.network;
 
 import com.jetbrains.cef.remote.CefServer;
 import com.jetbrains.cef.remote.RpcContext;
-import com.jetbrains.cef.remote.RpcExecutor;
 import com.jetbrains.cef.remote.callback.RemoteCompletionCallback;
 import com.jetbrains.cef.remote.thrift_codegen.RObject;
-import org.cef.CefApp;
 import org.cef.browser.CefRequestContext;
 import org.cef.callback.CefCompletionCallback;
 import org.cef.handler.CefRequestContextHandler;
-import org.cef.misc.CefLog;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.cef.misc.Delayed;
 
 public class RemoteRequestContext extends CefRequestContext {
-    private final List<Runnable> myDelayedActions = new ArrayList<>();
+    private final Delayed myDelayed;
     private final CefRequestContextHandler myHandler;
     private RemoteRequestContextHandler myRemoteWrapper;
     private int myBid = -1;
@@ -24,40 +19,23 @@ public class RemoteRequestContext extends CefRequestContext {
     // Creates wrapper for global CefRequestContext instance
     public RemoteRequestContext(CefServer server) {
         myHandler = null;
-        server.onConnected(()->{
-            synchronized (myDelayedActions) {
-                myRpc = server.getRpcContext();
-                myDelayedActions.forEach(r -> r.run());
-                myDelayedActions.clear();
-            }
-        }, "RemoteRequestContext(GLOBAL)", true);
+        myDelayed = new Delayed("RemoteRequestContext(global)");
+        myDelayed.finishOnConnection(server, () -> myRpc = server.getRpcContext());
     }
 
     // Creates wrapper for browser's CefRequestContext instance (can be 'global' too)
-    public RemoteRequestContext(CefRequestContextHandler handler) {
+    public RemoteRequestContext(CefServer server, CefRequestContextHandler handler) {
         myHandler = handler;
+        myDelayed = new Delayed("RemoteRequestContext(browser)");
+        myDelayed.finishOnConnection(server, () -> myRpc = server.getRpcContext());
     }
 
     // Will be called for browser's instance immediately after bid obtained.
     public void setBid(int bid, RpcContext ctx) {
         assert bid >= 0;
         myBid = bid;
-        synchronized (myDelayedActions) {
-            myRpc = ctx;// bid is obtained => server is connected
-            myDelayedActions.forEach(r -> r.run());
-            myDelayedActions.clear();
-        }
-    }
-
-    private void execute(Runnable rpcCall, String name) {
-        synchronized (myDelayedActions) {
-            if (myRpc != null)
-                rpcCall.run();
-            else {
-                CefLog.Debug("RemoteRequestContext: %s: add delayed action %s", this, name);
-                myDelayedActions.add(rpcCall);
-            }
-        }
+        myRpc = ctx;// bid is obtained => server is connected
+        myDelayed.finishNow();
     }
 
     @Override
@@ -93,12 +71,12 @@ public class RemoteRequestContext extends CefRequestContext {
     @Override
     public void ClearCertificateExceptions(CefCompletionCallback callback) {
         RObject cbId = callback != null ? RemoteCompletionCallback.create(callback).thriftId() : new RObject();
-        execute(() -> myRpc.invokeLater(s -> s.RequestContext_ClearCertificateExceptions(myBid, cbId)), "ClearCertificateExceptions");
+        myDelayed.runOrSchedule(() -> myRpc.invokeLater(s -> s.RequestContext_ClearCertificateExceptions(myBid, cbId)), "ClearCertificateExceptions");
     }
 
     @Override
     public void CloseAllConnections(CefCompletionCallback callback) {
         RObject cbId = callback != null ? RemoteCompletionCallback.create(callback).thriftId() : new RObject();
-        execute(() -> myRpc.invokeLater(s -> s.RequestContext_CloseAllConnections(myBid, cbId)), "CloseAllConnections");
+        myDelayed.runOrSchedule(() -> myRpc.invokeLater(s -> s.RequestContext_CloseAllConnections(myBid, cbId)), "CloseAllConnections");
     }
 }

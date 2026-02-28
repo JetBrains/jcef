@@ -1,75 +1,46 @@
 package com.jetbrains.cef.remote.router;
 
 import com.jetbrains.cef.remote.CefServer;
-import com.jetbrains.cef.remote.RpcContext;
-import org.cef.CefApp;
 import org.cef.browser.CefBrowser;
 import org.cef.browser.CefMessageRouter;
 import org.cef.handler.CefMessageRouterHandler;
-import org.cef.misc.CefLog;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.cef.misc.Delayed;
 
 // Simple wrapper for convenience
 public class RemoteMessageRouter extends CefMessageRouter {
     private RemoteMessageRouterImpl myImpl;
-    private final List<Runnable> myDelayedActions = new ArrayList<>();
-    private volatile boolean myIsDisposed = false;
-
-    private void execute(Runnable nativeRunnable, String name) {
-        synchronized (myDelayedActions) {
-            if (myIsDisposed)
-                return;
-            if (myImpl != null)
-                nativeRunnable.run();
-            else {
-                CefLog.Debug("RemoteMessageRouter: %s: add delayed action %s", this, name);
-                myDelayedActions.add(nativeRunnable);
-            }
-        }
-    }
+    private final Delayed myDelayed;
 
     @Override
     public void dispose() {
-        synchronized (myDelayedActions) {
-            myIsDisposed = true;
-            myDelayedActions.clear();
-            if (myImpl != null)
-                myImpl.disposeOnServer();
-        }
+        myDelayed.dispose();
+        if (myImpl != null)
+            myImpl.disposeOnServer();
+        myImpl = null;
     }
 
     @Override
     public boolean addHandler(CefMessageRouterHandler handler, boolean first) {
-        execute(() -> myImpl.addHandler(handler, first), "addHandler");
+        myDelayed.runOrSchedule(() -> myImpl.addHandler(handler, first), "addHandler");
         return true;
     }
 
     @Override
     public boolean removeHandler(CefMessageRouterHandler handler) {
-        execute(() -> myImpl.removeHandler(handler), "removeHandler");
+        myDelayed.runOrSchedule(() -> myImpl.removeHandler(handler), "removeHandler");
         return true;
     }
 
     @Override
     public void cancelPending(CefBrowser browser, CefMessageRouterHandler handler) {
-        execute(() -> myImpl.cancelPending(browser, handler), "cancelPending");
+        myDelayed.runOrSchedule(() -> myImpl.cancelPending(browser, handler), "cancelPending");
     }
 
     public RemoteMessageRouter(CefServer server, CefMessageRouterConfig config) {
         super(config);
+        myDelayed = new Delayed("RemoteMessageRouter");
         // NOTE: message router must be registered before browser created, so use flag 'first' here
-        server.onConnected(()->{
-            RpcContext rpcContext = server.getRpcContext();
-            myImpl = RemoteMessageRouterImpl.create(rpcContext, getMessageRouterConfig());
-            synchronized (myDelayedActions) {
-                myDelayedActions.forEach(r -> r.run());
-                myDelayedActions.clear();
-                if (myIsDisposed && myImpl != null)
-                    myImpl.disposeOnServer();
-            }
-        }, "MessageRouter_Create", true);
+        myDelayed.finishOnConnection(server, true, () -> myImpl = RemoteMessageRouterImpl.create(server.getRpcContext(), getMessageRouterConfig()));
     }
 
     public RemoteMessageRouterImpl getImpl() {
@@ -77,13 +48,13 @@ public class RemoteMessageRouter extends CefMessageRouter {
     }
 
     public void addToClient(int cid) {
-        execute(()->{
+        myDelayed.runOrSchedule(()->{
             myImpl.addToClient(cid);
         }, "addToClient");
     }
 
     public void removeFromClient(int cid) {
-        execute(()->{
+        myDelayed.runOrSchedule(()->{
             myImpl.removeFromClient(cid);
         }, "removeFromClient");
     }
