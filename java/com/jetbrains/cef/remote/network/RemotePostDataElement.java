@@ -95,7 +95,7 @@ public class RemotePostDataElement extends CefPostDataElement {
             case 0: return Type.PDE_TYPE_EMPTY;
             case 1: return Type.PDE_TYPE_BYTES;
             case 2: return Type.PDE_TYPE_FILE;
-            case 3: return Type.PDF_TYPE_NUM_VALUES;
+            case 3: return Type.PDE_TYPE_NUM_VALUES;
             default: return null;
         }
     }
@@ -105,7 +105,7 @@ public class RemotePostDataElement extends CefPostDataElement {
             case PDE_TYPE_EMPTY: return 0;
             case PDE_TYPE_BYTES: return 1;
             case PDE_TYPE_FILE: return 2;
-            case PDF_TYPE_NUM_VALUES: return 3;
+            case PDE_TYPE_NUM_VALUES: return 3;
             default: return -1;
         }
     }
