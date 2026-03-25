@@ -3,13 +3,12 @@ package tests.remote;
 import org.cef.browser.CefBrowser;
 import org.cef.browser.CefFrame;
 import org.cef.callback.CefCallback;
+import org.cef.callback.CefResourceReadCallback;
+import org.cef.callback.CefResourceSkipCallback;
 import org.cef.handler.CefCookieAccessFilter;
 import org.cef.handler.CefResourceHandler;
 import org.cef.handler.CefResourceRequestHandler;
-import org.cef.misc.BoolRef;
-import org.cef.misc.CefLog;
-import org.cef.misc.IntRef;
-import org.cef.misc.StringRef;
+import org.cef.misc.*;
 import org.cef.network.CefRequest;
 import org.cef.network.CefResponse;
 import org.cef.network.CefURLRequest;
@@ -67,6 +66,21 @@ public class TestResourceRequestHandler implements CefResourceRequestHandler {
                     private final String content_ = rc.content;
                     private final String mimeType_ = rc.mimeType;
                     private final HashMap<String, String> headerMap_ = rc.headerMap;
+
+                    @Override
+                    public boolean open(CefRequest request, BoolRef handleRequest, CefCallback callback) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean read(byte[] dataOut, int bytesToRead, IntRef bytesRead, CefResourceReadCallback callback) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean skip(long bytesToSkip, LongRef bytesSkipped, CefResourceSkipCallback callback) {
+                        return false;
+                    }
 
                     @Override
                     public boolean processRequest(CefRequest request, CefCallback callback) {

@@ -20,6 +20,11 @@ class RemoteResourceHandler : public CefResourceHandler, public RemoteJavaObject
                     CefRefPtr<CefCallback> callback) override;
   void Cancel() override;
 
+  // TODO: support for new CefResourceHandler API:
+  // boolean skip(long bytesToSkip, LongRef bytesSkipped, CefResourceSkipCallback callback);
+  // boolean read(byte[] dataOut, int bytesToRead, IntRef bytesRead, CefResourceReadCallback callback);
+  // boolean open(CefRequest request, BoolRef handleRequest, CefCallback callback);
+
  private:
   const int myBid;
   std::set<int> myCallbacks;
