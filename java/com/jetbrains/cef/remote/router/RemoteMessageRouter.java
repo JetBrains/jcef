@@ -21,19 +21,19 @@ public class RemoteMessageRouter extends CefMessageRouter {
 
     @Override
     public boolean addHandler(CefMessageRouterHandler handler, boolean first) {
-        myDelayed.runOrSchedule(() -> myImpl.addHandler(handler, first), "addHandler");
+        myDelayed.runOrDelay(() -> myImpl.addHandler(handler, first), "addHandler");
         return true;
     }
 
     @Override
     public boolean removeHandler(CefMessageRouterHandler handler) {
-        myDelayed.runOrSchedule(() -> myImpl.removeHandler(handler), "removeHandler");
+        myDelayed.runOrDelay(() -> myImpl.removeHandler(handler), "removeHandler");
         return true;
     }
 
     @Override
     public void cancelPending(CefBrowser browser, CefMessageRouterHandler handler) {
-        myDelayed.runOrSchedule(() -> myImpl.cancelPending(browser, handler), "cancelPending");
+        myDelayed.runOrDelay(() -> myImpl.cancelPending(browser, handler), "cancelPending");
     }
 
     public RemoteMessageRouter(CefServer server, CefMessageRouterConfig config) {
@@ -48,13 +48,13 @@ public class RemoteMessageRouter extends CefMessageRouter {
     }
 
     public void addToClient(int cid) {
-        myDelayed.runOrSchedule(()->{
+        myDelayed.runOrDelay(()->{
             myImpl.addToClient(cid);
         }, "addToClient");
     }
 
     public void removeFromClient(int cid) {
-        myDelayed.runOrSchedule(()->{
+        myDelayed.runOrDelay(()->{
             myImpl.removeFromClient(cid);
         }, "removeFromClient");
     }

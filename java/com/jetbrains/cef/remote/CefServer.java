@@ -165,7 +165,7 @@ public class CefServer {
 
     // returns true when server is connected and action was executed immediately
     public boolean onConnected(Runnable r, String name, boolean first) {
-        return myDelayed.runOrSchedule(r, name, first);
+        return myDelayed.runOrDelay(r, name, first);
     }
 
     public RpcContext getRpcContext() { return myRpc; }

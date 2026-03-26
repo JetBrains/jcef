@@ -73,7 +73,7 @@ public class RemoteBrowser implements CefBrowser {
         myUrl = url;
         myRequestContext = requestContext != null ? requestContext : new RemoteRequestContext(myRpc.server);
         mySettings = settings;
-        myDelayed = new Delayed("RemoteBrowser_" + super.toString());
+        myDelayed = new Delayed("RemoteBrowser_" + Integer.toHexString(hashCode()));
     }
 
     public int getBid() { return myBid; }
@@ -191,7 +191,7 @@ public class RemoteBrowser implements CefBrowser {
         if (myIsClosing)
             return;
 
-        myDelayed.runOrSchedule(()->{
+        myDelayed.runOrDelay(()->{
             myRpc.invokeLater((s)->{
                 s.Browser_Reload(myBid);
             });
@@ -203,7 +203,7 @@ public class RemoteBrowser implements CefBrowser {
         if (myIsClosing)
             return;
 
-        myDelayed.runOrSchedule(()->{
+        myDelayed.runOrDelay(()->{
             myRpc.invokeLater((s)->{
                 s.Browser_ReloadIgnoreCache(myBid);
             });
@@ -335,7 +335,7 @@ public class RemoteBrowser implements CefBrowser {
         if (myIsClosing)
             return;
 
-        myDelayed.runOrSchedule(()->{
+        myDelayed.runOrDelay(()->{
             myRpc.invokeLater((s)->{
                 s.Browser_ViewSource(myBid);
             });
@@ -347,7 +347,7 @@ public class RemoteBrowser implements CefBrowser {
         if (myIsClosing || visitor == null)
             return;
 
-        myDelayed.runOrSchedule(()->{
+        myDelayed.runOrDelay(()->{
             myRpc.invokeLater((s)->{
                 RemoteStringVisitor rvisitor = RemoteStringVisitor.create(visitor);
                 s.Browser_GetSource(myBid, rvisitor.toRObject());
@@ -360,7 +360,7 @@ public class RemoteBrowser implements CefBrowser {
         if (myIsClosing || visitor == null)
             return;
 
-        myDelayed.runOrSchedule(()->{
+        myDelayed.runOrDelay(()->{
             myRpc.invokeLater((s)->{
                 RemoteStringVisitor rvisitor = RemoteStringVisitor.create(visitor);
                 s.Browser_GetText(myBid, rvisitor.toRObject());
@@ -378,7 +378,7 @@ public class RemoteBrowser implements CefBrowser {
             return;
         }
 
-        myDelayed.runOrSchedule(() -> {
+        myDelayed.runOrDelay(() -> {
             RemoteRequestImpl rr = ((RemoteRequest)request).getImpl();
             if (rr != null) {
                 rr.flush(); // just for insurance
@@ -394,7 +394,7 @@ public class RemoteBrowser implements CefBrowser {
         if (myIsClosing)
             return;
 
-        myDelayed.runOrSchedule(()->{
+        myDelayed.runOrDelay(()->{
             myRpc.exec((s)->{
                 s.Browser_LoadURL(myBid, url);
             });
@@ -406,7 +406,7 @@ public class RemoteBrowser implements CefBrowser {
         if (myIsClosing)
             return;
 
-        myDelayed.runOrSchedule(()->{
+        myDelayed.runOrDelay(()->{
             myRpc.exec((s)->{
                 s.Browser_ExecuteJavaScript(myBid, code, url, line);
             });
@@ -476,7 +476,7 @@ public class RemoteBrowser implements CefBrowser {
         if (myIsClosing)
             return;
 
-        myDelayed.runOrSchedule(()->{
+        myDelayed.runOrDelay(()->{
             myRpc.invokeLater((s)->{
                 s.Browser_SetFocus(myBid, enable);
             });
@@ -505,7 +505,7 @@ public class RemoteBrowser implements CefBrowser {
         if (myIsClosing)
             return;
 
-        myDelayed.runOrSchedule(()->myRpc.invokeLater((s)-> s.Browser_SetZoomLevel(myBid, zoomLevel)), "setZoomLevel");
+        myDelayed.runOrDelay(()->myRpc.invokeLater((s)-> s.Browser_SetZoomLevel(myBid, zoomLevel)), "setZoomLevel");
     }
 
     @Override
@@ -518,7 +518,7 @@ public class RemoteBrowser implements CefBrowser {
         }
         RemoteRunFileDialogCallback rcallback = RemoteRunFileDialogCallback.create(callback);
         final Vector<String> filters = acceptFilters == null ? new Vector<>() : acceptFilters;
-        myDelayed.runOrSchedule(()->{
+        myDelayed.runOrDelay(()->{
             myRpc.invokeLater((s)->{
                 s.Browser_RunFileDialog(myBid, mode.name(), title, defaultFilePath, filters, rcallback.toRObject());
             });
@@ -530,7 +530,7 @@ public class RemoteBrowser implements CefBrowser {
         if (myIsClosing)
             return;
 
-        myDelayed.runOrSchedule(()->{
+        myDelayed.runOrDelay(()->{
             myRpc.invokeLater((s)->{
                 s.Browser_StartDownload(myBid, url);
             });
@@ -541,7 +541,7 @@ public class RemoteBrowser implements CefBrowser {
     public void print() {
         if (myIsClosing)
             return;
-        myDelayed.runOrSchedule(()->{
+        myDelayed.runOrDelay(()->{
             myRpc.invokeLater((s)->{
                 s.Browser_Print(myBid);
             });
@@ -581,7 +581,7 @@ public class RemoteBrowser implements CefBrowser {
             printSettings.put("generate_document_outline", String.valueOf(settings.generate_document_outline));
             printSettings.put("generate_tagged_pdf", String.valueOf(settings.generate_tagged_pdf));
         }
-        myDelayed.runOrSchedule(()->{
+        myDelayed.runOrDelay(()->{
             myRpc.invokeLater((s)->{
                 s.Browser_PrintToPDF(myBid, path, printSettings, rcallback.toRObject());
             });
@@ -593,7 +593,7 @@ public class RemoteBrowser implements CefBrowser {
         if (myIsClosing)
             return;
 
-        myDelayed.runOrSchedule(()->{
+        myDelayed.runOrDelay(()->{
             myRpc.invokeLater((s)->{
                 s.Browser_Find(myBid, searchText, forward, matchCase, findNext);
             });
@@ -605,7 +605,7 @@ public class RemoteBrowser implements CefBrowser {
         if (myIsClosing)
             return;
 
-        myDelayed.runOrSchedule(()->{
+        myDelayed.runOrDelay(()->{
             myRpc.invokeLater((s)->{
                 s.Browser_StopFinding(myBid, clearSelection);
             });
@@ -629,7 +629,7 @@ public class RemoteBrowser implements CefBrowser {
 
     @Override
     public void closeDevTools() {
-        myDelayed.runOrSchedule(()->{
+        myDelayed.runOrDelay(()->{
             myRpc.invokeLater((s)->{
                 s.Browser_CloseDevTools(myBid);
             });
@@ -651,7 +651,7 @@ public class RemoteBrowser implements CefBrowser {
         if (myIsClosing)
             return;
 
-        myDelayed.runOrSchedule(()->{
+        myDelayed.runOrDelay(()->{
             myRpc.invokeLater((s)->{
                 s.Browser_ReplaceMisspelling(myBid, word);
             });
@@ -665,7 +665,7 @@ public class RemoteBrowser implements CefBrowser {
         if (myIsClosing)
             return;
 
-        myDelayed.runOrSchedule(()->{
+        myDelayed.runOrDelay(()->{
             myRpc.invokeLater(s -> s.Browser_WasResized(myBid));
         }, "wasResized");
     }
@@ -675,7 +675,7 @@ public class RemoteBrowser implements CefBrowser {
         if (myIsClosing)
             return;
 
-        myDelayed.runOrSchedule(()->{
+        myDelayed.runOrDelay(()->{
             myRpc.invokeLater(s -> s.Browser_Invalidate(myBid));
         }, "invalidate");
     }
@@ -685,7 +685,7 @@ public class RemoteBrowser implements CefBrowser {
         if (myIsClosing)
             return;
 
-        myDelayed.runOrSchedule(()->{
+        myDelayed.runOrDelay(()->{
             myRpc.invokeLater(s -> s.Browser_NotifyScreenInfoChanged(myBid));
         }, "notifyScreenInfoChanged");
     }
@@ -801,7 +801,7 @@ public class RemoteBrowser implements CefBrowser {
         if (myIsClosing)
             return;
 
-        myDelayed.runOrSchedule(()->{
+        myDelayed.runOrDelay(()->{
             myRpc.invokeLater((s)->{
                 s.Browser_SetFrameRate(myBid, frameRate);
             });
@@ -852,7 +852,7 @@ public class RemoteBrowser implements CefBrowser {
                     future.complete(generatedMessageId);
                 }
             });
-            myDelayed.runOrSchedule(() -> {
+            myDelayed.runOrDelay(() -> {
                 myRpc.invokeLater(s -> s.Browser_ExecuteDevToolsMethod(myBid, method, parametersAsJson, ricb.toRObject()));
             }, String.format("executeDevToolsMethod: %s(%s)", method, parametersAsJson));
         }
