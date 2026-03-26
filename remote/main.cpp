@@ -22,8 +22,6 @@ using namespace apache::thrift;
 using namespace apache::thrift::transport;
 using namespace apache::thrift::server;
 
-using namespace thrift_codegen;
-
 #ifdef OS_MAC
 extern void initMacApplication();
 #else
