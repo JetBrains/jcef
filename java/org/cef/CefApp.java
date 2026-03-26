@@ -164,7 +164,7 @@ public class CefApp extends CefAppHandlerAdapter {
             if (isRemoteEnabled_)
                 System.out.println("JCEF is forced to be enabled.");
         } else
-            isRemoteEnabled_ = !Boolean.getBoolean("jcef.remote.disabled");
+            isRemoteEnabled_ = Boolean.getBoolean("jcef.remote.enabled");
     }
 
     /**
