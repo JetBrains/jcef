@@ -74,9 +74,9 @@ echo JCEF_JNI=%JCEF_JNI%
 set "PATH=%JCEF_JNI%\bin;%PATH%"
 
 if "%TARGET_ARCH%" == "arm64" (
-    cmake -G "Visual Studio 17 2022" -A ARM64 -D "JAVA_HOME=%JCEF_JNI:\=/%" -D "PROJECT_ARCH=arm64" .. || goto:__exit
+    cmake -G "Visual Studio 17 2022" -A ARM64 -D "JAVA_HOME=%JCEF_JNI:\=/%" -D "PROJECT_ARCH=arm64" -D "CMAKE_SYSTEM_VERSION=10.0.22621.0" .. || goto:__exit
 ) else (
-    cmake -G "Visual Studio 17 2022" -D "JAVA_HOME=%JCEF_JNI:\=/%" -D "PROJECT_ARCH=x86_64" .. || goto:__exit
+    cmake -G "Visual Studio 17 2022" -D "JAVA_HOME=%JCEF_JNI:\=/%" -D "PROJECT_ARCH=x86_64" -D "CMAKE_SYSTEM_VERSION=10.0.22621.0" .. || goto:__exit
 )
 
 endlocal
