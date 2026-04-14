@@ -31,6 +31,8 @@ public class ThriftTransport {
     private static final long PID = ProcessHandle.current().pid();
     private static final String SUFFIX;
     private static final Path PIPE_DIR = Path.of(System.getProperty("java.io.tmpdir"));
+    private static final int FREE_PORT_SEARCH_START = Utils.getInteger("CEF_SERVER_FREE_PORT_SEARCH_START", 30000);
+    private static final int FREE_PORT_SEARCH_END = Utils.getInteger("CEF_SERVER_FREE_PORT_SEARCH_START", 65000);
 
     private final String myPipe;
     private final int myPort;
@@ -234,7 +236,7 @@ public class ThriftTransport {
 
     public static int findFreePort() { return findFreePort(null); }
 
-    public static int findFreePort(Set<Integer> exclude) { return findFreePort(9999, 65500, exclude); }
+    public static int findFreePort(Set<Integer> exclude) { return findFreePort(FREE_PORT_SEARCH_START, FREE_PORT_SEARCH_END, exclude); }
 
     public static int findFreePort(int from, int to, Set<Integer> exclude) {
         for (int port = from; port < to; ++port) {

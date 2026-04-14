@@ -249,7 +249,7 @@ public class CefServer {
                 return false;
             }
 
-            CefLog.Debug("Connected to '%s', cid=%d", this.toStringDetailed(), cid);
+            CefLog.Debug("Connected to '%s', cid=%d, transport(backward)=%s, asMaster=%s", this.toStringDetailed(), cid, myThriftBackward.toStringShort(), myConnectAsMaster);
         } catch (Throwable e) {
             CefLog.Error("RuntimeException in CefServer.connect: %s", e.getMessage());
             return false;
