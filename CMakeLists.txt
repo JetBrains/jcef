@@ -189,6 +189,17 @@ elseif("${CMAKE_SYSTEM_NAME}" STREQUAL "Windows")
       set(CEF_PLATFORM "windows32")
       set(PROJECT_ARCH "x86")
     endif()
+
+    # Ensure that target matches the CRT used to build thriftmd.lib
+    if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+      set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreadedDLL")
+    else()
+      set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreadedDLL")
+    endif()
+
+    message(STATUS "Windows SDK Version: ${CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION}")
+    message(STATUS "Target Architecture: ${CMAKE_GENERATOR_PLATFORM}")
+    message(STATUS "MSVC Compiler Ver:   ${MSVC_VERSION}")
   else()
     message(FATAL_ERROR "Building JCEF for Windows using non-MSVC compiler is not supported.")
   endif()
