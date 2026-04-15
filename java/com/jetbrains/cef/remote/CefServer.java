@@ -15,6 +15,7 @@ import org.cef.misc.Delayed;
 import org.cef.misc.Utils;
 
 import java.io.File;
+import java.lang.ref.WeakReference;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicLong;
@@ -50,8 +51,7 @@ public class CefServer {
 
     private Runnable myDisconnectionCallback = null;
 
-    public final Map<Integer, RemoteClient> cid2Client = new ConcurrentHashMap<>();
-    public final Map<Integer, RemoteBrowser> bid2Browser = new ConcurrentHashMap<>();
+    public final Map<Integer, WeakReference<RemoteBrowser>> bid2Browser = new ConcurrentHashMap<>();
 
     public CefServer(ThriftTransport transport, String[] args, CefSettings settings) {
         this(NativeServerManager.getServerExe(), transport, args, settings);

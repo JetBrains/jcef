@@ -36,6 +36,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.image.BufferedImage;
+import java.lang.ref.WeakReference;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -114,7 +115,7 @@ public class RemoteBrowser implements CefBrowser {
                 myBid = s.Browser_Create(myOwner.getCid(), reqCtx);
             });
             if (myBid >= 0) {
-                myRpc.server.bid2Browser.put(myBid, this);
+                myRpc.server.bid2Browser.put(myBid, new WeakReference<>(this));
                 CefLog.Debug("Registered bid %d", myBid);
                 // At current point new bid is registered so java-handlers calls will be dispatched correctly.
                 // We can't start creation earlier because for example onAfterCreated can be called before new bid is registered.
@@ -458,7 +459,7 @@ public class RemoteBrowser implements CefBrowser {
             myDevToolsClient.close();
 
         if (myBid >= 0) {
-            RemoteBrowser removed = myRpc.server.bid2Browser.remove(myBid);
+            Object removed = myRpc.server.bid2Browser.remove(myBid);
             if (removed == null)
                 CefLog.Error("Unregister bid: bid=%d was already removed.", myBid);
         } else

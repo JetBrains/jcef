@@ -24,6 +24,7 @@ import org.cef.network.CefURLRequest;
 import org.cef.security.CefSSLInfo;
 
 import java.awt.*;
+import java.lang.ref.WeakReference;
 import java.nio.ByteBuffer;
 import java.util.*;
 import java.util.List;
@@ -45,9 +46,15 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
     }
 
     private RemoteBrowser getRemoteBrowser(int bid) {
-        RemoteBrowser browser = myRpc.server.bid2Browser.get(bid);
-        if (browser == null) {
+        WeakReference<RemoteBrowser> browserRef = myRpc.server.bid2Browser.get(bid);
+        if (browserRef == null) {
             if (TRACE_REMOTE_FIND_BID) CefLog.Debug("Can't find remote browser with bid=%d.", bid);
+            return null;
+        }
+        RemoteBrowser browser = browserRef.get();
+        if (browser == null) {
+            if (TRACE_REMOTE_FIND_BID) CefLog.Warn("Remote browser with bid=%d was disposed by GC.", bid);
+            myRpc.server.bid2Browser.remove(bid);
             return null;
         }
         return browser;

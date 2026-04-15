@@ -84,7 +84,6 @@ public class RemoteClient {
         myRpc.exec((s) -> {
             myCid = s.Client_Create(hmask);
         });
-        myRpc.server.cid2Client.put(myCid, this);
         CefLog.Debug("Registered RemoteClient with cid=%d with handlers: %s", myCid, RemoteClient.HandlerMasks.toString(hmask));
     }
 
@@ -399,7 +398,6 @@ public class RemoteClient {
             myRpc.invokeLater((s) -> {
                 s.Client_Dispose(cid);
             });
-            myRpc.server.cid2Client.remove(cid);
         }
     }
 
