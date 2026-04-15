@@ -238,10 +238,10 @@ target_include_directories(${EXECUTABLE_NAME} PRIVATE ${CEF_INCLUDE_PATH})
 
 if (OS_WINDOWS)
     add_logical_target("libcef_lib" "${CEF_LIB_DEBUG}" "${CEF_LIB_RELEASE}")
-    target_link_libraries(${EXECUTABLE_NAME} libcef_lib "Dbghelp.dll")
+    target_link_libraries(${EXECUTABLE_NAME} PRIVATE libcef_lib ws2_32 Synchronization Dbghelp ${CEF_STANDARD_LIBS} thrift_codegen ${Boost_FILESYSTEM_LIBRARY})
+else()
+    target_link_libraries(${EXECUTABLE_NAME} ${CEF_STANDARD_LIBS} thrift_codegen ${Boost_FILESYSTEM_LIBRARY})
 endif ()
-
-target_link_libraries(${EXECUTABLE_NAME} ${CEF_STANDARD_LIBS} thrift_codegen ${Boost_FILESYSTEM_LIBRARY})
 
 if (OS_MAC)
     target_link_libraries(${EXECUTABLE_NAME} thrift::thrift)
@@ -281,6 +281,16 @@ if (OS_WINDOWS)
         string(REPLACE ";" " " _flags_str "${CEF_LINKER_FLAGS_RELEASE}")
         set_property(TARGET ${EXECUTABLE_NAME} PROPERTY LINK_FLAGS_RELEASE ${_flags_str})
     endif ()
+
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /VERBOSE:LIB")
+    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /VERBOSE:LIB")
+
+    message(STATUS "====== Debug Info ===")
+    message(STATUS "SDK: ${CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION}")
+    message(STATUS "Platform: ${CMAKE_GENERATOR_PLATFORM}")
+    message(STATUS "EXE Link Flags: ${CMAKE_EXE_LINKER_FLAGS}")
+    message(STATUS "MSVC Compiler Ver: ${MSVC_VERSION}")
+    message(STATUS "============================")
 
     set_target_properties(${EXECUTABLE_NAME}
             PROPERTIES
