@@ -125,6 +125,24 @@ else()
   bring_vcpkg()
 endif()
 
+# Force vcpkg to use ARM64 triplet for ALL packages
+#if(NOT DEFINED VCPKG_TARGET_TRIPLET)
+#  set(VCPKG_TARGET_TRIPLET "arm64-windows-static-jcef" CACHE STRING "vcpkg triplet")
+#endif()
+
+if(MSVC)
+  set(CMAKE_VERBOSE_MAKEFILE ON)
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /VERBOSE:LIB")
+  set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /VERBOSE:LIB")
+
+  # Print SDK/arch info for debugging
+  message(STATUS "=111== Linker Debug Info ===")
+  message(STATUS "SDK: ${CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION}")
+  message(STATUS "Platform: ${CMAKE_GENERATOR_PLATFORM}")
+  message(STATUS "EXE Link Flags: ${CMAKE_EXE_LINKER_FLAGS}")
+  message(STATUS "=111========================")
+endif()
+
 # Project name.
 project(jcef)
 

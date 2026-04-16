@@ -5,6 +5,15 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 
 set(Boost_NO_WARN_NEW_VERSIONS 1)
 find_package(Boost REQUIRED COMPONENTS filesystem)
+
+message("------------ vcpkg dir/triplet: ${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET} ")
+list(PREPEND CMAKE_PREFIX_PATH
+        "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}"
+)
+
+# Thrift library (ARM64, for linking)
+#target_link_libraries(your_target PRIVATE Thrift::thrift)
+
 find_package(Thrift CONFIG REQUIRED)
 vcpkg_bring_host_thrift()
 
@@ -281,6 +290,16 @@ if (OS_WINDOWS)
         string(REPLACE ";" " " _flags_str "${CEF_LINKER_FLAGS_RELEASE}")
         set_property(TARGET ${EXECUTABLE_NAME} PROPERTY LINK_FLAGS_RELEASE ${_flags_str})
     endif ()
+
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /VERBOSE:LIB")
+    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /VERBOSE:LIB")
+
+    message(STATUS "====22== Linker Debug Info ===")
+    message(STATUS "SDK: ${CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION}")
+    message(STATUS "Platform: ${CMAKE_GENERATOR_PLATFORM}")
+    message(STATUS "EXE Link Flags: ${CMAKE_EXE_LINKER_FLAGS}")
+    message(STATUS "====22========================")
+
 
     set_target_properties(${EXECUTABLE_NAME}
             PROPERTIES
