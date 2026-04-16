@@ -99,6 +99,20 @@ function(vcpkg_install_package)
             message(FATAL_ERROR "Failed to install ${PKG}. Result: ${RESULT}")
         endif ()
     endforeach ()
+
+    set(LOG_FILE_PATH "${CMAKE_SOURCE_DIR}/vcpkg_triplets/windows/arm64-windows-static-jcef.cmake")
+
+    if(EXISTS "${LOG_FILE_PATH}")
+        file(READ "${LOG_FILE_PATH}" FILE_CONTENTS)
+        message(STATUS "========================================")
+        message(STATUS "Contents of: ${LOG_FILE_PATH}")
+        message(STATUS "========================================")
+        message(STATUS "${FILE_CONTENTS}")
+        message(STATUS "========================================")
+    else()
+        message(WARNING "File not found: ${LOG_FILE_PATH}")
+    endif()
+
     message("############ vcpkg_install_package finished ")
 endfunction()
 
