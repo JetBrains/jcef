@@ -76,6 +76,19 @@ endfunction()
 
 function(vcpkg_install_package)
     message("!!!!!!!!!!!!!! vcpkg_install_package ${ARGN} : ${VCPKG_TARGET_TRIPLET} !!!!!!!!!!!!!!")
+
+    set(MY_DIR "${CMAKE_SOURCE_DIR}/third_party/vcpkg/installed")
+
+    # Use GLOB to get a list of files matching '*' (everything)
+    file(GLOB FOLDER_CONTENTS "${MY_DIR}/*")
+
+    # Print the list
+    message(STATUS "=== Contents of ${MY_DIR} ===")
+    foreach(ITEM ${FOLDER_CONTENTS})
+        message(STATUS "  ${ITEM}")
+    endforeach()
+    message(STATUS "==============================")
+
     foreach (PKG IN LISTS ARGN)
         message("Run: ${JCEF_VCPKG_DIRECTORY}/vcpkg install ${PKG}:${VCPKG_TARGET_TRIPLET}")
         if ("${CMAKE_HOST_SYSTEM_NAME}" STREQUAL "Darwin")
@@ -112,6 +125,18 @@ function(vcpkg_install_package)
     else()
         message(WARNING "File not found: ${LOG_FILE_PATH}")
     endif()
+
+    set(MY_DIR "${CMAKE_SOURCE_DIR}/third_party/vcpkg/installed/arm64-windows-static-jcef/lib")
+
+    # Use GLOB to get a list of files matching '*' (everything)
+    file(GLOB FOLDER_CONTENTS "${MY_DIR}/*")
+
+    # Print the list
+    message(STATUS "=== Contents of ${MY_DIR} ===")
+    foreach(ITEM ${FOLDER_CONTENTS})
+        message(STATUS "  ${ITEM}")
+    endforeach()
+    message(STATUS "==============================")
 
     message("############ vcpkg_install_package finished ")
 endfunction()
