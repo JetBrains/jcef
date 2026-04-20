@@ -377,6 +377,8 @@ jobject NewJNIErrorCode(JNIEnv* env, cef_errorcode_t errorCode) {
       JNI_CASE(env, "org/cef/handler/CefLoadHandler$ErrorCode",
                ERR_TUNNEL_CONNECTION_FAILED, jerrorCode);
       JNI_CASE(env, "org/cef/handler/CefLoadHandler$ErrorCode",
+               ERR_NO_SSL_VERSIONS_ENABLED, jerrorCode);
+      JNI_CASE(env, "org/cef/handler/CefLoadHandler$ErrorCode",
                ERR_SSL_VERSION_OR_CIPHER_MISMATCH, jerrorCode);
       JNI_CASE(env, "org/cef/handler/CefLoadHandler$ErrorCode",
                ERR_SSL_RENEGOTIATION_REQUESTED, jerrorCode);
@@ -423,6 +425,8 @@ jobject NewJNIErrorCode(JNIEnv* env, cef_errorcode_t errorCode) {
       JNI_CASE(env, "org/cef/handler/CefLoadHandler$ErrorCode",
                ERR_TEMPORARILY_THROTTLED, jerrorCode);
       JNI_CASE(env, "org/cef/handler/CefLoadHandler$ErrorCode",
+               ERR_HTTPS_PROXY_TUNNEL_RESPONSE_REDIRECT, jerrorCode);
+      JNI_CASE(env, "org/cef/handler/CefLoadHandler$ErrorCode",
                ERR_SSL_CLIENT_AUTH_SIGNATURE_FAILED, jerrorCode);
       JNI_CASE(env, "org/cef/handler/CefLoadHandler$ErrorCode", ERR_MSG_TOO_BIG,
                jerrorCode);
@@ -430,6 +434,10 @@ jobject NewJNIErrorCode(JNIEnv* env, cef_errorcode_t errorCode) {
                ERR_WS_PROTOCOL_ERROR, jerrorCode);
       JNI_CASE(env, "org/cef/handler/CefLoadHandler$ErrorCode",
                ERR_ADDRESS_IN_USE, jerrorCode);
+      JNI_CASE(env, "org/cef/handler/CefLoadHandler$ErrorCode",
+               ERR_SSL_HANDSHAKE_NOT_COMPLETED, jerrorCode);
+      JNI_CASE(env, "org/cef/handler/CefLoadHandler$ErrorCode",
+               ERR_SSL_BAD_PEER_PUBLIC_KEY, jerrorCode);
       JNI_CASE(env, "org/cef/handler/CefLoadHandler$ErrorCode",
                ERR_SSL_PINNED_KEY_NOT_IN_CERT_CHAIN, jerrorCode);
       JNI_CASE(env, "org/cef/handler/CefLoadHandler$ErrorCode",
@@ -556,6 +564,12 @@ jobject NewJNIErrorCode(JNIEnv* env, cef_errorcode_t errorCode) {
                ERR_CONTENT_DECODING_FAILED, jerrorCode);
       JNI_CASE(env, "org/cef/handler/CefLoadHandler$ErrorCode",
                ERR_NETWORK_IO_SUSPENDED, jerrorCode);
+      JNI_CASE(env, "org/cef/handler/CefLoadHandler$ErrorCode",
+               ERR_SYN_REPLY_NOT_RECEIVED, jerrorCode);
+      JNI_CASE(env, "org/cef/handler/CefLoadHandler$ErrorCode",
+               ERR_ENCODING_CONVERSION_FAILED, jerrorCode);
+      JNI_CASE(env, "org/cef/handler/CefLoadHandler$ErrorCode",
+               ERR_UNRECOGNIZED_FTP_DIRECTORY_LISTING_FORMAT, jerrorCode);
       JNI_CASE(env, "org/cef/handler/CefLoadHandler$ErrorCode",
                ERR_NO_SUPPORTED_PROXIES, jerrorCode);
       JNI_CASE(env, "org/cef/handler/CefLoadHandler$ErrorCode",

@@ -147,7 +147,6 @@ endif()
 
 # Determine the platform.
 if("${CMAKE_SYSTEM_NAME}" STREQUAL "Darwin")
-  set(CEF_VERSION "144.0.15+g72717cf+chromium-144.0.7559.172")
   if("${PROJECT_ARCH}" STREQUAL "arm64")
     set(CEF_PLATFORM "macosarm64")
   elseif("${PROJECT_ARCH}" STREQUAL "x86_64")
