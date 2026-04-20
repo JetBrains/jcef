@@ -42,9 +42,6 @@ public class CefInitHelper {
         List<String> args = new ArrayList<>();
         args.addAll(Arrays.asList(appArgs));
 
-        if (OS.isLinux())
-            args.add("--password-store=basic");
-
         if (Utils.getBoolean("JCEF_TESTS_DISABLE_GPU")) {
             CefLog.Info("Disable GPU in tests.");
             args.add("--disable-gpu");
@@ -85,7 +82,7 @@ public class CefInitHelper {
         settings.no_sandbox = !envSandboxed;
         settings.cache_path = cache_path;
 
-        addArgsToDisableStatisticLogging(args);
+        addTestArgs(args);
 
         String argsArr[] = args.toArray(new String[0]);
         CefApp.addAppHandler(new CefAppHandlerAdapter(argsArr) {
@@ -156,10 +153,14 @@ public class CefInitHelper {
         }
     }
 
-    public static void addArgsToDisableStatisticLogging(List<String> args) {
+    public static void addTestArgs(List<String> args) {
         args.add("--enable-logging=stderr");
         args.add("--vmodule=statistics_recorder*=0");
         args.add("--v=1");
+        if (OS.isLinux())
+            args.add("--password-store=basic");
+        else if (OS.isWindows())
+            args.add("--do-not-de-elevate");
     }
 
     public static String genUniqueCachePath() {
