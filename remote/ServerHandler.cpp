@@ -1303,7 +1303,9 @@ void ServerHandler::AuthCallback_Cancel(const thrift_codegen::RObject& authCallb
   if (doTraceCallbacks && Log::isTraceEnabled())
     Log::trace("ServerHandler: AuthCallback_Cancel, id=%d", authCallback.uid);
 
-  std::shared_ptr<RemoteAuthCallback> rc = RemoteAuthCallback::get(authCallback);
+  // NOTE: use find to avoid log error: when callback is already disposed because
+  // the corresponding method returned false (i.e. request was cancelled) but user invokes Callback.Cancel() just for insurance
+  std::shared_ptr<RemoteAuthCallback> rc = RemoteAuthCallback::find(authCallback);
   if (rc == nullptr) return;
   rc->getDelegate()->Cancel();
   RemoteAuthCallback::dispose(authCallback.uid);
@@ -1333,7 +1335,9 @@ void ServerHandler::Callback_Cancel(const thrift_codegen::RObject& callback) {
   if (doTraceCallbacks && Log::isTraceEnabled())
     Log::trace("ServerHandler: Callback_Cancel, id=%d", callback.uid);
 
-  std::shared_ptr<RemoteCallback> rc = RemoteCallback::get(callback);
+  // NOTE: use find to avoid log error: when callback is already disposed because
+  // the corresponding method returned false (i.e. request was cancelled) but user invokes Callback.Cancel() just for insurance
+  std::shared_ptr<RemoteCallback> rc = RemoteCallback::find(callback);
   if (rc == nullptr) return;
   rc->getDelegate()->Cancel();
   RemoteCallback::dispose(callback.uid);

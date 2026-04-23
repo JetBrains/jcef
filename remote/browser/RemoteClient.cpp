@@ -8,13 +8,22 @@
 #include "RemoteBrowser.h"
 #include "../router/RemoteMessageRouter.h"
 
+namespace {
+const bool doTrace = getBoolEnv("CEF_SERVER_TRACE_RemoteClient");
+}
+
 std::atomic<int> RemoteClient::sNextCid;
 
 int RemoteClient::genNewCid() { return sNextCid.fetch_add(1); }
 
-RemoteClient::RemoteClient(int cid, CefRefPtr<RemoteClientHandler> handler) : myCid(cid), myRemoteClientHandler(handler) {}
+RemoteClient::RemoteClient(int cid, CefRefPtr<RemoteClientHandler> handler) : myCid(cid), myRemoteClientHandler(handler) {
+  if (doTrace)
+    Log::trace("RemoteClient: created cid=%d", cid);
+}
 
 RemoteClient::~RemoteClient() {
+  if (doTrace)
+    Log::trace("RemoteClient: disposed cid=%d", myCid);
   close();
 }
 

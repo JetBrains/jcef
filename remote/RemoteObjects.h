@@ -16,11 +16,13 @@ class ServerObjectsFactory {
       std::unique_lock lock(myMapMutex);
       return string_format("Factory<%s>: size=%d", myTemplateName.c_str(), myItems.size());
     });
+    const std::string prefix = "CEF_SERVER_TRACE_FACTORY_";
+    myIsTraceEnabled = getBoolEnv(prefix + myTemplateName, false);
   }
 
   template<typename... Args>
   std::shared_ptr<T> create(Args... ctorArgs) {
-    if (!myTracePrefix.empty()) Log::trace("[%s] create", myTracePrefix.c_str());
+    if (myIsTraceEnabled) Log::trace("[%s] create", myTemplateName.c_str());
 
     int newId;
     {
@@ -34,30 +36,29 @@ class ServerObjectsFactory {
       std::unique_lock lock(myMapMutex);
       myItems[newId] = result;
     }
-    if (!myTracePrefix.empty()) Log::trace("[%s] created %d", myTracePrefix.c_str(), newId);
+    if (myIsTraceEnabled) Log::trace("[%s] created %d", myTemplateName.c_str(), newId);
     return result;
   }
 
   std::shared_ptr<T> find(int id) {
-    if (!myTracePrefix.empty()) Log::trace("[%s] find %d", myTracePrefix.c_str(), id);
+    if (myIsTraceEnabled) Log::trace("[%s] find %d", myTemplateName.c_str(), id);
     std::unique_lock lock(myMapMutex);
     return myItems[id];
   }
 
   void dispose(int id) {
-    if (!myTracePrefix.empty()) Log::trace("[%s] dispose %d", myTracePrefix.c_str(), id);
+    if (myIsTraceEnabled) Log::trace("[%s] dispose %d", myTemplateName.c_str(), id);
     std::unique_lock lock(myMapMutex);
     myItems.erase(id);
   }
 
-  void setTrace(const std::string & prefix) { myTracePrefix = prefix; }
   const std::string & getTemplateName() const { return myTemplateName; }
 
  private:
   std::map<int, std::shared_ptr<T>> myItems;
   std::recursive_mutex myMapMutex;
   std::mutex myIdMutex;
-  std::string myTracePrefix; // only for debugging
+  bool myIsTraceEnabled = false; // only for debugging
   const std::string myTemplateName; // only for debugging
 };
 
@@ -80,15 +81,24 @@ class RemoteServerObjectBase {
     return robj;
   }
 
-  static std::shared_ptr<T> get(thrift_codegen::RObject robj) {
-    return robj.isNull ? nullptr : get(robj.uid);
+  static std::shared_ptr<T> find(int id) {
+    return FACTORY.find(id);
+  }
+
+  static std::shared_ptr<T> find(thrift_codegen::RObject robj) {
+    return robj.isNull ? nullptr : find(robj.uid);
   }
 
   static std::shared_ptr<T> get(int id) {
+    // The same as find but used when expected not null obj (with logging)
     std::shared_ptr<T> result = FACTORY.find(id);
     if (result == nullptr)
       Log::error("Can't find remote object of type '%s' by id %d", FACTORY.getTemplateName().c_str(), id);
     return result;
+  }
+
+  static std::shared_ptr<T> get(thrift_codegen::RObject robj) {
+    return robj.isNull ? nullptr : get(robj.uid);
   }
 
   template<typename... Args>

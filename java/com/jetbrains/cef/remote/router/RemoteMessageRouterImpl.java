@@ -76,7 +76,6 @@ public class RemoteMessageRouterImpl extends RemoteServerObject {
     }
 
     public boolean removeHandler(CefMessageRouterHandler handler) {
-        CefLog.Debug("%s remove handler by delegate %s", this, handler);
         RemoteMessageRouterHandler rhandler = RemoteMessageRouterHandler.findByDelegate(handler);
         if (rhandler == null)
             return false;

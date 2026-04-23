@@ -100,11 +100,4 @@ class LogNdc {
   if (doTrace)                \
       Log::trace(__FUNCTION__)
 
-#define FACTORY_TRACE(Key, Prefix)        \
-  static int doFactoryTrace = -1;                \
-  if (doFactoryTrace < 0) {                      \
-    doFactoryTrace = getBoolEnv(Key) ? 1 : 0;    \
-    if (doFactoryTrace) FACTORY.setTrace(Prefix);   \
-  }
-
 #endif  // JCEF_LOG_H

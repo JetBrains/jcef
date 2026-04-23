@@ -10,7 +10,6 @@ namespace {
 }
 
 std::shared_ptr<RemoteRequest> RemoteRequest::create(CefRefPtr<CefRequest> delegate) {
-  FACTORY_TRACE("CEF_SERVER_OBJTRACE_Request", "RemoteRequest");
   if (!delegate)
     return nullptr;
   return FACTORY.create(delegate);

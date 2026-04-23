@@ -6,7 +6,6 @@ extern cef_errorcode_t str2err(std::string err);
 
 RemoteResponse::RemoteResponse(int id, CefRefPtr<CefResponse> delegate)
     : RemoteServerObjectWithCache<RemoteResponse, CefResponse>(id, delegate) {
-  FACTORY_TRACE("CEF_SERVER_OBJTRACE_Response", "RemoteResponse");
 }
 
 void RemoteResponse::updateImpl(const std::map<std::string, std::string>& requestInfo) {
