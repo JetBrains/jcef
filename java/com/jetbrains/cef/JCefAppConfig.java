@@ -65,8 +65,8 @@ public abstract class JCefAppConfig {
             appConfig.cefFrameworkPathOSX = Utils.pathOf(nativeBundlePath, "Frameworks/cef_server.app/Contents/Frameworks/Chromium Embedded Framework.framework");
             if (!outOfProcess) {
                 appConfig.appArgs.add("--framework-dir-path=" + appConfig.cefFrameworkPathOSX);
-                appConfig.appArgs.add("--main-bundle-path=" + Utils.pathOf(nativeBundlePath, "Frameworks/cef_server.app/Contents/Frameworks/jcef Helper.app"));
-                appConfig.appArgs.add("--browser-subprocess-path=" + Utils.pathOf(nativeBundlePath, "Frameworks/cef_server.app/Contents/Frameworks/jcef Helper.app/Contents/MacOS/jcef Helper"));
+                appConfig.appArgs.add("--main-bundle-path=" + Utils.pathOf(nativeBundlePath, "Frameworks/jcef Helper.app"));
+                appConfig.appArgs.add("--browser-subprocess-path=" + Utils.pathOf(nativeBundlePath, "Frameworks/jcef Helper.app/Contents/MacOS/jcef Helper"));
             }
 
             appConfig.appArgs.add("--disable-in-process-stack-traces");
@@ -134,7 +134,7 @@ public abstract class JCefAppConfig {
         if (OS.isMacintosh()) {
             String javaRoot = Utils.pathOf(System.getProperty("java.home"), "/..");
             String frameworkPath = Utils.pathOf(javaRoot, "/Frameworks/cef_server.app/Contents/Frameworks/Chromium Embedded Framework.framework");
-            String cefHelperPath = Utils.pathOf(javaRoot, "/Frameworks/cef_server.app/Contents/Frameworks/jcef Helper.app");
+            String cefHelperPath = Utils.pathOf(javaRoot, "/Frameworks/jcef Helper.app");
             String subprocessPath = Utils.pathOf(cefHelperPath, "/Contents/MacOS/jcef Helper");
 
             appConfig.appArgs.add("--framework-dir-path=" + frameworkPath);
