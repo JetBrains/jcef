@@ -37,18 +37,14 @@ if "%TEAMCITY_VERSION%" neq "" (
     set JCEF_CLEAN_VCPKG=1
 )
 
-if "%JCEF_USE_LOCAL_VCPKG%" neq "" (
-    echo "Force skip cleaning vcpkg..."
-) else (
-    if "%JCEF_CLEAN_VCPKG%" neq "" (
-        echo "Cleaning up vcpkg..."
-        pushd .
-        cd ../../..
-        git submodule foreach --recursive git clean -xfdf
-        git submodule foreach --recursive git reset --hard
-        git submodule update --init --recursive
-        popd
-    )
+if "%JCEF_CLEAN_VCPKG%" neq "" (
+    echo "Cleaning up vcpkg..."
+    pushd .
+    cd ../../..
+    git submodule foreach --recursive git clean -xfdf
+    git submodule foreach --recursive git reset --hard
+    git submodule update --init --recursive
+    popd
 )
 
 echo *** && echo *** BUILD NATIVE && echo ***
