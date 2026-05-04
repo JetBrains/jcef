@@ -6,51 +6,46 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 set(Boost_NO_WARN_NEW_VERSIONS 1)
 find_package(Boost REQUIRED COMPONENTS filesystem)
 find_package(Thrift CONFIG REQUIRED)
+vcpkg_bring_host_thrift()
 
 SET_CEF_TARGET_OUT_DIR()
 
-if(NOT DEFINED ENV{JCEF_SKIP_THRIFT_COMPILE})
-    vcpkg_bring_host_thrift()
+set(THRIFT_FILES
+        cef_server.thrift
+        cef_client.thrift
+        shared.thrift)
 
-    set(THRIFT_FILES
-            cef_server.thrift
-            cef_client.thrift
-            shared.thrift)
-
-    foreach (FILE ${THRIFT_FILES})
-        message(STATUS "Compile ${FILE} to C++...")
-        execute_process(
-                COMMAND ${THRIFT_COMPILER_HOST} --gen cpp -r ${CMAKE_CURRENT_SOURCE_DIR}/${FILE}
-                WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-                RESULT_VARIABLE thrift_result
-        )
-        if (thrift_result AND NOT STATUS EQUAL 0)
-            message(FATAL_ERROR "Failed to compile ${FILE}: ${thrift_result}")
-        endif ()
-
-        message(STATUS "Compile ${FILE} to Java...")
-        execute_process(
-                COMMAND ${THRIFT_COMPILER_HOST} --gen java:generated_annotations=suppress -out ${CMAKE_SOURCE_DIR}/java ${CMAKE_CURRENT_SOURCE_DIR}/${FILE}
-                WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/java
-                RESULT_VARIABLE thrift_result
-        )
-        if (thrift_result AND NOT STATUS EQUAL 0)
-            message(FATAL_ERROR "Failed to compile ${FILE}: ${thrift_result}")
-        endif ()
-    endforeach ()
-
-    message(STATUS "Patching java interfaces at ${CMAKE_SOURCE_DIR}/java/com/jetbrains/cef/remote/thrift_codegen...")
+foreach (FILE ${THRIFT_FILES})
+    message(STATUS "Compile ${FILE} to C++...")
     execute_process(
-            COMMAND ${Python_EXECUTABLE} "${CMAKE_SOURCE_DIR}/jb/tools/common/patch_thrift_interfaces.py" "${CMAKE_SOURCE_DIR}/java/com/jetbrains/cef/remote/thrift_codegen/"
-            RESULT_VARIABLE result
+            COMMAND ${THRIFT_COMPILER_HOST} --gen cpp -r ${CMAKE_CURRENT_SOURCE_DIR}/${FILE}
+            WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+            RESULT_VARIABLE thrift_result
     )
-
-    if (result AND NOT STATUS EQUAL 0)
-        message(FATAL_ERROR "Failed to run the patch script: ${thrift_result}")
+    if (thrift_result AND NOT STATUS EQUAL 0)
+        message(FATAL_ERROR "Failed to compile ${FILE}: ${thrift_result}")
     endif ()
-else()
-    message(STATUS "Skip thrift compile...")
-endif() # JCEF_SKIP_THRIFT_COMPILE
+
+    message(STATUS "Compile ${FILE} to Java...")
+    execute_process(
+            COMMAND ${THRIFT_COMPILER_HOST} --gen java:generated_annotations=suppress -out ${CMAKE_SOURCE_DIR}/java ${CMAKE_CURRENT_SOURCE_DIR}/${FILE}
+            WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/java
+            RESULT_VARIABLE thrift_result
+    )
+    if (thrift_result AND NOT STATUS EQUAL 0)
+        message(FATAL_ERROR "Failed to compile ${FILE}: ${thrift_result}")
+    endif ()
+endforeach ()
+
+message(STATUS "Patching java interfaces at ${CMAKE_SOURCE_DIR}/java/com/jetbrains/cef/remote/thrift_codegen...")
+execute_process(
+        COMMAND ${Python_EXECUTABLE} "${CMAKE_SOURCE_DIR}/jb/tools/common/patch_thrift_interfaces.py" "${CMAKE_SOURCE_DIR}/java/com/jetbrains/cef/remote/thrift_codegen/"
+        RESULT_VARIABLE result
+)
+
+if (result AND NOT STATUS EQUAL 0)
+    message(FATAL_ERROR "Failed to run the patch script: ${thrift_result}")
+endif ()
 
 set(CMAKE_CXX_STANDARD 17)
 include_directories(${Boost_INCLUDE_DIRS})
