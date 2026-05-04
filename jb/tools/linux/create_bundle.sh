@@ -7,11 +7,12 @@ script_dir=$(cd -- "$(dirname -- "$0")" &>/dev/null && pwd)
 source "$script_dir/set_env.sh"
 
 function clean {
-  if test -f "$JCEF_ROOT_DIR/$1" || test -f "$JCEF_ROOT_DIR/$1.tar.gz"; then
+  if test -f "$JCEF_ROOT_DIR/$1" || test -f "$JCEF_ROOT_DIR/$1.tar.gz" || test -d "$JCEF_ROOT_DIR/$1"; then
     echo "*** delete $1..."
     rm -rf "${JCEF_ROOT_DIR:?}/$1"
     rm -f "${JCEF_ROOT_DIR:?}/$1.tar.gz"
   fi
+  rm -f "${JCEF_ROOT_DIR:?}/jcef.version"
 }
 
 case "$TARGET_ARCH" in
@@ -26,8 +27,11 @@ x86_64)
 *) echo "Incorrect TARGET_ARCH: $TARGET_ARCH" && exit 1 ;;
 esac
 
+ARTIFACT_NATIVE_BUNDLE=jcef_native_bundle_linux_${TARGET_ARCH}
+
 clean jcef_linux_aarch64
 clean jcef_linux_x64
+clean "$ARTIFACT_NATIVE_BUNDLE"
 
 if [ "${1:-}" == "clean" ]; then
   exit 0
@@ -43,6 +47,7 @@ mv jmods "$ARTIFACT"/
 
 # create jcef.version file
 bash "$JB_TOOLS_DIR"/common/create_version_file.sh $ARTIFACT
+cp "$ARTIFACT/jcef.version" .
 
 echo "*** create archive..."
 # shellcheck disable=SC2046
@@ -57,8 +62,21 @@ else
   tar -cvzf "$ARTIFACT_SERVER.tar.gz" -C "cef_server" $(ls "cef_server")
   rm -rf "cef_server"
   ls -lah "$ARTIFACT_SERVER.tar.gz"
+
+  echo "*** create standalone native bundle..."
+  rm -rf "$ARTIFACT_NATIVE_BUNDLE" && mkdir -p "$ARTIFACT_NATIVE_BUNDLE"/jcef
+  cp -R "$OUT_REMOTE_DIR"/* "$ARTIFACT_NATIVE_BUNDLE"/jcef/
+  cp "$OUT_NATIVE_DIR"/libjcef.so "$ARTIFACT_NATIVE_BUNDLE"/jcef/
+  cp "$OUT_NATIVE_DIR"/jcef_helper "$ARTIFACT_NATIVE_BUNDLE"/jcef/
+  cp "jcef.version" "$ARTIFACT_NATIVE_BUNDLE"/jcef/
+
+  echo "*** create standalone native bundle archive..."
+  tar -cvzf "$ARTIFACT_NATIVE_BUNDLE.tar.gz" -C "$ARTIFACT_NATIVE_BUNDLE" jcef
+  rm -rf "$ARTIFACT_NATIVE_BUNDLE"
+  ls -lah "$ARTIFACT_NATIVE_BUNDLE.tar.gz"
 fi
 
 cp "$OUT_CLS_DIR"/jcef-tests.jar .
+rm -f "jcef.version"
 
 echo "*** SUCCESSFUL"
