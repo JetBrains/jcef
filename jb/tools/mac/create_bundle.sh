@@ -23,7 +23,11 @@ export -f clean
 RELEASE_PATH="$JCEF_ROOT_DIR"/jcef_build/native/${CEF_BUILD_TYPE}
 ARTIFACT=jcef_mac_${TARGET_ARCH}
 ARTIFACT_SERVER=cef_server_mac_${TARGET_ARCH}
-ARTIFACT_NATIVE_BUNDLE=jcef_native_bundle_mac_${TARGET_ARCH}
+if [ "$TARGET_ARCH" == "arm64" ]; then
+  ARTIFACT_NATIVE_BUNDLE=jcef_native_bundle_mac_aarch64
+else
+  ARTIFACT_NATIVE_BUNDLE=jcef_native_bundle_mac_${TARGET_ARCH}
+fi
 
 clean arm64
 clean x86_64
