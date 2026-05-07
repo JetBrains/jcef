@@ -4,6 +4,7 @@ import com.jetbrains.cef.JCefAppConfig;
 import org.cef.CefApp;
 import org.cef.CefSettings;
 import org.cef.OS;
+import org.cef.SystemBootstrap;
 import org.cef.handler.CefAppHandlerAdapter;
 import org.cef.misc.CefLog;
 import org.cef.misc.Utils;
@@ -23,21 +24,33 @@ public class CefInitHelper {
     private static final boolean EXIT_AFTER_CEFAPP_SHUTDOWN = Utils.getBoolean("JCEF_TESTS_EXIT_AFTER_CEFAPP_SHUTDOWN", true);
     private static final int EXIT_WAIT_MS = Utils.getInteger("JCEF_TESTS_EXIT_WAIT_MS", 20000);
     private static CountDownLatch ourStateTerminated = new CountDownLatch(1);
+    private static boolean ourInitialized = false;
+
+    public static JCefAppConfig getConfig() {
+        String nativeBundlePath = System.getProperty("jcef.native.bundle.path", null);
+        if (nativeBundlePath == null)
+            return JCefAppConfig.getInstance();
+
+        return JCefAppConfig.getInstance(nativeBundlePath, Boolean.getBoolean("jcef.remote.enabled"));
+    }
 
     public static void initializeCef() {
         initializeCef(genUniqueCachePath());
     }
 
     public static void initializeCef(String cache_path) {
+        if (ourInitialized) return;
         CefLog.init(Utils.getString("JCEF_TESTS_LOG_FILE"), CefSettings.LogSeverity.LOGSEVERITY_VERBOSE);
 
         // Enable debug logging for junit tests by default
         enableVerboseLogging();
 
         // Perform startup initialization on platforms that require it.
-        CefApp.startup(new String[]{});
+        JCefAppConfig config = getConfig();
+        CefApp.setIsRemoteEnabled(config.isRemoteEnabled());
+        SystemBootstrap.setLoader(config.getLoader());
+        CefApp.startup(config.getAppArgs());
 
-        JCefAppConfig config = JCefAppConfig.getInstance();
         String[] appArgs = config.getAppArgs();
         List<String> args = new ArrayList<>();
         args.addAll(Arrays.asList(appArgs));
@@ -118,7 +131,7 @@ public class CefInitHelper {
         CefLog.Info("args: %s", Arrays.toString(argsArr));
 
         // Initialize the singleton CefApp instance.
-        CefApp app = CefApp.getInstance(null, settings, null);
+        CefApp app = CefApp.getInstance(config.getAppArgs(), settings, config.getServerExe());
 
         if (WAIT_FOR_CEFAPP_INIT) {
             // Wait for initialization
@@ -135,6 +148,14 @@ public class CefInitHelper {
                 throw new RuntimeException("CefApp wasn't initialized in " + timeout + " seconds.");
             }
         }
+        ourInitialized = true;
+    }
+
+    public static CefApp getCefApp() {
+        if (!ourInitialized) {
+            initializeCef();
+        }
+        return CefApp.getInstance();
     }
 
     public static void shutdonwCef() {

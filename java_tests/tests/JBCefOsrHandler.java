@@ -144,6 +144,7 @@ public class JBCefOsrHandler implements CefNativeRenderHandler {
 
     @Override
     public void onPaintWithSharedMem(CefBrowser browser, boolean popup, int dirtyRectsCount, String sharedMemName, long sharedMemHandle, int width, int height) {
+        initLatch.countDown();
         // TODO: support popups
         long startMs = System.currentTimeMillis();
 
