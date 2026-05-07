@@ -9,11 +9,12 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 import static tests.junittests.TestSetupContext.debugPrint;
 
+import com.jetbrains.cef.JCefAppConfig;
 import org.cef.CefApp;
 import org.cef.CefClient;
+import org.cef.SystemBootstrap;
 import org.cef.browser.CefBrowser;
 import org.cef.browser.CefFrame;
-import org.cef.browser.CefRendering;
 import org.cef.callback.CefAuthCallback;
 import org.cef.callback.CefCallback;
 import org.cef.handler.CefCookieAccessFilter;
@@ -29,8 +30,7 @@ import org.cef.network.CefRequest;
 import org.cef.network.CefRequest.TransitionType;
 import org.cef.network.CefResponse;
 import org.cef.network.CefURLRequest;
-import tests.JBCefOsrComponent;
-import tests.JBCefOsrHandler;
+import tests.CefInitHelper;
 import org.cef.security.CefSSLInfo;
 import tests.OsrSupport;
 
@@ -62,9 +62,27 @@ public class TestFrame extends JFrame implements CefLifeSpanHandler, CefLoadHand
     protected CefBrowser browser_ = null;
     private CountDownLatch disposeLatch_;
 
+    static private CefApp cefApp_ = null;
+
+    private static CefApp getCefApp() {
+        if (cefApp_ == null) {
+            JCefAppConfig config = CefInitHelper.getConfig();
+            CefApp.setIsRemoteEnabled(config.isRemoteEnabled());
+            SystemBootstrap.setLoader(config.getLoader());
+            CefApp.startup(config.getAppArgs());
+            if (!config.isRemoteEnabled() || CefApp.getInstance() != null) {
+                cefApp_ = CefApp.getInstance();
+            } else {
+                cefApp_ = CefApp.getInstance(CefInitHelper.getConfig().getAppArgs(), CefInitHelper.getConfig().getCefSettings(), CefInitHelper.getConfig().getServerExe());
+            }
+        }
+        return cefApp_;
+    }
+
     public  TestFrame() {
         disposeLatch_ = new CountDownLatch(1);
-        client_ = CefApp.getInstance().createClient();
+
+        client_ = getCefApp().createClient();
         assertNotNull(client_);
         client_.setOnDisposeCallback(()->{
             disposeLatch_.countDown();

@@ -81,7 +81,8 @@ public class BasicJcefTest {
         }
 
         CefLog.Info("Start new instance of cef_server");
-        JCefAppConfig config = JCefAppConfig.getInstance();
+        JCefAppConfig config = CefInitHelper.getConfig();
+        CefApp.setIsRemoteEnabled(config.isRemoteEnabled());
         List<String> appArgs = config.getAppArgsAsList();
         CefInitHelper.addTestArgs(appArgs);
         CefSettings settings = config.getCefSettings();
@@ -201,7 +202,8 @@ public class BasicJcefTest {
             return;
         }
 
-        JCefAppConfig config = JCefAppConfig.getInstance();
+        JCefAppConfig config = CefInitHelper.getConfig();
+        CefApp.setIsRemoteEnabled(config.isRemoteEnabled());
         List<String> appArgs = config.getAppArgsAsList();
         CefInitHelper.addTestArgs(appArgs);
         final String[] argsArr = appArgs.toArray(new String[0]);

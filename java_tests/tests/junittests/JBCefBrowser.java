@@ -1,12 +1,11 @@
 package tests.junittests;
 
-import org.cef.CefApp;
 import org.cef.CefClient;
 import org.cef.CefSettings;
 import org.cef.browser.CefBrowser;
-import org.cef.handler.CefLifeSpanHandlerAdapter;
 import org.cef.handler.CefLoadHandler;
 import org.cef.misc.CefLog;
+import tests.CefInitHelper;
 import tests.OsrSupport;
 
 import javax.swing.*;
@@ -54,7 +53,7 @@ public class JBCefBrowser {
     }
 
     public JBCefBrowser(CefLoadHandler loadHandler) {
-        myCefClient = CefApp.getInstance().createClient();
+        myCefClient = CefInitHelper.getCefApp().createClient();
 
         myClientDisposeLatch = new CountDownLatch(1);
         myCefClient.setOnDisposeCallback(()->{
