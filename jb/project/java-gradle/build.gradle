@@ -63,6 +63,7 @@ test {
                '--add-opens=java.desktop/sun.awt=ALL-UNNAMED',
                '--add-opens=java.desktop/java.awt.event=ALL-UNNAMED',
                '--add-exports=java.desktop/sun.awt=ALL-UNNAMED',
+               '--add-exports=jcef/com.jetbrains.cef.remote.thrift=ALL-UNNAMED',
                '-Djcef.tests.osr=true'
     ]
     executable = jbr_java
