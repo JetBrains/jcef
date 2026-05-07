@@ -19,18 +19,20 @@ case "$TARGET_ARCH" in
 arm64)
   ARTIFACT=jcef_linux_aarch64
   ARTIFACT_SERVER=cef_server_linux_aarch64
+  ARTIFACT_NATIVE_BUNDLE=jcef_native_bundle_linux_aarch64
   ;;
 x86_64)
   ARTIFACT=jcef_linux_x64
   ARTIFACT_SERVER=cef_server_linux_x64
+  ARTIFACT_NATIVE_BUNDLE=jcef_native_bundle_linux_x86_64
   ;;
 *) echo "Incorrect TARGET_ARCH: $TARGET_ARCH" && exit 1 ;;
 esac
 
-ARTIFACT_NATIVE_BUNDLE=jcef_native_bundle_linux_${TARGET_ARCH}
-
 clean jcef_linux_aarch64
 clean jcef_linux_x64
+clean jcef_native_bundle_linux_arm64
+clean jcef_native_bundle_linux_x86_64
 clean "$ARTIFACT_NATIVE_BUNDLE"
 
 if [ "${1:-}" == "clean" ]; then
