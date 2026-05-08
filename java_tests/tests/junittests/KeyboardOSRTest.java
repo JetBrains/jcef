@@ -13,9 +13,8 @@ import org.cef.misc.CefLog;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
 import tests.JBCefOsrHandler;
 import tests.OsrSupport;
 import tests.keyboard.Scenario;
@@ -34,7 +33,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.stream.Stream;
+import java.util.stream.Collectors;
 
 /**
  * @author Vladimir Kharitonov
@@ -148,13 +147,14 @@ public class KeyboardOSRTest {
         myFrame.closeBrowser();
     }
 
-    private static Stream<Scenario> getScenarios() throws IOException {
+    private static List<Scenario> getScenarios() throws IOException {
         String jsonText = getScenariosJson();
 
         Type typeToken = new TypeToken<ArrayList<Scenario>>() {
         }.getType();
         ArrayList<Scenario> scenarios = new Gson().fromJson(jsonText, typeToken);
-        return scenarios.stream().filter(scenario -> !Objects.requireNonNullElse(scenario.comments, "").toLowerCase().contains("disable"));
+        return scenarios.stream().filter(scenario -> !Objects.requireNonNullElse(scenario.comments, "").toLowerCase().contains("disable"))
+                .collect(Collectors.toList());
     }
 
     private static String getScenariosJson() throws IOException {
@@ -183,26 +183,49 @@ public class KeyboardOSRTest {
         }
     }
 
-    @ParameterizedTest
-    @MethodSource("getScenarios")
-    void doTest(Scenario scenario) throws InterruptedException {
+    @Test
+    void doTest() throws InterruptedException, IOException {
         if (!OsrSupport.isEnabled() && !CefApp.isRemoteEnabled())
             return;
 
-        System.err.println("Testing '" + scenario.name + "'");
-        eventsWaiter.setup();
-        for (Scenario.EventDataJava data : scenario.eventsJava) {
-            callbackLatch = new CountDownLatch(1);
-            myFrame.browser_.sendKeyEvent(data.makeKeyEvent(myFrame.browser_.getUIComponent()));
-            boolean ignored = callbackLatch.await(100, TimeUnit.MILLISECONDS);
-        }
-        List<Scenario.EventDataJS> eventsJS = eventsWaiter.get();
+        List<Scenario> scenarios = getScenarios();
+        List<String> failures = new ArrayList<>();
+        int passed = 0;
 
-        if (KEYBOARD_TEST_OUTPUT_FILE_NAME == null) {
-            Assertions.assertFalse(eventsJS.isEmpty());
-            Assertions.assertEquals(scenario.eventsJSExpected, eventsJS);
+        for (Scenario scenario : scenarios) {
+            System.err.println("Testing '" + scenario.name + "'");
+            eventsWaiter.setup();
+            for (Scenario.EventDataJava data : scenario.eventsJava) {
+                callbackLatch = new CountDownLatch(1);
+                myFrame.browser_.sendKeyEvent(data.makeKeyEvent(myFrame.browser_.getUIComponent()));
+                boolean ignored = callbackLatch.await(100, TimeUnit.MILLISECONDS);
+            }
+            List<Scenario.EventDataJS> eventsJS = eventsWaiter.get();
+
+            if (KEYBOARD_TEST_OUTPUT_FILE_NAME == null) {
+                if (eventsJS.isEmpty()) {
+                    String msg = "Scenario '" + scenario.name + "': expected JS events but received none";
+                    System.err.println("FAIL: " + msg);
+                    failures.add(msg);
+                } else if (!Objects.equals(scenario.eventsJSExpected, eventsJS)) {
+                    String msg = "Scenario '" + scenario.name + "': JS events mismatch.\n" +
+                            "  Expected: " + scenario.eventsJSExpected + "\n" +
+                            "  Actual:   " + eventsJS;
+                    System.err.println("FAIL: " + msg);
+                    failures.add(msg);
+                } else {
+                    passed++;
+                    System.err.println("PASS: Scenario '" + scenario.name + "'");
+                }
+            }
+            outputScenarios.add(new Scenario(scenario.name, scenario.comments, scenario.eventsJava, eventsJS));
         }
-        outputScenarios.add(new Scenario(scenario.name, scenario.comments, scenario.eventsJava, eventsJS));
+
+        System.err.println("Keyboard scenarios: " + passed + " passed, " + failures.size() + " failed, " + scenarios.size() + " total");
+        if (!failures.isEmpty()) {
+            Assertions.fail(failures.size() + " scenario(s) failed out of " + scenarios.size() + ":\n" +
+                    String.join("\n", failures));
+        }
     }
 
     static class MyFrame extends TestFrame {
@@ -264,20 +287,23 @@ public class KeyboardOSRTest {
 
         public List<Scenario.EventDataJS> get() throws InterruptedException {
             lock.lock();
-            while (!isReady()) {
-                if (!scenarioFinished.await(500, TimeUnit.MILLISECONDS)) {
-                    if (KEYBOARD_TEST_OUTPUT_FILE_NAME == null) {
-                        Assertions.fail("The received scenario events are incomplete: " + events);
-                    } else {
-                        System.err.println("The received scenario events are incomplete: " + events);
+            try {
+                while (!isReady()) {
+                    if (!scenarioFinished.await(500, TimeUnit.MILLISECONDS)) {
+                        if (KEYBOARD_TEST_OUTPUT_FILE_NAME == null) {
+                            System.err.println("WARNING: The received scenario events are incomplete: " + events);
+                        } else {
+                            System.err.println("The received scenario events are incomplete: " + events);
+                        }
+                        break;
                     }
-                    break;
                 }
+                var result = events;
+                setup();
+                return result;
+            } finally {
+                lock.unlock();
             }
-            var result = events;
-            setup();
-            lock.unlock();
-            return result;
         }
 
         public boolean isReady() {
