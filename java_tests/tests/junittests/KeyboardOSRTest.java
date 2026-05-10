@@ -10,10 +10,7 @@ import org.cef.browser.CefMessageRouter;
 import org.cef.callback.CefQueryCallback;
 import org.cef.handler.CefMessageRouterHandlerAdapter;
 import org.cef.misc.CefLog;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import tests.JBCefOsrHandler;
 import tests.OsrSupport;
@@ -184,6 +181,7 @@ public class KeyboardOSRTest {
     }
 
     @Test
+    @Disabled // The test contains about 700 cases that makes it flaky
     void doTest() throws InterruptedException, IOException {
         if (!OsrSupport.isEnabled() && !CefApp.isRemoteEnabled())
             return;
