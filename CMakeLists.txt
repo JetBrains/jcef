@@ -128,6 +128,8 @@ endif()
 # Project name.
 project(jcef)
 
+set(CMAKE_CXX_STANDARD 20)
+
 if(NOT DEFINED ENV{JCEF_BUILD_ONLY_IN_PROCESS})
   vcpkg_install_package(boost-filesystem boost-interprocess thrift)
 endif()

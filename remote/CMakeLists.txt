@@ -47,7 +47,7 @@ if (result AND NOT STATUS EQUAL 0)
     message(FATAL_ERROR "Failed to run the patch script: ${thrift_result}")
 endif ()
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 include_directories(${Boost_INCLUDE_DIRS})
 
 if (OS_WINDOWS)
