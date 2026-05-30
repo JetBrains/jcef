@@ -128,7 +128,12 @@ public class CefApp extends CefAppHandlerAdapter {
          * CefApp is terminated and can't be used any more. You can shutdown the
          * application safely now.
          */
-        TERMINATED
+        TERMINATED,
+
+        /**
+         * CefApp has encountered a terminal error and can't be used any more.
+         */
+        FAILED
     }
 
     /**
@@ -149,6 +154,7 @@ public class CefApp extends CefAppHandlerAdapter {
     // Background initialization support
     //
     private volatile boolean isInitialized_ = false;
+    private volatile boolean isInitFinished_ = false;
     private final LinkedList<CefAppStateHandler> initializationListeners_ = new LinkedList<>();
 
     // Constants for testing JBR-5530
@@ -187,21 +193,30 @@ public class CefApp extends CefAppHandlerAdapter {
 
             // Perform CefServer initialization in separate thread.
             new Thread(()->{
-                if (server_.start(appHandler_)) {
+                if (server_.start(appHandlsetStateer_)) {
                     CefLog.Debug("%s: native CefServer is initialized.", this);
                     setState(CefAppState.INITIALIZED);
                     synchronized (initializationListeners_) {
                         isInitialized_ = true;
+                        isInitFinished_ = true;
                         initializationListeners_.forEach(l -> l.stateHasChanged(CefAppState.INITIALIZED));
                         initializationListeners_.clear();
                     }
                     CefLog.Info("%s: connected to CefServer. JCEF version: %s", this, getVersion());
+                } else {
+                    CefLog.Warn("%s: native CefServer failed to initialize.", this);
+                    setState(CefAppState.FAILED);
+                    synchronized (initializationListeners_) {
+                        isInitFinished_ = true;
+                        initializationListeners_.forEach(l -> l.stateHasChanged(CefAppState.FAILED));
+                        initializationListeners_.clear();
+                    }
                 }
             }, "CefInitialize-thread").start();
             return;
         }
 
-        ourStartupFeature.thenRunAsync(() -> {
+        ourStartupFeature.thenApplyAsync((r) -> {
             // Perform native pre-initialization.
             // This code will save global pointer to JVM instance.
             // Execute on the AWT event dispatching thread to store JNI context from EDT
@@ -210,8 +225,18 @@ public class CefApp extends CefAppHandlerAdapter {
             // TODO: ensure and make all initialization steps in single bg thread.
             preinit(args);
             initialize();
+            return null;
         },
-        new NamedThreadExecutor("CefInitialize-thread"));
+        new NamedThreadExecutor("CefInitialize-thread")).exceptionally((ex) -> {
+            CefLog.Error("Failed to initialize: %s", ex);
+            setState(CefAppState.FAILED);
+            synchronized (initializationListeners_) {
+                isInitFinished_ = true;
+                initializationListeners_.forEach(l -> l.stateHasChanged(CefAppState.FAILED));
+                initializationListeners_.clear();
+            }
+            return null;
+        });
     }
 
     private void preinit(String[] args) throws RuntimeException {
@@ -239,8 +264,8 @@ public class CefApp extends CefAppHandlerAdapter {
 
     public void onInitialization(CefAppStateHandler initListener, boolean first) {
         synchronized (initializationListeners_) {
-            if (isInitialized_)
-                initListener.stateHasChanged(CefAppState.INITIALIZED);
+            if (isInitialized_ || isInitFinished_)
+                initListener.stateHasChanged(state_);
             else {
                 if (first)
                     initializationListeners_.addFirst(initListener);
@@ -453,6 +478,7 @@ public class CefApp extends CefAppHandlerAdapter {
 
     public synchronized boolean isTerminated() { return state_ == CefAppState.TERMINATED; }
     public synchronized boolean isShuttingDown() { return state_ == CefAppState.TERMINATED || state_ == CefAppState.SHUTTING_DOWN; }
+    public synchronized boolean isFailed() { return state_ == CefAppState.FAILED; }
 
     private synchronized void setState(final CefAppState state) {
         if (state.compareTo(state_) < 0) {
@@ -508,6 +534,7 @@ public class CefApp extends CefAppHandlerAdapter {
             case NONE:
             case SHUTTING_DOWN:
             case TERMINATED:
+            case FAILED:
                 // Ignore shutdown, CefApp is already terminated, in shutdown progress
                 // or was never created (shouldn't be possible)
                 break;
@@ -630,12 +657,20 @@ public class CefApp extends CefAppHandlerAdapter {
             setState(CefAppState.INITIALIZED);
             synchronized (initializationListeners_) {
                 isInitialized_ = true;
+                isInitFinished_ = true;
                 initializationListeners_.forEach(l -> l.stateHasChanged(CefAppState.INITIALIZED));
                 initializationListeners_.clear();
             }
             CefLog.Info("version: %s | settings: %s", getVersion(), settings.getDescription());
-        } else
+        } else {
             CefLog.Error("CefApp: N_Initialize failed.");
+            setState(CefAppState.FAILED);
+            synchronized (initializationListeners_) {
+                isInitFinished_ = true;
+                initializationListeners_.forEach(l -> l.stateHasChanged(CefAppState.FAILED));
+                initializationListeners_.clear();
+            }
+        }
     }
 
     /**
