@@ -94,7 +94,7 @@ sign_with_retry() {
 snapshot_execs
 
 if [[ -f "$INPUT_ABS" ]]; then
-  sign_with_retry -log-format text -max-wait 1m -denoted-content-type application/x-mac-app-bin "$INPUT_ABS"
+  sign_with_retry -log-format text -max-wait 30m -denoted-content-type application/x-mac-app-bin "$INPUT_ABS"
 
   SIGNED_FILE="$SIGNED_DIR/$INPUT_BASENAME"
   if [[ ! -f "$SIGNED_FILE" ]]; then
@@ -109,7 +109,7 @@ elif [[ -d "$INPUT_ABS" ]]; then
   rm -f "$TMP_TAR"
   tar -pczf "$TMP_TAR" -C "$INPUT_DIRNAME" "$INPUT_BASENAME"
 
-  sign_with_retry -log-format text -max-wait 1m -denoted-content-type application/x-mac-app-targz -extensions mac_codesign_identity="$CODESIGN_STRING",mac_codesign_options=runtime,mac_codesign_force=true,mac_codesign_entitlements="$script_dir"/entitlements.xml "$TMP_TAR"
+  sign_with_retry -log-format text -max-wait 30m -denoted-content-type application/x-mac-app-targz -extensions mac_codesign_identity="$CODESIGN_STRING",mac_codesign_options=runtime,mac_codesign_force=true,mac_codesign_entitlements="$script_dir"/entitlements.xml "$TMP_TAR"
 
   SIGNED_TAR="$SIGNED_DIR/$(basename "$TMP_TAR")"
   if [[ ! -f "$SIGNED_TAR" ]]; then
