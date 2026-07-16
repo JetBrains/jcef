@@ -97,6 +97,8 @@ service ClientHandlers {
     // CefAppHandler
     //
     oneway void AppHandler_OnContextInitialized(),
+    oneway void AppHandler_OnBeforeChildProcessLaunch(1:string cmdLine),
+
     //
     // CefRenderHandler
     //

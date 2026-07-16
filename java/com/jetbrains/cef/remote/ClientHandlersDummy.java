@@ -25,6 +25,11 @@ public class ClientHandlersDummy implements ClientHandlers.Iface{
     }
 
     @Override
+    public void AppHandler_OnBeforeChildProcessLaunch(String cmdLine) throws TException {
+        
+    }
+
+    @Override
     public Rect RenderHandler_GetViewRect(int bid) throws TException {
         return null;
     }

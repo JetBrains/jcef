@@ -815,6 +815,18 @@ public class CefApp extends CefAppHandlerAdapter {
         }
     }
 
+    @Override
+    public void onContextInitialized() {
+        if (appHandler_ != null)
+            appHandler_.onContextInitialized();
+    }
+
+    @Override
+    public void onBeforeChildProcessLaunch(String command_line) {
+        if (appHandler_ != null)
+            appHandler_.onBeforeChildProcessLaunch(command_line);
+    }
+
     private static native boolean N_Startup(String pathToCefFramework);
 
     private native boolean N_PreInitialize();

@@ -17,6 +17,8 @@ public class ClientHandlers {
 
     public void AppHandler_OnContextInitialized() throws com.jetbrains.cef.remote.thrift.TException;
 
+    public void AppHandler_OnBeforeChildProcessLaunch(java.lang.String cmdLine) throws com.jetbrains.cef.remote.thrift.TException;
+
     public Rect RenderHandler_GetViewRect(int bid) throws com.jetbrains.cef.remote.thrift.TException;
 
     public ScreenInfo RenderHandler_GetScreenInfo(int bid) throws com.jetbrains.cef.remote.thrift.TException;
@@ -166,6 +168,8 @@ public class ClientHandlers {
     public void log(java.lang.String msg, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
     public void AppHandler_OnContextInitialized(com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void AppHandler_OnBeforeChildProcessLaunch(java.lang.String cmdLine, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
     public void RenderHandler_GetViewRect(int bid, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Rect> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
@@ -378,6 +382,19 @@ public class ClientHandlers {
     {
       AppHandler_OnContextInitialized_args args = new AppHandler_OnContextInitialized_args();
       sendBaseOneway("AppHandler_OnContextInitialized", args);
+    }
+
+    @Override
+    public void AppHandler_OnBeforeChildProcessLaunch(java.lang.String cmdLine) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      send_AppHandler_OnBeforeChildProcessLaunch(cmdLine);
+    }
+
+    public void send_AppHandler_OnBeforeChildProcessLaunch(java.lang.String cmdLine) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      AppHandler_OnBeforeChildProcessLaunch_args args = new AppHandler_OnBeforeChildProcessLaunch_args();
+      args.setCmdLine(cmdLine);
+      sendBaseOneway("AppHandler_OnBeforeChildProcessLaunch", args);
     }
 
     @Override
@@ -2011,6 +2028,41 @@ public class ClientHandlers {
       public void write_args(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot) throws com.jetbrains.cef.remote.thrift.TException {
         prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("AppHandler_OnContextInitialized", com.jetbrains.cef.remote.thrift.protocol.TMessageType.ONEWAY, 0));
         AppHandler_OnContextInitialized_args args = new AppHandler_OnContextInitialized_args();
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public Void getResult() throws com.jetbrains.cef.remote.thrift.TException {
+        if (getState() != com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport memoryTransport = new com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        com.jetbrains.cef.remote.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return null;
+      }
+    }
+
+    @Override
+    public void AppHandler_OnBeforeChildProcessLaunch(java.lang.String cmdLine, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+      checkReady();
+      AppHandler_OnBeforeChildProcessLaunch_call method_call = new AppHandler_OnBeforeChildProcessLaunch_call(cmdLine, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class AppHandler_OnBeforeChildProcessLaunch_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<Void> {
+      private java.lang.String cmdLine;
+      public AppHandler_OnBeforeChildProcessLaunch_call(java.lang.String cmdLine, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, true);
+        this.cmdLine = cmdLine;
+      }
+
+      @Override
+      public void write_args(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("AppHandler_OnBeforeChildProcessLaunch", com.jetbrains.cef.remote.thrift.protocol.TMessageType.ONEWAY, 0));
+        AppHandler_OnBeforeChildProcessLaunch_args args = new AppHandler_OnBeforeChildProcessLaunch_args();
+        args.setCmdLine(cmdLine);
         args.write(prot);
         prot.writeMessageEnd();
       }
@@ -4985,6 +5037,7 @@ public class ClientHandlers {
       processMap.put("echo", new echo());
       processMap.put("log", new log());
       processMap.put("AppHandler_OnContextInitialized", new AppHandler_OnContextInitialized());
+      processMap.put("AppHandler_OnBeforeChildProcessLaunch", new AppHandler_OnBeforeChildProcessLaunch());
       processMap.put("RenderHandler_GetViewRect", new RenderHandler_GetViewRect());
       processMap.put("RenderHandler_GetScreenInfo", new RenderHandler_GetScreenInfo());
       processMap.put("RenderHandler_GetScreenPoint", new RenderHandler_GetScreenPoint());
@@ -5136,6 +5189,33 @@ public class ClientHandlers {
       @Override
       public com.jetbrains.cef.remote.thrift.TBase getResult(I iface, AppHandler_OnContextInitialized_args args) throws com.jetbrains.cef.remote.thrift.TException {
         iface.AppHandler_OnContextInitialized();
+        return null;
+      }
+    }
+
+    public static class AppHandler_OnBeforeChildProcessLaunch<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, AppHandler_OnBeforeChildProcessLaunch_args> {
+      public AppHandler_OnBeforeChildProcessLaunch() {
+        super("AppHandler_OnBeforeChildProcessLaunch");
+      }
+
+      @Override
+      public AppHandler_OnBeforeChildProcessLaunch_args getEmptyArgsInstance() {
+        return new AppHandler_OnBeforeChildProcessLaunch_args();
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.TBase getResult(I iface, AppHandler_OnBeforeChildProcessLaunch_args args) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.AppHandler_OnBeforeChildProcessLaunch(args.cmdLine);
         return null;
       }
     }
@@ -7112,6 +7192,7 @@ public class ClientHandlers {
       processMap.put("echo", new echo());
       processMap.put("log", new log());
       processMap.put("AppHandler_OnContextInitialized", new AppHandler_OnContextInitialized());
+      processMap.put("AppHandler_OnBeforeChildProcessLaunch", new AppHandler_OnBeforeChildProcessLaunch());
       processMap.put("RenderHandler_GetViewRect", new RenderHandler_GetViewRect());
       processMap.put("RenderHandler_GetScreenInfo", new RenderHandler_GetScreenInfo());
       processMap.put("RenderHandler_GetScreenPoint", new RenderHandler_GetScreenPoint());
@@ -7329,6 +7410,46 @@ public class ClientHandlers {
       @Override
       public void start(I iface, AppHandler_OnContextInitialized_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
         iface.AppHandler_OnContextInitialized(resultHandler);
+      }
+    }
+
+    public static class AppHandler_OnBeforeChildProcessLaunch<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, AppHandler_OnBeforeChildProcessLaunch_args, Void> {
+      public AppHandler_OnBeforeChildProcessLaunch() {
+        super("AppHandler_OnBeforeChildProcessLaunch");
+      }
+
+      @Override
+      public AppHandler_OnBeforeChildProcessLaunch_args getEmptyArgsInstance() {
+        return new AppHandler_OnBeforeChildProcessLaunch_args();
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> getResultHandler(final com.jetbrains.cef.remote.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final com.jetbrains.cef.remote.thrift.AsyncProcessFunction fcall = this;
+        return new com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void>() { 
+          @Override
+          public void onComplete(Void o) {
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            if (e instanceof com.jetbrains.cef.remote.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+            } else {
+              _LOGGER.error("Exception inside oneway handler", e);
+            }
+          }
+        };
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      public void start(I iface, AppHandler_OnBeforeChildProcessLaunch_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.AppHandler_OnBeforeChildProcessLaunch(args.cmdLine,resultHandler);
       }
     }
 
@@ -12728,6 +12849,385 @@ public class ClientHandlers {
       @Override
       public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, AppHandler_OnContextInitialized_args struct) throws com.jetbrains.cef.remote.thrift.TException {
         com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class AppHandler_OnBeforeChildProcessLaunch_args implements com.jetbrains.cef.remote.thrift.TBase<AppHandler_OnBeforeChildProcessLaunch_args, AppHandler_OnBeforeChildProcessLaunch_args._Fields>, java.io.Serializable, Cloneable, Comparable<AppHandler_OnBeforeChildProcessLaunch_args>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("AppHandler_OnBeforeChildProcessLaunch_args");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField CMD_LINE_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("cmdLine", com.jetbrains.cef.remote.thrift.protocol.TType.STRING, (short)1);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new AppHandler_OnBeforeChildProcessLaunch_argsStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new AppHandler_OnBeforeChildProcessLaunch_argsTupleSchemeFactory();
+
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String cmdLine; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      CMD_LINE((short)1, "cmdLine");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // CMD_LINE
+            return CMD_LINE;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CMD_LINE, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("cmdLine", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRING)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(AppHandler_OnBeforeChildProcessLaunch_args.class, metaDataMap);
+    }
+
+    public AppHandler_OnBeforeChildProcessLaunch_args() {
+    }
+
+    public AppHandler_OnBeforeChildProcessLaunch_args(
+      java.lang.String cmdLine)
+    {
+      this();
+      this.cmdLine = cmdLine;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public AppHandler_OnBeforeChildProcessLaunch_args(AppHandler_OnBeforeChildProcessLaunch_args other) {
+      if (other.isSetCmdLine()) {
+        this.cmdLine = other.cmdLine;
+      }
+    }
+
+    @Override
+    public AppHandler_OnBeforeChildProcessLaunch_args deepCopy() {
+      return new AppHandler_OnBeforeChildProcessLaunch_args(this);
+    }
+
+    @Override
+    public void clear() {
+      this.cmdLine = null;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public java.lang.String getCmdLine() {
+      return this.cmdLine;
+    }
+
+    public AppHandler_OnBeforeChildProcessLaunch_args setCmdLine(@com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String cmdLine) {
+      this.cmdLine = cmdLine;
+      return this;
+    }
+
+    public void unsetCmdLine() {
+      this.cmdLine = null;
+    }
+
+    /** Returns true if field cmdLine is set (has been assigned a value) and false otherwise */
+    public boolean isSetCmdLine() {
+      return this.cmdLine != null;
+    }
+
+    public void setCmdLineIsSet(boolean value) {
+      if (!value) {
+        this.cmdLine = null;
+      }
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case CMD_LINE:
+        if (value == null) {
+          unsetCmdLine();
+        } else {
+          setCmdLine((java.lang.String)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case CMD_LINE:
+        return getCmdLine();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case CMD_LINE:
+        return isSetCmdLine();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof AppHandler_OnBeforeChildProcessLaunch_args)
+        return this.equals((AppHandler_OnBeforeChildProcessLaunch_args)that);
+      return false;
+    }
+
+    public boolean equals(AppHandler_OnBeforeChildProcessLaunch_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_cmdLine = true && this.isSetCmdLine();
+      boolean that_present_cmdLine = true && that.isSetCmdLine();
+      if (this_present_cmdLine || that_present_cmdLine) {
+        if (!(this_present_cmdLine && that_present_cmdLine))
+          return false;
+        if (!this.cmdLine.equals(that.cmdLine))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((isSetCmdLine()) ? 131071 : 524287);
+      if (isSetCmdLine())
+        hashCode = hashCode * 8191 + cmdLine.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(AppHandler_OnBeforeChildProcessLaunch_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetCmdLine(), other.isSetCmdLine());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetCmdLine()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.cmdLine, other.cmdLine);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("AppHandler_OnBeforeChildProcessLaunch_args(");
+      boolean first = true;
+
+      sb.append("cmdLine:");
+      if (this.cmdLine == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.cmdLine);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class AppHandler_OnBeforeChildProcessLaunch_argsStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public AppHandler_OnBeforeChildProcessLaunch_argsStandardScheme getScheme() {
+        return new AppHandler_OnBeforeChildProcessLaunch_argsStandardScheme();
+      }
+    }
+
+    private static class AppHandler_OnBeforeChildProcessLaunch_argsStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<AppHandler_OnBeforeChildProcessLaunch_args> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, AppHandler_OnBeforeChildProcessLaunch_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // CMD_LINE
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRING) {
+                struct.cmdLine = iprot.readString();
+                struct.setCmdLineIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, AppHandler_OnBeforeChildProcessLaunch_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.cmdLine != null) {
+          oprot.writeFieldBegin(CMD_LINE_FIELD_DESC);
+          oprot.writeString(struct.cmdLine);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class AppHandler_OnBeforeChildProcessLaunch_argsTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public AppHandler_OnBeforeChildProcessLaunch_argsTupleScheme getScheme() {
+        return new AppHandler_OnBeforeChildProcessLaunch_argsTupleScheme();
+      }
+    }
+
+    private static class AppHandler_OnBeforeChildProcessLaunch_argsTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<AppHandler_OnBeforeChildProcessLaunch_args> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, AppHandler_OnBeforeChildProcessLaunch_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetCmdLine()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetCmdLine()) {
+          oprot.writeString(struct.cmdLine);
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, AppHandler_OnBeforeChildProcessLaunch_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          struct.cmdLine = iprot.readString();
+          struct.setCmdLineIsSet(true);
+        }
       }
     }
 

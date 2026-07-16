@@ -25,6 +25,7 @@ class ClientHandlersIf {
   virtual void echo(std::string& _return, const std::string& msg) = 0;
   virtual void log(const std::string& msg) = 0;
   virtual void AppHandler_OnContextInitialized() = 0;
+  virtual void AppHandler_OnBeforeChildProcessLaunch(const std::string& cmdLine) = 0;
   virtual void RenderHandler_GetViewRect(Rect& _return, const int32_t bid) = 0;
   virtual void RenderHandler_GetScreenInfo(ScreenInfo& _return, const int32_t bid) = 0;
   virtual void RenderHandler_GetScreenPoint(Point& _return, const int32_t bid, const int32_t viewX, const int32_t viewY) = 0;
@@ -131,6 +132,9 @@ class ClientHandlersNull : virtual public ClientHandlersIf {
     return;
   }
   void AppHandler_OnContextInitialized() override {
+    return;
+  }
+  void AppHandler_OnBeforeChildProcessLaunch(const std::string& /* cmdLine */) override {
     return;
   }
   void RenderHandler_GetViewRect(Rect& /* _return */, const int32_t /* bid */) override {
@@ -555,6 +559,56 @@ class ClientHandlers_AppHandler_OnContextInitialized_pargs {
 
 
   virtual ~ClientHandlers_AppHandler_OnContextInitialized_pargs() noexcept;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _ClientHandlers_AppHandler_OnBeforeChildProcessLaunch_args__isset {
+  _ClientHandlers_AppHandler_OnBeforeChildProcessLaunch_args__isset() : cmdLine(false) {}
+  bool cmdLine :1;
+} _ClientHandlers_AppHandler_OnBeforeChildProcessLaunch_args__isset;
+
+class ClientHandlers_AppHandler_OnBeforeChildProcessLaunch_args {
+ public:
+
+  ClientHandlers_AppHandler_OnBeforeChildProcessLaunch_args(const ClientHandlers_AppHandler_OnBeforeChildProcessLaunch_args&);
+  ClientHandlers_AppHandler_OnBeforeChildProcessLaunch_args& operator=(const ClientHandlers_AppHandler_OnBeforeChildProcessLaunch_args&);
+  ClientHandlers_AppHandler_OnBeforeChildProcessLaunch_args() noexcept
+                                                            : cmdLine() {
+  }
+
+  virtual ~ClientHandlers_AppHandler_OnBeforeChildProcessLaunch_args() noexcept;
+  std::string cmdLine;
+
+  _ClientHandlers_AppHandler_OnBeforeChildProcessLaunch_args__isset __isset;
+
+  void __set_cmdLine(const std::string& val);
+
+  bool operator == (const ClientHandlers_AppHandler_OnBeforeChildProcessLaunch_args & rhs) const
+  {
+    if (!(cmdLine == rhs.cmdLine))
+      return false;
+    return true;
+  }
+  bool operator != (const ClientHandlers_AppHandler_OnBeforeChildProcessLaunch_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_AppHandler_OnBeforeChildProcessLaunch_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_AppHandler_OnBeforeChildProcessLaunch_pargs {
+ public:
+
+
+  virtual ~ClientHandlers_AppHandler_OnBeforeChildProcessLaunch_pargs() noexcept;
+  const std::string* cmdLine;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -7574,6 +7628,8 @@ class ClientHandlersClient : virtual public ClientHandlersIf {
   void send_log(const std::string& msg);
   void AppHandler_OnContextInitialized() override;
   void send_AppHandler_OnContextInitialized();
+  void AppHandler_OnBeforeChildProcessLaunch(const std::string& cmdLine) override;
+  void send_AppHandler_OnBeforeChildProcessLaunch(const std::string& cmdLine);
   void RenderHandler_GetViewRect(Rect& _return, const int32_t bid) override;
   void send_RenderHandler_GetViewRect(const int32_t bid);
   void recv_RenderHandler_GetViewRect(Rect& _return);
@@ -7776,6 +7832,7 @@ class ClientHandlersProcessor : public ::apache::thrift::TDispatchProcessor {
   void process_echo(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_log(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_AppHandler_OnContextInitialized(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_AppHandler_OnBeforeChildProcessLaunch(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_RenderHandler_GetViewRect(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_RenderHandler_GetScreenInfo(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_RenderHandler_GetScreenPoint(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -7852,6 +7909,7 @@ class ClientHandlersProcessor : public ::apache::thrift::TDispatchProcessor {
     processMap_["echo"] = &ClientHandlersProcessor::process_echo;
     processMap_["log"] = &ClientHandlersProcessor::process_log;
     processMap_["AppHandler_OnContextInitialized"] = &ClientHandlersProcessor::process_AppHandler_OnContextInitialized;
+    processMap_["AppHandler_OnBeforeChildProcessLaunch"] = &ClientHandlersProcessor::process_AppHandler_OnBeforeChildProcessLaunch;
     processMap_["RenderHandler_GetViewRect"] = &ClientHandlersProcessor::process_RenderHandler_GetViewRect;
     processMap_["RenderHandler_GetScreenInfo"] = &ClientHandlersProcessor::process_RenderHandler_GetScreenInfo;
     processMap_["RenderHandler_GetScreenPoint"] = &ClientHandlersProcessor::process_RenderHandler_GetScreenPoint;
@@ -7976,6 +8034,15 @@ class ClientHandlersMultiface : virtual public ClientHandlersIf {
       ifaces_[i]->AppHandler_OnContextInitialized();
     }
     ifaces_[i]->AppHandler_OnContextInitialized();
+  }
+
+  void AppHandler_OnBeforeChildProcessLaunch(const std::string& cmdLine) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->AppHandler_OnBeforeChildProcessLaunch(cmdLine);
+    }
+    ifaces_[i]->AppHandler_OnBeforeChildProcessLaunch(cmdLine);
   }
 
   void RenderHandler_GetViewRect(Rect& _return, const int32_t bid) override {
@@ -8659,6 +8726,8 @@ class ClientHandlersConcurrentClient : virtual public ClientHandlersIf {
   void send_log(const std::string& msg);
   void AppHandler_OnContextInitialized() override;
   void send_AppHandler_OnContextInitialized();
+  void AppHandler_OnBeforeChildProcessLaunch(const std::string& cmdLine) override;
+  void send_AppHandler_OnBeforeChildProcessLaunch(const std::string& cmdLine);
   void RenderHandler_GetViewRect(Rect& _return, const int32_t bid) override;
   int32_t send_RenderHandler_GetViewRect(const int32_t bid);
   void recv_RenderHandler_GetViewRect(Rect& _return, const int32_t seqid);

@@ -12,11 +12,20 @@ void RemoteBrowserProcessHandler::setService(std::shared_ptr<RpcExecutor> servic
     myService = service;
     needInvokeCallback = myIsContextInitialized;
   }
-  if (myService && needInvokeCallback) {
-    // Service was created after OnContextInitialized happened, so notify client immediately.
-    myService->exec([&](const JavaService& s) {
-      s->AppHandler_OnContextInitialized();
-    });
+  if (myService) {
+    if (needInvokeCallback) {
+      // Service was created after OnContextInitialized happened, so notify client immediately.
+      myService->exec([&](const JavaService& s) {
+        s->AppHandler_OnContextInitialized();
+      });
+    }
+    std::vector<std::string> queue;
+    myStartedSubprocessesQueue.swap(queue);
+    for (const std::string& cmdLine : queue) {
+      myService->exec([&](const JavaService& s){
+        s->AppHandler_OnBeforeChildProcessLaunch(cmdLine);
+      });
+    }
   }
 }
 
@@ -61,4 +70,24 @@ bool RemoteBrowserProcessHandler::OnAlreadyRunningAppRelaunch(
     CefRefPtr<CefCommandLine> command_line,
     const CefString& current_directory) {
   return true;
+}
+
+///
+/// Called before a child process is launched. Will be called on the browser
+/// process UI thread when launching a render process and on the browser
+/// process IO thread when launching a GPU process. Provides an opportunity to
+/// modify the child process command line. Do not keep a reference to
+/// |command_line| outside of this method.
+///
+/*--cef()--*/
+void RemoteBrowserProcessHandler::OnBeforeChildProcessLaunch(CefRefPtr<CefCommandLine> command_line) {
+  const std::string cmdLine = command_line->GetCommandLineString().ToString();
+  if (!myService) {
+    myStartedSubprocessesQueue.push_back(cmdLine);
+    return;
+  }
+
+  myService->exec([&](const JavaService& s){
+    s->AppHandler_OnBeforeChildProcessLaunch(cmdLine);
+  });
 }

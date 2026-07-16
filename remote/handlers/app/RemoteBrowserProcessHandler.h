@@ -18,6 +18,8 @@ class RemoteBrowserProcessHandler : public CefBrowserProcessHandler {
 
   bool OnAlreadyRunningAppRelaunch(CefRefPtr<CefCommandLine> command_line, const CefString& current_directory) override;
 
+  void OnBeforeChildProcessLaunch(CefRefPtr<CefCommandLine> command_line) override;
+
   // TODO: add IsContextInitialized, because OnContextInitialized() is called once (when
   // server starts first time) and client should be able to detect this case.
 
@@ -29,6 +31,7 @@ class RemoteBrowserProcessHandler : public CefBrowserProcessHandler {
   const std::chrono::steady_clock::time_point myCreationTime; // just for logging
   bool myIsContextInitialized = false;
   bool myIsCallbackInvoked = false;
+  std::vector<std::string> myStartedSubprocessesQueue;
   IMPLEMENT_REFCOUNTING(RemoteBrowserProcessHandler);
 };
 #endif  // JCEF_REMOTEBROWSERPROCESSHANDLER_H

@@ -45,7 +45,6 @@ public class CefServer {
     private final ClientHandlersImpl myClientHandlersImpl;
 
     private volatile boolean myIsConnected = false;
-    private volatile boolean myIsContextInitialized = false;
     private volatile boolean myIsDisconnected = false;
     private volatile boolean myIsCrashed = false;
 
@@ -133,7 +132,7 @@ public class CefServer {
 
     // Connects to CefServer and start cef-handlers service.
     // Should be executed in bg thread.
-    // NOTE: appHandler is necessary for (1) custom schemes, (2) onContextInitialized callback
+    // NOTE: appHandler is necessary for custom schemes processing.
     public boolean start(CefAppHandler appHandler) {
         try {
             if (!CefApp.isRemoteEnabled())
@@ -149,7 +148,7 @@ public class CefServer {
                     return false;
             }
 
-            if (!connect(appHandler == null ? null : appHandler::onContextInitialized)) {
+            if (!connect()) {
                 CefLog.Error("CefServer.connect() fails, can't initialize thrift client for native server.");
                 return false;
             }
@@ -187,13 +186,7 @@ public class CefServer {
         return f != null ? f.getAbsolutePath() : null;
     }
 
-    private boolean connect(Runnable onContextInitialized) {
-        myClientHandlersImpl.setOnContextInitialized(() -> {
-            myIsContextInitialized = true;
-            if (onContextInitialized != null)
-                onContextInitialized.run();
-        });
-
+    private boolean connect() {
         int cid = -1;
         try {
             // 1. Start server for cef-handlers execution. Open transport for rpc-handlers

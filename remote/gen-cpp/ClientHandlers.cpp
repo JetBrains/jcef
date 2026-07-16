@@ -333,6 +333,85 @@ uint32_t ClientHandlers_AppHandler_OnContextInitialized_pargs::write(::apache::t
 }
 
 
+ClientHandlers_AppHandler_OnBeforeChildProcessLaunch_args::~ClientHandlers_AppHandler_OnBeforeChildProcessLaunch_args() noexcept {
+}
+
+
+uint32_t ClientHandlers_AppHandler_OnBeforeChildProcessLaunch_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->cmdLine);
+          this->__isset.cmdLine = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_AppHandler_OnBeforeChildProcessLaunch_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_AppHandler_OnBeforeChildProcessLaunch_args");
+
+  xfer += oprot->writeFieldBegin("cmdLine", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString(this->cmdLine);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_AppHandler_OnBeforeChildProcessLaunch_pargs::~ClientHandlers_AppHandler_OnBeforeChildProcessLaunch_pargs() noexcept {
+}
+
+
+uint32_t ClientHandlers_AppHandler_OnBeforeChildProcessLaunch_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_AppHandler_OnBeforeChildProcessLaunch_pargs");
+
+  xfer += oprot->writeFieldBegin("cmdLine", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString((*(this->cmdLine)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
 ClientHandlers_RenderHandler_GetViewRect_args::~ClientHandlers_RenderHandler_GetViewRect_args() noexcept {
 }
 
@@ -13175,6 +13254,25 @@ void ClientHandlersClient::send_AppHandler_OnContextInitialized()
   oprot_->getTransport()->flush();
 }
 
+void ClientHandlersClient::AppHandler_OnBeforeChildProcessLaunch(const std::string& cmdLine)
+{
+  send_AppHandler_OnBeforeChildProcessLaunch(cmdLine);
+}
+
+void ClientHandlersClient::send_AppHandler_OnBeforeChildProcessLaunch(const std::string& cmdLine)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("AppHandler_OnBeforeChildProcessLaunch", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  ClientHandlers_AppHandler_OnBeforeChildProcessLaunch_pargs args;
+  args.cmdLine = &cmdLine;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
 void ClientHandlersClient::RenderHandler_GetViewRect(Rect& _return, const int32_t bid)
 {
   send_RenderHandler_GetViewRect(bid);
@@ -16474,6 +16572,43 @@ void ClientHandlersProcessor::process_AppHandler_OnContextInitialized(int32_t, :
 
   if (this->eventHandler_.get() != nullptr) {
     this->eventHandler_->asyncComplete(ctx, "ClientHandlers.AppHandler_OnContextInitialized");
+  }
+
+  return;
+}
+
+void ClientHandlersProcessor::process_AppHandler_OnBeforeChildProcessLaunch(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("ClientHandlers.AppHandler_OnBeforeChildProcessLaunch", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ClientHandlers.AppHandler_OnBeforeChildProcessLaunch");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "ClientHandlers.AppHandler_OnBeforeChildProcessLaunch");
+  }
+
+  ClientHandlers_AppHandler_OnBeforeChildProcessLaunch_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "ClientHandlers.AppHandler_OnBeforeChildProcessLaunch", bytes);
+  }
+
+  try {
+    iface_->AppHandler_OnBeforeChildProcessLaunch(args.cmdLine);
+  } catch (const std::exception&) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "ClientHandlers.AppHandler_OnBeforeChildProcessLaunch");
+    }
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->asyncComplete(ctx, "ClientHandlers.AppHandler_OnBeforeChildProcessLaunch");
   }
 
   return;
@@ -19932,6 +20067,28 @@ void ClientHandlersConcurrentClient::send_AppHandler_OnContextInitialized()
   oprot_->writeMessageBegin("AppHandler_OnContextInitialized", ::apache::thrift::protocol::T_ONEWAY, cseqid);
 
   ClientHandlers_AppHandler_OnContextInitialized_pargs args;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+}
+
+void ClientHandlersConcurrentClient::AppHandler_OnBeforeChildProcessLaunch(const std::string& cmdLine)
+{
+  send_AppHandler_OnBeforeChildProcessLaunch(cmdLine);
+}
+
+void ClientHandlersConcurrentClient::send_AppHandler_OnBeforeChildProcessLaunch(const std::string& cmdLine)
+{
+  int32_t cseqid = 0;
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("AppHandler_OnBeforeChildProcessLaunch", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  ClientHandlers_AppHandler_OnBeforeChildProcessLaunch_pargs args;
+  args.cmdLine = &cmdLine;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();

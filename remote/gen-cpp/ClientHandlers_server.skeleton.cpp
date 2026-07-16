@@ -35,6 +35,11 @@ class ClientHandlersHandler : virtual public ClientHandlersIf {
     printf("AppHandler_OnContextInitialized\n");
   }
 
+  void AppHandler_OnBeforeChildProcessLaunch(const std::string& cmdLine) {
+    // Your implementation goes here
+    printf("AppHandler_OnBeforeChildProcessLaunch\n");
+  }
+
   void RenderHandler_GetViewRect(Rect& _return, const int32_t bid) {
     // Your implementation goes here
     printf("RenderHandler_GetViewRect\n");

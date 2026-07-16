@@ -34,15 +34,10 @@ import java.util.List;
 //
 public class ClientHandlersImpl implements ClientHandlers.Iface {
     private static final boolean TRACE_REMOTE_FIND_BID = Utils.getBoolean("TRACE_REMOTE_FIND_BID");
-    private Runnable myOnContextInitialized;
     private final RpcContext myRpc;
 
     public ClientHandlersImpl(RpcContext rpcContext) {
         myRpc = rpcContext;
-    }
-
-    public void setOnContextInitialized(Runnable onContextInitialized) {
-        myOnContextInitialized = onContextInitialized;
     }
 
     private RemoteBrowser getRemoteBrowser(int bid) {
@@ -79,8 +74,12 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         // Called on the server process UI thread immediately after the CEF context
         // has been initialized.
         CefLog.Debug("AppHandler_OnContextInitialized: ");
-        if (myOnContextInitialized != null)
-            myOnContextInitialized.run();
+        myRpc.server.getCefApp().onContextInitialized();
+    }
+
+    @Override
+    public void AppHandler_OnBeforeChildProcessLaunch(String cmdLine) throws TException {
+        myRpc.server.getCefApp().onBeforeChildProcessLaunch(cmdLine);
     }
 
     //
