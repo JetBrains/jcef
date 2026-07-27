@@ -433,6 +433,11 @@ add_library(shared_mem_helper SHARED ${shared_mem_helper_SOURCES})
 target_include_directories(shared_mem_helper PUBLIC ${JNI_INCLUDE_DIRS})
 target_link_libraries(shared_mem_helper ${shared_mem_helper_LIBS})
 
+if (OS_MAC)
+    # fix boost build with Xcode 26+
+    target_compile_options(shared_mem_helper PRIVATE -Wno-missing-template-arg-list-after-template-kw)
+endif ()
+
 if (OS_LINUX)
     target_link_libraries(shared_mem_helper rt)
 
