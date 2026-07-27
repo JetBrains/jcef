@@ -24,7 +24,7 @@
     </and>
   </condition>
 
-  <property name="jcef.version" value="144.0.15-g72717cf-chromium-144.0.7559.172-api-1.21-${jcefBranch}-${buildNumber}"/>
+  <property name="jcef.version" value="150.0.14-g7c1aa68-chromium-150.0.7871.129-api-1.21-${jcefBranch}-${buildNumber}"/>
 
   <property name="out.path"   value="${env.OUT_PATH}"/>
   <property name="out.name"   value="${env.OUT_NAME}"/>
