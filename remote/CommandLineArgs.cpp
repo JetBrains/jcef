@@ -200,6 +200,9 @@ void CommandLineArgs::prepareCefSettings(void * pCefSettings) {
       CefSettingsParser::setSettingItem(settings, p.first, p.second);
   }
 
+  if (settings.cache_path.length == 0 && !myPathRootCache.empty())
+    CefString(&settings.cache_path) = myPathRootCache;
+
   settings.windowless_rendering_enabled = true;
   settings.multi_threaded_message_loop = false;
   settings.external_message_pump = false;
