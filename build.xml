@@ -39,13 +39,13 @@
   <condition property="jvm.opts"
              value="--module-path=${toString:module.path} --add-modules jogl.all,gluegen.rt --add-exports jogl.all/com.jogamp.nativewindow=jcef --add-exports jogl.all/com.jogamp.opengl.awt=jcef --add-exports jogl.all/com.jogamp.opengl.util=jcef --add-exports jogl.all/com.jogamp.opengl=jcef --add-exports java.desktop/sun.awt=jcef --add-exports java.desktop/java.awt.peer=jcef --add-exports java.desktop/sun.lwawt.macosx=jcef --add-exports java.desktop/sun.lwawt=jcef"
              else="">
-    <matches pattern="17*.*" string="${java.version}"/>
+    <javaversion atleast="17"/>
   </condition>
 
   <condition property="include.module-info.class"
              value="module-info.class"
              else="">
-    <matches pattern="17*.*" string="${java.version}"/>
+    <javaversion atleast="17"/>
   </condition>
 
   <condition property="exclude.module-info.java"
