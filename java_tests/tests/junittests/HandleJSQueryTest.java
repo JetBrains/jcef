@@ -124,19 +124,24 @@ public class HandleJSQueryTest {
             browser = new JBCefBrowser(new CefLoadHandlerAdapter() {
                 @Override
                 public void onLoadStart(CefBrowser browser, CefFrame frame, TransitionType transitionType) {
-                    CefLog.Info("onLoadStart: browser " + browserNumber);
+                    CefLog.Info("onLoadStart: browser " + browserNumber + ", frameCount = " + browser.getFrameCount() + ", frame " + frame.getIdentifier() + ", frame.isMain " + frame.isMain() + ", frame.isValid " + frame.isValid()+ ", frame.isFocused " + frame.isFocused());
                 }
 
                 @Override
                 public void onLoadEnd(CefBrowser browser, CefFrame frame, int httpStatusCode) {
-                    CefLog.Info("onLoadEnd: browser " + browserNumber);
-                    postJSRequests();
+                    CefLog.Info("onLoadEnd: browser " + browserNumber + ", frameCount = " + browser.getFrameCount() + ", frame " + frame.getIdentifier());
                 }
 
                 @Override
                 public void onLoadingStateChange(CefBrowser browser, boolean isLoading, boolean canGoBack, boolean canGoForward) {
-                    CefLog.Info("onLoadingStateChange: browser " + browserNumber);
-                    super.onLoadingStateChange(browser, isLoading, canGoBack, canGoForward);
+                    CefLog.Info("onLoadingStateChange: browser " + browserNumber + ", isLoading=" + isLoading + ", frameCount = " + browser.getFrameCount());
+                    if (!isLoading)
+                        postJSRequests();
+                }
+
+                @Override
+                public void onLoadError(CefBrowser browser, CefFrame frame, ErrorCode errorCode, String errorText, String failedUrl) {
+                    CefLog.Info("onLoadError: browser " + browserNumber + ", frame " + frame.getIdentifier());
                 }
             });
 
