@@ -123,5 +123,7 @@ public class RpcExecutor {
 
         if (myServer != null)
             myServer.onRpcThriftException(e);
+
+        throw new IllegalStateException("JCEF server was disconnected.");
     }
 }
