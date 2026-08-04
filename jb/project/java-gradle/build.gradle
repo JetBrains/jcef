@@ -51,6 +51,12 @@ if (OperatingSystem.current().isWindows() && project.hasProperty('jbr_win')) {
     jbr_java = jbr_linux + '/bin/java'
 }
 
+def nativeBundlePath = null
+
+if (project.hasProperty('jcef_native_bundle_path')) {
+    nativeBundlePath = project.property("jcef_native_bundle_path")
+}
+
 test {
     useJUnitPlatform()
     include 'tests/junittests/**'
@@ -64,8 +70,12 @@ test {
                '--add-opens=java.desktop/java.awt.event=ALL-UNNAMED',
                '--add-exports=java.desktop/sun.awt=ALL-UNNAMED',
                '--add-exports=jcef/com.jetbrains.cef.remote.thrift=ALL-UNNAMED',
-               '-Djcef.tests.osr=true'
+               '-Djcef.tests.osr=true',
+               '-Djcef.remote.enabled=true'
     ]
+    if (nativeBundlePath != null) {
+        jvmArgs += ["-Djcef.native.bundle.path=${nativeBundlePath}"]
+    }
     executable = jbr_java
 }
 
