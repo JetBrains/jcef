@@ -19,7 +19,7 @@ public class TestDisplayHandler implements CefDisplayHandler {
 
     @Override
     public void onFullscreenModeChange(CefBrowser browser, boolean fullscreen) {
-        CefLog.Info("onTitleChange " + browser + ", " + fullscreen);
+        CefLog.Info("onFullscreenModeChange " + browser + ", " + fullscreen);
     }
 
     @Override
