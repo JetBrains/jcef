@@ -130,6 +130,11 @@ class ClientHandlersHandler : virtual public ClientHandlersIf {
     printf("DisplayHandler_OnTitleChange\n");
   }
 
+  void DisplayHandler_OnFullscreenModeChange(const int32_t bid, const bool fullscreen) {
+    // Your implementation goes here
+    printf("DisplayHandler_OnFullscreenModeChange\n");
+  }
+
   bool DisplayHandler_OnTooltip(const int32_t bid, const std::string& text) {
     // Your implementation goes here
     printf("DisplayHandler_OnTooltip\n");

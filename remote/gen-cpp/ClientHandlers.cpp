@@ -3315,6 +3315,101 @@ uint32_t ClientHandlers_DisplayHandler_OnTitleChange_pargs::write(::apache::thri
 }
 
 
+ClientHandlers_DisplayHandler_OnFullscreenModeChange_args::~ClientHandlers_DisplayHandler_OnFullscreenModeChange_args() noexcept {
+}
+
+
+uint32_t ClientHandlers_DisplayHandler_OnFullscreenModeChange_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->bid);
+          this->__isset.bid = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->fullscreen);
+          this->__isset.fullscreen = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_DisplayHandler_OnFullscreenModeChange_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_DisplayHandler_OnFullscreenModeChange_args");
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->bid);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("fullscreen", ::apache::thrift::protocol::T_BOOL, 2);
+  xfer += oprot->writeBool(this->fullscreen);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_DisplayHandler_OnFullscreenModeChange_pargs::~ClientHandlers_DisplayHandler_OnFullscreenModeChange_pargs() noexcept {
+}
+
+
+uint32_t ClientHandlers_DisplayHandler_OnFullscreenModeChange_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_DisplayHandler_OnFullscreenModeChange_pargs");
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32((*(this->bid)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("fullscreen", ::apache::thrift::protocol::T_BOOL, 2);
+  xfer += oprot->writeBool((*(this->fullscreen)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
 ClientHandlers_DisplayHandler_OnTooltip_args::~ClientHandlers_DisplayHandler_OnTooltip_args() noexcept {
 }
 
@@ -14013,6 +14108,26 @@ void ClientHandlersClient::send_DisplayHandler_OnTitleChange(const int32_t bid, 
   oprot_->getTransport()->flush();
 }
 
+void ClientHandlersClient::DisplayHandler_OnFullscreenModeChange(const int32_t bid, const bool fullscreen)
+{
+  send_DisplayHandler_OnFullscreenModeChange(bid, fullscreen);
+}
+
+void ClientHandlersClient::send_DisplayHandler_OnFullscreenModeChange(const int32_t bid, const bool fullscreen)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("DisplayHandler_OnFullscreenModeChange", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  ClientHandlers_DisplayHandler_OnFullscreenModeChange_pargs args;
+  args.bid = &bid;
+  args.fullscreen = &fullscreen;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
 bool ClientHandlersClient::DisplayHandler_OnTooltip(const int32_t bid, const std::string& text)
 {
   send_DisplayHandler_OnTooltip(bid, text);
@@ -17440,6 +17555,43 @@ void ClientHandlersProcessor::process_DisplayHandler_OnTitleChange(int32_t, ::ap
 
   if (this->eventHandler_.get() != nullptr) {
     this->eventHandler_->asyncComplete(ctx, "ClientHandlers.DisplayHandler_OnTitleChange");
+  }
+
+  return;
+}
+
+void ClientHandlersProcessor::process_DisplayHandler_OnFullscreenModeChange(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("ClientHandlers.DisplayHandler_OnFullscreenModeChange", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ClientHandlers.DisplayHandler_OnFullscreenModeChange");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "ClientHandlers.DisplayHandler_OnFullscreenModeChange");
+  }
+
+  ClientHandlers_DisplayHandler_OnFullscreenModeChange_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "ClientHandlers.DisplayHandler_OnFullscreenModeChange", bytes);
+  }
+
+  try {
+    iface_->DisplayHandler_OnFullscreenModeChange(args.bid, args.fullscreen);
+  } catch (const std::exception&) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "ClientHandlers.DisplayHandler_OnFullscreenModeChange");
+    }
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->asyncComplete(ctx, "ClientHandlers.DisplayHandler_OnFullscreenModeChange");
   }
 
   return;
@@ -21108,6 +21260,29 @@ void ClientHandlersConcurrentClient::send_DisplayHandler_OnTitleChange(const int
   ClientHandlers_DisplayHandler_OnTitleChange_pargs args;
   args.bid = &bid;
   args.title = &title;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+}
+
+void ClientHandlersConcurrentClient::DisplayHandler_OnFullscreenModeChange(const int32_t bid, const bool fullscreen)
+{
+  send_DisplayHandler_OnFullscreenModeChange(bid, fullscreen);
+}
+
+void ClientHandlersConcurrentClient::send_DisplayHandler_OnFullscreenModeChange(const int32_t bid, const bool fullscreen)
+{
+  int32_t cseqid = 0;
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("DisplayHandler_OnFullscreenModeChange", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  ClientHandlers_DisplayHandler_OnFullscreenModeChange_pargs args;
+  args.bid = &bid;
+  args.fullscreen = &fullscreen;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
