@@ -242,13 +242,19 @@ public class ThriftTransport {
         for (int port = from; port < to; ++port) {
             if (exclude != null && exclude.contains(port))
                 continue;
-            try {
-                ServerSocket ss = new ServerSocket(port, 0, InetAddress.getByName(null));
-                ss.close();
+            if (isPortFree(port))
                 return port;
-            } catch (IOException e) {}
         }
         return -1;
+    }
+
+    public static boolean isPortFree(int port) {
+        try {
+            ServerSocket ss = new ServerSocket(port, 0, InetAddress.getByName(null));
+            ss.close();
+            return true;
+        } catch (IOException e) {}
+        return false;
     }
 
     public TServerTransport createServerTransport() throws Exception {
