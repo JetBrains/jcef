@@ -107,6 +107,16 @@ public class CefServer {
         }
     }
 
+    public static Set<Integer> getInstancesPorts() {
+        Set<Integer> result = new HashSet<>();
+        synchronized (ourInstances) {
+            for (CefServer s : ourInstances)
+                if (s.getThriftServer().isTcp())
+                    result.add(s.getThriftServer().getPort());
+        }
+        return result;
+    }
+
     public static void logInstances() {
         if (CefLog.IsDebugEnabled()) {
             CefLog.Debug("Available CefServer instances: ");

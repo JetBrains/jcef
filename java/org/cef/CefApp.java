@@ -262,7 +262,7 @@ public class CefApp extends CefAppHandlerAdapter {
      * @throws IllegalStateException in case of CefApp is already initialized
      */
     public static void addAppHandler(CefAppHandler appHandler) throws IllegalStateException {
-        if (self != null)
+        if (self != null && !isRemoteEnabled_)
             throw new IllegalStateException("Must be called before CefApp is initialized");
         userAppHandler_ = appHandler;
     }
@@ -300,12 +300,18 @@ public class CefApp extends CefAppHandlerAdapter {
             final int count = CefServer.getInstancesCount();
             if (count > 0) {
                 if (ThriftTransport.isTcpUsed()) {
-                    st = new ThriftTransport(ThriftTransport.findFreePort());
+                    st = new ThriftTransport(ThriftTransport.findFreePort(CefServer.getInstancesPorts()));
                 } else {
                     final String suffix = "" + System.currentTimeMillis();
                     st = new ThriftTransport(ThriftTransport.getServerPipe(suffix));
                 }
                 CefLog.Debug("CefApp.getInstance: found %d instances of CefServer, so change default server transport %s to %s", count, ThriftTransport.ourDefaultServer, st);
+            } else {
+                // Ensure that default transport isn't busy.
+                if (ThriftTransport.isTcpUsed() && !ThriftTransport.isPortFree(ThriftTransport.ourDefaultServer.getPort())) {
+                    st = new ThriftTransport(ThriftTransport.findFreePort());
+                    CefLog.Debug("CefApp.getInstance: default server transport port %s is busy, was changed to %s", ThriftTransport.ourDefaultServer, st);
+                }
             }
         }
         return getInstance(args, settings, st, serverExe);
