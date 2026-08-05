@@ -317,6 +317,16 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
     }
 
     @Override
+    public void DisplayHandler_OnFullscreenModeChange(int bid, boolean fullscreen) {
+        RemoteBrowser browser = getRemoteBrowser(bid);
+        if (browser == null) return;
+        CefDisplayHandler dh = browser.getOwner().getDisplayHandler();
+        if (dh == null) return;
+
+        dh.onFullscreenModeChange(browser, fullscreen);
+    }
+
+    @Override
     public boolean DisplayHandler_OnTooltip(int bid, String text) {
         RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return false;

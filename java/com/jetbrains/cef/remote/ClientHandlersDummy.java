@@ -121,6 +121,11 @@ public class ClientHandlersDummy implements ClientHandlers.Iface{
     }
 
     @Override
+    public void DisplayHandler_OnFullscreenModeChange(int bid, boolean fullscreen) throws TException {
+
+    }
+
+    @Override
     public boolean DisplayHandler_OnTooltip(int bid, String text) throws TException {
         return false;
     }

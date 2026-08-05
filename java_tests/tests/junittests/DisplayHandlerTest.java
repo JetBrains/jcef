@@ -80,4 +80,40 @@ class DisplayHandlerTest {
 
         assertTrue(gotCallback_);
     }
+
+    @Test
+    void onFullscreenModeChange() {
+        TestFrame frame = new TestFrame() {
+            @Override
+            public void onLoadEnd(CefBrowser browser, CefFrame frame, int httpStatusCode) {
+                // The Fullscreen JS API (Element.requestFullscreen) can only be initiated by a user
+                // gesture. executeJavaScript() can't request fullscreen mode
+                browser.getDevToolsClient().executeDevToolsMethod("Runtime.evaluate",
+                        "{\"expression\": \"document.documentElement.requestFullscreen();\", \"userGesture\": true}");
+                super.onLoadEnd(browser, frame, httpStatusCode);
+            }
+
+            @Override
+            protected void setupTest() {
+                client_.addDisplayHandler(new CefDisplayHandlerAdapter() {
+                    @Override
+                    public void onFullscreenModeChange(CefBrowser browser, boolean fullscreen) {
+                        if (!fullscreen || gotCallback_) return;
+                        gotCallback_ = true;
+                        terminateTest();
+                    }
+                });
+
+                addResource(testUrl_, testContent_, "text/html");
+
+                createBrowser(testUrl_);
+
+                super.setupTest();
+            }
+        };
+
+        frame.awaitCompletion();
+
+        assertTrue(gotCallback_);
+    }
 }

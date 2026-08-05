@@ -138,6 +138,7 @@ service ClientHandlers {
     //
     void        DisplayHandler_OnAddressChange(1:i32 bid, 2:shared.RObject frame, 3:string url),
     oneway void DisplayHandler_OnTitleChange(1:i32 bid, 2:string title),
+    oneway void DisplayHandler_OnFullscreenModeChange(1:i32 bid, 2:bool fullscreen),
     bool        DisplayHandler_OnTooltip(1:i32 bid, 2:string text),
     oneway void DisplayHandler_OnStatusMessage(1:i32 bid, 2:string value),
     bool        DisplayHandler_OnConsoleMessage(1:i32 bid, 2:string level, 3:string message, 4: string source, 5: i32 line),
