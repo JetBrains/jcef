@@ -25,6 +25,14 @@ void RemoteDisplayHandler::OnTitleChange(CefRefPtr<CefBrowser> browser,
   });
 }
 
+void RemoteDisplayHandler::OnFullscreenModeChange(CefRefPtr<CefBrowser> browser,
+                              bool fullscreen) {
+  FIND_BID_OR_RETURN();
+  myService->exec([&](const JavaService& s){
+    s->DisplayHandler_OnFullscreenModeChange(bid, fullscreen);
+  });
+}
+
 bool RemoteDisplayHandler::OnTooltip(CefRefPtr<CefBrowser> browser, CefString& text) {
   FIND_BID_OR_RETURN_VAL(false);
   return myService->exec<bool>([&](const JavaService& s){
