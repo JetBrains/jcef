@@ -44,6 +44,7 @@ class ClientHandlersIf {
   virtual void LoadHandler_OnLoadError(const int32_t bid, const  ::thrift_codegen::RObject& frame, const int32_t errorCode, const std::string& errorText, const std::string& failedUrl) = 0;
   virtual void DisplayHandler_OnAddressChange(const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& url) = 0;
   virtual void DisplayHandler_OnTitleChange(const int32_t bid, const std::string& title) = 0;
+  virtual void DisplayHandler_OnFullscreenModeChange(const int32_t bid, const bool fullscreen) = 0;
   virtual bool DisplayHandler_OnTooltip(const int32_t bid, const std::string& text) = 0;
   virtual void DisplayHandler_OnStatusMessage(const int32_t bid, const std::string& value) = 0;
   virtual bool DisplayHandler_OnConsoleMessage(const int32_t bid, const std::string& level, const std::string& message, const std::string& source, const int32_t line) = 0;
@@ -191,6 +192,9 @@ class ClientHandlersNull : virtual public ClientHandlersIf {
     return;
   }
   void DisplayHandler_OnTitleChange(const int32_t /* bid */, const std::string& /* title */) override {
+    return;
+  }
+  void DisplayHandler_OnFullscreenModeChange(const int32_t /* bid */, const bool /* fullscreen */) override {
     return;
   }
   bool DisplayHandler_OnTooltip(const int32_t /* bid */, const std::string& /* text */) override {
@@ -2226,6 +2230,64 @@ class ClientHandlers_DisplayHandler_OnTitleChange_pargs {
   virtual ~ClientHandlers_DisplayHandler_OnTitleChange_pargs() noexcept;
   const int32_t* bid;
   const std::string* title;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _ClientHandlers_DisplayHandler_OnFullscreenModeChange_args__isset {
+  _ClientHandlers_DisplayHandler_OnFullscreenModeChange_args__isset() : bid(false), fullscreen(false) {}
+  bool bid :1;
+  bool fullscreen :1;
+} _ClientHandlers_DisplayHandler_OnFullscreenModeChange_args__isset;
+
+class ClientHandlers_DisplayHandler_OnFullscreenModeChange_args {
+ public:
+
+  ClientHandlers_DisplayHandler_OnFullscreenModeChange_args(const ClientHandlers_DisplayHandler_OnFullscreenModeChange_args&) noexcept;
+  ClientHandlers_DisplayHandler_OnFullscreenModeChange_args& operator=(const ClientHandlers_DisplayHandler_OnFullscreenModeChange_args&) noexcept;
+  ClientHandlers_DisplayHandler_OnFullscreenModeChange_args() noexcept
+                                                            : bid(0),
+                                                              fullscreen(0) {
+  }
+
+  virtual ~ClientHandlers_DisplayHandler_OnFullscreenModeChange_args() noexcept;
+  int32_t bid;
+  bool fullscreen;
+
+  _ClientHandlers_DisplayHandler_OnFullscreenModeChange_args__isset __isset;
+
+  void __set_bid(const int32_t val);
+
+  void __set_fullscreen(const bool val);
+
+  bool operator == (const ClientHandlers_DisplayHandler_OnFullscreenModeChange_args & rhs) const
+  {
+    if (!(bid == rhs.bid))
+      return false;
+    if (!(fullscreen == rhs.fullscreen))
+      return false;
+    return true;
+  }
+  bool operator != (const ClientHandlers_DisplayHandler_OnFullscreenModeChange_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_DisplayHandler_OnFullscreenModeChange_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_DisplayHandler_OnFullscreenModeChange_pargs {
+ public:
+
+
+  virtual ~ClientHandlers_DisplayHandler_OnFullscreenModeChange_pargs() noexcept;
+  const int32_t* bid;
+  const bool* fullscreen;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -7676,6 +7738,8 @@ class ClientHandlersClient : virtual public ClientHandlersIf {
   void recv_DisplayHandler_OnAddressChange();
   void DisplayHandler_OnTitleChange(const int32_t bid, const std::string& title) override;
   void send_DisplayHandler_OnTitleChange(const int32_t bid, const std::string& title);
+  void DisplayHandler_OnFullscreenModeChange(const int32_t bid, const bool fullscreen) override;
+  void send_DisplayHandler_OnFullscreenModeChange(const int32_t bid, const bool fullscreen);
   bool DisplayHandler_OnTooltip(const int32_t bid, const std::string& text) override;
   void send_DisplayHandler_OnTooltip(const int32_t bid, const std::string& text);
   bool recv_DisplayHandler_OnTooltip();
@@ -7851,6 +7915,7 @@ class ClientHandlersProcessor : public ::apache::thrift::TDispatchProcessor {
   void process_LoadHandler_OnLoadError(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_DisplayHandler_OnAddressChange(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_DisplayHandler_OnTitleChange(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_DisplayHandler_OnFullscreenModeChange(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_DisplayHandler_OnTooltip(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_DisplayHandler_OnStatusMessage(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_DisplayHandler_OnConsoleMessage(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -7928,6 +7993,7 @@ class ClientHandlersProcessor : public ::apache::thrift::TDispatchProcessor {
     processMap_["LoadHandler_OnLoadError"] = &ClientHandlersProcessor::process_LoadHandler_OnLoadError;
     processMap_["DisplayHandler_OnAddressChange"] = &ClientHandlersProcessor::process_DisplayHandler_OnAddressChange;
     processMap_["DisplayHandler_OnTitleChange"] = &ClientHandlersProcessor::process_DisplayHandler_OnTitleChange;
+    processMap_["DisplayHandler_OnFullscreenModeChange"] = &ClientHandlersProcessor::process_DisplayHandler_OnFullscreenModeChange;
     processMap_["DisplayHandler_OnTooltip"] = &ClientHandlersProcessor::process_DisplayHandler_OnTooltip;
     processMap_["DisplayHandler_OnStatusMessage"] = &ClientHandlersProcessor::process_DisplayHandler_OnStatusMessage;
     processMap_["DisplayHandler_OnConsoleMessage"] = &ClientHandlersProcessor::process_DisplayHandler_OnConsoleMessage;
@@ -8208,6 +8274,15 @@ class ClientHandlersMultiface : virtual public ClientHandlersIf {
       ifaces_[i]->DisplayHandler_OnTitleChange(bid, title);
     }
     ifaces_[i]->DisplayHandler_OnTitleChange(bid, title);
+  }
+
+  void DisplayHandler_OnFullscreenModeChange(const int32_t bid, const bool fullscreen) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->DisplayHandler_OnFullscreenModeChange(bid, fullscreen);
+    }
+    ifaces_[i]->DisplayHandler_OnFullscreenModeChange(bid, fullscreen);
   }
 
   bool DisplayHandler_OnTooltip(const int32_t bid, const std::string& text) override {
@@ -8774,6 +8849,8 @@ class ClientHandlersConcurrentClient : virtual public ClientHandlersIf {
   void recv_DisplayHandler_OnAddressChange(const int32_t seqid);
   void DisplayHandler_OnTitleChange(const int32_t bid, const std::string& title) override;
   void send_DisplayHandler_OnTitleChange(const int32_t bid, const std::string& title);
+  void DisplayHandler_OnFullscreenModeChange(const int32_t bid, const bool fullscreen) override;
+  void send_DisplayHandler_OnFullscreenModeChange(const int32_t bid, const bool fullscreen);
   bool DisplayHandler_OnTooltip(const int32_t bid, const std::string& text) override;
   int32_t send_DisplayHandler_OnTooltip(const int32_t bid, const std::string& text);
   bool recv_DisplayHandler_OnTooltip(const int32_t seqid);
