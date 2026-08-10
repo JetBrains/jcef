@@ -12,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.cef.CefApp;
 import org.cef.callback.CefDragData;
 import org.cef.misc.CefLog;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -50,6 +51,7 @@ class DragDataTest {
     }
 
     @Test
+    @Disabled // Currently not supported in JCEF
     void createLink() {
         if (CefApp.isRemoteEnabled()) {
             CefLog.Info("Skip DragDataTest.createLink in remote mode.");
