@@ -1,8 +1,7 @@
 # Vendored Apache Thrift Java library
 
 This directory contains a vendored copy of the [Apache Thrift](https://github.com/apache/thrift)
-Java runtime library (`lib/java/src/main/java/org/apache/thrift`), currently at version
-**0.19.0**, licensed under the Apache License 2.0 (see the license header in each file).
+Java runtime library (`lib/java/src/main/java/org/apache/thrift`).
 
 ## How it differs from upstream
 
@@ -54,7 +53,7 @@ git worktree add ../thrift-vendor thrift-vendor
 cd ../thrift-vendor
 
 # 2. download and extract the new upstream release
-V=0.24.0   # target version
+V=0.23.0   # target version
 curl -L -o /tmp/thrift-$V.tar.gz https://github.com/apache/thrift/archive/refs/tags/v$V.tar.gz
 tar -xzf /tmp/thrift-$V.tar.gz -C /tmp
 SRC=/tmp/thrift-$V/lib/java/src/main/java/org/apache/thrift
@@ -67,7 +66,7 @@ done
 
 # 3a. list upstream files that are not vendored yet; vendor (cp + transform +
 #     git add) the ones the updated code needs — compile errors after the merge
-#     will point at them. E.g. 0.19 -> 0.24 requires adding
+#     will point at them. E.g. 0.19 -> 0.23 requires adding
 #     transport/SocketAddressProvider.java and transport/TNonblockingSSLSocket.java,
 #     while the servlet/SASL/HTTP files stay excluded.
 comm -23 <(cd "$SRC" && find . -name '*.java' | sed 's|^\./||' | sort) \
@@ -96,5 +95,5 @@ Notes:
   (e.g. `org.apache.commons.*`, including fully-qualified references without an
   `import`), adapt the file with a local patch on the main branch after the merge and
   add it to the patch list above.
-* Don't forget to regenerate the RPC code (`thrift_codegen`, `remote/gen-cpp`) with the
+* Regenerate the RPC code (`thrift_codegen`, `remote/gen-cpp`) with the
   matching Thrift compiler version.
