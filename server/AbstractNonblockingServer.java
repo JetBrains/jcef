@@ -20,6 +20,7 @@
 package com.jetbrains.cef.remote.thrift.server;
 
 import java.io.IOException;
+import java.net.SocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
@@ -31,6 +32,7 @@ import com.jetbrains.cef.remote.thrift.TAsyncProcessor;
 import com.jetbrains.cef.remote.thrift.TByteArrayOutputStream;
 import com.jetbrains.cef.remote.thrift.TException;
 import com.jetbrains.cef.remote.thrift.protocol.TProtocol;
+import com.jetbrains.cef.remote.thrift.transport.SocketAddressProvider;
 import com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport;
 import com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport;
 import com.jetbrains.cef.remote.thrift.transport.TNonblockingServerTransport;
@@ -248,7 +250,7 @@ public abstract class AbstractNonblockingServer extends TServer {
     protected final TNonblockingTransport trans_;
 
     // the SelectionKey that corresponds to our transport
-    protected final SelectionKey selectionKey_;
+    protected SelectionKey selectionKey_;
 
     // the SelectThread that owns the registration of our transport
     protected final AbstractSelectThread selectThread_;
@@ -288,18 +290,42 @@ public abstract class AbstractNonblockingServer extends TServer {
       selectThread_ = selectThread;
       buffer_ = ByteBuffer.allocate(4);
 
-      frameTrans_ = new TMemoryInputTransport();
+      frameTrans_ = new TMemoryInputTransport(trans_.getConfiguration());
       response_ = new TByteArrayOutputStream();
       inTrans_ = inputTransportFactory_.getTransport(frameTrans_);
-      outTrans_ = outputTransportFactory_.getTransport(new TIOStreamTransport(response_));
+      outTrans_ =
+          outputTransportFactory_.getTransport(
+              new TIOStreamTransport(trans_.getConfiguration(), response_));
       inProt_ = inputProtocolFactory_.getProtocol(inTrans_);
       outProt_ = outputProtocolFactory_.getProtocol(outTrans_);
 
       if (eventHandler_ != null) {
         context_ = eventHandler_.createContext(inProt_, outProt_);
+        SocketAddress remoteAddress =
+            trans_ instanceof SocketAddressProvider
+                ? ((SocketAddressProvider) trans_).getRemoteSocketAddress()
+                : null;
+        context_.setRemoteAddress(remoteAddress);
       } else {
         context_ = null;
       }
+    }
+
+    /**
+     * Sets the selection key (this is not thread safe).
+     *
+     * @param selectionKey the new key to set.
+     */
+    public void setSelectionKey(SelectionKey selectionKey) {
+      selectionKey_ = selectionKey;
+    }
+
+    /**
+     * @return the amount of memory currently used to read data from clients. This information can
+     *     be useful for debugging, metrics, and configuring the maximum memory limit.
+     */
+    public final long getReadBufferBytesAllocated() {
+      return readBufferBytesAllocated.get();
     }
 
     /**
@@ -342,7 +368,13 @@ public abstract class AbstractNonblockingServer extends TServer {
 
           // if this frame will push us over the memory limit, then return.
           // with luck, more memory will free up the next time around.
-          if (readBufferBytesAllocated.get() + frameSize > MAX_READ_BUFFER_BYTES) {
+          long currentAllocated = getReadBufferBytesAllocated();
+          if (currentAllocated + frameSize > MAX_READ_BUFFER_BYTES) {
+            LOGGER.trace(
+                "Deferring reading frame of size {} because {} is already buffered and {} is the limit.",
+                frameSize,
+                currentAllocated,
+                MAX_READ_BUFFER_BYTES);
             return true;
           }
 
@@ -375,7 +407,11 @@ public abstract class AbstractNonblockingServer extends TServer {
         // modify our selection key directly.
         if (buffer_.remaining() == 0) {
           // get rid of the read select interests
-          selectionKey_.interestOps(0);
+          if (selectionKey_.isValid()) {
+            selectionKey_.interestOps(0);
+          } else {
+            LOGGER.warn("SelectionKey was invalidated during read");
+          }
           state_ = FrameBufferState.READ_FRAME_COMPLETE;
         }
 
@@ -415,8 +451,12 @@ public abstract class AbstractNonblockingServer extends TServer {
       switch (state_) {
         case AWAITING_REGISTER_WRITE:
           // set the OP_WRITE interest
-          selectionKey_.interestOps(SelectionKey.OP_WRITE);
-          state_ = FrameBufferState.WRITING;
+          if (selectionKey_.isValid()) {
+            selectionKey_.interestOps(SelectionKey.OP_WRITE);
+            state_ = FrameBufferState.WRITING;
+          } else {
+            LOGGER.warn("SelectionKey was invalidated before write");
+          }
           break;
         case AWAITING_REGISTER_READ:
           prepareRead();
@@ -439,9 +479,12 @@ public abstract class AbstractNonblockingServer extends TServer {
           || state_ == FrameBufferState.AWAITING_CLOSE) {
         readBufferBytesAllocated.addAndGet(-buffer_.array().length);
       }
-      trans_.close();
-      if (eventHandler_ != null) {
-        eventHandler_.deleteContext(context_, inProt_, outProt_);
+      try {
+        if (eventHandler_ != null) {
+          eventHandler_.deleteContext(context_, inProt_, outProt_);
+        }
+      } finally {
+        trans_.close();
       }
     }
 
@@ -520,7 +563,11 @@ public abstract class AbstractNonblockingServer extends TServer {
     private void prepareRead() {
       // we can set our interest directly without using the queue because
       // we're in the select thread.
-      selectionKey_.interestOps(SelectionKey.OP_READ);
+      if (selectionKey_.isValid()) {
+        selectionKey_.interestOps(SelectionKey.OP_READ);
+      } else {
+        LOGGER.warn("SelectionKey was invalidated before read");
+      }
       // get ready for another go-around
       buffer_ = ByteBuffer.allocate(4);
       state_ = FrameBufferState.READING_FRAME_SIZE;
