@@ -42,9 +42,32 @@ public abstract class TProtocol implements TWriteProtocol, TReadProtocol {
   /** Transport */
   protected TTransport trans_;
 
+  /** Current recursion depth during deserialization */
+  private int recursionDepth_ = 0;
+
   /** Constructor */
   protected TProtocol(TTransport trans) {
     trans_ = trans;
+  }
+
+  /**
+   * Increment recursion depth, checking against the configured limit.
+   *
+   * @throws TProtocolException with DEPTH_LIMIT if limit exceeded
+   */
+  public void incrementRecursionDepth() throws TProtocolException {
+    int limit = trans_.getConfiguration().getRecursionLimit();
+    if (recursionDepth_ >= limit) {
+      throw new TProtocolException(
+          TProtocolException.DEPTH_LIMIT,
+          "Recursion depth " + (recursionDepth_ + 1) + " exceeds limit " + limit);
+    }
+    ++recursionDepth_;
+  }
+
+  /** Decrement recursion depth. Call in finally block. */
+  public void decrementRecursionDepth() {
+    --recursionDepth_;
   }
 
   /** Transport accessor */
@@ -223,7 +246,25 @@ public abstract class TProtocol implements TWriteProtocol, TReadProtocol {
    * @throws TException when any sub-operation fails
    */
   public final <K, V> Map<K, V> readMap(ReadMapEntryCallback<K, V> callback) throws TException {
-    return readMap(callback, HashMap::new);
+    return readMap(callback::getKey, callback::getValue);
+  }
+
+  /**
+   * read a {@link Map} of elements by delegating key reading to the callback, handles {@link
+   * #readMapBegin() begin} and {@link #readMapEnd() end} automatically. Calls to keyCallback and
+   * valueCallback will be in alternating orders, i.e. k1, v1, k2, v2, .., k_n, v_n
+   *
+   * @param keyCallback callback for reading keys
+   * @param valueCallback callback for reading values
+   * @param <K> key type
+   * @param <V> value type
+   * @return the map read
+   * @throws TException when any sub-operation fails
+   */
+  public final <K, V> Map<K, V> readMap(
+      ReadCollectionCallback<K> keyCallback, ReadCollectionCallback<V> valueCallback)
+      throws TException {
+    return readMap(keyCallback, valueCallback, size -> new HashMap<>(2 * size));
   }
 
   /**
@@ -242,11 +283,33 @@ public abstract class TProtocol implements TWriteProtocol, TReadProtocol {
    */
   public final <K, V> Map<K, V> readMap(
       ReadMapEntryCallback<K, V> callback, IntFunction<Map<K, V>> mapCreator) throws TException {
+    return readMap(callback::getKey, callback::getValue, mapCreator);
+  }
+
+  /**
+   * read a {@link Map} of elements by delegating key and value reading to the callback, handles
+   * {@link #readMapBegin() begin} and {@link #readMapEnd() end} automatically, with a specialized
+   * map creator given the size hint. Calls to keyCallback and valueCallback will be in alternating
+   * orders, i.e. k1, v1, k2, v2, .., k_n, v_n
+   *
+   * @param keyCallback callback for reading keys
+   * @param valueCallback callback for reading values
+   * @param mapCreator map creator given the size hint
+   * @param <K> key type
+   * @param <V> value type
+   * @return the map read
+   * @throws TException when any sub-operation fails
+   */
+  public final <K, V> Map<K, V> readMap(
+      ReadCollectionCallback<K> keyCallback,
+      ReadCollectionCallback<V> valueCallback,
+      IntFunction<Map<K, V>> mapCreator)
+      throws TException {
     return readMap(
         tMap -> {
           Map<K, V> map = mapCreator.apply(tMap.size);
           for (int i = 0; i < tMap.size; i += 1) {
-            map.put(callback.getKey(), callback.getValue());
+            map.put(keyCallback.call(), valueCallback.call());
           }
           return map;
         });
@@ -330,7 +393,7 @@ public abstract class TProtocol implements TWriteProtocol, TReadProtocol {
    * @throws TException when any sub-operation fails
    */
   public final <T> Set<T> readSet(ReadCollectionCallback<T> callback) throws TException {
-    return readSet(callback, HashSet::new);
+    return readSet(callback, size -> new HashSet<>(2 * size));
   }
 
   /**

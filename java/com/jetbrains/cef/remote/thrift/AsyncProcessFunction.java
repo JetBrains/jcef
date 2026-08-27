@@ -23,19 +23,21 @@ import com.jetbrains.cef.remote.thrift.protocol.TMessage;
 import com.jetbrains.cef.remote.thrift.protocol.TProtocol;
 import com.jetbrains.cef.remote.thrift.server.AbstractNonblockingServer;
 
-public abstract class AsyncProcessFunction<I, T extends TBase, R> {
+public abstract class AsyncProcessFunction<I, T extends TBase, R, A extends TBase> {
   final String methodName;
 
   public AsyncProcessFunction(String methodName) {
     this.methodName = methodName;
   }
 
-  protected abstract boolean isOneway();
+  public abstract boolean isOneway();
 
   public abstract void start(I iface, T args, AsyncMethodCallback<R> resultHandler)
       throws TException;
 
   public abstract T getEmptyArgsInstance();
+
+  public abstract A getEmptyResultInstance();
 
   public abstract AsyncMethodCallback<R> getResultHandler(
       final AbstractNonblockingServer.AsyncFrameBuffer fb, int seqid);

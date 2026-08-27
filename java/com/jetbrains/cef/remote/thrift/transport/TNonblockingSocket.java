@@ -33,7 +33,7 @@ import com.jetbrains.cef.remote.thrift.Logger;
 import com.jetbrains.cef.remote.thrift.LoggerFactory;
 
 /** Transport for use with async client. */
-public class TNonblockingSocket extends TNonblockingTransport {
+public class TNonblockingSocket extends TNonblockingTransport implements SocketAddressProvider {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(TNonblockingSocket.class.getName());
 
@@ -148,11 +148,7 @@ public class TNonblockingSocket extends TNonblockingTransport {
       throw new TTransportException(
           TTransportException.NOT_OPEN, "Cannot read from write-only socket channel");
     }
-    try {
-      return socketChannel_.read(ByteBuffer.wrap(buf, off, len));
-    } catch (IOException iox) {
-      throw new TTransportException(TTransportException.UNKNOWN, iox);
-    }
+    return read(ByteBuffer.wrap(buf, off, len));
   }
 
   /** Perform a nonblocking write of the data in buffer; */
@@ -204,5 +200,15 @@ public class TNonblockingSocket extends TNonblockingTransport {
         + ", local: "
         + socketChannel_.socket().getLocalAddress()
         + "]";
+  }
+
+  @Override
+  public SocketAddress getRemoteSocketAddress() {
+    return socketChannel_.socket().getRemoteSocketAddress();
+  }
+
+  @Override
+  public SocketAddress getLocalSocketAddress() {
+    return socketChannel_.socket().getLocalSocketAddress();
   }
 }

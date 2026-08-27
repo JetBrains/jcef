@@ -35,6 +35,10 @@ public abstract class TEndpointTransport extends TTransport {
     getConfiguration().setMaxFrameSize(maxFrameSize);
   }
 
+  public void setMaxMessageSize(int maxMessageSize) {
+    getConfiguration().setMaxMessageSize(maxMessageSize);
+  }
+
   protected long knownMessageSize;
   protected long remainingMessageSize;
 
@@ -65,7 +69,9 @@ public abstract class TEndpointTransport extends TTransport {
 
     // update only: message size can shrink, but not grow
     if (newSize > knownMessageSize)
-      throw new TTransportException(TTransportException.END_OF_FILE, "MaxMessageSize reached");
+      throw new TTransportException(
+          TTransportException.MESSAGE_SIZE_LIMIT,
+          "Message size exceeds limit: " + getMaxMessageSize());
 
     knownMessageSize = newSize;
     remainingMessageSize = newSize;
@@ -90,8 +96,10 @@ public abstract class TEndpointTransport extends TTransport {
    * @param numBytes
    */
   public void checkReadBytesAvailable(long numBytes) throws TTransportException {
-    if (remainingMessageSize < numBytes)
-      throw new TTransportException(TTransportException.END_OF_FILE, "MaxMessageSize reached");
+    if (remainingMessageSize < numBytes || numBytes < 0)
+      throw new TTransportException(
+          TTransportException.MESSAGE_SIZE_LIMIT,
+          "Message size exceeds limit: " + getMaxMessageSize());
   }
 
   /**
@@ -104,7 +112,9 @@ public abstract class TEndpointTransport extends TTransport {
       remainingMessageSize -= numBytes;
     } else {
       remainingMessageSize = 0;
-      throw new TTransportException(TTransportException.END_OF_FILE, "MaxMessageSize reached");
+      throw new TTransportException(
+          TTransportException.MESSAGE_SIZE_LIMIT,
+          "Message size exceeds limit: " + getMaxMessageSize());
     }
   }
 }
