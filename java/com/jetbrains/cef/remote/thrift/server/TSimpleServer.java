@@ -19,9 +19,11 @@
 
 package com.jetbrains.cef.remote.thrift.server;
 
+import java.net.SocketAddress;
 import com.jetbrains.cef.remote.thrift.TException;
 import com.jetbrains.cef.remote.thrift.TProcessor;
 import com.jetbrains.cef.remote.thrift.protocol.TProtocol;
+import com.jetbrains.cef.remote.thrift.transport.SocketAddressProvider;
 import com.jetbrains.cef.remote.thrift.transport.TTransport;
 import com.jetbrains.cef.remote.thrift.transport.TTransportException;
 import com.jetbrains.cef.remote.thrift.Logger;
@@ -70,6 +72,11 @@ public class TSimpleServer extends TServer {
           outputProtocol = outputProtocolFactory_.getProtocol(outputTransport);
           if (eventHandler_ != null) {
             connectionContext = eventHandler_.createContext(inputProtocol, outputProtocol);
+            SocketAddress remoteAddress =
+                client instanceof SocketAddressProvider
+                    ? ((SocketAddressProvider) client).getRemoteSocketAddress()
+                    : null;
+            connectionContext.setRemoteAddress(remoteAddress);
           }
           while (true) {
             if (eventHandler_ != null) {
