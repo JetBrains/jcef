@@ -23,6 +23,8 @@ import java.util.Map;
 import com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback;
 import com.jetbrains.cef.remote.thrift.protocol.*;
 import com.jetbrains.cef.remote.thrift.server.AbstractNonblockingServer.*;
+import com.jetbrains.cef.remote.thrift.Logger;
+import com.jetbrains.cef.remote.thrift.LoggerFactory;
 
 public class TBaseAsyncProcessor<I> implements TAsyncProcessor, TProcessor {
   protected final Logger LOGGER = LoggerFactory.getLogger(getClass().getName());
