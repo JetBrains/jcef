@@ -25,7 +25,6 @@ import java.nio.channels.SelectableChannel;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.spi.SelectorProvider;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -603,7 +602,7 @@ public class TThreadedSelectorServer extends AbstractNonblockingServer {
         jvmBug = 0;
       } else if (jvmBug > SELECTOR_AUTO_REBUILD_THRESHOLD) {
         LOGGER.warn(
-            MessageFormat.format("In {0} ms happen {1} times jvm bug; rebuilding selector.", MONITOR_PERIOD, jvmBug));
+            "In {} ms happen {} times jvm bug; rebuilding selector.", MONITOR_PERIOD, jvmBug);
         rebuildSelector();
         selector.selectNow();
         jvmBug = 0;

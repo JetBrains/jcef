@@ -5,6 +5,8 @@ import com.jetbrains.cef.remote.thrift.protocol.TMessageType;
 import com.jetbrains.cef.remote.thrift.protocol.TProtocol;
 import com.jetbrains.cef.remote.thrift.protocol.TProtocolException;
 import com.jetbrains.cef.remote.thrift.transport.TTransportException;
+import com.jetbrains.cef.remote.thrift.Logger;
+import com.jetbrains.cef.remote.thrift.LoggerFactory;
 
 public abstract class ProcessFunction<I, T extends TBase> {
   private final String methodName;
