@@ -1,62 +1,21 @@
-FROM centos:7
+ARG BASE_IMAGE=registry.jetbrains.team/p/jbre/containers/oraclelinux8_x64:latest
+FROM ${BASE_IMAGE}
 
-RUN yum update -y && \
-    yum -y install centos-release-scl && \
-    yum -y install devtoolset-10-10.1-0.el7
+# The ol8 repositories provide bison-3.0.4 only, while the build requires bison-3.8.2+
+ARG BISON_VERSION=3.8.2
+ARG BISON_URL=https://mirrors.kernel.org/gnu/bison/bison-${BISON_VERSION}.tar.gz
+ARG BISON_SHA256=06c9e13bdf7eb24d4ceb6b59205a4f67c2c7e7213119644430fe82fbd14a0abb
+RUN yum -y install m4 make wget perl-Time-Piece && \
+    yum -y clean all && \
+    wget -nv -O bison.tar.gz ${BISON_URL} && \
+    echo "${BISON_SHA256}  bison.tar.gz" | sha256sum -c - && \
+    tar xfz bison.tar.gz && \
+    cd bison-${BISON_VERSION} && \
+    ./configure --prefix=/usr/local && \
+    make -j$(nproc) && \
+    make install && \
+    cd .. && \
+    rm -rf bison.tar.gz bison-${BISON_VERSION}
 
-RUN yum install -y https://repo.ius.io/ius-release-el7.rpm && \
-    yum install -y wget curl python3 flex bison git236
-
-RUN yum install -y perl-IPC-Cmd && \
-    yum install -y \
-        alsa-lib-devel-1.1.8-1.el7 \
-        at-spi2-atk-devel-2.26.2-1.el7 \
-        cairo-devel-1.15.12-4.el7 \
-        cups-devel-1.6.3-51.el7 \
-        libX11-devel-1.6.7-4.el7_9 \
-        libXcomposite-devel-0.4.4-4.1.el7 \
-        libXdamage-devel-1.1.4-4.1.el7 \
-        libXrandr-devel-1.5.1-2.el7 \
-        libdrm-devel-2.4.97-2.el7 \
-        libxkbcommon-devel-0.7.1-3.el7 \
-        mesa-libgbm-devel-18.3.4-12.el7_9 \
-        pango-devel-1.42.4-4.el7_7
-
-RUN yum -y clean all
-
-RUN pip3 install --upgrade pip && pip3 install ninja
-
-RUN rpm --import https://yum.corretto.aws/corretto.key
-RUN curl -L -o /etc/yum.repos.d/corretto.repo https://yum.corretto.aws/corretto.repo
-RUN yum install -y java-17-amazon-corretto-devel
-ENV JAVA_HOME=/usr/lib/jvm/java-17-amazon-corretto
-RUN ${JAVA_HOME}/bin/javac -version
-
-ARG ANT_VERSION=1.10.14
-RUN wget -nv -O ant.tgz https://dlcdn.apache.org//ant/binaries/apache-ant-${ANT_VERSION}-bin.tar.gz && \
-    tar xfz ant.tgz -C /opt && \
-    rm ant.tgz
-ENV ANT_HOME=/opt/apache-ant-${ANT_VERSION}
-RUN ${ANT_HOME}/bin/ant -version
-
-RUN wget -nv -O /cmake.tar.gz https://github.com/Kitware/CMake/releases/download/v3.23.1/cmake-3.23.1-linux-$(uname -m).tar.gz && \
-    tar xfz /cmake.tar.gz --strip-components=1 -C /usr/local && \
-    rm /cmake.tar.gz && \
-    cmake --version
-
-RUN git config --global --add safe.directory '*'
-
-# from /opt/rh/devtoolset-10/enable
-ENV PATH=/opt/rh/devtoolset-10/root/usr/bin${PATH:+:${PATH}}
-ENV MANPATH=/opt/rh/devtoolset-10/root/usr/share/man:${MANPATH}
-ENV INFOPATH=/opt/rh/devtoolset-10/root/usr/share/info${INFOPATH:+:${INFOPATH}}
-ENV PCP_DIR=/opt/rh/devtoolset-10/root
-ENV LD_LIBRARY_PATH=/opt/rh/devtoolset-10/root$rpmlibdir$rpmlibdir32${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
-ENV LD_LIBRARY_PATH=/opt/rh/devtoolset-10/root$rpmlibdir$rpmlibdir32:/opt/rh/devtoolset-10/root$rpmlibdir/dyninst$rpmlibdir32/dyninst${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
-ENV PKG_CONFIG_PATH=/opt/rh/devtoolset-10/root/usr/lib64/pkgconfig${PKG_CONFIG_PATH:+:${PKG_CONFIG_PATH}}
-
-ENV JCEF_CLEANUP_VCPKG=1
-
-RUN echo "git clone https://github.com/JetBrains/jcef.git && cd jcef && bash jb/tools/linux/build.sh all x86_64" > /build.sh
-
-
+ENV PATH=/usr/local/bin:${PATH}
+RUN bison --version
