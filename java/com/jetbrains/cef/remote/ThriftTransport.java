@@ -32,7 +32,7 @@ public class ThriftTransport {
     private static final String SUFFIX;
     private static final Path PIPE_DIR = Path.of(System.getProperty("java.io.tmpdir"));
     private static final int FREE_PORT_SEARCH_START = Utils.getInteger("CEF_SERVER_FREE_PORT_SEARCH_START", 30000);
-    private static final int FREE_PORT_SEARCH_END = Utils.getInteger("CEF_SERVER_FREE_PORT_SEARCH_START", 65000);
+    private static final int FREE_PORT_SEARCH_END = Utils.getInteger("CEF_SERVER_FREE_PORT_SEARCH_END", 65000);
 
     private final String myPipe;
     private final int myPort;
