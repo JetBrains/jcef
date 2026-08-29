@@ -47,8 +47,32 @@ public class BasicJcefTest {
     private static final long WAIT_TIMEOUT_MS = Utils.getInteger("WAIT_SERVER_TIMEOUT_MS", 30000); // 30 sec
     private static final String TCP_KEY = "CEF_SERVER_USE_TCP";
 
+    private static class TestLog extends CefLog {
+        public boolean errorWasCalled;
+
+        public TestLog(String log_file) {
+            super(createStream(log_file), CefSettings.LogSeverity.LOGSEVERITY_VERBOSE);
+            myFilePath = log_file;
+        }
+
+        private static PrintStream createStream(String log_file) {
+            if (log_file == null) return System.err;
+            try {
+                return new PrintStream(new FileOutputStream(log_file, true), true);
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        @Override
+        public void log(CefSettings.LogSeverity log_severity, String msg, Object... args) {
+            super.log(log_severity, msg, args);
+            if (log_severity.compareTo(CefSettings.LogSeverity.LOGSEVERITY_ERROR) >= 0) errorWasCalled = true;
+        }
+    }
+
     static {
-        CefLog.init(Utils.getString("JCEF_TESTS_LOG_FILE"), CefSettings.LogSeverity.LOGSEVERITY_VERBOSE);
+        CefLog.init(new TestLog(Utils.getString("JCEF_TESTS_LOG_FILE")));
     }
 
     @Test
@@ -577,6 +601,17 @@ public class BasicJcefTest {
                 System.setProperty(TCP_KEY, isTcpPrev);
             else
                 System.clearProperty(TCP_KEY);
+        }
+    }
+
+    @Test
+    @Order(4)
+    void testLogSubclass() {
+        TestLog logger = (TestLog) CefLog.GetInstance();
+        logger.errorWasCalled = false;
+        CefLog.Error("test");
+        if (!logger.errorWasCalled) {
+            throw new AssertionError("Method not called");
         }
     }
 
