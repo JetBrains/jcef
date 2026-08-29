@@ -5,6 +5,7 @@
 package org.cef.browser;
 
 import java.awt.Component;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * Interface representing system dependent methods for the browser.
@@ -16,5 +17,5 @@ public interface CefBrowserWindow {
      * @param comp a UI component
      * @return a window pointer if any
      */
-    public long getWindowHandle(Component comp);
+    public long getWindowHandle(Component comp) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, ClassNotFoundException;
 }

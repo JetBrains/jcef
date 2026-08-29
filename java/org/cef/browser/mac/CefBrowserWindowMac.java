@@ -11,14 +11,14 @@ import java.awt.peer.ComponentPeer;
 
 import com.jetbrains.cef.JdkEx;
 import sun.awt.AWTAccessor;
-import sun.lwawt.LWComponentPeer;
-import sun.lwawt.PlatformWindow;
-import sun.lwawt.macosx.CFRetainedResource;
-import sun.lwawt.macosx.CPlatformWindow;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+import java.lang.reflect.InvocationTargetException;
 
 public class CefBrowserWindowMac implements CefBrowserWindow {
     @Override
-    public long getWindowHandle(Component comp) {
+    public long getWindowHandle(Component comp) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, ClassNotFoundException {
         final long[] result = new long[1];
         while (comp != null) {
             if (comp.isLightweight()) {
@@ -28,23 +28,49 @@ public class CefBrowserWindowMac implements CefBrowserWindow {
             if (JdkEx.WindowHandleAccessor.isEnabled()) {
                 return JdkEx.WindowHandleAccessor.getWindowHandle(comp);
             }
-            @SuppressWarnings("deprecation")
+
             ComponentPeer peer = AWTAccessor.getComponentAccessor().getPeer(comp);
-            if (peer instanceof LWComponentPeer) {
-                @SuppressWarnings("rawtypes")
-                PlatformWindow pWindow = ((LWComponentPeer) peer).getPlatformWindow();
-                if (pWindow instanceof CPlatformWindow) {
-                    ((CPlatformWindow) pWindow).execute(new CFRetainedResource.CFNativeAction() {
-                        @Override
-                        public void run(long l) {
-                            result[0] = l;
-                        }
-                    });
+            Class<?> lw = Class.forName("sun.lwawt.LWComponentPeer");
+
+            if (lw.isInstance(peer)) {
+                Method platformWindowMethod = lw.getMethod("getPlatformWindow");
+                Object pWindow = platformWindowMethod.invoke(lw.cast(peer));
+                Class<?> cPlatformWindow = Class.forName("sun.lwawt.macosx.CPlatformWindow");
+
+                if (cPlatformWindow.isInstance(pWindow)) {
+                    Class<?> nativeAction = Class.forName("sun.lwawt.macosx.CFRetainedResource$CFNativeAction");
+                    Object nativeActionInstance = Proxy.newProxyInstance(
+                            nativeAction.getClassLoader(),
+                            new Class[]{nativeAction},
+                            new WindowInvocationHandler(ptr -> result[0] = ptr)
+                    );
+
+                    Method execute = cPlatformWindow.getMethod("execute", nativeAction);
+                    execute.invoke(pWindow, nativeActionInstance);
                     break;
                 }
             }
             comp = comp.getParent();
         }
         return result[0];
+    }
+
+    private static class WindowInvocationHandler implements InvocationHandler {
+
+        private final WindowInvocationResult callback;
+
+        WindowInvocationHandler(WindowInvocationResult callback) {
+            this.callback = callback;
+        }
+
+        @Override
+        public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+            callback.run((Long) args[0]);
+            return proxy;
+        }
+    }
+
+    private interface WindowInvocationResult {
+        void run(long ptr);
     }
 }
