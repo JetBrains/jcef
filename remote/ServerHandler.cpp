@@ -36,8 +36,10 @@
 #include "ServerApplication.h"
 #include "ServerHandlerContext.h"
 
-#include "../native/critical_wait.h"
 #include "CefUtils.h"
+
+#include <chrono>
+#include <future>
 #include "browser/RemoteBrowser.h"
 #include "browser/RemoteClient.h"
 #include "network/RemoteRequestContext.h"
@@ -209,13 +211,13 @@ int32_t ServerHandler::Browser_Create(int cid, const thrift_codegen::RObject& re
   return result->getBid();
 }
 
-void ServerHandler::Browser_StartNativeCreation(int bid, const std::string& url) {
+void ServerHandler::Browser_StartNativeCreation(int bid, const std::string& url, int windowlessFrameRate) {
   MEASURE;
   std::shared_ptr<RemoteBrowser> rb = RemoteBrowser::find(bid);
   if (!rb)
     return;
-  rb->startNativeBrowserCreation(url);
-  Log::trace("ServerHandler: started creation of native CefBrowser for remote browser bid=%d, url=%s", bid, url.c_str());
+  rb->startNativeBrowserCreation(url, windowlessFrameRate);
+  Log::trace("ServerHandler: started creation of native CefBrowser for remote browser bid=%d, url=%s, fps=%d", bid, url.c_str(), windowlessFrameRate);
 }
 
 void ServerHandler::Browser_OpenDevTools(int bid, int x, int y) {
@@ -711,25 +713,28 @@ void ServerHandler::Browser_SetFocus(const int32_t bid, bool enable) {
 }
 
 namespace {
-  void _runTaskAndWakeup(std::shared_ptr<CriticalWait> waitCond,
+  void _runTaskAndSignal(std::shared_ptr<std::promise<void>> done,
                          base::OnceClosure task) {
-    WaitGuard guard(*waitCond);
     std::move(task).Run();
-    waitCond->WakeUp();
+    done->set_value();
   }
 
-  void CefPostTaskAndWait(CefThreadId threadId,
+  // Returns true when the task finished in waitMillis.
+  bool CefPostTaskAndWait(CefThreadId threadId,
                           base::OnceClosure task,
                           long waitMillis) {
-    std::shared_ptr<CriticalLock> lock = std::make_shared<CriticalLock>();
-    std::shared_ptr<CriticalWait> waitCond = std::make_shared<CriticalWait>(lock.get());
-    LockGuard guard(*lock);
-    CefPostTask(threadId, base::BindOnce(_runTaskAndWakeup, waitCond, std::move(task)));
-    waitCond->Wait(static_cast<unsigned>(waitMillis));
+    std::shared_ptr<std::promise<void>> done = std::make_shared<std::promise<void>>();
+    std::future<void> doneFuture = done->get_future();
+    CefPostTask(threadId, base::BindOnce(_runTaskAndSignal, done, std::move(task)));
+    return doneFuture.wait_for(std::chrono::milliseconds(waitMillis)) == std::future_status::ready;
   }
 
   void getZoomLevel(CefRefPtr<CefBrowserHost> host, std::shared_ptr<double> result) {
     *result = host->GetZoomLevel();
+  }
+
+  void getFrameRate(CefRefPtr<CefBrowserHost> host, std::shared_ptr<int32_t> result) {
+    *result = host->GetWindowlessFrameRate();
   }
 
   void setPreference(
@@ -800,6 +805,20 @@ void ServerHandler::Browser_SetFrameRate(const int32_t bid, int32_t val) {
     Log::trace("ServerHandler: Browser_SetFrameRate, bid=%d", bid);
   GET_BROWSER_OR_RETURN()
   browser->GetHost()->SetWindowlessFrameRate(val);
+}
+
+int32_t ServerHandler::Browser_GetFrameRate(const int32_t bid) {
+  MEASURE;
+  if (doTraceBrowser && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Browser_GetFrameRate, bid=%d", bid);
+  GET_BROWSER_OR_RETURN_VAL(0)
+
+  CefRefPtr<CefBrowserHost> host = browser->GetHost();
+  // NOTE: CefBrowserHost::GetWindowlessFrameRate must be called on the UI thread.
+  std::shared_ptr<int32_t> result = std::make_shared<int32_t>(0);
+  if (!CefPostTaskAndWait(TID_UI, base::BindOnce(getFrameRate, host, result), 1000))
+    Log::warn("ServerHandler: Browser_GetFrameRate timed out, bid=%d", bid);
+  return *result;
 }
 
 void ServerHandler::Browser_AddDevToolsMessageObserver(thrift_codegen::RObject& _return, const int32_t bid, const thrift_codegen::RObject& observer) {
