@@ -54,7 +54,7 @@ service Server {
     // CefBrowser
     //
     i32            Browser_Create(1: i32 cid, 2:shared.RObject requestContext),
-    oneway void    Browser_StartNativeCreation(1: i32 bid, 2: string url),
+    oneway void    Browser_StartNativeCreation(1: i32 bid, 2: string url, 3: i32 windowlessFrameRate),
     oneway void    Browser_OpenDevTools(1: i32 bid, 2: i32 x, 3: i32 y),
     oneway void    Browser_Close(1: i32 bid),
     oneway void    Browser_CloseDevTools(1: i32 bid),
@@ -97,6 +97,7 @@ service Server {
     oneway void    Browser_StopFinding(1: i32 bid, 2:bool clearSelection),
     oneway void    Browser_ReplaceMisspelling(1: i32 bid, 2:string word),
     oneway void    Browser_SetFrameRate(1: i32 bid, 2:i32 val),
+    i32            Browser_GetFrameRate(1: i32 bid),
     shared.RObject Browser_AddDevToolsMessageObserver(1: i32 bid, 2:shared.RObject observer), // creates and returns CefRegistration object
     oneway void    Browser_ExecuteDevToolsMethod(1:i32 bid, 2:string method, 3:string parametersAsJson, 4:shared.RObject intCallback), // NOTE: can be oneway (because java peer of IntCallback is disposed (on java side) in the end of IntCallback.onComplete)
     oneway void    Browser_RunFileDialog(1:i32 bid, 2:string mode, 3:string title, 4:string defaultFilePath, 5:list<string> acceptFilters, 6:shared.RObject runFileDialogCallback), // NOTE: can be oneway (because java peer of RunFileDialogCallback is disposed (on java side) in the end of RunFileDialogCallback.onFileDialogDismissed)

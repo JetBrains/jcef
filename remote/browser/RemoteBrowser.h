@@ -24,7 +24,7 @@ public:
 
   CefRefPtr<CefBrowser> getCefBrowser() const;
 
-  void startNativeBrowserCreation(const std::string& url);
+  void startNativeBrowserCreation(const std::string& url, int windowlessFrameRate = 0);
   void openDevTools(int x, int y);
 
   void close();

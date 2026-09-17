@@ -74,9 +74,13 @@ namespace {
       CefRefPtr<RemoteClientHandler> clienthandler,
       CefRefPtr<CefRequestContext> requestContext,
       std::string url,
+      int windowlessFrameRate,
       std::function<void(int)> onCreationFailed
   ) {
     CefBrowserSettings settings; // TODO: get real CefBrowserSettings from java
+    if (windowlessFrameRate > 0) {
+      settings.windowless_frame_rate = windowlessFrameRate;
+    }
     CefWindowInfo windowInfo;
     windowInfo.SetAsWindowless(0);
     // JCEF requires Alloy runtime style for "normal" browsers in order for them
@@ -120,16 +124,16 @@ namespace {
   }
 }
 
-void RemoteBrowser::startNativeBrowserCreation(const std::string & url) {
+void RemoteBrowser::startNativeBrowserCreation(const std::string & url, int windowlessFrameRate) {
     std::function remove = [=](int bid){
         myOwner->eraseBrowser(bid);
         std::unique_lock lock(ourBid2BrowserMutex);
         ourBid2Browser.erase(bid);
     };
     if (CefCurrentlyOn(TID_UI)) {
-        createCefBrowserImpl(getCid(), myBid, myOwner->myRemoteClientHandler, myRequestContext, url, remove);
+        createCefBrowserImpl(getCid(), myBid, myOwner->myRemoteClientHandler, myRequestContext, url, windowlessFrameRate, remove);
     } else {
-        CefPostTask(TID_UI, base::BindOnce(&createCefBrowserImpl, getCid(), myBid, myOwner->myRemoteClientHandler, myRequestContext, url, remove));
+        CefPostTask(TID_UI, base::BindOnce(&createCefBrowserImpl, getCid(), myBid, myOwner->myRemoteClientHandler, myRequestContext, url, windowlessFrameRate, remove));
     }
 }
 

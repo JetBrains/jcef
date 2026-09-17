@@ -9,6 +9,7 @@ import com.jetbrains.cef.remote.callback.RemoteStringVisitor;
 import com.jetbrains.cef.remote.network.RemoteRequest;
 import com.jetbrains.cef.remote.network.RemoteRequestContext;
 import com.jetbrains.cef.remote.network.RemoteRequestImpl;
+import com.jetbrains.cef.remote.thrift.TException;
 import com.jetbrains.cef.remote.thrift_codegen.CompositionUnderline;
 import com.jetbrains.cef.remote.thrift_codegen.RObject;
 import com.jetbrains.cef.remote.thrift_codegen.Range;
@@ -60,8 +61,6 @@ public class RemoteBrowser implements CefBrowser {
     private volatile boolean myIsClosing = false;
     private volatile boolean myIsClosed = false;
     private volatile int myNativeBrowserIdentifier = Integer.MIN_VALUE;
-
-    private int myFrameRate = 30; // just for cache
 
     private volatile boolean myIsDevToolsOpened = false;
     private volatile CefDevToolsClient myDevToolsClient = null;
@@ -119,7 +118,8 @@ public class RemoteBrowser implements CefBrowser {
                 CefLog.Debug("Registered bid %d", myBid);
                 // At current point new bid is registered so java-handlers calls will be dispatched correctly.
                 // We can't start creation earlier because for example onAfterCreated can be called before new bid is registered.
-                myRpc.exec((s) -> s.Browser_StartNativeCreation(myBid, myUrl));
+                int fps = mySettings != null ? mySettings.windowless_frame_rate : 0;
+                myRpc.exec((s) -> s.Browser_StartNativeCreation(myBid, myUrl, fps));
             } else
                 CefLog.Error("Can't obtain bid, createBrowser returns %d", myBid);
         }
@@ -797,8 +797,6 @@ public class RemoteBrowser implements CefBrowser {
 
     @Override
     public void setWindowlessFrameRate(int frameRate) {
-        myFrameRate = frameRate;
-
         if (myIsClosing)
             return;
 
@@ -811,9 +809,22 @@ public class RemoteBrowser implements CefBrowser {
 
     @Override
     public CompletableFuture<Integer> getWindowlessFrameRate() {
-        CefLog.Warn("%s: getWindowlessFrameRate returns cached value %d. TODO: implement real getWindowlessFrameRate.", this, myFrameRate);
         CompletableFuture<Integer> result = new CompletableFuture<Integer>();
-        result.complete(myFrameRate);
+        if (myIsClosing) {
+            result.complete(0);
+            return result;
+        }
+
+        myDelayed.runOrDelay(()->{
+            myRpc.invokeLater((s)->{
+                try {
+                    result.complete(s.Browser_GetFrameRate(myBid));
+                } catch (TException e) {
+                    result.completeExceptionally(e);
+                    throw e;
+                }
+            });
+        }, "getWindowlessFrameRate");
         return result;
     }
 

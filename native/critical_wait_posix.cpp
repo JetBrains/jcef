@@ -39,14 +39,14 @@ void CriticalWait::Wait() {
 }
 
 bool CriticalWait::Wait(unsigned int maxWaitMs) {
-  int sec = (int)(maxWaitMs / 1000);
-  int nsec = (maxWaitMs - sec * 1000) * 1000000;  // convert to nsec
   struct timeval tv;
   struct timespec ts;
 
   gettimeofday(&tv, nullptr);
-  ts.tv_sec = tv.tv_sec + sec;
-  ts.tv_nsec = nsec;
+  unsigned long long nsec =
+      (unsigned long long)tv.tv_usec * 1000 + (unsigned long long)maxWaitMs * 1000000;
+  ts.tv_sec = tv.tv_sec + (time_t)(nsec / 1000000000);
+  ts.tv_nsec = (long)(nsec % 1000000000);
 
   int res = pthread_cond_timedwait(&cond_, &lock_->lock_, &ts);
   return res == 0;
