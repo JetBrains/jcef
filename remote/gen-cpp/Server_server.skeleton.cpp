@@ -90,7 +90,7 @@ class ServerHandler : virtual public ServerIf {
     printf("Browser_Create\n");
   }
 
-  void Browser_StartNativeCreation(const int32_t bid, const std::string& url) {
+  void Browser_StartNativeCreation(const int32_t bid, const std::string& url, const int32_t windowlessFrameRate) {
     // Your implementation goes here
     printf("Browser_StartNativeCreation\n");
   }
@@ -298,6 +298,11 @@ class ServerHandler : virtual public ServerIf {
   void Browser_SetFrameRate(const int32_t bid, const int32_t val) {
     // Your implementation goes here
     printf("Browser_SetFrameRate\n");
+  }
+
+  int32_t Browser_GetFrameRate(const int32_t bid) {
+    // Your implementation goes here
+    printf("Browser_GetFrameRate\n");
   }
 
   void Browser_AddDevToolsMessageObserver( ::thrift_codegen::RObject& _return, const int32_t bid, const  ::thrift_codegen::RObject& observer) {

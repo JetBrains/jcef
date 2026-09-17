@@ -2159,7 +2159,8 @@ Server_Browser_StartNativeCreation_args::~Server_Browser_StartNativeCreation_arg
 
 Server_Browser_StartNativeCreation_args::Server_Browser_StartNativeCreation_args() noexcept
    : bid(0),
-     url() {
+     url(),
+     windowlessFrameRate(0) {
 }
 
 uint32_t Server_Browser_StartNativeCreation_args::read(::apache::thrift::protocol::TProtocol* iprot) {
@@ -2199,6 +2200,14 @@ uint32_t Server_Browser_StartNativeCreation_args::read(::apache::thrift::protoco
           xfer += iprot->skip(ftype);
         }
         break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->windowlessFrameRate);
+          this->__isset.windowlessFrameRate = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -2224,6 +2233,10 @@ uint32_t Server_Browser_StartNativeCreation_args::write(::apache::thrift::protoc
   xfer += oprot->writeString(this->url);
   xfer += oprot->writeFieldEnd();
 
+  xfer += oprot->writeFieldBegin("windowlessFrameRate", ::apache::thrift::protocol::T_I32, 3);
+  xfer += oprot->writeI32(this->windowlessFrameRate);
+  xfer += oprot->writeFieldEnd();
+
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -2245,6 +2258,10 @@ uint32_t Server_Browser_StartNativeCreation_pargs::write(::apache::thrift::proto
 
   xfer += oprot->writeFieldBegin("url", ::apache::thrift::protocol::T_STRING, 2);
   xfer += oprot->writeString((*(this->url)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("windowlessFrameRate", ::apache::thrift::protocol::T_I32, 3);
+  xfer += oprot->writeI32((*(this->windowlessFrameRate)));
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -7876,6 +7893,199 @@ uint32_t Server_Browser_SetFrameRate_pargs::write(::apache::thrift::protocol::TP
 
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_Browser_GetFrameRate_args::~Server_Browser_GetFrameRate_args() noexcept {
+}
+
+Server_Browser_GetFrameRate_args::Server_Browser_GetFrameRate_args() noexcept
+   : bid(0) {
+}
+
+uint32_t Server_Browser_GetFrameRate_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->bid);
+          this->__isset.bid = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Server_Browser_GetFrameRate_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_Browser_GetFrameRate_args");
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->bid);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_Browser_GetFrameRate_pargs::~Server_Browser_GetFrameRate_pargs() noexcept {
+}
+
+
+uint32_t Server_Browser_GetFrameRate_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_Browser_GetFrameRate_pargs");
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32((*(this->bid)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_Browser_GetFrameRate_result::~Server_Browser_GetFrameRate_result() noexcept {
+}
+
+Server_Browser_GetFrameRate_result::Server_Browser_GetFrameRate_result() noexcept
+   : success(0) {
+}
+
+uint32_t Server_Browser_GetFrameRate_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->success);
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Server_Browser_GetFrameRate_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("Server_Browser_GetFrameRate_result");
+
+  if (this->__isset.success) {
+    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_I32, 0);
+    xfer += oprot->writeI32(this->success);
+    xfer += oprot->writeFieldEnd();
+  }
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_Browser_GetFrameRate_presult::~Server_Browser_GetFrameRate_presult() noexcept {
+}
+
+
+uint32_t Server_Browser_GetFrameRate_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32((*(this->success)));
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
   return xfer;
 }
 
@@ -20073,12 +20283,12 @@ int32_t ServerClient::recv_Browser_Create()
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "Browser_Create failed: unknown result");
 }
 
-void ServerClient::Browser_StartNativeCreation(const int32_t bid, const std::string& url)
+void ServerClient::Browser_StartNativeCreation(const int32_t bid, const std::string& url, const int32_t windowlessFrameRate)
 {
-  send_Browser_StartNativeCreation(bid, url);
+  send_Browser_StartNativeCreation(bid, url, windowlessFrameRate);
 }
 
-void ServerClient::send_Browser_StartNativeCreation(const int32_t bid, const std::string& url)
+void ServerClient::send_Browser_StartNativeCreation(const int32_t bid, const std::string& url, const int32_t windowlessFrameRate)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("Browser_StartNativeCreation", ::apache::thrift::protocol::T_ONEWAY, cseqid);
@@ -20086,6 +20296,7 @@ void ServerClient::send_Browser_StartNativeCreation(const int32_t bid, const std
   Server_Browser_StartNativeCreation_pargs args;
   args.bid = &bid;
   args.url = &url;
+  args.windowlessFrameRate = &windowlessFrameRate;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -21484,6 +21695,64 @@ void ServerClient::send_Browser_SetFrameRate(const int32_t bid, const int32_t va
   oprot_->writeMessageEnd();
   oprot_->getTransport()->writeEnd();
   oprot_->getTransport()->flush();
+}
+
+int32_t ServerClient::Browser_GetFrameRate(const int32_t bid)
+{
+  send_Browser_GetFrameRate(bid);
+  return recv_Browser_GetFrameRate();
+}
+
+void ServerClient::send_Browser_GetFrameRate(const int32_t bid)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("Browser_GetFrameRate", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  Server_Browser_GetFrameRate_pargs args;
+  args.bid = &bid;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+int32_t ServerClient::recv_Browser_GetFrameRate()
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("Browser_GetFrameRate") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  int32_t _return;
+  Server_Browser_GetFrameRate_presult result;
+  result.success = &_return;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  if (result.__isset.success) {
+    return _return;
+  }
+  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "Browser_GetFrameRate failed: unknown result");
 }
 
 void ServerClient::Browser_AddDevToolsMessageObserver( ::thrift_codegen::RObject& _return, const int32_t bid, const  ::thrift_codegen::RObject& observer)
@@ -25274,7 +25543,7 @@ void ServerProcessor::process_Browser_StartNativeCreation(int32_t, ::apache::thr
   }
 
   try {
-    iface_->Browser_StartNativeCreation(args.bid, args.url);
+    iface_->Browser_StartNativeCreation(args.bid, args.url, args.windowlessFrameRate);
   } catch (const std::exception&) {
     if (this->eventHandler_.get() != nullptr) {
       this->eventHandler_->handlerError(ctx, "Server.Browser_StartNativeCreation");
@@ -27058,6 +27327,60 @@ void ServerProcessor::process_Browser_SetFrameRate(int32_t, ::apache::thrift::pr
   }
 
   return;
+}
+
+void ServerProcessor::process_Browser_GetFrameRate(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("Server.Browser_GetFrameRate", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "Server.Browser_GetFrameRate");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "Server.Browser_GetFrameRate");
+  }
+
+  Server_Browser_GetFrameRate_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "Server.Browser_GetFrameRate", bytes);
+  }
+
+  Server_Browser_GetFrameRate_result result;
+  try {
+    result.success = iface_->Browser_GetFrameRate(args.bid);
+    result.__isset.success = true;
+  } catch (const std::exception& e) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "Server.Browser_GetFrameRate");
+    }
+
+    ::apache::thrift::TApplicationException x(e.what());
+    oprot->writeMessageBegin("Browser_GetFrameRate", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    x.write(oprot);
+    oprot->writeMessageEnd();
+    oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preWrite(ctx, "Server.Browser_GetFrameRate");
+  }
+
+  oprot->writeMessageBegin("Browser_GetFrameRate", ::apache::thrift::protocol::T_REPLY, seqid);
+  result.write(oprot);
+  oprot->writeMessageEnd();
+  bytes = oprot->getTransport()->writeEnd();
+  oprot->getTransport()->flush();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postWrite(ctx, "Server.Browser_GetFrameRate", bytes);
+  }
 }
 
 void ServerProcessor::process_Browser_AddDevToolsMessageObserver(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
@@ -31385,12 +31708,12 @@ int32_t ServerConcurrentClient::recv_Browser_Create(const int32_t seqid)
   } // end while(true)
 }
 
-void ServerConcurrentClient::Browser_StartNativeCreation(const int32_t bid, const std::string& url)
+void ServerConcurrentClient::Browser_StartNativeCreation(const int32_t bid, const std::string& url, const int32_t windowlessFrameRate)
 {
-  send_Browser_StartNativeCreation(bid, url);
+  send_Browser_StartNativeCreation(bid, url, windowlessFrameRate);
 }
 
-void ServerConcurrentClient::send_Browser_StartNativeCreation(const int32_t bid, const std::string& url)
+void ServerConcurrentClient::send_Browser_StartNativeCreation(const int32_t bid, const std::string& url, const int32_t windowlessFrameRate)
 {
   int32_t cseqid = 0;
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
@@ -31399,6 +31722,7 @@ void ServerConcurrentClient::send_Browser_StartNativeCreation(const int32_t bid,
   Server_Browser_StartNativeCreation_pargs args;
   args.bid = &bid;
   args.url = &url;
+  args.windowlessFrameRate = &windowlessFrameRate;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -33266,6 +33590,90 @@ void ServerConcurrentClient::send_Browser_SetFrameRate(const int32_t bid, const 
   oprot_->getTransport()->flush();
 
   sentry.commit();
+}
+
+int32_t ServerConcurrentClient::Browser_GetFrameRate(const int32_t bid)
+{
+  int32_t seqid = send_Browser_GetFrameRate(bid);
+  return recv_Browser_GetFrameRate(seqid);
+}
+
+int32_t ServerConcurrentClient::send_Browser_GetFrameRate(const int32_t bid)
+{
+  int32_t cseqid = this->sync_->generateSeqId();
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("Browser_GetFrameRate", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  Server_Browser_GetFrameRate_pargs args;
+  args.bid = &bid;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+  return cseqid;
+}
+
+int32_t ServerConcurrentClient::recv_Browser_GetFrameRate(const int32_t seqid)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  // the read mutex gets dropped and reacquired as part of waitForWork()
+  // The destructor of this sentry wakes up other clients
+  ::apache::thrift::async::TConcurrentRecvSentry sentry(this->sync_.get(), seqid);
+
+  while(true) {
+    if(!this->sync_->getPending(fname, mtype, rseqid)) {
+      iprot_->readMessageBegin(fname, mtype, rseqid);
+    }
+    if(seqid == rseqid) {
+      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+        ::apache::thrift::TApplicationException x;
+        x.read(iprot_);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+        sentry.commit();
+        throw x;
+      }
+      if (mtype != ::apache::thrift::protocol::T_REPLY) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+      }
+      if (fname.compare("Browser_GetFrameRate") != 0) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+
+        // in a bad state, don't commit
+        using ::apache::thrift::protocol::TProtocolException;
+        throw TProtocolException(TProtocolException::INVALID_DATA);
+      }
+      int32_t _return;
+      Server_Browser_GetFrameRate_presult result;
+      result.success = &_return;
+      result.read(iprot_);
+      iprot_->readMessageEnd();
+      iprot_->getTransport()->readEnd();
+
+      if (result.__isset.success) {
+        sentry.commit();
+        return _return;
+      }
+      // in a bad state, don't commit
+      throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "Browser_GetFrameRate failed: unknown result");
+    }
+    // seqid != rseqid
+    this->sync_->updatePending(fname, mtype, rseqid);
+
+    // this will temporarily unlock the readMutex, and let other clients get work done
+    this->sync_->waitForWork(seqid);
+  } // end while(true)
 }
 
 void ServerConcurrentClient::Browser_AddDevToolsMessageObserver( ::thrift_codegen::RObject& _return, const int32_t bid, const  ::thrift_codegen::RObject& observer)
