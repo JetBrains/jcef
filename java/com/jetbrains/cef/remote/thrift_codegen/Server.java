@@ -39,7 +39,7 @@ public class Server {
 
     public int Browser_Create(int cid, com.jetbrains.cef.remote.thrift_codegen.RObject requestContext) throws com.jetbrains.cef.remote.thrift.TException;
 
-    public void Browser_StartNativeCreation(int bid, java.lang.String url) throws com.jetbrains.cef.remote.thrift.TException;
+    public void Browser_StartNativeCreation(int bid, java.lang.String url, int windowlessFrameRate) throws com.jetbrains.cef.remote.thrift.TException;
 
     public void Browser_OpenDevTools(int bid, int x, int y) throws com.jetbrains.cef.remote.thrift.TException;
 
@@ -122,6 +122,8 @@ public class Server {
     public void Browser_ReplaceMisspelling(int bid, java.lang.String word) throws com.jetbrains.cef.remote.thrift.TException;
 
     public void Browser_SetFrameRate(int bid, int val) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public int Browser_GetFrameRate(int bid) throws com.jetbrains.cef.remote.thrift.TException;
 
     public com.jetbrains.cef.remote.thrift_codegen.RObject Browser_AddDevToolsMessageObserver(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject observer) throws com.jetbrains.cef.remote.thrift.TException;
 
@@ -303,7 +305,7 @@ public class Server {
 
     public void Browser_Create(int cid, com.jetbrains.cef.remote.thrift_codegen.RObject requestContext, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
-    public void Browser_StartNativeCreation(int bid, java.lang.String url, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
+    public void Browser_StartNativeCreation(int bid, java.lang.String url, int windowlessFrameRate, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
     public void Browser_OpenDevTools(int bid, int x, int y, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
@@ -386,6 +388,8 @@ public class Server {
     public void Browser_ReplaceMisspelling(int bid, java.lang.String word, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
     public void Browser_SetFrameRate(int bid, int val, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void Browser_GetFrameRate(int bid, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
     public void Browser_AddDevToolsMessageObserver(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject observer, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
@@ -838,16 +842,17 @@ public class Server {
     }
 
     @Override
-    public void Browser_StartNativeCreation(int bid, java.lang.String url) throws com.jetbrains.cef.remote.thrift.TException
+    public void Browser_StartNativeCreation(int bid, java.lang.String url, int windowlessFrameRate) throws com.jetbrains.cef.remote.thrift.TException
     {
-      send_Browser_StartNativeCreation(bid, url);
+      send_Browser_StartNativeCreation(bid, url, windowlessFrameRate);
     }
 
-    public void send_Browser_StartNativeCreation(int bid, java.lang.String url) throws com.jetbrains.cef.remote.thrift.TException
+    public void send_Browser_StartNativeCreation(int bid, java.lang.String url, int windowlessFrameRate) throws com.jetbrains.cef.remote.thrift.TException
     {
       Browser_StartNativeCreation_args args = new Browser_StartNativeCreation_args();
       args.setBid(bid);
       args.setUrl(url);
+      args.setWindowlessFrameRate(windowlessFrameRate);
       sendBaseOneway("Browser_StartNativeCreation", args);
     }
 
@@ -1578,6 +1583,30 @@ public class Server {
       args.setBid(bid);
       args.setVal(val);
       sendBaseOneway("Browser_SetFrameRate", args);
+    }
+
+    @Override
+    public int Browser_GetFrameRate(int bid) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      send_Browser_GetFrameRate(bid);
+      return recv_Browser_GetFrameRate();
+    }
+
+    public void send_Browser_GetFrameRate(int bid) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      Browser_GetFrameRate_args args = new Browser_GetFrameRate_args();
+      args.setBid(bid);
+      sendBase("Browser_GetFrameRate", args);
+    }
+
+    public int recv_Browser_GetFrameRate() throws com.jetbrains.cef.remote.thrift.TException
+    {
+      Browser_GetFrameRate_result result = new Browser_GetFrameRate_result();
+      receiveBase(result, "Browser_GetFrameRate");
+      if (result.isSetSuccess()) {
+        return result.success;
+      }
+      throw new com.jetbrains.cef.remote.thrift.TApplicationException(com.jetbrains.cef.remote.thrift.TApplicationException.MISSING_RESULT, "Browser_GetFrameRate failed: unknown result");
     }
 
     @Override
@@ -3558,9 +3587,9 @@ public class Server {
     }
 
     @Override
-    public void Browser_StartNativeCreation(int bid, java.lang.String url, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+    public void Browser_StartNativeCreation(int bid, java.lang.String url, int windowlessFrameRate, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
       checkReady();
-      Browser_StartNativeCreation_call method_call = new Browser_StartNativeCreation_call(bid, url, resultHandler, this, ___protocolFactory, ___transport);
+      Browser_StartNativeCreation_call method_call = new Browser_StartNativeCreation_call(bid, url, windowlessFrameRate, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
@@ -3568,10 +3597,12 @@ public class Server {
     public static class Browser_StartNativeCreation_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<Void> {
       private int bid;
       private java.lang.String url;
-      public Browser_StartNativeCreation_call(int bid, java.lang.String url, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
+      private int windowlessFrameRate;
+      public Browser_StartNativeCreation_call(int bid, java.lang.String url, int windowlessFrameRate, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, true);
         this.bid = bid;
         this.url = url;
+        this.windowlessFrameRate = windowlessFrameRate;
       }
 
       @Override
@@ -3580,6 +3611,7 @@ public class Server {
         Browser_StartNativeCreation_args args = new Browser_StartNativeCreation_args();
         args.setBid(bid);
         args.setUrl(url);
+        args.setWindowlessFrameRate(windowlessFrameRate);
         args.write(prot);
         prot.writeMessageEnd();
       }
@@ -5130,6 +5162,41 @@ public class Server {
         com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport memoryTransport = new com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
         com.jetbrains.cef.remote.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         return null;
+      }
+    }
+
+    @Override
+    public void Browser_GetFrameRate(int bid, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+      checkReady();
+      Browser_GetFrameRate_call method_call = new Browser_GetFrameRate_call(bid, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class Browser_GetFrameRate_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<java.lang.Integer> {
+      private int bid;
+      public Browser_GetFrameRate_call(int bid, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, false);
+        this.bid = bid;
+      }
+
+      @Override
+      public void write_args(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("Browser_GetFrameRate", com.jetbrains.cef.remote.thrift.protocol.TMessageType.CALL, 0));
+        Browser_GetFrameRate_args args = new Browser_GetFrameRate_args();
+        args.setBid(bid);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public java.lang.Integer getResult() throws com.jetbrains.cef.remote.thrift.TException {
+        if (getState() != com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport memoryTransport = new com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        com.jetbrains.cef.remote.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return (new Client(prot)).recv_Browser_GetFrameRate();
       }
     }
 
@@ -8015,6 +8082,7 @@ public class Server {
       processMap.put("Browser_StopFinding", new Browser_StopFinding());
       processMap.put("Browser_ReplaceMisspelling", new Browser_ReplaceMisspelling());
       processMap.put("Browser_SetFrameRate", new Browser_SetFrameRate());
+      processMap.put("Browser_GetFrameRate", new Browser_GetFrameRate());
       processMap.put("Browser_AddDevToolsMessageObserver", new Browser_AddDevToolsMessageObserver());
       processMap.put("Browser_ExecuteDevToolsMethod", new Browser_ExecuteDevToolsMethod());
       processMap.put("Browser_RunFileDialog", new Browser_RunFileDialog());
@@ -8580,7 +8648,7 @@ public class Server {
 
       @Override
       public com.jetbrains.cef.remote.thrift.TBase getResult(I iface, Browser_StartNativeCreation_args args) throws com.jetbrains.cef.remote.thrift.TException {
-        iface.Browser_StartNativeCreation(args.bid, args.url);
+        iface.Browser_StartNativeCreation(args.bid, args.url, args.windowlessFrameRate);
         return null;
       }
     }
@@ -9916,6 +9984,40 @@ public class Server {
       public com.jetbrains.cef.remote.thrift.TBase getResult(I iface, Browser_SetFrameRate_args args) throws com.jetbrains.cef.remote.thrift.TException {
         iface.Browser_SetFrameRate(args.bid, args.val);
         return null;
+      }
+    }
+
+    public static class Browser_GetFrameRate<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, Browser_GetFrameRate_args, Browser_GetFrameRate_result> {
+      public Browser_GetFrameRate() {
+        super("Browser_GetFrameRate");
+      }
+
+      @Override
+      public Browser_GetFrameRate_args getEmptyArgsInstance() {
+        return new Browser_GetFrameRate_args();
+      }
+
+      @Override
+      public boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public Browser_GetFrameRate_result getEmptyResultInstance() {
+        return new Browser_GetFrameRate_result();
+      }
+
+      @Override
+      public Browser_GetFrameRate_result getResult(I iface, Browser_GetFrameRate_args args) throws com.jetbrains.cef.remote.thrift.TException {
+        Browser_GetFrameRate_result result = getEmptyResultInstance();
+        result.success = iface.Browser_GetFrameRate(args.bid);
+        result.setSuccessIsSet(true);
+        return result;
       }
     }
 
@@ -12407,6 +12509,7 @@ public class Server {
       processMap.put("Browser_StopFinding", new Browser_StopFinding());
       processMap.put("Browser_ReplaceMisspelling", new Browser_ReplaceMisspelling());
       processMap.put("Browser_SetFrameRate", new Browser_SetFrameRate());
+      processMap.put("Browser_GetFrameRate", new Browser_GetFrameRate());
       processMap.put("Browser_AddDevToolsMessageObserver", new Browser_AddDevToolsMessageObserver());
       processMap.put("Browser_ExecuteDevToolsMethod", new Browser_ExecuteDevToolsMethod());
       processMap.put("Browser_RunFileDialog", new Browser_RunFileDialog());
@@ -13399,7 +13502,7 @@ public class Server {
 
       @Override
       public void start(I iface, Browser_StartNativeCreation_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
-        iface.Browser_StartNativeCreation(args.bid, args.url,resultHandler);
+        iface.Browser_StartNativeCreation(args.bid, args.url, args.windowlessFrameRate,resultHandler);
       }
     }
 
@@ -15656,6 +15759,79 @@ public class Server {
       @Override
       public void start(I iface, Browser_SetFrameRate_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
         iface.Browser_SetFrameRate(args.bid, args.val,resultHandler);
+      }
+    }
+
+    public static class Browser_GetFrameRate<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, Browser_GetFrameRate_args, java.lang.Integer, Browser_GetFrameRate_result> {
+      public Browser_GetFrameRate() {
+        super("Browser_GetFrameRate");
+      }
+
+      @Override
+      public Browser_GetFrameRate_result getEmptyResultInstance() {
+        return new Browser_GetFrameRate_result();
+      }
+
+      @Override
+      public Browser_GetFrameRate_args getEmptyArgsInstance() {
+        return new Browser_GetFrameRate_args();
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Integer> getResultHandler(final com.jetbrains.cef.remote.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final com.jetbrains.cef.remote.thrift.AsyncProcessFunction fcall = this;
+        return new com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Integer>() { 
+          @Override
+          public void onComplete(java.lang.Integer o) {
+            Browser_GetFrameRate_result result = new Browser_GetFrameRate_result();
+            result.success = o;
+            result.setSuccessIsSet(true);
+            try {
+              fcall.sendResponse(fb, result, com.jetbrains.cef.remote.thrift.protocol.TMessageType.REPLY,seqid);
+            } catch (com.jetbrains.cef.remote.thrift.transport.TTransportException e) {
+              _LOGGER.error("TTransportException writing to internal frame buffer", e);
+              fb.close();
+            } catch (java.lang.Exception e) {
+              _LOGGER.error("Exception writing to internal frame buffer", e);
+              onError(e);
+            }
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            byte msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.REPLY;
+            com.jetbrains.cef.remote.thrift.TSerializable msg;
+            Browser_GetFrameRate_result result = new Browser_GetFrameRate_result();
+            if (e instanceof com.jetbrains.cef.remote.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+              return;
+            } else if (e instanceof com.jetbrains.cef.remote.thrift.TApplicationException) {
+              _LOGGER.error("TApplicationException inside handler", e);
+              msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.EXCEPTION;
+              msg = (com.jetbrains.cef.remote.thrift.TApplicationException)e;
+            } else {
+              _LOGGER.error("Exception inside handler", e);
+              msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.EXCEPTION;
+              msg = new com.jetbrains.cef.remote.thrift.TApplicationException(com.jetbrains.cef.remote.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
+            }
+            try {
+              fcall.sendResponse(fb,msg,msgType,seqid);
+            } catch (java.lang.Exception ex) {
+              _LOGGER.error("Exception writing to internal frame buffer", ex);
+              fb.close();
+            }
+          }
+        };
+      }
+
+      @Override
+      public boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      public void start(I iface, Browser_GetFrameRate_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.Browser_GetFrameRate(args.bid,resultHandler);
       }
     }
 
@@ -29317,17 +29493,20 @@ public class Server {
 
     private static final com.jetbrains.cef.remote.thrift.protocol.TField BID_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("bid", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)1);
     private static final com.jetbrains.cef.remote.thrift.protocol.TField URL_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("url", com.jetbrains.cef.remote.thrift.protocol.TType.STRING, (short)2);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField WINDOWLESS_FRAME_RATE_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("windowlessFrameRate", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)3);
 
     private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new Browser_StartNativeCreation_argsStandardSchemeFactory();
     private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new Browser_StartNativeCreation_argsTupleSchemeFactory();
 
     public int bid; // required
     public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String url; // required
+    public int windowlessFrameRate; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
       BID((short)1, "bid"),
-      URL((short)2, "url");
+      URL((short)2, "url"),
+      WINDOWLESS_FRAME_RATE((short)3, "windowlessFrameRate");
 
       private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -29347,6 +29526,8 @@ public class Server {
             return BID;
           case 2: // URL
             return URL;
+          case 3: // WINDOWLESS_FRAME_RATE
+            return WINDOWLESS_FRAME_RATE;
           default:
             return null;
         }
@@ -29391,6 +29572,7 @@ public class Server {
 
     // isset id assignments
     private static final int __BID_ISSET_ID = 0;
+    private static final int __WINDOWLESSFRAMERATE_ISSET_ID = 1;
     private byte __isset_bitfield = 0;
     public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
@@ -29399,6 +29581,8 @@ public class Server {
           new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.URL, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("url", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
           new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.WINDOWLESS_FRAME_RATE, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("windowlessFrameRate", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
       com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Browser_StartNativeCreation_args.class, metaDataMap);
     }
@@ -29408,12 +29592,15 @@ public class Server {
 
     public Browser_StartNativeCreation_args(
       int bid,
-      java.lang.String url)
+      java.lang.String url,
+      int windowlessFrameRate)
     {
       this();
       this.bid = bid;
       setBidIsSet(true);
       this.url = url;
+      this.windowlessFrameRate = windowlessFrameRate;
+      setWindowlessFrameRateIsSet(true);
     }
 
     /**
@@ -29425,6 +29612,7 @@ public class Server {
       if (other.isSetUrl()) {
         this.url = other.url;
       }
+      this.windowlessFrameRate = other.windowlessFrameRate;
     }
 
     @Override
@@ -29437,6 +29625,8 @@ public class Server {
       setBidIsSet(false);
       this.bid = 0;
       this.url = null;
+      setWindowlessFrameRateIsSet(false);
+      this.windowlessFrameRate = 0;
     }
 
     public int getBid() {
@@ -29487,6 +29677,29 @@ public class Server {
       }
     }
 
+    public int getWindowlessFrameRate() {
+      return this.windowlessFrameRate;
+    }
+
+    public Browser_StartNativeCreation_args setWindowlessFrameRate(int windowlessFrameRate) {
+      this.windowlessFrameRate = windowlessFrameRate;
+      setWindowlessFrameRateIsSet(true);
+      return this;
+    }
+
+    public void unsetWindowlessFrameRate() {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __WINDOWLESSFRAMERATE_ISSET_ID);
+    }
+
+    /** Returns true if field windowlessFrameRate is set (has been assigned a value) and false otherwise */
+    public boolean isSetWindowlessFrameRate() {
+      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __WINDOWLESSFRAMERATE_ISSET_ID);
+    }
+
+    public void setWindowlessFrameRateIsSet(boolean value) {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __WINDOWLESSFRAMERATE_ISSET_ID, value);
+    }
+
     @Override
     public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
       switch (field) {
@@ -29506,6 +29719,14 @@ public class Server {
         }
         break;
 
+      case WINDOWLESS_FRAME_RATE:
+        if (value == null) {
+          unsetWindowlessFrameRate();
+        } else {
+          setWindowlessFrameRate((java.lang.Integer)value);
+        }
+        break;
+
       }
     }
 
@@ -29518,6 +29739,9 @@ public class Server {
 
       case URL:
         return getUrl();
+
+      case WINDOWLESS_FRAME_RATE:
+        return getWindowlessFrameRate();
 
       }
       throw new java.lang.IllegalStateException();
@@ -29535,6 +29759,8 @@ public class Server {
         return isSetBid();
       case URL:
         return isSetUrl();
+      case WINDOWLESS_FRAME_RATE:
+        return isSetWindowlessFrameRate();
       }
       throw new java.lang.IllegalStateException();
     }
@@ -29570,6 +29796,15 @@ public class Server {
           return false;
       }
 
+      boolean this_present_windowlessFrameRate = true;
+      boolean that_present_windowlessFrameRate = true;
+      if (this_present_windowlessFrameRate || that_present_windowlessFrameRate) {
+        if (!(this_present_windowlessFrameRate && that_present_windowlessFrameRate))
+          return false;
+        if (this.windowlessFrameRate != that.windowlessFrameRate)
+          return false;
+      }
+
       return true;
     }
 
@@ -29582,6 +29817,8 @@ public class Server {
       hashCode = hashCode * 8191 + ((isSetUrl()) ? 131071 : 524287);
       if (isSetUrl())
         hashCode = hashCode * 8191 + url.hashCode();
+
+      hashCode = hashCode * 8191 + windowlessFrameRate;
 
       return hashCode;
     }
@@ -29610,6 +29847,16 @@ public class Server {
       }
       if (isSetUrl()) {
         lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.url, other.url);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetWindowlessFrameRate(), other.isSetWindowlessFrameRate());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetWindowlessFrameRate()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.windowlessFrameRate, other.windowlessFrameRate);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -29648,6 +29895,10 @@ public class Server {
       } else {
         sb.append(this.url);
       }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("windowlessFrameRate:");
+      sb.append(this.windowlessFrameRate);
       first = false;
       sb.append(")");
       return sb.toString();
@@ -29714,6 +29965,14 @@ public class Server {
                   com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
                 }
                 break;
+              case 3: // WINDOWLESS_FRAME_RATE
+                if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
+                  struct.windowlessFrameRate = iprot.readI32();
+                  struct.setWindowlessFrameRateIsSet(true);
+                } else { 
+                  com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+                }
+                break;
               default:
                 com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
@@ -29741,6 +30000,9 @@ public class Server {
           oprot.writeString(struct.url);
           oprot.writeFieldEnd();
         }
+        oprot.writeFieldBegin(WINDOWLESS_FRAME_RATE_FIELD_DESC);
+        oprot.writeI32(struct.windowlessFrameRate);
+        oprot.writeFieldEnd();
         oprot.writeFieldStop();
         oprot.writeStructEnd();
       }
@@ -29766,12 +30028,18 @@ public class Server {
         if (struct.isSetUrl()) {
           optionals.set(1);
         }
-        oprot.writeBitSet(optionals, 2);
+        if (struct.isSetWindowlessFrameRate()) {
+          optionals.set(2);
+        }
+        oprot.writeBitSet(optionals, 3);
         if (struct.isSetBid()) {
           oprot.writeI32(struct.bid);
         }
         if (struct.isSetUrl()) {
           oprot.writeString(struct.url);
+        }
+        if (struct.isSetWindowlessFrameRate()) {
+          oprot.writeI32(struct.windowlessFrameRate);
         }
       }
 
@@ -29780,7 +30048,7 @@ public class Server {
         prot.incrementRecursionDepth();
         try {
           com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
-          java.util.BitSet incoming = iprot.readBitSet(2);
+          java.util.BitSet incoming = iprot.readBitSet(3);
           if (incoming.get(0)) {
             struct.bid = iprot.readI32();
             struct.setBidIsSet(true);
@@ -29788,6 +30056,10 @@ public class Server {
           if (incoming.get(1)) {
             struct.url = iprot.readString();
             struct.setUrlIsSet(true);
+          }
+          if (incoming.get(2)) {
+            struct.windowlessFrameRate = iprot.readI32();
+            struct.setWindowlessFrameRateIsSet(true);
           }
         } finally {
           prot.decrementRecursionDepth();
@@ -54730,6 +55002,775 @@ public class Server {
           if (incoming.get(1)) {
             struct.val = iprot.readI32();
             struct.setValIsSet(true);
+          }
+        } finally {
+          prot.decrementRecursionDepth();
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class Browser_GetFrameRate_args implements com.jetbrains.cef.remote.thrift.TBase<Browser_GetFrameRate_args, Browser_GetFrameRate_args._Fields>, java.io.Serializable, Cloneable, Comparable<Browser_GetFrameRate_args>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("Browser_GetFrameRate_args");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField BID_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("bid", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)1);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new Browser_GetFrameRate_argsStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new Browser_GetFrameRate_argsTupleSchemeFactory();
+
+    public int bid; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      BID((short)1, "bid");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // BID
+            return BID;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __BID_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.BID, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("bid", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Browser_GetFrameRate_args.class, metaDataMap);
+    }
+
+    public Browser_GetFrameRate_args() {
+    }
+
+    public Browser_GetFrameRate_args(
+      int bid)
+    {
+      this();
+      this.bid = bid;
+      setBidIsSet(true);
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public Browser_GetFrameRate_args(Browser_GetFrameRate_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.bid = other.bid;
+    }
+
+    @Override
+    public Browser_GetFrameRate_args deepCopy() {
+      return new Browser_GetFrameRate_args(this);
+    }
+
+    @Override
+    public void clear() {
+      setBidIsSet(false);
+      this.bid = 0;
+    }
+
+    public int getBid() {
+      return this.bid;
+    }
+
+    public Browser_GetFrameRate_args setBid(int bid) {
+      this.bid = bid;
+      setBidIsSet(true);
+      return this;
+    }
+
+    public void unsetBid() {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    /** Returns true if field bid is set (has been assigned a value) and false otherwise */
+    public boolean isSetBid() {
+      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    public void setBidIsSet(boolean value) {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case BID:
+        if (value == null) {
+          unsetBid();
+        } else {
+          setBid((java.lang.Integer)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case BID:
+        return getBid();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case BID:
+        return isSetBid();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof Browser_GetFrameRate_args)
+        return this.equals((Browser_GetFrameRate_args)that);
+      return false;
+    }
+
+    public boolean equals(Browser_GetFrameRate_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_bid = true;
+      boolean that_present_bid = true;
+      if (this_present_bid || that_present_bid) {
+        if (!(this_present_bid && that_present_bid))
+          return false;
+        if (this.bid != that.bid)
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + bid;
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(Browser_GetFrameRate_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetBid(), other.isSetBid());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetBid()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("Browser_GetFrameRate_args(");
+      boolean first = true;
+
+      sb.append("bid:");
+      sb.append(this.bid);
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class Browser_GetFrameRate_argsStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public Browser_GetFrameRate_argsStandardScheme getScheme() {
+        return new Browser_GetFrameRate_argsStandardScheme();
+      }
+    }
+
+    private static class Browser_GetFrameRate_argsStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<Browser_GetFrameRate_args> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, Browser_GetFrameRate_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        iprot.incrementRecursionDepth();
+        try {
+          com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+          iprot.readStructBegin();
+          while (true)
+          {
+            schemeField = iprot.readFieldBegin();
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+              break;
+            }
+            switch (schemeField.id) {
+              case 1: // BID
+                if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
+                  struct.bid = iprot.readI32();
+                  struct.setBidIsSet(true);
+                } else { 
+                  com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+                }
+                break;
+              default:
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            iprot.readFieldEnd();
+          }
+          iprot.readStructEnd();
+
+          // check for required fields of primitive type, which can't be checked in the validate method
+          struct.validate();
+        } finally {
+          iprot.decrementRecursionDepth();
+        }
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, Browser_GetFrameRate_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldBegin(BID_FIELD_DESC);
+        oprot.writeI32(struct.bid);
+        oprot.writeFieldEnd();
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class Browser_GetFrameRate_argsTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public Browser_GetFrameRate_argsTupleScheme getScheme() {
+        return new Browser_GetFrameRate_argsTupleScheme();
+      }
+    }
+
+    private static class Browser_GetFrameRate_argsTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<Browser_GetFrameRate_args> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, Browser_GetFrameRate_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetBid()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetBid()) {
+          oprot.writeI32(struct.bid);
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, Browser_GetFrameRate_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.incrementRecursionDepth();
+        try {
+          com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+          java.util.BitSet incoming = iprot.readBitSet(1);
+          if (incoming.get(0)) {
+            struct.bid = iprot.readI32();
+            struct.setBidIsSet(true);
+          }
+        } finally {
+          prot.decrementRecursionDepth();
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class Browser_GetFrameRate_result implements com.jetbrains.cef.remote.thrift.TBase<Browser_GetFrameRate_result, Browser_GetFrameRate_result._Fields>, java.io.Serializable, Cloneable, Comparable<Browser_GetFrameRate_result>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("Browser_GetFrameRate_result");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField SUCCESS_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("success", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)0);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new Browser_GetFrameRate_resultStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new Browser_GetFrameRate_resultTupleSchemeFactory();
+
+    public int success; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      SUCCESS((short)0, "success");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 0: // SUCCESS
+            return SUCCESS;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __SUCCESS_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("success", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Browser_GetFrameRate_result.class, metaDataMap);
+    }
+
+    public Browser_GetFrameRate_result() {
+    }
+
+    public Browser_GetFrameRate_result(
+      int success)
+    {
+      this();
+      this.success = success;
+      setSuccessIsSet(true);
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public Browser_GetFrameRate_result(Browser_GetFrameRate_result other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.success = other.success;
+    }
+
+    @Override
+    public Browser_GetFrameRate_result deepCopy() {
+      return new Browser_GetFrameRate_result(this);
+    }
+
+    @Override
+    public void clear() {
+      setSuccessIsSet(false);
+      this.success = 0;
+    }
+
+    public int getSuccess() {
+      return this.success;
+    }
+
+    public Browser_GetFrameRate_result setSuccess(int success) {
+      this.success = success;
+      setSuccessIsSet(true);
+      return this;
+    }
+
+    public void unsetSuccess() {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __SUCCESS_ISSET_ID);
+    }
+
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
+    public boolean isSetSuccess() {
+      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __SUCCESS_ISSET_ID);
+    }
+
+    public void setSuccessIsSet(boolean value) {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __SUCCESS_ISSET_ID, value);
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((java.lang.Integer)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case SUCCESS:
+        return getSuccess();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case SUCCESS:
+        return isSetSuccess();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof Browser_GetFrameRate_result)
+        return this.equals((Browser_GetFrameRate_result)that);
+      return false;
+    }
+
+    public boolean equals(Browser_GetFrameRate_result that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_success = true;
+      boolean that_present_success = true;
+      if (this_present_success || that_present_success) {
+        if (!(this_present_success && that_present_success))
+          return false;
+        if (this.success != that.success)
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + success;
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(Browser_GetFrameRate_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetSuccess(), other.isSetSuccess());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSuccess()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.success, other.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+      }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("Browser_GetFrameRate_result(");
+      boolean first = true;
+
+      sb.append("success:");
+      sb.append(this.success);
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class Browser_GetFrameRate_resultStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public Browser_GetFrameRate_resultStandardScheme getScheme() {
+        return new Browser_GetFrameRate_resultStandardScheme();
+      }
+    }
+
+    private static class Browser_GetFrameRate_resultStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<Browser_GetFrameRate_result> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, Browser_GetFrameRate_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        iprot.incrementRecursionDepth();
+        try {
+          com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+          iprot.readStructBegin();
+          while (true)
+          {
+            schemeField = iprot.readFieldBegin();
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+              break;
+            }
+            switch (schemeField.id) {
+              case 0: // SUCCESS
+                if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
+                  struct.success = iprot.readI32();
+                  struct.setSuccessIsSet(true);
+                } else { 
+                  com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+                }
+                break;
+              default:
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            iprot.readFieldEnd();
+          }
+          iprot.readStructEnd();
+
+          // check for required fields of primitive type, which can't be checked in the validate method
+          struct.validate();
+        } finally {
+          iprot.decrementRecursionDepth();
+        }
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, Browser_GetFrameRate_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.isSetSuccess()) {
+          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
+          oprot.writeI32(struct.success);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class Browser_GetFrameRate_resultTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public Browser_GetFrameRate_resultTupleScheme getScheme() {
+        return new Browser_GetFrameRate_resultTupleScheme();
+      }
+    }
+
+    private static class Browser_GetFrameRate_resultTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<Browser_GetFrameRate_result> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, Browser_GetFrameRate_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetSuccess()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetSuccess()) {
+          oprot.writeI32(struct.success);
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, Browser_GetFrameRate_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.incrementRecursionDepth();
+        try {
+          com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+          java.util.BitSet incoming = iprot.readBitSet(1);
+          if (incoming.get(0)) {
+            struct.success = iprot.readI32();
+            struct.setSuccessIsSet(true);
           }
         } finally {
           prot.decrementRecursionDepth();

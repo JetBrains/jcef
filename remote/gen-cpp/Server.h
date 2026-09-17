@@ -36,7 +36,7 @@ class ServerIf {
   virtual void Client_AddMessageRouter(const int32_t cid, const  ::thrift_codegen::RObject& msgRouter) = 0;
   virtual void Client_RemoveMessageRouter(const int32_t cid, const  ::thrift_codegen::RObject& msgRouter) = 0;
   virtual int32_t Browser_Create(const int32_t cid, const  ::thrift_codegen::RObject& requestContext) = 0;
-  virtual void Browser_StartNativeCreation(const int32_t bid, const std::string& url) = 0;
+  virtual void Browser_StartNativeCreation(const int32_t bid, const std::string& url, const int32_t windowlessFrameRate) = 0;
   virtual void Browser_OpenDevTools(const int32_t bid, const int32_t x, const int32_t y) = 0;
   virtual void Browser_Close(const int32_t bid) = 0;
   virtual void Browser_CloseDevTools(const int32_t bid) = 0;
@@ -78,6 +78,7 @@ class ServerIf {
   virtual void Browser_StopFinding(const int32_t bid, const bool clearSelection) = 0;
   virtual void Browser_ReplaceMisspelling(const int32_t bid, const std::string& word) = 0;
   virtual void Browser_SetFrameRate(const int32_t bid, const int32_t val) = 0;
+  virtual int32_t Browser_GetFrameRate(const int32_t bid) = 0;
   virtual void Browser_AddDevToolsMessageObserver( ::thrift_codegen::RObject& _return, const int32_t bid, const  ::thrift_codegen::RObject& observer) = 0;
   virtual void Browser_ExecuteDevToolsMethod(const int32_t bid, const std::string& method, const std::string& parametersAsJson, const  ::thrift_codegen::RObject& intCallback) = 0;
   virtual void Browser_RunFileDialog(const int32_t bid, const std::string& mode, const std::string& title, const std::string& defaultFilePath, const std::vector<std::string> & acceptFilters, const  ::thrift_codegen::RObject& runFileDialogCallback) = 0;
@@ -227,7 +228,7 @@ class ServerNull : virtual public ServerIf {
     int32_t _return = 0;
     return _return;
   }
-  void Browser_StartNativeCreation(const int32_t /* bid */, const std::string& /* url */) override {
+  void Browser_StartNativeCreation(const int32_t /* bid */, const std::string& /* url */, const int32_t /* windowlessFrameRate */) override {
     return;
   }
   void Browser_OpenDevTools(const int32_t /* bid */, const int32_t /* x */, const int32_t /* y */) override {
@@ -359,6 +360,10 @@ class ServerNull : virtual public ServerIf {
   }
   void Browser_SetFrameRate(const int32_t /* bid */, const int32_t /* val */) override {
     return;
+  }
+  int32_t Browser_GetFrameRate(const int32_t /* bid */) override {
+    int32_t _return = 0;
+    return _return;
   }
   void Browser_AddDevToolsMessageObserver( ::thrift_codegen::RObject& /* _return */, const int32_t /* bid */, const  ::thrift_codegen::RObject& /* observer */) override {
     return;
@@ -1612,9 +1617,10 @@ class Server_Browser_Create_presult {
 };
 
 typedef struct _Server_Browser_StartNativeCreation_args__isset {
-  _Server_Browser_StartNativeCreation_args__isset() : bid(false), url(false) {}
+  _Server_Browser_StartNativeCreation_args__isset() : bid(false), url(false), windowlessFrameRate(false) {}
   bool bid :1;
   bool url :1;
+  bool windowlessFrameRate :1;
 } _Server_Browser_StartNativeCreation_args__isset;
 
 class Server_Browser_StartNativeCreation_args {
@@ -1627,12 +1633,15 @@ class Server_Browser_StartNativeCreation_args {
   virtual ~Server_Browser_StartNativeCreation_args() noexcept;
   int32_t bid;
   std::string url;
+  int32_t windowlessFrameRate;
 
   _Server_Browser_StartNativeCreation_args__isset __isset;
 
   void __set_bid(const int32_t val);
 
   void __set_url(const std::string& val);
+
+  void __set_windowlessFrameRate(const int32_t val);
 
   bool operator == (const Server_Browser_StartNativeCreation_args & rhs) const;
   bool operator != (const Server_Browser_StartNativeCreation_args &rhs) const {
@@ -1654,6 +1663,7 @@ class Server_Browser_StartNativeCreation_pargs {
   virtual ~Server_Browser_StartNativeCreation_pargs() noexcept;
   const int32_t* bid;
   const std::string* url;
+  const int32_t* windowlessFrameRate;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -4308,6 +4318,98 @@ class Server_Browser_SetFrameRate_pargs {
   const int32_t* val;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_Browser_GetFrameRate_args__isset {
+  _Server_Browser_GetFrameRate_args__isset() : bid(false) {}
+  bool bid :1;
+} _Server_Browser_GetFrameRate_args__isset;
+
+class Server_Browser_GetFrameRate_args {
+ public:
+
+  Server_Browser_GetFrameRate_args(const Server_Browser_GetFrameRate_args&) noexcept;
+  Server_Browser_GetFrameRate_args& operator=(const Server_Browser_GetFrameRate_args&) noexcept;
+  Server_Browser_GetFrameRate_args() noexcept;
+
+  virtual ~Server_Browser_GetFrameRate_args() noexcept;
+  int32_t bid;
+
+  _Server_Browser_GetFrameRate_args__isset __isset;
+
+  void __set_bid(const int32_t val);
+
+  bool operator == (const Server_Browser_GetFrameRate_args & rhs) const;
+  bool operator != (const Server_Browser_GetFrameRate_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_Browser_GetFrameRate_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_Browser_GetFrameRate_pargs {
+ public:
+
+
+  virtual ~Server_Browser_GetFrameRate_pargs() noexcept;
+  const int32_t* bid;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_Browser_GetFrameRate_result__isset {
+  _Server_Browser_GetFrameRate_result__isset() : success(false) {}
+  bool success :1;
+} _Server_Browser_GetFrameRate_result__isset;
+
+class Server_Browser_GetFrameRate_result {
+ public:
+
+  Server_Browser_GetFrameRate_result(const Server_Browser_GetFrameRate_result&) noexcept;
+  Server_Browser_GetFrameRate_result& operator=(const Server_Browser_GetFrameRate_result&) noexcept;
+  Server_Browser_GetFrameRate_result() noexcept;
+
+  virtual ~Server_Browser_GetFrameRate_result() noexcept;
+  int32_t success;
+
+  _Server_Browser_GetFrameRate_result__isset __isset;
+
+  void __set_success(const int32_t val);
+
+  bool operator == (const Server_Browser_GetFrameRate_result & rhs) const;
+  bool operator != (const Server_Browser_GetFrameRate_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_Browser_GetFrameRate_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_Browser_GetFrameRate_presult__isset {
+  _Server_Browser_GetFrameRate_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_Browser_GetFrameRate_presult__isset;
+
+class Server_Browser_GetFrameRate_presult {
+ public:
+
+
+  virtual ~Server_Browser_GetFrameRate_presult() noexcept;
+  int32_t* success;
+
+  _Server_Browser_GetFrameRate_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
 
 };
 
@@ -9674,8 +9776,8 @@ class ServerClient : virtual public ServerIf {
   int32_t Browser_Create(const int32_t cid, const  ::thrift_codegen::RObject& requestContext) override;
   void send_Browser_Create(const int32_t cid, const  ::thrift_codegen::RObject& requestContext);
   int32_t recv_Browser_Create();
-  void Browser_StartNativeCreation(const int32_t bid, const std::string& url) override;
-  void send_Browser_StartNativeCreation(const int32_t bid, const std::string& url);
+  void Browser_StartNativeCreation(const int32_t bid, const std::string& url, const int32_t windowlessFrameRate) override;
+  void send_Browser_StartNativeCreation(const int32_t bid, const std::string& url, const int32_t windowlessFrameRate);
   void Browser_OpenDevTools(const int32_t bid, const int32_t x, const int32_t y) override;
   void send_Browser_OpenDevTools(const int32_t bid, const int32_t x, const int32_t y);
   void Browser_Close(const int32_t bid) override;
@@ -9773,6 +9875,9 @@ class ServerClient : virtual public ServerIf {
   void send_Browser_ReplaceMisspelling(const int32_t bid, const std::string& word);
   void Browser_SetFrameRate(const int32_t bid, const int32_t val) override;
   void send_Browser_SetFrameRate(const int32_t bid, const int32_t val);
+  int32_t Browser_GetFrameRate(const int32_t bid) override;
+  void send_Browser_GetFrameRate(const int32_t bid);
+  int32_t recv_Browser_GetFrameRate();
   void Browser_AddDevToolsMessageObserver( ::thrift_codegen::RObject& _return, const int32_t bid, const  ::thrift_codegen::RObject& observer) override;
   void send_Browser_AddDevToolsMessageObserver(const int32_t bid, const  ::thrift_codegen::RObject& observer);
   void recv_Browser_AddDevToolsMessageObserver( ::thrift_codegen::RObject& _return);
@@ -10036,6 +10141,7 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
   void process_Browser_StopFinding(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Browser_ReplaceMisspelling(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Browser_SetFrameRate(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_Browser_GetFrameRate(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Browser_AddDevToolsMessageObserver(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Browser_ExecuteDevToolsMethod(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Browser_RunFileDialog(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -10169,6 +10275,7 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
     processMap_["Browser_StopFinding"] = &ServerProcessor::process_Browser_StopFinding;
     processMap_["Browser_ReplaceMisspelling"] = &ServerProcessor::process_Browser_ReplaceMisspelling;
     processMap_["Browser_SetFrameRate"] = &ServerProcessor::process_Browser_SetFrameRate;
+    processMap_["Browser_GetFrameRate"] = &ServerProcessor::process_Browser_GetFrameRate;
     processMap_["Browser_AddDevToolsMessageObserver"] = &ServerProcessor::process_Browser_AddDevToolsMessageObserver;
     processMap_["Browser_ExecuteDevToolsMethod"] = &ServerProcessor::process_Browser_ExecuteDevToolsMethod;
     processMap_["Browser_RunFileDialog"] = &ServerProcessor::process_Browser_RunFileDialog;
@@ -10399,13 +10506,13 @@ class ServerMultiface : virtual public ServerIf {
     return ifaces_[i]->Browser_Create(cid, requestContext);
   }
 
-  void Browser_StartNativeCreation(const int32_t bid, const std::string& url) override {
+  void Browser_StartNativeCreation(const int32_t bid, const std::string& url, const int32_t windowlessFrameRate) override {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->Browser_StartNativeCreation(bid, url);
+      ifaces_[i]->Browser_StartNativeCreation(bid, url, windowlessFrameRate);
     }
-    ifaces_[i]->Browser_StartNativeCreation(bid, url);
+    ifaces_[i]->Browser_StartNativeCreation(bid, url, windowlessFrameRate);
   }
 
   void Browser_OpenDevTools(const int32_t bid, const int32_t x, const int32_t y) override {
@@ -10782,6 +10889,15 @@ class ServerMultiface : virtual public ServerIf {
       ifaces_[i]->Browser_SetFrameRate(bid, val);
     }
     ifaces_[i]->Browser_SetFrameRate(bid, val);
+  }
+
+  int32_t Browser_GetFrameRate(const int32_t bid) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->Browser_GetFrameRate(bid);
+    }
+    return ifaces_[i]->Browser_GetFrameRate(bid);
   }
 
   void Browser_AddDevToolsMessageObserver( ::thrift_codegen::RObject& _return, const int32_t bid, const  ::thrift_codegen::RObject& observer) override {
@@ -11534,8 +11650,8 @@ class ServerConcurrentClient : virtual public ServerIf {
   int32_t Browser_Create(const int32_t cid, const  ::thrift_codegen::RObject& requestContext) override;
   int32_t send_Browser_Create(const int32_t cid, const  ::thrift_codegen::RObject& requestContext);
   int32_t recv_Browser_Create(const int32_t seqid);
-  void Browser_StartNativeCreation(const int32_t bid, const std::string& url) override;
-  void send_Browser_StartNativeCreation(const int32_t bid, const std::string& url);
+  void Browser_StartNativeCreation(const int32_t bid, const std::string& url, const int32_t windowlessFrameRate) override;
+  void send_Browser_StartNativeCreation(const int32_t bid, const std::string& url, const int32_t windowlessFrameRate);
   void Browser_OpenDevTools(const int32_t bid, const int32_t x, const int32_t y) override;
   void send_Browser_OpenDevTools(const int32_t bid, const int32_t x, const int32_t y);
   void Browser_Close(const int32_t bid) override;
@@ -11633,6 +11749,9 @@ class ServerConcurrentClient : virtual public ServerIf {
   void send_Browser_ReplaceMisspelling(const int32_t bid, const std::string& word);
   void Browser_SetFrameRate(const int32_t bid, const int32_t val) override;
   void send_Browser_SetFrameRate(const int32_t bid, const int32_t val);
+  int32_t Browser_GetFrameRate(const int32_t bid) override;
+  int32_t send_Browser_GetFrameRate(const int32_t bid);
+  int32_t recv_Browser_GetFrameRate(const int32_t seqid);
   void Browser_AddDevToolsMessageObserver( ::thrift_codegen::RObject& _return, const int32_t bid, const  ::thrift_codegen::RObject& observer) override;
   int32_t send_Browser_AddDevToolsMessageObserver(const int32_t bid, const  ::thrift_codegen::RObject& observer);
   void recv_Browser_AddDevToolsMessageObserver( ::thrift_codegen::RObject& _return, const int32_t seqid);
