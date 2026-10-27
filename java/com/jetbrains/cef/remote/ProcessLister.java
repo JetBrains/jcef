@@ -62,7 +62,7 @@ public class ProcessLister {
                             defaultArgsServer = new RunningServerInfo(new ThriftTransport(9999), pid, ppid, cmdLine);
                         } else {
                             final int pos1 = line.indexOf(" ", pos0 + 7);
-                            String sport = line.substring(pos0 + 7, pos1);
+                            String sport = pos1 == -1 ? line.substring(pos0 + 7) : line.substring(pos0 + 7, pos1);
                             try {
                                 result.add(new RunningServerInfo(new ThriftTransport(Integer.parseInt(sport)), pid, ppid, cmdLine));
                             } catch (NumberFormatException e) {
