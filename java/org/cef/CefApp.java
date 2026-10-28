@@ -308,7 +308,7 @@ public class CefApp extends CefAppHandlerAdapter {
                 CefLog.Debug("CefApp.getInstance: found %d instances of CefServer, so change default server transport %s to %s", count, ThriftTransport.ourDefaultServer, st);
             } else {
                 // Ensure that default transport isn't busy.
-                if (ThriftTransport.isTcpUsed() && !ThriftTransport.isPortFree(ThriftTransport.ourDefaultServer.getPort())) {
+                if (ThriftTransport.isTcpUsed() && !ThriftTransport.isPortFree(ThriftTransport.ourDefaultServer.getPort()) && NativeServerManager.isRunning(ThriftTransport.ourDefaultServer) == null) {
                     st = new ThriftTransport(ThriftTransport.findFreePort());
                     CefLog.Debug("CefApp.getInstance: default server transport port %s is busy, was changed to %s", ThriftTransport.ourDefaultServer, st);
                 }
