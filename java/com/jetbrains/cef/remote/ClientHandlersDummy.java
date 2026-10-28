@@ -141,6 +141,11 @@ public class ClientHandlersDummy implements ClientHandlers.Iface{
     }
 
     @Override
+    public boolean DisplayHandler_OnCursorChange(int bid, int cursor_type) {
+        return false;
+    }
+
+    @Override
     public boolean KeyboardHandler_OnPreKeyEvent(int bid, KeyEvent event) throws TException {
         return false;
     }

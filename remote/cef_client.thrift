@@ -142,6 +142,8 @@ service ClientHandlers {
     bool        DisplayHandler_OnTooltip(1:i32 bid, 2:string text),
     oneway void DisplayHandler_OnStatusMessage(1:i32 bid, 2:string value),
     bool        DisplayHandler_OnConsoleMessage(1:i32 bid, 2:string level, 3:string message, 4: string source, 5: i32 line),
+    bool        DisplayHandler_OnCursorChange(1:i32 bid, 2:i32 cursor_type);
+
     //
     // CefKeyboardHandler (will be called on the UI thread). TODO: do we really need CefKeyboardHandler in OSR ?
     //

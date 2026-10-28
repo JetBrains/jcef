@@ -69,3 +69,13 @@ bool RemoteDisplayHandler::OnConsoleMessage(CefRefPtr<CefBrowser> browser,
     return s->DisplayHandler_OnConsoleMessage(bid, slevel, message.ToString(), source.ToString(), line);
   }, false);
 }
+
+bool RemoteDisplayHandler::OnCursorChange(CefRefPtr<CefBrowser> browser,
+                            CefCursorHandle cursor,
+                            cef_cursor_type_t type,
+                            const CefCursorInfo& custom_cursor_info) {
+  FIND_BID_OR_RETURN_VAL(false);
+  return myService->exec<bool>([&](const JavaService& s){
+    return s->DisplayHandler_OnCursorChange(bid, (int)type);
+  }, false);
+}

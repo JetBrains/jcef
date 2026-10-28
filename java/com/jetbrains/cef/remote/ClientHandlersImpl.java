@@ -370,6 +370,70 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         return dh.onConsoleMessage(browser, logSeverity, message, source, line);
     }
 
+    @Override
+    public boolean DisplayHandler_OnCursorChange(int bid, int cursor_type) {
+        RemoteBrowser browser = getRemoteBrowser(bid);
+        if (browser == null) return false;
+        CefDisplayHandler dh = browser.getOwner().getDisplayHandler();
+        if (dh == null) return false;
+
+        final int javaCursorId = getJavaCursorId(cursor_type);
+        final boolean isHandled = dh.onCursorChange(browser, javaCursorId);
+        if (isHandled)
+            return true;
+
+        CefRenderHandler rhandler = browser.getRenderHandler();
+        return rhandler == null ? false : rhandler.onCursorChange(browser, javaCursorId);
+    }
+
+    private static int getJavaCursorId(int cef_cursor_type) {
+        // CEF cursor type values.
+        final int CT_CROSS = 1;
+        final int CT_HAND = 2;
+        final int CT_IBEAM = 3;
+        final int CT_WAIT = 4;
+        final int CT_EASTRESIZE = 6;
+        final int CT_NORTHRESIZE = 7;
+        final int CT_NORTHEASTRESIZE = 8;
+        final int CT_NORTHWESTRESIZE = 9;
+        final int CT_SOUTHRESIZE = 10;
+        final int CT_SOUTHEASTRESIZE = 11;
+        final int CT_SOUTHWESTRESIZE = 12;
+        final int CT_WESTRESIZE = 13;
+        final int CT_MOVE = 29;
+
+        switch (cef_cursor_type) {
+            case CT_CROSS:
+                return Cursor.CROSSHAIR_CURSOR;
+            case CT_HAND:
+                return Cursor.HAND_CURSOR;
+            case CT_IBEAM:
+                return Cursor.TEXT_CURSOR;
+            case CT_WAIT:
+                return Cursor.WAIT_CURSOR;
+            case CT_EASTRESIZE:
+                return Cursor.E_RESIZE_CURSOR;
+            case CT_NORTHRESIZE:
+                return Cursor.N_RESIZE_CURSOR;
+            case CT_NORTHEASTRESIZE:
+                return Cursor.NE_RESIZE_CURSOR;
+            case CT_NORTHWESTRESIZE:
+                return Cursor.NW_RESIZE_CURSOR;
+            case CT_SOUTHRESIZE:
+                return Cursor.S_RESIZE_CURSOR;
+            case CT_SOUTHEASTRESIZE:
+                return Cursor.SE_RESIZE_CURSOR;
+            case CT_SOUTHWESTRESIZE:
+                return Cursor.SW_RESIZE_CURSOR;
+            case CT_WESTRESIZE:
+                return Cursor.W_RESIZE_CURSOR;
+            case CT_MOVE:
+                return Cursor.MOVE_CURSOR;
+            default:
+                return Cursor.DEFAULT_CURSOR;
+        }
+    }
+
     //
     // CefKeyboardHandler (all methods will be called on the UI thread).
     //
