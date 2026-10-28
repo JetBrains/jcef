@@ -65,6 +65,7 @@ service Server {
     void           Browser_LoadRequest(1: i32 bid, 2: shared.RObject request),
     string         Browser_GetURL(1: i32 bid),
     oneway void    Browser_ExecuteJavaScript(1: i32 bid, 2: string code, 3: string url, 4: i32 line),
+    oneway void    Browser_ExecuteJavaScriptInFocusedFrame(1: i32 bid, 2: string code, 3: string url, 4: i32 line),
     oneway void    Browser_WasResized(1: i32 bid), // The browser will then call CefRenderHandler#GetViewRect to update the size of view area with the new values.
     oneway void    Browser_NotifyScreenInfoChanged(1: i32 bid),  // The browser will then call CefRenderHandler#GetScreenInfo to update the screen information with the new values.
     oneway void    Browser_Invalidate(1: i32 bid),

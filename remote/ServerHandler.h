@@ -52,6 +52,7 @@ class ServerHandler : public thrift_codegen::ServerIf {
   void Browser_LoadRequest(const int32_t bid, const thrift_codegen::RObject & request) override;
   void Browser_GetURL(std::string& _return, const int32_t bid) override;
   void Browser_ExecuteJavaScript(const int32_t bid,const std::string& code,const std::string& url,const int32_t line) override;
+  void Browser_ExecuteJavaScriptInFocusedFrame(const int32_t bid,const std::string& code,const std::string& url,const int32_t line) override;
   void Browser_WasResized(const int32_t bid) override;
   void Browser_NotifyScreenInfoChanged(const int32_t bid) override;
   void Browser_Invalidate(const int32_t bid) override;

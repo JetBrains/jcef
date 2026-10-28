@@ -362,6 +362,18 @@ void ServerHandler::Browser_ExecuteJavaScript(const int32_t bid,const std::strin
   browser->GetMainFrame()->ExecuteJavaScript(code, url, line);
 }
 
+void ServerHandler::Browser_ExecuteJavaScriptInFocusedFrame(const int32_t bid,const std::string& code,const std::string& url,const int32_t line) {
+  MEASURE;
+  GET_BROWSER_OR_RETURN()
+  auto focusedFrame = browser->GetFocusedFrame();
+  if (!focusedFrame)
+    return;
+
+  if (doTraceBrowserJS && Log::isTraceEnabled())
+    Log::trace("ServerHandler: Browser_ExecuteJavaScriptInFocusedFrame, bid=%d, code='%s', url='%s', line=%d", bid, code.c_str(), url.c_str(), line);
+  focusedFrame->ExecuteJavaScript(code, url, line);
+}
+
 void ServerHandler::Frame_ExecuteJavaScript(const int32_t frameId, const std::string& code, const std::string& url, const int32_t line) {
   MEASURE;
   if (doTraceBrowserJS && Log::isTraceEnabled())

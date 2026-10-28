@@ -140,6 +140,11 @@ class ServerHandler : virtual public ServerIf {
     printf("Browser_ExecuteJavaScript\n");
   }
 
+  void Browser_ExecuteJavaScriptInFocusedFrame(const int32_t bid, const std::string& code, const std::string& url, const int32_t line) {
+    // Your implementation goes here
+    printf("Browser_ExecuteJavaScriptInFocusedFrame\n");
+  }
+
   void Browser_WasResized(const int32_t bid) {
     // Your implementation goes here
     printf("Browser_WasResized\n");
