@@ -46,6 +46,7 @@ class ServerIf {
   virtual void Browser_LoadRequest(const int32_t bid, const  ::thrift_codegen::RObject& request) = 0;
   virtual void Browser_GetURL(std::string& _return, const int32_t bid) = 0;
   virtual void Browser_ExecuteJavaScript(const int32_t bid, const std::string& code, const std::string& url, const int32_t line) = 0;
+  virtual void Browser_ExecuteJavaScriptInFocusedFrame(const int32_t bid, const std::string& code, const std::string& url, const int32_t line) = 0;
   virtual void Browser_WasResized(const int32_t bid) = 0;
   virtual void Browser_NotifyScreenInfoChanged(const int32_t bid) = 0;
   virtual void Browser_Invalidate(const int32_t bid) = 0;
@@ -256,6 +257,9 @@ class ServerNull : virtual public ServerIf {
     return;
   }
   void Browser_ExecuteJavaScript(const int32_t /* bid */, const std::string& /* code */, const std::string& /* url */, const int32_t /* line */) override {
+    return;
+  }
+  void Browser_ExecuteJavaScriptInFocusedFrame(const int32_t /* bid */, const std::string& /* code */, const std::string& /* url */, const int32_t /* line */) override {
     return;
   }
   void Browser_WasResized(const int32_t /* bid */) override {
@@ -2164,6 +2168,64 @@ class Server_Browser_ExecuteJavaScript_pargs {
 
 
   virtual ~Server_Browser_ExecuteJavaScript_pargs() noexcept;
+  const int32_t* bid;
+  const std::string* code;
+  const std::string* url;
+  const int32_t* line;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_Browser_ExecuteJavaScriptInFocusedFrame_args__isset {
+  _Server_Browser_ExecuteJavaScriptInFocusedFrame_args__isset() : bid(false), code(false), url(false), line(false) {}
+  bool bid :1;
+  bool code :1;
+  bool url :1;
+  bool line :1;
+} _Server_Browser_ExecuteJavaScriptInFocusedFrame_args__isset;
+
+class Server_Browser_ExecuteJavaScriptInFocusedFrame_args {
+ public:
+
+  Server_Browser_ExecuteJavaScriptInFocusedFrame_args(const Server_Browser_ExecuteJavaScriptInFocusedFrame_args&);
+  Server_Browser_ExecuteJavaScriptInFocusedFrame_args& operator=(const Server_Browser_ExecuteJavaScriptInFocusedFrame_args&);
+  Server_Browser_ExecuteJavaScriptInFocusedFrame_args() noexcept;
+
+  virtual ~Server_Browser_ExecuteJavaScriptInFocusedFrame_args() noexcept;
+  int32_t bid;
+  std::string code;
+  std::string url;
+  int32_t line;
+
+  _Server_Browser_ExecuteJavaScriptInFocusedFrame_args__isset __isset;
+
+  void __set_bid(const int32_t val);
+
+  void __set_code(const std::string& val);
+
+  void __set_url(const std::string& val);
+
+  void __set_line(const int32_t val);
+
+  bool operator == (const Server_Browser_ExecuteJavaScriptInFocusedFrame_args & rhs) const;
+  bool operator != (const Server_Browser_ExecuteJavaScriptInFocusedFrame_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_Browser_ExecuteJavaScriptInFocusedFrame_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_Browser_ExecuteJavaScriptInFocusedFrame_pargs {
+ public:
+
+
+  virtual ~Server_Browser_ExecuteJavaScriptInFocusedFrame_pargs() noexcept;
   const int32_t* bid;
   const std::string* code;
   const std::string* url;
@@ -9798,6 +9860,8 @@ class ServerClient : virtual public ServerIf {
   void recv_Browser_GetURL(std::string& _return);
   void Browser_ExecuteJavaScript(const int32_t bid, const std::string& code, const std::string& url, const int32_t line) override;
   void send_Browser_ExecuteJavaScript(const int32_t bid, const std::string& code, const std::string& url, const int32_t line);
+  void Browser_ExecuteJavaScriptInFocusedFrame(const int32_t bid, const std::string& code, const std::string& url, const int32_t line) override;
+  void send_Browser_ExecuteJavaScriptInFocusedFrame(const int32_t bid, const std::string& code, const std::string& url, const int32_t line);
   void Browser_WasResized(const int32_t bid) override;
   void send_Browser_WasResized(const int32_t bid);
   void Browser_NotifyScreenInfoChanged(const int32_t bid) override;
@@ -10109,6 +10173,7 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
   void process_Browser_LoadRequest(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Browser_GetURL(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Browser_ExecuteJavaScript(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_Browser_ExecuteJavaScriptInFocusedFrame(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Browser_WasResized(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Browser_NotifyScreenInfoChanged(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Browser_Invalidate(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -10243,6 +10308,7 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
     processMap_["Browser_LoadRequest"] = &ServerProcessor::process_Browser_LoadRequest;
     processMap_["Browser_GetURL"] = &ServerProcessor::process_Browser_GetURL;
     processMap_["Browser_ExecuteJavaScript"] = &ServerProcessor::process_Browser_ExecuteJavaScript;
+    processMap_["Browser_ExecuteJavaScriptInFocusedFrame"] = &ServerProcessor::process_Browser_ExecuteJavaScriptInFocusedFrame;
     processMap_["Browser_WasResized"] = &ServerProcessor::process_Browser_WasResized;
     processMap_["Browser_NotifyScreenInfoChanged"] = &ServerProcessor::process_Browser_NotifyScreenInfoChanged;
     processMap_["Browser_Invalidate"] = &ServerProcessor::process_Browser_Invalidate;
@@ -10595,6 +10661,15 @@ class ServerMultiface : virtual public ServerIf {
       ifaces_[i]->Browser_ExecuteJavaScript(bid, code, url, line);
     }
     ifaces_[i]->Browser_ExecuteJavaScript(bid, code, url, line);
+  }
+
+  void Browser_ExecuteJavaScriptInFocusedFrame(const int32_t bid, const std::string& code, const std::string& url, const int32_t line) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->Browser_ExecuteJavaScriptInFocusedFrame(bid, code, url, line);
+    }
+    ifaces_[i]->Browser_ExecuteJavaScriptInFocusedFrame(bid, code, url, line);
   }
 
   void Browser_WasResized(const int32_t bid) override {
@@ -11672,6 +11747,8 @@ class ServerConcurrentClient : virtual public ServerIf {
   void recv_Browser_GetURL(std::string& _return, const int32_t seqid);
   void Browser_ExecuteJavaScript(const int32_t bid, const std::string& code, const std::string& url, const int32_t line) override;
   void send_Browser_ExecuteJavaScript(const int32_t bid, const std::string& code, const std::string& url, const int32_t line);
+  void Browser_ExecuteJavaScriptInFocusedFrame(const int32_t bid, const std::string& code, const std::string& url, const int32_t line) override;
+  void send_Browser_ExecuteJavaScriptInFocusedFrame(const int32_t bid, const std::string& code, const std::string& url, const int32_t line);
   void Browser_WasResized(const int32_t bid) override;
   void send_Browser_WasResized(const int32_t bid);
   void Browser_NotifyScreenInfoChanged(const int32_t bid) override;

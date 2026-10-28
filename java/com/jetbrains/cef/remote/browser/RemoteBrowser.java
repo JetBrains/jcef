@@ -16,6 +16,7 @@ import com.jetbrains.cef.remote.thrift_codegen.Range;
 import com.jetbrains.cef.remote.thrift_codegen.Style;
 import org.cef.CefBrowserSettings;
 import org.cef.CefClient;
+import org.cef.OS;
 import org.cef.browser.*;
 import org.cef.callback.CefPdfPrintCallback;
 import org.cef.callback.CefRunFileDialogCallback;
@@ -700,6 +701,9 @@ public class RemoteBrowser implements CefBrowser {
         if (myIsClosing)
             return;
 
+        if (processKeyboardShortcuts(e))
+            return;
+
         var cefKeyEvent = PlatformUtils.getCefKeyEventAttributes(e);
 
         myRpc.invokeLater(s -> s.Browser_SendCefKeyEvent(myBid, cefKeyEvent));
@@ -875,5 +879,82 @@ public class RemoteBrowser implements CefBrowser {
     @Override
     public boolean isWindowless() {
         return true;
+    }
+
+    private boolean processKeyboardShortcuts(KeyEvent e) {
+        if (!OS.isMacintosh())
+            return false;
+
+        if (e.getID() != KeyEvent.KEY_PRESSED)
+            return false;
+
+        // Extract modifiers
+        boolean isCmd = e.isMetaDown();
+        boolean isShift = e.isShiftDown();
+        boolean isAlt = e.isAltDown();
+
+        // If no relevant modifiers are pressed, let CEF handle it normally
+        if (!isCmd && !isShift && !isAlt)
+            return false;
+
+        // Get the corresponding JavaScript command
+        String jsCommand = getSelectionJsCommand(e.getKeyCode(), isCmd, isShift, isAlt);
+
+        if (jsCommand == null)
+            return false; // Return false to let CEF handle the key event normally (e.g., typing, deletion)
+
+        // Execute in the focused frame to ensure it works inside <iframe>
+        myDelayed.runOrDelay(()->{
+            myRpc.exec((s)->{
+                s.Browser_ExecuteJavaScriptInFocusedFrame(myBid, jsCommand, myUrl, 0);
+            });
+        }, "executeJavaScriptInFocusedFrame");
+
+        // Return true to swallow the event.
+        // This prevents CEF from processing the raw key and messing up the selection.
+        return true;
+    }
+
+    /**
+     * Maps the Key Code and Modifiers to the WebKit Selection.modify() JS API
+     */
+    private static String getSelectionJsCommand(int keyCode, boolean isCmd, boolean isShift, boolean isAlt) {
+        // 'extend' modifies the selection, 'move' just moves the cursor
+        String modifyAction = isShift ? "extend" : "move";
+
+        switch (keyCode) {
+            case KeyEvent.VK_LEFT:
+                if (isCmd) return buildJs(modifyAction, "backward", "lineboundary");
+                if (isAlt) return buildJs(modifyAction, "backward", "word");
+                return buildJs(modifyAction, "backward", "character");
+
+            case KeyEvent.VK_RIGHT:
+                if (isCmd) return buildJs(modifyAction, "forward", "lineboundary");
+                if (isAlt) return buildJs(modifyAction, "forward", "word");
+                return buildJs(modifyAction, "forward", "character");
+
+            case KeyEvent.VK_UP:
+                if (isCmd) return buildJs(modifyAction, "backward", "documentboundary");
+                return buildJs(modifyAction, "backward", "line");
+
+            case KeyEvent.VK_DOWN:
+                if (isCmd) return buildJs(modifyAction, "forward", "documentboundary");
+                return buildJs(modifyAction, "forward", "line");
+
+            case KeyEvent.VK_A:
+                if (isCmd && !isShift) return "document.execCommand('selectAll');";
+                break;
+
+            case KeyEvent.VK_HOME:
+                return buildJs(modifyAction, "backward", "documentboundary");
+            case KeyEvent.VK_END:
+                return buildJs(modifyAction, "forward", "documentboundary");
+        }
+
+        return null; // Unhandled shortcut, let CEF process it
+    }
+
+    private static String buildJs(String action, String direction, String granularity) {
+        return String.format("window.getSelection().modify('%s', '%s', '%s');", action, direction, granularity);
     }
 }

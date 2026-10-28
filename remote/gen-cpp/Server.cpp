@@ -3316,6 +3316,139 @@ uint32_t Server_Browser_ExecuteJavaScript_pargs::write(::apache::thrift::protoco
 }
 
 
+Server_Browser_ExecuteJavaScriptInFocusedFrame_args::~Server_Browser_ExecuteJavaScriptInFocusedFrame_args() noexcept {
+}
+
+Server_Browser_ExecuteJavaScriptInFocusedFrame_args::Server_Browser_ExecuteJavaScriptInFocusedFrame_args() noexcept
+   : bid(0),
+     code(),
+     url(),
+     line(0) {
+}
+
+uint32_t Server_Browser_ExecuteJavaScriptInFocusedFrame_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->bid);
+          this->__isset.bid = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->code);
+          this->__isset.code = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->url);
+          this->__isset.url = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 4:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->line);
+          this->__isset.line = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Server_Browser_ExecuteJavaScriptInFocusedFrame_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_Browser_ExecuteJavaScriptInFocusedFrame_args");
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->bid);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("code", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeString(this->code);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("url", ::apache::thrift::protocol::T_STRING, 3);
+  xfer += oprot->writeString(this->url);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("line", ::apache::thrift::protocol::T_I32, 4);
+  xfer += oprot->writeI32(this->line);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_Browser_ExecuteJavaScriptInFocusedFrame_pargs::~Server_Browser_ExecuteJavaScriptInFocusedFrame_pargs() noexcept {
+}
+
+
+uint32_t Server_Browser_ExecuteJavaScriptInFocusedFrame_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_Browser_ExecuteJavaScriptInFocusedFrame_pargs");
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32((*(this->bid)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("code", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeString((*(this->code)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("url", ::apache::thrift::protocol::T_STRING, 3);
+  xfer += oprot->writeString((*(this->url)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("line", ::apache::thrift::protocol::T_I32, 4);
+  xfer += oprot->writeI32((*(this->line)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
 Server_Browser_WasResized_args::~Server_Browser_WasResized_args() noexcept {
 }
 
@@ -20555,6 +20688,28 @@ void ServerClient::send_Browser_ExecuteJavaScript(const int32_t bid, const std::
   oprot_->getTransport()->flush();
 }
 
+void ServerClient::Browser_ExecuteJavaScriptInFocusedFrame(const int32_t bid, const std::string& code, const std::string& url, const int32_t line)
+{
+  send_Browser_ExecuteJavaScriptInFocusedFrame(bid, code, url, line);
+}
+
+void ServerClient::send_Browser_ExecuteJavaScriptInFocusedFrame(const int32_t bid, const std::string& code, const std::string& url, const int32_t line)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("Browser_ExecuteJavaScriptInFocusedFrame", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  Server_Browser_ExecuteJavaScriptInFocusedFrame_pargs args;
+  args.bid = &bid;
+  args.code = &code;
+  args.url = &url;
+  args.line = &line;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
 void ServerClient::Browser_WasResized(const int32_t bid)
 {
   send_Browser_WasResized(bid);
@@ -25919,6 +26074,43 @@ void ServerProcessor::process_Browser_ExecuteJavaScript(int32_t, ::apache::thrif
 
   if (this->eventHandler_.get() != nullptr) {
     this->eventHandler_->asyncComplete(ctx, "Server.Browser_ExecuteJavaScript");
+  }
+
+  return;
+}
+
+void ServerProcessor::process_Browser_ExecuteJavaScriptInFocusedFrame(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("Server.Browser_ExecuteJavaScriptInFocusedFrame", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "Server.Browser_ExecuteJavaScriptInFocusedFrame");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "Server.Browser_ExecuteJavaScriptInFocusedFrame");
+  }
+
+  Server_Browser_ExecuteJavaScriptInFocusedFrame_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "Server.Browser_ExecuteJavaScriptInFocusedFrame", bytes);
+  }
+
+  try {
+    iface_->Browser_ExecuteJavaScriptInFocusedFrame(args.bid, args.code, args.url, args.line);
+  } catch (const std::exception&) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "Server.Browser_ExecuteJavaScriptInFocusedFrame");
+    }
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->asyncComplete(ctx, "Server.Browser_ExecuteJavaScriptInFocusedFrame");
   }
 
   return;
@@ -32042,6 +32234,31 @@ void ServerConcurrentClient::send_Browser_ExecuteJavaScript(const int32_t bid, c
   oprot_->writeMessageBegin("Browser_ExecuteJavaScript", ::apache::thrift::protocol::T_ONEWAY, cseqid);
 
   Server_Browser_ExecuteJavaScript_pargs args;
+  args.bid = &bid;
+  args.code = &code;
+  args.url = &url;
+  args.line = &line;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+}
+
+void ServerConcurrentClient::Browser_ExecuteJavaScriptInFocusedFrame(const int32_t bid, const std::string& code, const std::string& url, const int32_t line)
+{
+  send_Browser_ExecuteJavaScriptInFocusedFrame(bid, code, url, line);
+}
+
+void ServerConcurrentClient::send_Browser_ExecuteJavaScriptInFocusedFrame(const int32_t bid, const std::string& code, const std::string& url, const int32_t line)
+{
+  int32_t cseqid = 0;
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("Browser_ExecuteJavaScriptInFocusedFrame", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  Server_Browser_ExecuteJavaScriptInFocusedFrame_pargs args;
   args.bid = &bid;
   args.code = &code;
   args.url = &url;
