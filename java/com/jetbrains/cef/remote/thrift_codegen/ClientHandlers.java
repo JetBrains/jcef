@@ -63,6 +63,8 @@ public class ClientHandlers {
 
     public boolean DisplayHandler_OnConsoleMessage(int bid, java.lang.String level, java.lang.String message, java.lang.String source, int line) throws com.jetbrains.cef.remote.thrift.TException;
 
+    public boolean DisplayHandler_OnCursorChange(int bid, int cursor_type) throws com.jetbrains.cef.remote.thrift.TException;
+
     public boolean KeyboardHandler_OnPreKeyEvent(int bid, com.jetbrains.cef.remote.thrift_codegen.KeyEvent event) throws com.jetbrains.cef.remote.thrift.TException;
 
     public boolean KeyboardHandler_OnKeyEvent(int bid, com.jetbrains.cef.remote.thrift_codegen.KeyEvent event) throws com.jetbrains.cef.remote.thrift.TException;
@@ -216,6 +218,8 @@ public class ClientHandlers {
     public void DisplayHandler_OnStatusMessage(int bid, java.lang.String value, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
     public void DisplayHandler_OnConsoleMessage(int bid, java.lang.String level, java.lang.String message, java.lang.String source, int line, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void DisplayHandler_OnCursorChange(int bid, int cursor_type, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
     public void KeyboardHandler_OnPreKeyEvent(int bid, com.jetbrains.cef.remote.thrift_codegen.KeyEvent event, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
@@ -842,6 +846,31 @@ public class ClientHandlers {
         return result.success;
       }
       throw new com.jetbrains.cef.remote.thrift.TApplicationException(com.jetbrains.cef.remote.thrift.TApplicationException.MISSING_RESULT, "DisplayHandler_OnConsoleMessage failed: unknown result");
+    }
+
+    @Override
+    public boolean DisplayHandler_OnCursorChange(int bid, int cursor_type) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      send_DisplayHandler_OnCursorChange(bid, cursor_type);
+      return recv_DisplayHandler_OnCursorChange();
+    }
+
+    public void send_DisplayHandler_OnCursorChange(int bid, int cursor_type) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      DisplayHandler_OnCursorChange_args args = new DisplayHandler_OnCursorChange_args();
+      args.setBid(bid);
+      args.setCursor_type(cursor_type);
+      sendBase("DisplayHandler_OnCursorChange", args);
+    }
+
+    public boolean recv_DisplayHandler_OnCursorChange() throws com.jetbrains.cef.remote.thrift.TException
+    {
+      DisplayHandler_OnCursorChange_result result = new DisplayHandler_OnCursorChange_result();
+      receiveBase(result, "DisplayHandler_OnCursorChange");
+      if (result.isSetSuccess()) {
+        return result.success;
+      }
+      throw new com.jetbrains.cef.remote.thrift.TApplicationException(com.jetbrains.cef.remote.thrift.TApplicationException.MISSING_RESULT, "DisplayHandler_OnCursorChange failed: unknown result");
     }
 
     @Override
@@ -2992,6 +3021,44 @@ public class ClientHandlers {
     }
 
     @Override
+    public void DisplayHandler_OnCursorChange(int bid, int cursor_type, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+      checkReady();
+      DisplayHandler_OnCursorChange_call method_call = new DisplayHandler_OnCursorChange_call(bid, cursor_type, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class DisplayHandler_OnCursorChange_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<java.lang.Boolean> {
+      private int bid;
+      private int cursor_type;
+      public DisplayHandler_OnCursorChange_call(int bid, int cursor_type, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, false);
+        this.bid = bid;
+        this.cursor_type = cursor_type;
+      }
+
+      @Override
+      public void write_args(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("DisplayHandler_OnCursorChange", com.jetbrains.cef.remote.thrift.protocol.TMessageType.CALL, 0));
+        DisplayHandler_OnCursorChange_args args = new DisplayHandler_OnCursorChange_args();
+        args.setBid(bid);
+        args.setCursor_type(cursor_type);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public java.lang.Boolean getResult() throws com.jetbrains.cef.remote.thrift.TException {
+        if (getState() != com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport memoryTransport = new com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        com.jetbrains.cef.remote.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return (new Client(prot)).recv_DisplayHandler_OnCursorChange();
+      }
+    }
+
+    @Override
     public void KeyboardHandler_OnPreKeyEvent(int bid, com.jetbrains.cef.remote.thrift_codegen.KeyEvent event, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
       checkReady();
       KeyboardHandler_OnPreKeyEvent_call method_call = new KeyboardHandler_OnPreKeyEvent_call(bid, event, resultHandler, this, ___protocolFactory, ___transport);
@@ -5116,6 +5183,7 @@ public class ClientHandlers {
       processMap.put("DisplayHandler_OnTooltip", new DisplayHandler_OnTooltip());
       processMap.put("DisplayHandler_OnStatusMessage", new DisplayHandler_OnStatusMessage());
       processMap.put("DisplayHandler_OnConsoleMessage", new DisplayHandler_OnConsoleMessage());
+      processMap.put("DisplayHandler_OnCursorChange", new DisplayHandler_OnCursorChange());
       processMap.put("KeyboardHandler_OnPreKeyEvent", new KeyboardHandler_OnPreKeyEvent());
       processMap.put("KeyboardHandler_OnKeyEvent", new KeyboardHandler_OnKeyEvent());
       processMap.put("FocusHandler_OnTakeFocus", new FocusHandler_OnTakeFocus());
@@ -6012,6 +6080,40 @@ public class ClientHandlers {
       public DisplayHandler_OnConsoleMessage_result getResult(I iface, DisplayHandler_OnConsoleMessage_args args) throws com.jetbrains.cef.remote.thrift.TException {
         DisplayHandler_OnConsoleMessage_result result = getEmptyResultInstance();
         result.success = iface.DisplayHandler_OnConsoleMessage(args.bid, args.level, args.message, args.source, args.line);
+        result.setSuccessIsSet(true);
+        return result;
+      }
+    }
+
+    public static class DisplayHandler_OnCursorChange<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, DisplayHandler_OnCursorChange_args, DisplayHandler_OnCursorChange_result> {
+      public DisplayHandler_OnCursorChange() {
+        super("DisplayHandler_OnCursorChange");
+      }
+
+      @Override
+      public DisplayHandler_OnCursorChange_args getEmptyArgsInstance() {
+        return new DisplayHandler_OnCursorChange_args();
+      }
+
+      @Override
+      public boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public DisplayHandler_OnCursorChange_result getEmptyResultInstance() {
+        return new DisplayHandler_OnCursorChange_result();
+      }
+
+      @Override
+      public DisplayHandler_OnCursorChange_result getResult(I iface, DisplayHandler_OnCursorChange_args args) throws com.jetbrains.cef.remote.thrift.TException {
+        DisplayHandler_OnCursorChange_result result = getEmptyResultInstance();
+        result.success = iface.DisplayHandler_OnCursorChange(args.bid, args.cursor_type);
         result.setSuccessIsSet(true);
         return result;
       }
@@ -7674,6 +7776,7 @@ public class ClientHandlers {
       processMap.put("DisplayHandler_OnTooltip", new DisplayHandler_OnTooltip());
       processMap.put("DisplayHandler_OnStatusMessage", new DisplayHandler_OnStatusMessage());
       processMap.put("DisplayHandler_OnConsoleMessage", new DisplayHandler_OnConsoleMessage());
+      processMap.put("DisplayHandler_OnCursorChange", new DisplayHandler_OnCursorChange());
       processMap.put("KeyboardHandler_OnPreKeyEvent", new KeyboardHandler_OnPreKeyEvent());
       processMap.put("KeyboardHandler_OnKeyEvent", new KeyboardHandler_OnKeyEvent());
       processMap.put("FocusHandler_OnTakeFocus", new FocusHandler_OnTakeFocus());
@@ -9243,6 +9346,79 @@ public class ClientHandlers {
       @Override
       public void start(I iface, DisplayHandler_OnConsoleMessage_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
         iface.DisplayHandler_OnConsoleMessage(args.bid, args.level, args.message, args.source, args.line,resultHandler);
+      }
+    }
+
+    public static class DisplayHandler_OnCursorChange<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, DisplayHandler_OnCursorChange_args, java.lang.Boolean, DisplayHandler_OnCursorChange_result> {
+      public DisplayHandler_OnCursorChange() {
+        super("DisplayHandler_OnCursorChange");
+      }
+
+      @Override
+      public DisplayHandler_OnCursorChange_result getEmptyResultInstance() {
+        return new DisplayHandler_OnCursorChange_result();
+      }
+
+      @Override
+      public DisplayHandler_OnCursorChange_args getEmptyArgsInstance() {
+        return new DisplayHandler_OnCursorChange_args();
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> getResultHandler(final com.jetbrains.cef.remote.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final com.jetbrains.cef.remote.thrift.AsyncProcessFunction fcall = this;
+        return new com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean>() { 
+          @Override
+          public void onComplete(java.lang.Boolean o) {
+            DisplayHandler_OnCursorChange_result result = new DisplayHandler_OnCursorChange_result();
+            result.success = o;
+            result.setSuccessIsSet(true);
+            try {
+              fcall.sendResponse(fb, result, com.jetbrains.cef.remote.thrift.protocol.TMessageType.REPLY,seqid);
+            } catch (com.jetbrains.cef.remote.thrift.transport.TTransportException e) {
+              _LOGGER.error("TTransportException writing to internal frame buffer", e);
+              fb.close();
+            } catch (java.lang.Exception e) {
+              _LOGGER.error("Exception writing to internal frame buffer", e);
+              onError(e);
+            }
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            byte msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.REPLY;
+            com.jetbrains.cef.remote.thrift.TSerializable msg;
+            DisplayHandler_OnCursorChange_result result = new DisplayHandler_OnCursorChange_result();
+            if (e instanceof com.jetbrains.cef.remote.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+              return;
+            } else if (e instanceof com.jetbrains.cef.remote.thrift.TApplicationException) {
+              _LOGGER.error("TApplicationException inside handler", e);
+              msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.EXCEPTION;
+              msg = (com.jetbrains.cef.remote.thrift.TApplicationException)e;
+            } else {
+              _LOGGER.error("Exception inside handler", e);
+              msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.EXCEPTION;
+              msg = new com.jetbrains.cef.remote.thrift.TApplicationException(com.jetbrains.cef.remote.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
+            }
+            try {
+              fcall.sendResponse(fb,msg,msgType,seqid);
+            } catch (java.lang.Exception ex) {
+              _LOGGER.error("Exception writing to internal frame buffer", ex);
+              fb.close();
+            }
+          }
+        };
+      }
+
+      @Override
+      public boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      public void start(I iface, DisplayHandler_OnCursorChange_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.DisplayHandler_OnCursorChange(args.bid, args.cursor_type,resultHandler);
       }
     }
 
@@ -30817,6 +30993,871 @@ public class ClientHandlers {
 
       @Override
       public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, DisplayHandler_OnConsoleMessage_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.incrementRecursionDepth();
+        try {
+          com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+          java.util.BitSet incoming = iprot.readBitSet(1);
+          if (incoming.get(0)) {
+            struct.success = iprot.readBool();
+            struct.setSuccessIsSet(true);
+          }
+        } finally {
+          prot.decrementRecursionDepth();
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class DisplayHandler_OnCursorChange_args implements com.jetbrains.cef.remote.thrift.TBase<DisplayHandler_OnCursorChange_args, DisplayHandler_OnCursorChange_args._Fields>, java.io.Serializable, Cloneable, Comparable<DisplayHandler_OnCursorChange_args>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("DisplayHandler_OnCursorChange_args");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField BID_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("bid", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)1);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField CURSOR_TYPE_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("cursor_type", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)2);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new DisplayHandler_OnCursorChange_argsStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new DisplayHandler_OnCursorChange_argsTupleSchemeFactory();
+
+    public int bid; // required
+    public int cursor_type; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      BID((short)1, "bid"),
+      CURSOR_TYPE((short)2, "cursor_type");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // BID
+            return BID;
+          case 2: // CURSOR_TYPE
+            return CURSOR_TYPE;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __BID_ISSET_ID = 0;
+    private static final int __CURSOR_TYPE_ISSET_ID = 1;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.BID, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("bid", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.CURSOR_TYPE, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("cursor_type", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(DisplayHandler_OnCursorChange_args.class, metaDataMap);
+    }
+
+    public DisplayHandler_OnCursorChange_args() {
+    }
+
+    public DisplayHandler_OnCursorChange_args(
+      int bid,
+      int cursor_type)
+    {
+      this();
+      this.bid = bid;
+      setBidIsSet(true);
+      this.cursor_type = cursor_type;
+      setCursor_typeIsSet(true);
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public DisplayHandler_OnCursorChange_args(DisplayHandler_OnCursorChange_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.bid = other.bid;
+      this.cursor_type = other.cursor_type;
+    }
+
+    @Override
+    public DisplayHandler_OnCursorChange_args deepCopy() {
+      return new DisplayHandler_OnCursorChange_args(this);
+    }
+
+    @Override
+    public void clear() {
+      setBidIsSet(false);
+      this.bid = 0;
+      setCursor_typeIsSet(false);
+      this.cursor_type = 0;
+    }
+
+    public int getBid() {
+      return this.bid;
+    }
+
+    public DisplayHandler_OnCursorChange_args setBid(int bid) {
+      this.bid = bid;
+      setBidIsSet(true);
+      return this;
+    }
+
+    public void unsetBid() {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    /** Returns true if field bid is set (has been assigned a value) and false otherwise */
+    public boolean isSetBid() {
+      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    public void setBidIsSet(boolean value) {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
+    }
+
+    public int getCursor_type() {
+      return this.cursor_type;
+    }
+
+    public DisplayHandler_OnCursorChange_args setCursor_type(int cursor_type) {
+      this.cursor_type = cursor_type;
+      setCursor_typeIsSet(true);
+      return this;
+    }
+
+    public void unsetCursor_type() {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __CURSOR_TYPE_ISSET_ID);
+    }
+
+    /** Returns true if field cursor_type is set (has been assigned a value) and false otherwise */
+    public boolean isSetCursor_type() {
+      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __CURSOR_TYPE_ISSET_ID);
+    }
+
+    public void setCursor_typeIsSet(boolean value) {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __CURSOR_TYPE_ISSET_ID, value);
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case BID:
+        if (value == null) {
+          unsetBid();
+        } else {
+          setBid((java.lang.Integer)value);
+        }
+        break;
+
+      case CURSOR_TYPE:
+        if (value == null) {
+          unsetCursor_type();
+        } else {
+          setCursor_type((java.lang.Integer)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case BID:
+        return getBid();
+
+      case CURSOR_TYPE:
+        return getCursor_type();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case BID:
+        return isSetBid();
+      case CURSOR_TYPE:
+        return isSetCursor_type();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof DisplayHandler_OnCursorChange_args)
+        return this.equals((DisplayHandler_OnCursorChange_args)that);
+      return false;
+    }
+
+    public boolean equals(DisplayHandler_OnCursorChange_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_bid = true;
+      boolean that_present_bid = true;
+      if (this_present_bid || that_present_bid) {
+        if (!(this_present_bid && that_present_bid))
+          return false;
+        if (this.bid != that.bid)
+          return false;
+      }
+
+      boolean this_present_cursor_type = true;
+      boolean that_present_cursor_type = true;
+      if (this_present_cursor_type || that_present_cursor_type) {
+        if (!(this_present_cursor_type && that_present_cursor_type))
+          return false;
+        if (this.cursor_type != that.cursor_type)
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + bid;
+
+      hashCode = hashCode * 8191 + cursor_type;
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(DisplayHandler_OnCursorChange_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetBid(), other.isSetBid());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetBid()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetCursor_type(), other.isSetCursor_type());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetCursor_type()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.cursor_type, other.cursor_type);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("DisplayHandler_OnCursorChange_args(");
+      boolean first = true;
+
+      sb.append("bid:");
+      sb.append(this.bid);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("cursor_type:");
+      sb.append(this.cursor_type);
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class DisplayHandler_OnCursorChange_argsStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public DisplayHandler_OnCursorChange_argsStandardScheme getScheme() {
+        return new DisplayHandler_OnCursorChange_argsStandardScheme();
+      }
+    }
+
+    private static class DisplayHandler_OnCursorChange_argsStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<DisplayHandler_OnCursorChange_args> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, DisplayHandler_OnCursorChange_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        iprot.incrementRecursionDepth();
+        try {
+          com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+          iprot.readStructBegin();
+          while (true)
+          {
+            schemeField = iprot.readFieldBegin();
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+              break;
+            }
+            switch (schemeField.id) {
+              case 1: // BID
+                if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
+                  struct.bid = iprot.readI32();
+                  struct.setBidIsSet(true);
+                } else { 
+                  com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+                }
+                break;
+              case 2: // CURSOR_TYPE
+                if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
+                  struct.cursor_type = iprot.readI32();
+                  struct.setCursor_typeIsSet(true);
+                } else { 
+                  com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+                }
+                break;
+              default:
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            iprot.readFieldEnd();
+          }
+          iprot.readStructEnd();
+
+          // check for required fields of primitive type, which can't be checked in the validate method
+          struct.validate();
+        } finally {
+          iprot.decrementRecursionDepth();
+        }
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, DisplayHandler_OnCursorChange_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldBegin(BID_FIELD_DESC);
+        oprot.writeI32(struct.bid);
+        oprot.writeFieldEnd();
+        oprot.writeFieldBegin(CURSOR_TYPE_FIELD_DESC);
+        oprot.writeI32(struct.cursor_type);
+        oprot.writeFieldEnd();
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class DisplayHandler_OnCursorChange_argsTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public DisplayHandler_OnCursorChange_argsTupleScheme getScheme() {
+        return new DisplayHandler_OnCursorChange_argsTupleScheme();
+      }
+    }
+
+    private static class DisplayHandler_OnCursorChange_argsTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<DisplayHandler_OnCursorChange_args> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, DisplayHandler_OnCursorChange_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetBid()) {
+          optionals.set(0);
+        }
+        if (struct.isSetCursor_type()) {
+          optionals.set(1);
+        }
+        oprot.writeBitSet(optionals, 2);
+        if (struct.isSetBid()) {
+          oprot.writeI32(struct.bid);
+        }
+        if (struct.isSetCursor_type()) {
+          oprot.writeI32(struct.cursor_type);
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, DisplayHandler_OnCursorChange_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.incrementRecursionDepth();
+        try {
+          com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+          java.util.BitSet incoming = iprot.readBitSet(2);
+          if (incoming.get(0)) {
+            struct.bid = iprot.readI32();
+            struct.setBidIsSet(true);
+          }
+          if (incoming.get(1)) {
+            struct.cursor_type = iprot.readI32();
+            struct.setCursor_typeIsSet(true);
+          }
+        } finally {
+          prot.decrementRecursionDepth();
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class DisplayHandler_OnCursorChange_result implements com.jetbrains.cef.remote.thrift.TBase<DisplayHandler_OnCursorChange_result, DisplayHandler_OnCursorChange_result._Fields>, java.io.Serializable, Cloneable, Comparable<DisplayHandler_OnCursorChange_result>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("DisplayHandler_OnCursorChange_result");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField SUCCESS_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("success", com.jetbrains.cef.remote.thrift.protocol.TType.BOOL, (short)0);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new DisplayHandler_OnCursorChange_resultStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new DisplayHandler_OnCursorChange_resultTupleSchemeFactory();
+
+    public boolean success; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      SUCCESS((short)0, "success");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 0: // SUCCESS
+            return SUCCESS;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __SUCCESS_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("success", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.BOOL)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(DisplayHandler_OnCursorChange_result.class, metaDataMap);
+    }
+
+    public DisplayHandler_OnCursorChange_result() {
+    }
+
+    public DisplayHandler_OnCursorChange_result(
+      boolean success)
+    {
+      this();
+      this.success = success;
+      setSuccessIsSet(true);
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public DisplayHandler_OnCursorChange_result(DisplayHandler_OnCursorChange_result other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.success = other.success;
+    }
+
+    @Override
+    public DisplayHandler_OnCursorChange_result deepCopy() {
+      return new DisplayHandler_OnCursorChange_result(this);
+    }
+
+    @Override
+    public void clear() {
+      setSuccessIsSet(false);
+      this.success = false;
+    }
+
+    public boolean isSuccess() {
+      return this.success;
+    }
+
+    public DisplayHandler_OnCursorChange_result setSuccess(boolean success) {
+      this.success = success;
+      setSuccessIsSet(true);
+      return this;
+    }
+
+    public void unsetSuccess() {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __SUCCESS_ISSET_ID);
+    }
+
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
+    public boolean isSetSuccess() {
+      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __SUCCESS_ISSET_ID);
+    }
+
+    public void setSuccessIsSet(boolean value) {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __SUCCESS_ISSET_ID, value);
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((java.lang.Boolean)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case SUCCESS:
+        return isSuccess();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case SUCCESS:
+        return isSetSuccess();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof DisplayHandler_OnCursorChange_result)
+        return this.equals((DisplayHandler_OnCursorChange_result)that);
+      return false;
+    }
+
+    public boolean equals(DisplayHandler_OnCursorChange_result that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_success = true;
+      boolean that_present_success = true;
+      if (this_present_success || that_present_success) {
+        if (!(this_present_success && that_present_success))
+          return false;
+        if (this.success != that.success)
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((success) ? 131071 : 524287);
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(DisplayHandler_OnCursorChange_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetSuccess(), other.isSetSuccess());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSuccess()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.success, other.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+      }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("DisplayHandler_OnCursorChange_result(");
+      boolean first = true;
+
+      sb.append("success:");
+      sb.append(this.success);
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class DisplayHandler_OnCursorChange_resultStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public DisplayHandler_OnCursorChange_resultStandardScheme getScheme() {
+        return new DisplayHandler_OnCursorChange_resultStandardScheme();
+      }
+    }
+
+    private static class DisplayHandler_OnCursorChange_resultStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<DisplayHandler_OnCursorChange_result> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, DisplayHandler_OnCursorChange_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        iprot.incrementRecursionDepth();
+        try {
+          com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+          iprot.readStructBegin();
+          while (true)
+          {
+            schemeField = iprot.readFieldBegin();
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+              break;
+            }
+            switch (schemeField.id) {
+              case 0: // SUCCESS
+                if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.BOOL) {
+                  struct.success = iprot.readBool();
+                  struct.setSuccessIsSet(true);
+                } else { 
+                  com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+                }
+                break;
+              default:
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            iprot.readFieldEnd();
+          }
+          iprot.readStructEnd();
+
+          // check for required fields of primitive type, which can't be checked in the validate method
+          struct.validate();
+        } finally {
+          iprot.decrementRecursionDepth();
+        }
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, DisplayHandler_OnCursorChange_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.isSetSuccess()) {
+          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
+          oprot.writeBool(struct.success);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class DisplayHandler_OnCursorChange_resultTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public DisplayHandler_OnCursorChange_resultTupleScheme getScheme() {
+        return new DisplayHandler_OnCursorChange_resultTupleScheme();
+      }
+    }
+
+    private static class DisplayHandler_OnCursorChange_resultTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<DisplayHandler_OnCursorChange_result> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, DisplayHandler_OnCursorChange_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetSuccess()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetSuccess()) {
+          oprot.writeBool(struct.success);
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, DisplayHandler_OnCursorChange_result struct) throws com.jetbrains.cef.remote.thrift.TException {
         prot.incrementRecursionDepth();
         try {
           com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;

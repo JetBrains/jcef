@@ -48,6 +48,7 @@ class ClientHandlersIf {
   virtual bool DisplayHandler_OnTooltip(const int32_t bid, const std::string& text) = 0;
   virtual void DisplayHandler_OnStatusMessage(const int32_t bid, const std::string& value) = 0;
   virtual bool DisplayHandler_OnConsoleMessage(const int32_t bid, const std::string& level, const std::string& message, const std::string& source, const int32_t line) = 0;
+  virtual bool DisplayHandler_OnCursorChange(const int32_t bid, const int32_t cursor_type) = 0;
   virtual bool KeyboardHandler_OnPreKeyEvent(const int32_t bid, const  ::thrift_codegen::KeyEvent& event) = 0;
   virtual bool KeyboardHandler_OnKeyEvent(const int32_t bid, const  ::thrift_codegen::KeyEvent& event) = 0;
   virtual void FocusHandler_OnTakeFocus(const int32_t bid, const bool next) = 0;
@@ -205,6 +206,10 @@ class ClientHandlersNull : virtual public ClientHandlersIf {
     return;
   }
   bool DisplayHandler_OnConsoleMessage(const int32_t /* bid */, const std::string& /* level */, const std::string& /* message */, const std::string& /* source */, const int32_t /* line */) override {
+    bool _return = false;
+    return _return;
+  }
+  bool DisplayHandler_OnCursorChange(const int32_t /* bid */, const int32_t /* cursor_type */) override {
     bool _return = false;
     return _return;
   }
@@ -2235,6 +2240,103 @@ class ClientHandlers_DisplayHandler_OnConsoleMessage_presult {
   bool* success;
 
   _ClientHandlers_DisplayHandler_OnConsoleMessage_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _ClientHandlers_DisplayHandler_OnCursorChange_args__isset {
+  _ClientHandlers_DisplayHandler_OnCursorChange_args__isset() : bid(false), cursor_type(false) {}
+  bool bid :1;
+  bool cursor_type :1;
+} _ClientHandlers_DisplayHandler_OnCursorChange_args__isset;
+
+class ClientHandlers_DisplayHandler_OnCursorChange_args {
+ public:
+
+  ClientHandlers_DisplayHandler_OnCursorChange_args(const ClientHandlers_DisplayHandler_OnCursorChange_args&) noexcept;
+  ClientHandlers_DisplayHandler_OnCursorChange_args& operator=(const ClientHandlers_DisplayHandler_OnCursorChange_args&) noexcept;
+  ClientHandlers_DisplayHandler_OnCursorChange_args() noexcept;
+
+  virtual ~ClientHandlers_DisplayHandler_OnCursorChange_args() noexcept;
+  int32_t bid;
+  int32_t cursor_type;
+
+  _ClientHandlers_DisplayHandler_OnCursorChange_args__isset __isset;
+
+  void __set_bid(const int32_t val);
+
+  void __set_cursor_type(const int32_t val);
+
+  bool operator == (const ClientHandlers_DisplayHandler_OnCursorChange_args & rhs) const;
+  bool operator != (const ClientHandlers_DisplayHandler_OnCursorChange_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_DisplayHandler_OnCursorChange_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_DisplayHandler_OnCursorChange_pargs {
+ public:
+
+
+  virtual ~ClientHandlers_DisplayHandler_OnCursorChange_pargs() noexcept;
+  const int32_t* bid;
+  const int32_t* cursor_type;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _ClientHandlers_DisplayHandler_OnCursorChange_result__isset {
+  _ClientHandlers_DisplayHandler_OnCursorChange_result__isset() : success(false) {}
+  bool success :1;
+} _ClientHandlers_DisplayHandler_OnCursorChange_result__isset;
+
+class ClientHandlers_DisplayHandler_OnCursorChange_result {
+ public:
+
+  ClientHandlers_DisplayHandler_OnCursorChange_result(const ClientHandlers_DisplayHandler_OnCursorChange_result&) noexcept;
+  ClientHandlers_DisplayHandler_OnCursorChange_result& operator=(const ClientHandlers_DisplayHandler_OnCursorChange_result&) noexcept;
+  ClientHandlers_DisplayHandler_OnCursorChange_result() noexcept;
+
+  virtual ~ClientHandlers_DisplayHandler_OnCursorChange_result() noexcept;
+  bool success;
+
+  _ClientHandlers_DisplayHandler_OnCursorChange_result__isset __isset;
+
+  void __set_success(const bool val);
+
+  bool operator == (const ClientHandlers_DisplayHandler_OnCursorChange_result & rhs) const;
+  bool operator != (const ClientHandlers_DisplayHandler_OnCursorChange_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_DisplayHandler_OnCursorChange_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _ClientHandlers_DisplayHandler_OnCursorChange_presult__isset {
+  _ClientHandlers_DisplayHandler_OnCursorChange_presult__isset() : success(false) {}
+  bool success :1;
+} _ClientHandlers_DisplayHandler_OnCursorChange_presult__isset;
+
+class ClientHandlers_DisplayHandler_OnCursorChange_presult {
+ public:
+
+
+  virtual ~ClientHandlers_DisplayHandler_OnCursorChange_presult() noexcept;
+  bool* success;
+
+  _ClientHandlers_DisplayHandler_OnCursorChange_presult__isset __isset;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
 
@@ -6535,6 +6637,9 @@ class ClientHandlersClient : virtual public ClientHandlersIf {
   bool DisplayHandler_OnConsoleMessage(const int32_t bid, const std::string& level, const std::string& message, const std::string& source, const int32_t line) override;
   void send_DisplayHandler_OnConsoleMessage(const int32_t bid, const std::string& level, const std::string& message, const std::string& source, const int32_t line);
   bool recv_DisplayHandler_OnConsoleMessage();
+  bool DisplayHandler_OnCursorChange(const int32_t bid, const int32_t cursor_type) override;
+  void send_DisplayHandler_OnCursorChange(const int32_t bid, const int32_t cursor_type);
+  bool recv_DisplayHandler_OnCursorChange();
   bool KeyboardHandler_OnPreKeyEvent(const int32_t bid, const  ::thrift_codegen::KeyEvent& event) override;
   void send_KeyboardHandler_OnPreKeyEvent(const int32_t bid, const  ::thrift_codegen::KeyEvent& event);
   bool recv_KeyboardHandler_OnPreKeyEvent();
@@ -6706,6 +6811,7 @@ class ClientHandlersProcessor : public ::apache::thrift::TDispatchProcessor {
   void process_DisplayHandler_OnTooltip(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_DisplayHandler_OnStatusMessage(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_DisplayHandler_OnConsoleMessage(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_DisplayHandler_OnCursorChange(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_KeyboardHandler_OnPreKeyEvent(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_KeyboardHandler_OnKeyEvent(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_FocusHandler_OnTakeFocus(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -6784,6 +6890,7 @@ class ClientHandlersProcessor : public ::apache::thrift::TDispatchProcessor {
     processMap_["DisplayHandler_OnTooltip"] = &ClientHandlersProcessor::process_DisplayHandler_OnTooltip;
     processMap_["DisplayHandler_OnStatusMessage"] = &ClientHandlersProcessor::process_DisplayHandler_OnStatusMessage;
     processMap_["DisplayHandler_OnConsoleMessage"] = &ClientHandlersProcessor::process_DisplayHandler_OnConsoleMessage;
+    processMap_["DisplayHandler_OnCursorChange"] = &ClientHandlersProcessor::process_DisplayHandler_OnCursorChange;
     processMap_["KeyboardHandler_OnPreKeyEvent"] = &ClientHandlersProcessor::process_KeyboardHandler_OnPreKeyEvent;
     processMap_["KeyboardHandler_OnKeyEvent"] = &ClientHandlersProcessor::process_KeyboardHandler_OnKeyEvent;
     processMap_["FocusHandler_OnTakeFocus"] = &ClientHandlersProcessor::process_FocusHandler_OnTakeFocus;
@@ -7097,6 +7204,15 @@ class ClientHandlersMultiface : virtual public ClientHandlersIf {
       ifaces_[i]->DisplayHandler_OnConsoleMessage(bid, level, message, source, line);
     }
     return ifaces_[i]->DisplayHandler_OnConsoleMessage(bid, level, message, source, line);
+  }
+
+  bool DisplayHandler_OnCursorChange(const int32_t bid, const int32_t cursor_type) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->DisplayHandler_OnCursorChange(bid, cursor_type);
+    }
+    return ifaces_[i]->DisplayHandler_OnCursorChange(bid, cursor_type);
   }
 
   bool KeyboardHandler_OnPreKeyEvent(const int32_t bid, const  ::thrift_codegen::KeyEvent& event) override {
@@ -7646,6 +7762,9 @@ class ClientHandlersConcurrentClient : virtual public ClientHandlersIf {
   bool DisplayHandler_OnConsoleMessage(const int32_t bid, const std::string& level, const std::string& message, const std::string& source, const int32_t line) override;
   int32_t send_DisplayHandler_OnConsoleMessage(const int32_t bid, const std::string& level, const std::string& message, const std::string& source, const int32_t line);
   bool recv_DisplayHandler_OnConsoleMessage(const int32_t seqid);
+  bool DisplayHandler_OnCursorChange(const int32_t bid, const int32_t cursor_type) override;
+  int32_t send_DisplayHandler_OnCursorChange(const int32_t bid, const int32_t cursor_type);
+  bool recv_DisplayHandler_OnCursorChange(const int32_t seqid);
   bool KeyboardHandler_OnPreKeyEvent(const int32_t bid, const  ::thrift_codegen::KeyEvent& event) override;
   int32_t send_KeyboardHandler_OnPreKeyEvent(const int32_t bid, const  ::thrift_codegen::KeyEvent& event);
   bool recv_KeyboardHandler_OnPreKeyEvent(const int32_t seqid);

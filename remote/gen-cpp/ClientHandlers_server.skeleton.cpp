@@ -150,6 +150,11 @@ class ClientHandlersHandler : virtual public ClientHandlersIf {
     printf("DisplayHandler_OnConsoleMessage\n");
   }
 
+  bool DisplayHandler_OnCursorChange(const int32_t bid, const int32_t cursor_type) {
+    // Your implementation goes here
+    printf("DisplayHandler_OnCursorChange\n");
+  }
+
   bool KeyboardHandler_OnPreKeyEvent(const int32_t bid, const  ::thrift_codegen::KeyEvent& event) {
     // Your implementation goes here
     printf("KeyboardHandler_OnPreKeyEvent\n");

@@ -31,6 +31,11 @@ class RemoteDisplayHandler : public CefDisplayHandler {
                         const CefString& source,
                         int line) override;
 
+  bool OnCursorChange(CefRefPtr<CefBrowser> browser,
+                              CefCursorHandle cursor,
+                              cef_cursor_type_t type,
+                              const CefCursorInfo& custom_cursor_info) override;
+
  protected:
   std::shared_ptr<RpcExecutor> myService;
 
