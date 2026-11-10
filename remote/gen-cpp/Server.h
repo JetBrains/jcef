@@ -154,6 +154,11 @@ class ServerIf {
   virtual void MediaAccessCallback_Dispose(const  ::thrift_codegen::RObject& mediaAccessCallback) = 0;
   virtual void MediaAccessCallback_Continue(const  ::thrift_codegen::RObject& mediaAccessCallback, const int32_t allowed_permissions) = 0;
   virtual void MediaAccessCallback_Cancel(const  ::thrift_codegen::RObject& mediaAccessCallback) = 0;
+  virtual void FileDialogCallback_Dispose(const  ::thrift_codegen::RObject& fileDialogCallback) = 0;
+  virtual void FileDialogCallback_Continue(const  ::thrift_codegen::RObject& fileDialogCallback, const std::vector<std::string> & file_paths) = 0;
+  virtual void FileDialogCallback_Cancel(const  ::thrift_codegen::RObject& fileDialogCallback) = 0;
+  virtual void JSDialogCallback_Dispose(const  ::thrift_codegen::RObject& jsDialogCallback) = 0;
+  virtual void JSDialogCallback_Continue(const  ::thrift_codegen::RObject& jsDialogCallback, const bool success, const std::string& user_input) = 0;
 };
 
 class ServerIfFactory {
@@ -596,6 +601,21 @@ class ServerNull : virtual public ServerIf {
     return;
   }
   void MediaAccessCallback_Cancel(const  ::thrift_codegen::RObject& /* mediaAccessCallback */) override {
+    return;
+  }
+  void FileDialogCallback_Dispose(const  ::thrift_codegen::RObject& /* fileDialogCallback */) override {
+    return;
+  }
+  void FileDialogCallback_Continue(const  ::thrift_codegen::RObject& /* fileDialogCallback */, const std::vector<std::string> & /* file_paths */) override {
+    return;
+  }
+  void FileDialogCallback_Cancel(const  ::thrift_codegen::RObject& /* fileDialogCallback */) override {
+    return;
+  }
+  void JSDialogCallback_Dispose(const  ::thrift_codegen::RObject& /* jsDialogCallback */) override {
+    return;
+  }
+  void JSDialogCallback_Continue(const  ::thrift_codegen::RObject& /* jsDialogCallback */, const bool /* success */, const std::string& /* user_input */) override {
     return;
   }
 };
@@ -9776,6 +9796,236 @@ class Server_MediaAccessCallback_Cancel_pargs {
 
 };
 
+typedef struct _Server_FileDialogCallback_Dispose_args__isset {
+  _Server_FileDialogCallback_Dispose_args__isset() : fileDialogCallback(false) {}
+  bool fileDialogCallback :1;
+} _Server_FileDialogCallback_Dispose_args__isset;
+
+class Server_FileDialogCallback_Dispose_args {
+ public:
+
+  Server_FileDialogCallback_Dispose_args(const Server_FileDialogCallback_Dispose_args&);
+  Server_FileDialogCallback_Dispose_args& operator=(const Server_FileDialogCallback_Dispose_args&);
+  Server_FileDialogCallback_Dispose_args() noexcept;
+
+  virtual ~Server_FileDialogCallback_Dispose_args() noexcept;
+   ::thrift_codegen::RObject fileDialogCallback;
+
+  _Server_FileDialogCallback_Dispose_args__isset __isset;
+
+  void __set_fileDialogCallback(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const Server_FileDialogCallback_Dispose_args & rhs) const;
+  bool operator != (const Server_FileDialogCallback_Dispose_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_FileDialogCallback_Dispose_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_FileDialogCallback_Dispose_pargs {
+ public:
+
+
+  virtual ~Server_FileDialogCallback_Dispose_pargs() noexcept;
+  const  ::thrift_codegen::RObject* fileDialogCallback;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_FileDialogCallback_Continue_args__isset {
+  _Server_FileDialogCallback_Continue_args__isset() : fileDialogCallback(false), file_paths(false) {}
+  bool fileDialogCallback :1;
+  bool file_paths :1;
+} _Server_FileDialogCallback_Continue_args__isset;
+
+class Server_FileDialogCallback_Continue_args {
+ public:
+
+  Server_FileDialogCallback_Continue_args(const Server_FileDialogCallback_Continue_args&);
+  Server_FileDialogCallback_Continue_args& operator=(const Server_FileDialogCallback_Continue_args&);
+  Server_FileDialogCallback_Continue_args() noexcept;
+
+  virtual ~Server_FileDialogCallback_Continue_args() noexcept;
+   ::thrift_codegen::RObject fileDialogCallback;
+  std::vector<std::string>  file_paths;
+
+  _Server_FileDialogCallback_Continue_args__isset __isset;
+
+  void __set_fileDialogCallback(const  ::thrift_codegen::RObject& val);
+
+  void __set_file_paths(const std::vector<std::string> & val);
+
+  bool operator == (const Server_FileDialogCallback_Continue_args & rhs) const;
+  bool operator != (const Server_FileDialogCallback_Continue_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_FileDialogCallback_Continue_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_FileDialogCallback_Continue_pargs {
+ public:
+
+
+  virtual ~Server_FileDialogCallback_Continue_pargs() noexcept;
+  const  ::thrift_codegen::RObject* fileDialogCallback;
+  const std::vector<std::string> * file_paths;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_FileDialogCallback_Cancel_args__isset {
+  _Server_FileDialogCallback_Cancel_args__isset() : fileDialogCallback(false) {}
+  bool fileDialogCallback :1;
+} _Server_FileDialogCallback_Cancel_args__isset;
+
+class Server_FileDialogCallback_Cancel_args {
+ public:
+
+  Server_FileDialogCallback_Cancel_args(const Server_FileDialogCallback_Cancel_args&);
+  Server_FileDialogCallback_Cancel_args& operator=(const Server_FileDialogCallback_Cancel_args&);
+  Server_FileDialogCallback_Cancel_args() noexcept;
+
+  virtual ~Server_FileDialogCallback_Cancel_args() noexcept;
+   ::thrift_codegen::RObject fileDialogCallback;
+
+  _Server_FileDialogCallback_Cancel_args__isset __isset;
+
+  void __set_fileDialogCallback(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const Server_FileDialogCallback_Cancel_args & rhs) const;
+  bool operator != (const Server_FileDialogCallback_Cancel_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_FileDialogCallback_Cancel_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_FileDialogCallback_Cancel_pargs {
+ public:
+
+
+  virtual ~Server_FileDialogCallback_Cancel_pargs() noexcept;
+  const  ::thrift_codegen::RObject* fileDialogCallback;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_JSDialogCallback_Dispose_args__isset {
+  _Server_JSDialogCallback_Dispose_args__isset() : jsDialogCallback(false) {}
+  bool jsDialogCallback :1;
+} _Server_JSDialogCallback_Dispose_args__isset;
+
+class Server_JSDialogCallback_Dispose_args {
+ public:
+
+  Server_JSDialogCallback_Dispose_args(const Server_JSDialogCallback_Dispose_args&);
+  Server_JSDialogCallback_Dispose_args& operator=(const Server_JSDialogCallback_Dispose_args&);
+  Server_JSDialogCallback_Dispose_args() noexcept;
+
+  virtual ~Server_JSDialogCallback_Dispose_args() noexcept;
+   ::thrift_codegen::RObject jsDialogCallback;
+
+  _Server_JSDialogCallback_Dispose_args__isset __isset;
+
+  void __set_jsDialogCallback(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const Server_JSDialogCallback_Dispose_args & rhs) const;
+  bool operator != (const Server_JSDialogCallback_Dispose_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_JSDialogCallback_Dispose_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_JSDialogCallback_Dispose_pargs {
+ public:
+
+
+  virtual ~Server_JSDialogCallback_Dispose_pargs() noexcept;
+  const  ::thrift_codegen::RObject* jsDialogCallback;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_JSDialogCallback_Continue_args__isset {
+  _Server_JSDialogCallback_Continue_args__isset() : jsDialogCallback(false), success(false), user_input(false) {}
+  bool jsDialogCallback :1;
+  bool success :1;
+  bool user_input :1;
+} _Server_JSDialogCallback_Continue_args__isset;
+
+class Server_JSDialogCallback_Continue_args {
+ public:
+
+  Server_JSDialogCallback_Continue_args(const Server_JSDialogCallback_Continue_args&);
+  Server_JSDialogCallback_Continue_args& operator=(const Server_JSDialogCallback_Continue_args&);
+  Server_JSDialogCallback_Continue_args() noexcept;
+
+  virtual ~Server_JSDialogCallback_Continue_args() noexcept;
+   ::thrift_codegen::RObject jsDialogCallback;
+  bool success;
+  std::string user_input;
+
+  _Server_JSDialogCallback_Continue_args__isset __isset;
+
+  void __set_jsDialogCallback(const  ::thrift_codegen::RObject& val);
+
+  void __set_success(const bool val);
+
+  void __set_user_input(const std::string& val);
+
+  bool operator == (const Server_JSDialogCallback_Continue_args & rhs) const;
+  bool operator != (const Server_JSDialogCallback_Continue_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_JSDialogCallback_Continue_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_JSDialogCallback_Continue_pargs {
+ public:
+
+
+  virtual ~Server_JSDialogCallback_Continue_pargs() noexcept;
+  const  ::thrift_codegen::RObject* jsDialogCallback;
+  const bool* success;
+  const std::string* user_input;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
 class ServerClient : virtual public ServerIf {
  public:
   ServerClient(std::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) {
@@ -10134,6 +10384,16 @@ class ServerClient : virtual public ServerIf {
   void send_MediaAccessCallback_Continue(const  ::thrift_codegen::RObject& mediaAccessCallback, const int32_t allowed_permissions);
   void MediaAccessCallback_Cancel(const  ::thrift_codegen::RObject& mediaAccessCallback) override;
   void send_MediaAccessCallback_Cancel(const  ::thrift_codegen::RObject& mediaAccessCallback);
+  void FileDialogCallback_Dispose(const  ::thrift_codegen::RObject& fileDialogCallback) override;
+  void send_FileDialogCallback_Dispose(const  ::thrift_codegen::RObject& fileDialogCallback);
+  void FileDialogCallback_Continue(const  ::thrift_codegen::RObject& fileDialogCallback, const std::vector<std::string> & file_paths) override;
+  void send_FileDialogCallback_Continue(const  ::thrift_codegen::RObject& fileDialogCallback, const std::vector<std::string> & file_paths);
+  void FileDialogCallback_Cancel(const  ::thrift_codegen::RObject& fileDialogCallback) override;
+  void send_FileDialogCallback_Cancel(const  ::thrift_codegen::RObject& fileDialogCallback);
+  void JSDialogCallback_Dispose(const  ::thrift_codegen::RObject& jsDialogCallback) override;
+  void send_JSDialogCallback_Dispose(const  ::thrift_codegen::RObject& jsDialogCallback);
+  void JSDialogCallback_Continue(const  ::thrift_codegen::RObject& jsDialogCallback, const bool success, const std::string& user_input) override;
+  void send_JSDialogCallback_Continue(const  ::thrift_codegen::RObject& jsDialogCallback, const bool success, const std::string& user_input);
  protected:
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
@@ -10281,6 +10541,11 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
   void process_MediaAccessCallback_Dispose(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_MediaAccessCallback_Continue(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_MediaAccessCallback_Cancel(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_FileDialogCallback_Dispose(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_FileDialogCallback_Continue(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_FileDialogCallback_Cancel(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_JSDialogCallback_Dispose(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_JSDialogCallback_Continue(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
  public:
   ServerProcessor(::std::shared_ptr<ServerIf> iface) :
     iface_(iface) {
@@ -10416,6 +10681,11 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
     processMap_["MediaAccessCallback_Dispose"] = &ServerProcessor::process_MediaAccessCallback_Dispose;
     processMap_["MediaAccessCallback_Continue"] = &ServerProcessor::process_MediaAccessCallback_Continue;
     processMap_["MediaAccessCallback_Cancel"] = &ServerProcessor::process_MediaAccessCallback_Cancel;
+    processMap_["FileDialogCallback_Dispose"] = &ServerProcessor::process_FileDialogCallback_Dispose;
+    processMap_["FileDialogCallback_Continue"] = &ServerProcessor::process_FileDialogCallback_Continue;
+    processMap_["FileDialogCallback_Cancel"] = &ServerProcessor::process_FileDialogCallback_Cancel;
+    processMap_["JSDialogCallback_Dispose"] = &ServerProcessor::process_JSDialogCallback_Dispose;
+    processMap_["JSDialogCallback_Continue"] = &ServerProcessor::process_JSDialogCallback_Continue;
   }
 
   virtual ~ServerProcessor() {}
@@ -11656,6 +11926,51 @@ class ServerMultiface : virtual public ServerIf {
     ifaces_[i]->MediaAccessCallback_Cancel(mediaAccessCallback);
   }
 
+  void FileDialogCallback_Dispose(const  ::thrift_codegen::RObject& fileDialogCallback) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->FileDialogCallback_Dispose(fileDialogCallback);
+    }
+    ifaces_[i]->FileDialogCallback_Dispose(fileDialogCallback);
+  }
+
+  void FileDialogCallback_Continue(const  ::thrift_codegen::RObject& fileDialogCallback, const std::vector<std::string> & file_paths) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->FileDialogCallback_Continue(fileDialogCallback, file_paths);
+    }
+    ifaces_[i]->FileDialogCallback_Continue(fileDialogCallback, file_paths);
+  }
+
+  void FileDialogCallback_Cancel(const  ::thrift_codegen::RObject& fileDialogCallback) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->FileDialogCallback_Cancel(fileDialogCallback);
+    }
+    ifaces_[i]->FileDialogCallback_Cancel(fileDialogCallback);
+  }
+
+  void JSDialogCallback_Dispose(const  ::thrift_codegen::RObject& jsDialogCallback) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->JSDialogCallback_Dispose(jsDialogCallback);
+    }
+    ifaces_[i]->JSDialogCallback_Dispose(jsDialogCallback);
+  }
+
+  void JSDialogCallback_Continue(const  ::thrift_codegen::RObject& jsDialogCallback, const bool success, const std::string& user_input) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->JSDialogCallback_Continue(jsDialogCallback, success, user_input);
+    }
+    ifaces_[i]->JSDialogCallback_Continue(jsDialogCallback, success, user_input);
+  }
+
 };
 
 // The 'concurrent' client is a thread safe client that correctly handles
@@ -12021,6 +12336,16 @@ class ServerConcurrentClient : virtual public ServerIf {
   void send_MediaAccessCallback_Continue(const  ::thrift_codegen::RObject& mediaAccessCallback, const int32_t allowed_permissions);
   void MediaAccessCallback_Cancel(const  ::thrift_codegen::RObject& mediaAccessCallback) override;
   void send_MediaAccessCallback_Cancel(const  ::thrift_codegen::RObject& mediaAccessCallback);
+  void FileDialogCallback_Dispose(const  ::thrift_codegen::RObject& fileDialogCallback) override;
+  void send_FileDialogCallback_Dispose(const  ::thrift_codegen::RObject& fileDialogCallback);
+  void FileDialogCallback_Continue(const  ::thrift_codegen::RObject& fileDialogCallback, const std::vector<std::string> & file_paths) override;
+  void send_FileDialogCallback_Continue(const  ::thrift_codegen::RObject& fileDialogCallback, const std::vector<std::string> & file_paths);
+  void FileDialogCallback_Cancel(const  ::thrift_codegen::RObject& fileDialogCallback) override;
+  void send_FileDialogCallback_Cancel(const  ::thrift_codegen::RObject& fileDialogCallback);
+  void JSDialogCallback_Dispose(const  ::thrift_codegen::RObject& jsDialogCallback) override;
+  void send_JSDialogCallback_Dispose(const  ::thrift_codegen::RObject& jsDialogCallback);
+  void JSDialogCallback_Continue(const  ::thrift_codegen::RObject& jsDialogCallback, const bool success, const std::string& user_input) override;
+  void send_JSDialogCallback_Continue(const  ::thrift_codegen::RObject& jsDialogCallback, const bool success, const std::string& user_input);
  protected:
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;

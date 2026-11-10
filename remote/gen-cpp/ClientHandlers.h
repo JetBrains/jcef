@@ -98,6 +98,11 @@ class ClientHandlersIf {
   virtual bool PermissionHandler_OnRequestMediaAccessPermission(const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& requesting_origin, const int32_t requested_permissions, const  ::thrift_codegen::RObject& mediaAccessCallback) = 0;
   virtual void PdfPrintCallback_OnPdfPrintFinished(const int32_t pdfPrintCallback, const std::string& path, const bool ok) = 0;
   virtual void RunFileDialogCallback_OnFileDialogDismissed(const int32_t runFileDialogCallback, const std::vector<std::string> & filePaths) = 0;
+  virtual bool DialogHandler_OnFileDialog(const int32_t bid, const std::string& mode, const std::string& title, const std::string& defaultFilePath, const std::vector<std::string> & acceptFilters, const std::vector<std::string> & acceptExtensions, const std::vector<std::string> & acceptDescriptions, const  ::thrift_codegen::RObject& fileDialogCallback) = 0;
+  virtual void JSDialogHandler_OnJSDialog(JSDialogResult& _return, const int32_t bid, const std::string& origin_url, const std::string& dialog_type, const std::string& message_text, const std::string& default_prompt_text, const  ::thrift_codegen::RObject& jsDialogCallback) = 0;
+  virtual bool JSDialogHandler_OnBeforeUnloadDialog(const int32_t bid, const std::string& message_text, const bool is_reload, const  ::thrift_codegen::RObject& jsDialogCallback) = 0;
+  virtual void JSDialogHandler_OnResetDialogState(const int32_t bid) = 0;
+  virtual void JSDialogHandler_OnDialogClosed(const int32_t bid) = 0;
 };
 
 class ClientHandlersIfFactory {
@@ -376,6 +381,23 @@ class ClientHandlersNull : virtual public ClientHandlersIf {
     return;
   }
   void RunFileDialogCallback_OnFileDialogDismissed(const int32_t /* runFileDialogCallback */, const std::vector<std::string> & /* filePaths */) override {
+    return;
+  }
+  bool DialogHandler_OnFileDialog(const int32_t /* bid */, const std::string& /* mode */, const std::string& /* title */, const std::string& /* defaultFilePath */, const std::vector<std::string> & /* acceptFilters */, const std::vector<std::string> & /* acceptExtensions */, const std::vector<std::string> & /* acceptDescriptions */, const  ::thrift_codegen::RObject& /* fileDialogCallback */) override {
+    bool _return = false;
+    return _return;
+  }
+  void JSDialogHandler_OnJSDialog(JSDialogResult& /* _return */, const int32_t /* bid */, const std::string& /* origin_url */, const std::string& /* dialog_type */, const std::string& /* message_text */, const std::string& /* default_prompt_text */, const  ::thrift_codegen::RObject& /* jsDialogCallback */) override {
+    return;
+  }
+  bool JSDialogHandler_OnBeforeUnloadDialog(const int32_t /* bid */, const std::string& /* message_text */, const bool /* is_reload */, const  ::thrift_codegen::RObject& /* jsDialogCallback */) override {
+    bool _return = false;
+    return _return;
+  }
+  void JSDialogHandler_OnResetDialogState(const int32_t /* bid */) override {
+    return;
+  }
+  void JSDialogHandler_OnDialogClosed(const int32_t /* bid */) override {
     return;
   }
 };
@@ -6547,6 +6569,443 @@ class ClientHandlers_RunFileDialogCallback_OnFileDialogDismissed_pargs {
 
 };
 
+typedef struct _ClientHandlers_DialogHandler_OnFileDialog_args__isset {
+  _ClientHandlers_DialogHandler_OnFileDialog_args__isset() : bid(false), mode(false), title(false), defaultFilePath(false), acceptFilters(false), acceptExtensions(false), acceptDescriptions(false), fileDialogCallback(false) {}
+  bool bid :1;
+  bool mode :1;
+  bool title :1;
+  bool defaultFilePath :1;
+  bool acceptFilters :1;
+  bool acceptExtensions :1;
+  bool acceptDescriptions :1;
+  bool fileDialogCallback :1;
+} _ClientHandlers_DialogHandler_OnFileDialog_args__isset;
+
+class ClientHandlers_DialogHandler_OnFileDialog_args {
+ public:
+
+  ClientHandlers_DialogHandler_OnFileDialog_args(const ClientHandlers_DialogHandler_OnFileDialog_args&);
+  ClientHandlers_DialogHandler_OnFileDialog_args& operator=(const ClientHandlers_DialogHandler_OnFileDialog_args&);
+  ClientHandlers_DialogHandler_OnFileDialog_args() noexcept;
+
+  virtual ~ClientHandlers_DialogHandler_OnFileDialog_args() noexcept;
+  int32_t bid;
+  std::string mode;
+  std::string title;
+  std::string defaultFilePath;
+  std::vector<std::string>  acceptFilters;
+  std::vector<std::string>  acceptExtensions;
+  std::vector<std::string>  acceptDescriptions;
+   ::thrift_codegen::RObject fileDialogCallback;
+
+  _ClientHandlers_DialogHandler_OnFileDialog_args__isset __isset;
+
+  void __set_bid(const int32_t val);
+
+  void __set_mode(const std::string& val);
+
+  void __set_title(const std::string& val);
+
+  void __set_defaultFilePath(const std::string& val);
+
+  void __set_acceptFilters(const std::vector<std::string> & val);
+
+  void __set_acceptExtensions(const std::vector<std::string> & val);
+
+  void __set_acceptDescriptions(const std::vector<std::string> & val);
+
+  void __set_fileDialogCallback(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const ClientHandlers_DialogHandler_OnFileDialog_args & rhs) const;
+  bool operator != (const ClientHandlers_DialogHandler_OnFileDialog_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_DialogHandler_OnFileDialog_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_DialogHandler_OnFileDialog_pargs {
+ public:
+
+
+  virtual ~ClientHandlers_DialogHandler_OnFileDialog_pargs() noexcept;
+  const int32_t* bid;
+  const std::string* mode;
+  const std::string* title;
+  const std::string* defaultFilePath;
+  const std::vector<std::string> * acceptFilters;
+  const std::vector<std::string> * acceptExtensions;
+  const std::vector<std::string> * acceptDescriptions;
+  const  ::thrift_codegen::RObject* fileDialogCallback;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _ClientHandlers_DialogHandler_OnFileDialog_result__isset {
+  _ClientHandlers_DialogHandler_OnFileDialog_result__isset() : success(false) {}
+  bool success :1;
+} _ClientHandlers_DialogHandler_OnFileDialog_result__isset;
+
+class ClientHandlers_DialogHandler_OnFileDialog_result {
+ public:
+
+  ClientHandlers_DialogHandler_OnFileDialog_result(const ClientHandlers_DialogHandler_OnFileDialog_result&) noexcept;
+  ClientHandlers_DialogHandler_OnFileDialog_result& operator=(const ClientHandlers_DialogHandler_OnFileDialog_result&) noexcept;
+  ClientHandlers_DialogHandler_OnFileDialog_result() noexcept;
+
+  virtual ~ClientHandlers_DialogHandler_OnFileDialog_result() noexcept;
+  bool success;
+
+  _ClientHandlers_DialogHandler_OnFileDialog_result__isset __isset;
+
+  void __set_success(const bool val);
+
+  bool operator == (const ClientHandlers_DialogHandler_OnFileDialog_result & rhs) const;
+  bool operator != (const ClientHandlers_DialogHandler_OnFileDialog_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_DialogHandler_OnFileDialog_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _ClientHandlers_DialogHandler_OnFileDialog_presult__isset {
+  _ClientHandlers_DialogHandler_OnFileDialog_presult__isset() : success(false) {}
+  bool success :1;
+} _ClientHandlers_DialogHandler_OnFileDialog_presult__isset;
+
+class ClientHandlers_DialogHandler_OnFileDialog_presult {
+ public:
+
+
+  virtual ~ClientHandlers_DialogHandler_OnFileDialog_presult() noexcept;
+  bool* success;
+
+  _ClientHandlers_DialogHandler_OnFileDialog_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _ClientHandlers_JSDialogHandler_OnJSDialog_args__isset {
+  _ClientHandlers_JSDialogHandler_OnJSDialog_args__isset() : bid(false), origin_url(false), dialog_type(false), message_text(false), default_prompt_text(false), jsDialogCallback(false) {}
+  bool bid :1;
+  bool origin_url :1;
+  bool dialog_type :1;
+  bool message_text :1;
+  bool default_prompt_text :1;
+  bool jsDialogCallback :1;
+} _ClientHandlers_JSDialogHandler_OnJSDialog_args__isset;
+
+class ClientHandlers_JSDialogHandler_OnJSDialog_args {
+ public:
+
+  ClientHandlers_JSDialogHandler_OnJSDialog_args(const ClientHandlers_JSDialogHandler_OnJSDialog_args&);
+  ClientHandlers_JSDialogHandler_OnJSDialog_args& operator=(const ClientHandlers_JSDialogHandler_OnJSDialog_args&);
+  ClientHandlers_JSDialogHandler_OnJSDialog_args() noexcept;
+
+  virtual ~ClientHandlers_JSDialogHandler_OnJSDialog_args() noexcept;
+  int32_t bid;
+  std::string origin_url;
+  std::string dialog_type;
+  std::string message_text;
+  std::string default_prompt_text;
+   ::thrift_codegen::RObject jsDialogCallback;
+
+  _ClientHandlers_JSDialogHandler_OnJSDialog_args__isset __isset;
+
+  void __set_bid(const int32_t val);
+
+  void __set_origin_url(const std::string& val);
+
+  void __set_dialog_type(const std::string& val);
+
+  void __set_message_text(const std::string& val);
+
+  void __set_default_prompt_text(const std::string& val);
+
+  void __set_jsDialogCallback(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const ClientHandlers_JSDialogHandler_OnJSDialog_args & rhs) const;
+  bool operator != (const ClientHandlers_JSDialogHandler_OnJSDialog_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_JSDialogHandler_OnJSDialog_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_JSDialogHandler_OnJSDialog_pargs {
+ public:
+
+
+  virtual ~ClientHandlers_JSDialogHandler_OnJSDialog_pargs() noexcept;
+  const int32_t* bid;
+  const std::string* origin_url;
+  const std::string* dialog_type;
+  const std::string* message_text;
+  const std::string* default_prompt_text;
+  const  ::thrift_codegen::RObject* jsDialogCallback;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _ClientHandlers_JSDialogHandler_OnJSDialog_result__isset {
+  _ClientHandlers_JSDialogHandler_OnJSDialog_result__isset() : success(false) {}
+  bool success :1;
+} _ClientHandlers_JSDialogHandler_OnJSDialog_result__isset;
+
+class ClientHandlers_JSDialogHandler_OnJSDialog_result {
+ public:
+
+  ClientHandlers_JSDialogHandler_OnJSDialog_result(const ClientHandlers_JSDialogHandler_OnJSDialog_result&) noexcept;
+  ClientHandlers_JSDialogHandler_OnJSDialog_result& operator=(const ClientHandlers_JSDialogHandler_OnJSDialog_result&) noexcept;
+  ClientHandlers_JSDialogHandler_OnJSDialog_result() noexcept;
+
+  virtual ~ClientHandlers_JSDialogHandler_OnJSDialog_result() noexcept;
+  JSDialogResult success;
+
+  _ClientHandlers_JSDialogHandler_OnJSDialog_result__isset __isset;
+
+  void __set_success(const JSDialogResult& val);
+
+  bool operator == (const ClientHandlers_JSDialogHandler_OnJSDialog_result & rhs) const;
+  bool operator != (const ClientHandlers_JSDialogHandler_OnJSDialog_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_JSDialogHandler_OnJSDialog_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _ClientHandlers_JSDialogHandler_OnJSDialog_presult__isset {
+  _ClientHandlers_JSDialogHandler_OnJSDialog_presult__isset() : success(false) {}
+  bool success :1;
+} _ClientHandlers_JSDialogHandler_OnJSDialog_presult__isset;
+
+class ClientHandlers_JSDialogHandler_OnJSDialog_presult {
+ public:
+
+
+  virtual ~ClientHandlers_JSDialogHandler_OnJSDialog_presult() noexcept;
+  JSDialogResult* success;
+
+  _ClientHandlers_JSDialogHandler_OnJSDialog_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_args__isset {
+  _ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_args__isset() : bid(false), message_text(false), is_reload(false), jsDialogCallback(false) {}
+  bool bid :1;
+  bool message_text :1;
+  bool is_reload :1;
+  bool jsDialogCallback :1;
+} _ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_args__isset;
+
+class ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_args {
+ public:
+
+  ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_args(const ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_args&);
+  ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_args& operator=(const ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_args&);
+  ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_args() noexcept;
+
+  virtual ~ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_args() noexcept;
+  int32_t bid;
+  std::string message_text;
+  bool is_reload;
+   ::thrift_codegen::RObject jsDialogCallback;
+
+  _ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_args__isset __isset;
+
+  void __set_bid(const int32_t val);
+
+  void __set_message_text(const std::string& val);
+
+  void __set_is_reload(const bool val);
+
+  void __set_jsDialogCallback(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_args & rhs) const;
+  bool operator != (const ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_pargs {
+ public:
+
+
+  virtual ~ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_pargs() noexcept;
+  const int32_t* bid;
+  const std::string* message_text;
+  const bool* is_reload;
+  const  ::thrift_codegen::RObject* jsDialogCallback;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_result__isset {
+  _ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_result__isset() : success(false) {}
+  bool success :1;
+} _ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_result__isset;
+
+class ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_result {
+ public:
+
+  ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_result(const ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_result&) noexcept;
+  ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_result& operator=(const ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_result&) noexcept;
+  ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_result() noexcept;
+
+  virtual ~ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_result() noexcept;
+  bool success;
+
+  _ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_result__isset __isset;
+
+  void __set_success(const bool val);
+
+  bool operator == (const ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_result & rhs) const;
+  bool operator != (const ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_presult__isset {
+  _ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_presult__isset() : success(false) {}
+  bool success :1;
+} _ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_presult__isset;
+
+class ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_presult {
+ public:
+
+
+  virtual ~ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_presult() noexcept;
+  bool* success;
+
+  _ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _ClientHandlers_JSDialogHandler_OnResetDialogState_args__isset {
+  _ClientHandlers_JSDialogHandler_OnResetDialogState_args__isset() : bid(false) {}
+  bool bid :1;
+} _ClientHandlers_JSDialogHandler_OnResetDialogState_args__isset;
+
+class ClientHandlers_JSDialogHandler_OnResetDialogState_args {
+ public:
+
+  ClientHandlers_JSDialogHandler_OnResetDialogState_args(const ClientHandlers_JSDialogHandler_OnResetDialogState_args&) noexcept;
+  ClientHandlers_JSDialogHandler_OnResetDialogState_args& operator=(const ClientHandlers_JSDialogHandler_OnResetDialogState_args&) noexcept;
+  ClientHandlers_JSDialogHandler_OnResetDialogState_args() noexcept;
+
+  virtual ~ClientHandlers_JSDialogHandler_OnResetDialogState_args() noexcept;
+  int32_t bid;
+
+  _ClientHandlers_JSDialogHandler_OnResetDialogState_args__isset __isset;
+
+  void __set_bid(const int32_t val);
+
+  bool operator == (const ClientHandlers_JSDialogHandler_OnResetDialogState_args & rhs) const;
+  bool operator != (const ClientHandlers_JSDialogHandler_OnResetDialogState_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_JSDialogHandler_OnResetDialogState_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_JSDialogHandler_OnResetDialogState_pargs {
+ public:
+
+
+  virtual ~ClientHandlers_JSDialogHandler_OnResetDialogState_pargs() noexcept;
+  const int32_t* bid;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _ClientHandlers_JSDialogHandler_OnDialogClosed_args__isset {
+  _ClientHandlers_JSDialogHandler_OnDialogClosed_args__isset() : bid(false) {}
+  bool bid :1;
+} _ClientHandlers_JSDialogHandler_OnDialogClosed_args__isset;
+
+class ClientHandlers_JSDialogHandler_OnDialogClosed_args {
+ public:
+
+  ClientHandlers_JSDialogHandler_OnDialogClosed_args(const ClientHandlers_JSDialogHandler_OnDialogClosed_args&) noexcept;
+  ClientHandlers_JSDialogHandler_OnDialogClosed_args& operator=(const ClientHandlers_JSDialogHandler_OnDialogClosed_args&) noexcept;
+  ClientHandlers_JSDialogHandler_OnDialogClosed_args() noexcept;
+
+  virtual ~ClientHandlers_JSDialogHandler_OnDialogClosed_args() noexcept;
+  int32_t bid;
+
+  _ClientHandlers_JSDialogHandler_OnDialogClosed_args__isset __isset;
+
+  void __set_bid(const int32_t val);
+
+  bool operator == (const ClientHandlers_JSDialogHandler_OnDialogClosed_args & rhs) const;
+  bool operator != (const ClientHandlers_JSDialogHandler_OnDialogClosed_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_JSDialogHandler_OnDialogClosed_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_JSDialogHandler_OnDialogClosed_pargs {
+ public:
+
+
+  virtual ~ClientHandlers_JSDialogHandler_OnDialogClosed_pargs() noexcept;
+  const int32_t* bid;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
 class ClientHandlersClient : virtual public ClientHandlersIf {
  public:
   ClientHandlersClient(std::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) {
@@ -6770,6 +7229,19 @@ class ClientHandlersClient : virtual public ClientHandlersIf {
   void send_PdfPrintCallback_OnPdfPrintFinished(const int32_t pdfPrintCallback, const std::string& path, const bool ok);
   void RunFileDialogCallback_OnFileDialogDismissed(const int32_t runFileDialogCallback, const std::vector<std::string> & filePaths) override;
   void send_RunFileDialogCallback_OnFileDialogDismissed(const int32_t runFileDialogCallback, const std::vector<std::string> & filePaths);
+  bool DialogHandler_OnFileDialog(const int32_t bid, const std::string& mode, const std::string& title, const std::string& defaultFilePath, const std::vector<std::string> & acceptFilters, const std::vector<std::string> & acceptExtensions, const std::vector<std::string> & acceptDescriptions, const  ::thrift_codegen::RObject& fileDialogCallback) override;
+  void send_DialogHandler_OnFileDialog(const int32_t bid, const std::string& mode, const std::string& title, const std::string& defaultFilePath, const std::vector<std::string> & acceptFilters, const std::vector<std::string> & acceptExtensions, const std::vector<std::string> & acceptDescriptions, const  ::thrift_codegen::RObject& fileDialogCallback);
+  bool recv_DialogHandler_OnFileDialog();
+  void JSDialogHandler_OnJSDialog(JSDialogResult& _return, const int32_t bid, const std::string& origin_url, const std::string& dialog_type, const std::string& message_text, const std::string& default_prompt_text, const  ::thrift_codegen::RObject& jsDialogCallback) override;
+  void send_JSDialogHandler_OnJSDialog(const int32_t bid, const std::string& origin_url, const std::string& dialog_type, const std::string& message_text, const std::string& default_prompt_text, const  ::thrift_codegen::RObject& jsDialogCallback);
+  void recv_JSDialogHandler_OnJSDialog(JSDialogResult& _return);
+  bool JSDialogHandler_OnBeforeUnloadDialog(const int32_t bid, const std::string& message_text, const bool is_reload, const  ::thrift_codegen::RObject& jsDialogCallback) override;
+  void send_JSDialogHandler_OnBeforeUnloadDialog(const int32_t bid, const std::string& message_text, const bool is_reload, const  ::thrift_codegen::RObject& jsDialogCallback);
+  bool recv_JSDialogHandler_OnBeforeUnloadDialog();
+  void JSDialogHandler_OnResetDialogState(const int32_t bid) override;
+  void send_JSDialogHandler_OnResetDialogState(const int32_t bid);
+  void JSDialogHandler_OnDialogClosed(const int32_t bid) override;
+  void send_JSDialogHandler_OnDialogClosed(const int32_t bid);
  protected:
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
@@ -6861,6 +7333,11 @@ class ClientHandlersProcessor : public ::apache::thrift::TDispatchProcessor {
   void process_PermissionHandler_OnRequestMediaAccessPermission(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_PdfPrintCallback_OnPdfPrintFinished(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_RunFileDialogCallback_OnFileDialogDismissed(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_DialogHandler_OnFileDialog(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_JSDialogHandler_OnJSDialog(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_JSDialogHandler_OnBeforeUnloadDialog(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_JSDialogHandler_OnResetDialogState(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_JSDialogHandler_OnDialogClosed(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
  public:
   ClientHandlersProcessor(::std::shared_ptr<ClientHandlersIf> iface) :
     iface_(iface) {
@@ -6940,6 +7417,11 @@ class ClientHandlersProcessor : public ::apache::thrift::TDispatchProcessor {
     processMap_["PermissionHandler_OnRequestMediaAccessPermission"] = &ClientHandlersProcessor::process_PermissionHandler_OnRequestMediaAccessPermission;
     processMap_["PdfPrintCallback_OnPdfPrintFinished"] = &ClientHandlersProcessor::process_PdfPrintCallback_OnPdfPrintFinished;
     processMap_["RunFileDialogCallback_OnFileDialogDismissed"] = &ClientHandlersProcessor::process_RunFileDialogCallback_OnFileDialogDismissed;
+    processMap_["DialogHandler_OnFileDialog"] = &ClientHandlersProcessor::process_DialogHandler_OnFileDialog;
+    processMap_["JSDialogHandler_OnJSDialog"] = &ClientHandlersProcessor::process_JSDialogHandler_OnJSDialog;
+    processMap_["JSDialogHandler_OnBeforeUnloadDialog"] = &ClientHandlersProcessor::process_JSDialogHandler_OnBeforeUnloadDialog;
+    processMap_["JSDialogHandler_OnResetDialogState"] = &ClientHandlersProcessor::process_JSDialogHandler_OnResetDialogState;
+    processMap_["JSDialogHandler_OnDialogClosed"] = &ClientHandlersProcessor::process_JSDialogHandler_OnDialogClosed;
   }
 
   virtual ~ClientHandlersProcessor() {}
@@ -7665,6 +8147,52 @@ class ClientHandlersMultiface : virtual public ClientHandlersIf {
     ifaces_[i]->RunFileDialogCallback_OnFileDialogDismissed(runFileDialogCallback, filePaths);
   }
 
+  bool DialogHandler_OnFileDialog(const int32_t bid, const std::string& mode, const std::string& title, const std::string& defaultFilePath, const std::vector<std::string> & acceptFilters, const std::vector<std::string> & acceptExtensions, const std::vector<std::string> & acceptDescriptions, const  ::thrift_codegen::RObject& fileDialogCallback) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->DialogHandler_OnFileDialog(bid, mode, title, defaultFilePath, acceptFilters, acceptExtensions, acceptDescriptions, fileDialogCallback);
+    }
+    return ifaces_[i]->DialogHandler_OnFileDialog(bid, mode, title, defaultFilePath, acceptFilters, acceptExtensions, acceptDescriptions, fileDialogCallback);
+  }
+
+  void JSDialogHandler_OnJSDialog(JSDialogResult& _return, const int32_t bid, const std::string& origin_url, const std::string& dialog_type, const std::string& message_text, const std::string& default_prompt_text, const  ::thrift_codegen::RObject& jsDialogCallback) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->JSDialogHandler_OnJSDialog(_return, bid, origin_url, dialog_type, message_text, default_prompt_text, jsDialogCallback);
+    }
+    ifaces_[i]->JSDialogHandler_OnJSDialog(_return, bid, origin_url, dialog_type, message_text, default_prompt_text, jsDialogCallback);
+    return;
+  }
+
+  bool JSDialogHandler_OnBeforeUnloadDialog(const int32_t bid, const std::string& message_text, const bool is_reload, const  ::thrift_codegen::RObject& jsDialogCallback) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->JSDialogHandler_OnBeforeUnloadDialog(bid, message_text, is_reload, jsDialogCallback);
+    }
+    return ifaces_[i]->JSDialogHandler_OnBeforeUnloadDialog(bid, message_text, is_reload, jsDialogCallback);
+  }
+
+  void JSDialogHandler_OnResetDialogState(const int32_t bid) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->JSDialogHandler_OnResetDialogState(bid);
+    }
+    ifaces_[i]->JSDialogHandler_OnResetDialogState(bid);
+  }
+
+  void JSDialogHandler_OnDialogClosed(const int32_t bid) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->JSDialogHandler_OnDialogClosed(bid);
+    }
+    ifaces_[i]->JSDialogHandler_OnDialogClosed(bid);
+  }
+
 };
 
 // The 'concurrent' client is a thread safe client that correctly handles
@@ -7895,6 +8423,19 @@ class ClientHandlersConcurrentClient : virtual public ClientHandlersIf {
   void send_PdfPrintCallback_OnPdfPrintFinished(const int32_t pdfPrintCallback, const std::string& path, const bool ok);
   void RunFileDialogCallback_OnFileDialogDismissed(const int32_t runFileDialogCallback, const std::vector<std::string> & filePaths) override;
   void send_RunFileDialogCallback_OnFileDialogDismissed(const int32_t runFileDialogCallback, const std::vector<std::string> & filePaths);
+  bool DialogHandler_OnFileDialog(const int32_t bid, const std::string& mode, const std::string& title, const std::string& defaultFilePath, const std::vector<std::string> & acceptFilters, const std::vector<std::string> & acceptExtensions, const std::vector<std::string> & acceptDescriptions, const  ::thrift_codegen::RObject& fileDialogCallback) override;
+  int32_t send_DialogHandler_OnFileDialog(const int32_t bid, const std::string& mode, const std::string& title, const std::string& defaultFilePath, const std::vector<std::string> & acceptFilters, const std::vector<std::string> & acceptExtensions, const std::vector<std::string> & acceptDescriptions, const  ::thrift_codegen::RObject& fileDialogCallback);
+  bool recv_DialogHandler_OnFileDialog(const int32_t seqid);
+  void JSDialogHandler_OnJSDialog(JSDialogResult& _return, const int32_t bid, const std::string& origin_url, const std::string& dialog_type, const std::string& message_text, const std::string& default_prompt_text, const  ::thrift_codegen::RObject& jsDialogCallback) override;
+  int32_t send_JSDialogHandler_OnJSDialog(const int32_t bid, const std::string& origin_url, const std::string& dialog_type, const std::string& message_text, const std::string& default_prompt_text, const  ::thrift_codegen::RObject& jsDialogCallback);
+  void recv_JSDialogHandler_OnJSDialog(JSDialogResult& _return, const int32_t seqid);
+  bool JSDialogHandler_OnBeforeUnloadDialog(const int32_t bid, const std::string& message_text, const bool is_reload, const  ::thrift_codegen::RObject& jsDialogCallback) override;
+  int32_t send_JSDialogHandler_OnBeforeUnloadDialog(const int32_t bid, const std::string& message_text, const bool is_reload, const  ::thrift_codegen::RObject& jsDialogCallback);
+  bool recv_JSDialogHandler_OnBeforeUnloadDialog(const int32_t seqid);
+  void JSDialogHandler_OnResetDialogState(const int32_t bid) override;
+  void send_JSDialogHandler_OnResetDialogState(const int32_t bid);
+  void JSDialogHandler_OnDialogClosed(const int32_t bid) override;
+  void send_JSDialogHandler_OnDialogClosed(const int32_t bid);
  protected:
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
