@@ -6,6 +6,8 @@
 #include "browser/RemoteDevToolsMessageObserver.h"
 #include "browser/RemoteFrame.h"
 #include "callback/RemoteMediaAccessCallback.h"
+#include "callback/RemoteFileDialogCallback.h"
+#include "callback/RemoteJSDialogCallback.h"
 #include "handlers/RemoteClientHandler.h"
 #include "handlers/app/RemoteAppHandler.h"
 #include "network/RemoteCookieManager.h"
@@ -1956,6 +1958,64 @@ void ServerHandler::MediaAccessCallback_Cancel(const thrift_codegen::RObject& me
   if (rc == nullptr) return;
   rc->getDelegate()->Cancel();
   RemoteMediaAccessCallback::dispose(mediaAccessCallback.uid);
+}
+
+void ServerHandler::FileDialogCallback_Dispose(const thrift_codegen::RObject& fileDialogCallback) {
+  MEASURE;
+  if (doTraceCallbacks && Log::isTraceEnabled())
+    Log::trace("ServerHandler: FileDialogCallback_Dispose, id=%d", fileDialogCallback.uid);
+
+  RemoteFileDialogCallback::dispose(fileDialogCallback.uid);
+}
+
+void ServerHandler::FileDialogCallback_Continue(
+    const thrift_codegen::RObject& fileDialogCallback,
+    const std::vector<std::string>& file_paths) {
+  MEASURE;
+  if (doTraceCallbacks && Log::isTraceEnabled())
+    Log::trace("ServerHandler: FileDialogCallback_Continue, id=%d", fileDialogCallback.uid);
+
+  auto rc = RemoteFileDialogCallback::get(fileDialogCallback);
+  if (rc == nullptr) return;
+  std::vector<CefString> cef_file_paths;
+  cef_file_paths.reserve(file_paths.size());
+  for (const auto& file_path : file_paths)
+    cef_file_paths.emplace_back(file_path);
+  rc->getDelegate()->Continue(cef_file_paths);
+  RemoteFileDialogCallback::dispose(fileDialogCallback.uid);
+}
+
+void ServerHandler::FileDialogCallback_Cancel(const thrift_codegen::RObject& fileDialogCallback) {
+  MEASURE;
+  if (doTraceCallbacks && Log::isTraceEnabled())
+    Log::trace("ServerHandler: FileDialogCallback_Cancel, id=%d", fileDialogCallback.uid);
+
+  auto rc = RemoteFileDialogCallback::get(fileDialogCallback);
+  if (rc == nullptr) return;
+  rc->getDelegate()->Cancel();
+  RemoteFileDialogCallback::dispose(fileDialogCallback.uid);
+}
+
+void ServerHandler::JSDialogCallback_Dispose(const thrift_codegen::RObject& jsDialogCallback) {
+  MEASURE;
+  if (doTraceCallbacks && Log::isTraceEnabled())
+    Log::trace("ServerHandler: JSDialogCallback_Dispose, id=%d", jsDialogCallback.uid);
+
+  RemoteJSDialogCallback::dispose(jsDialogCallback.uid);
+}
+
+void ServerHandler::JSDialogCallback_Continue(
+    const thrift_codegen::RObject& jsDialogCallback,
+    const bool success,
+    const std::string& user_input) {
+  MEASURE;
+  if (doTraceCallbacks && Log::isTraceEnabled())
+    Log::trace("ServerHandler: JSDialogCallback_Continue, id=%d", jsDialogCallback.uid);
+
+  auto rc = RemoteJSDialogCallback::get(jsDialogCallback);
+  if (rc == nullptr) return;
+  rc->getDelegate()->Continue(success, user_input);
+  RemoteJSDialogCallback::dispose(jsDialogCallback.uid);
 }
 
 std::string ServerHandler::getDebugInfo(int tabs) const {

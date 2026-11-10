@@ -1286,6 +1286,91 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
     }
 
     @Override
+    public boolean DialogHandler_OnFileDialog(int bid, String mode, String title, String defaultFilePath,
+            List<String> acceptFilters, List<String> acceptExtensions, List<String> acceptDescriptions,
+            RObject fileDialogCallback) throws TException {
+        RemoteBrowser browser = getRemoteBrowser(bid);
+        if (browser == null) return false;
+        CefDialogHandler handler = browser.getOwner().getDialogHandler();
+        if (handler == null) return false;
+
+        try {
+            return handler.onFileDialog(browser, CefDialogHandler.FileDialogMode.valueOf(mode), title,
+                    defaultFilePath, new Vector<>(acceptFilters), new Vector<>(acceptExtensions),
+                    new Vector<>(acceptDescriptions), new RemoteFileDialogCallback(myRpc, fileDialogCallback));
+        } catch (Throwable e) {
+            CefLog.Error("Exception in user's handler: CefDialogHandler.OnFileDialog: msg=%s (%s)", e.getMessage(), e);
+            return false;
+        }
+    }
+
+    @Override
+    public JSDialogResult JSDialogHandler_OnJSDialog(int bid, String origin_url, String dialog_type,
+            String message_text, String default_prompt_text, RObject jsDialogCallback) throws TException {
+        JSDialogResult result = new JSDialogResult(false, false);
+        RemoteBrowser browser = getRemoteBrowser(bid);
+        if (browser == null) return result;
+        CefJSDialogHandler handler = browser.getOwner().getJSDialogHandler();
+        if (handler == null) return result;
+
+        BoolRef suppressMessage = new BoolRef(false);
+        boolean handled = false;
+        try {
+            handled = handler.onJSDialog(browser, origin_url, CefJSDialogHandler.JSDialogType.valueOf(dialog_type),
+                    message_text, default_prompt_text, new RemoteJSDialogCallback(myRpc, jsDialogCallback),
+                    suppressMessage);
+        } catch (Throwable e) {
+            CefLog.Error("Exception in user's handler: CefJSDialogHandler.OnJSDialog: msg=%s (%s)", e.getMessage(), e);
+        }
+        return result.setHandled(handled).setSuppress_message(suppressMessage.get());
+    }
+
+    @Override
+    public boolean JSDialogHandler_OnBeforeUnloadDialog(int bid, String message_text, boolean is_reload,
+            RObject jsDialogCallback) throws TException {
+        RemoteBrowser browser = getRemoteBrowser(bid);
+        if (browser == null) return false;
+        CefJSDialogHandler handler = browser.getOwner().getJSDialogHandler();
+        if (handler == null) return false;
+
+        try {
+            return handler.onBeforeUnloadDialog(browser, message_text, is_reload,
+                    new RemoteJSDialogCallback(myRpc, jsDialogCallback));
+        } catch (Throwable e) {
+            CefLog.Error("Exception in user's handler: CefJSDialogHandler.OnBeforeUnloadDialog: msg=%s (%s)", e.getMessage(), e);
+            return false;
+        }
+    }
+
+    @Override
+    public void JSDialogHandler_OnResetDialogState(int bid) throws TException {
+        RemoteBrowser browser = getRemoteBrowser(bid);
+        if (browser == null) return;
+        CefJSDialogHandler handler = browser.getOwner().getJSDialogHandler();
+        if (handler == null) return;
+
+        try {
+            handler.onResetDialogState(browser);
+        } catch (Throwable e) {
+            CefLog.Error("Exception in user's handler: CefJSDialogHandler.OnResetDialogState: msg=%s (%s)", e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public void JSDialogHandler_OnDialogClosed(int bid) throws TException {
+        RemoteBrowser browser = getRemoteBrowser(bid);
+        if (browser == null) return;
+        CefJSDialogHandler handler = browser.getOwner().getJSDialogHandler();
+        if (handler == null) return;
+
+        try {
+            handler.onDialogClosed(browser);
+        } catch (Throwable e) {
+            CefLog.Error("Exception in user's handler: CefJSDialogHandler.OnDialogClosed: msg=%s (%s)", e.getMessage(), e);
+        }
+    }
+
+    @Override
     public void DevToolsMessageObserver_OnDevToolsMethodResult(int observer, int bid, int messageId, boolean success, String result) throws TException {
         RemoteDevToolsMessageObserver ro = RemoteDevToolsMessageObserver.FACTORY.get(observer);
         if (ro == null) return;

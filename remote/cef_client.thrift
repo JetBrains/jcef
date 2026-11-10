@@ -247,4 +247,18 @@ service ClientHandlers {
     // CefRunFileDialogCallback
     //
     oneway void RunFileDialogCallback_OnFileDialogDismissed(1:i32 runFileDialogCallback, 2:list<string> filePaths), // NOTE: can be oneway (because java peer is disposed on java side after callback execution)
+
+    //
+    // CefDialogHandler and CefJSDialogHandler
+    //
+    bool DialogHandler_OnFileDialog(1: i32 bid, 2: string mode, 3: string title, 4: string defaultFilePath, 5: list<string> acceptFilters, 6: list<string> acceptExtensions, 7: list<string> acceptDescriptions, 8: shared.RObject fileDialogCallback),
+    JSDialogResult JSDialogHandler_OnJSDialog(1: i32 bid, 2: string origin_url, 3: string dialog_type, 4: string message_text, 5: string default_prompt_text, 6: shared.RObject jsDialogCallback),
+    bool JSDialogHandler_OnBeforeUnloadDialog(1: i32 bid, 2: string message_text, 3: bool is_reload, 4: shared.RObject jsDialogCallback),
+    oneway void JSDialogHandler_OnResetDialogState(1: i32 bid),
+    oneway void JSDialogHandler_OnDialogClosed(1: i32 bid),
+}
+
+struct JSDialogResult {
+    1: required bool handled,
+    2: required bool suppress_message,
 }
