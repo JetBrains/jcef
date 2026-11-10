@@ -381,6 +381,29 @@ public class ClientHandlersDummy implements ClientHandlers.Iface{
     }
 
     @Override
+    public boolean DialogHandler_OnFileDialog(int bid, String mode, String title, String defaultFilePath, List<String> acceptFilters, List<String> acceptExtensions, List<String> acceptDescriptions, RObject fileDialogCallback) throws TException {
+        return false;
+    }
+
+    @Override
+    public JSDialogResult JSDialogHandler_OnJSDialog(int bid, String origin_url, String dialog_type, String message_text, String default_prompt_text, RObject jsDialogCallback) throws TException {
+        return new JSDialogResult(false, false);
+    }
+
+    @Override
+    public boolean JSDialogHandler_OnBeforeUnloadDialog(int bid, String message_text, boolean is_reload, RObject jsDialogCallback) throws TException {
+        return false;
+    }
+
+    @Override
+    public void JSDialogHandler_OnResetDialogState(int bid) throws TException {
+    }
+
+    @Override
+    public void JSDialogHandler_OnDialogClosed(int bid) throws TException {
+    }
+
+    @Override
     public void PdfPrintCallback_OnPdfPrintFinished(int bid, String path, boolean ok) throws TException {}
 
     @Override

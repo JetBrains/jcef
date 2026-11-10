@@ -237,6 +237,12 @@ class ServerHandler : public thrift_codegen::ServerIf {
   void MediaAccessCallback_Continue(const thrift_codegen::RObject& mediaAccessCallback, const int32_t allowed_permissions) override;
   void MediaAccessCallback_Cancel( const thrift_codegen::RObject& mediaAccessCallback) override;
 
+  void FileDialogCallback_Dispose(const thrift_codegen::RObject& fileDialogCallback) override;
+  void FileDialogCallback_Continue(const thrift_codegen::RObject& fileDialogCallback, const std::vector<std::string>& file_paths) override;
+  void FileDialogCallback_Cancel(const thrift_codegen::RObject& fileDialogCallback) override;
+  void JSDialogCallback_Dispose(const thrift_codegen::RObject& jsDialogCallback) override;
+  void JSDialogCallback_Continue(const thrift_codegen::RObject& jsDialogCallback, const bool success, const std::string& user_input) override;
+
   std::shared_ptr<ServerHandlerContext> getCtx() const { return myCtx; }
   int getCid() const { return myCid; }
 

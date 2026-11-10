@@ -14,6 +14,8 @@
 #include "RemoteLoadHandler.h"
 #include "RemoteRenderHandler.h"
 #include "RemotePermissionHandler.h"
+#include "RemoteDialogHandler.h"
+#include "RemoteJSDialogHandler.h"
 
 namespace {
 
@@ -79,11 +81,13 @@ void RemoteClientHandler::addHandlers(int handlersMask) {
     if (!myRemotePermissionHandler && handlersMask & HandlerMasks::Permission)
         myRemotePermissionHandler = new RemotePermissionHandler(myCtx->javaService());
 
+    if (!myRemoteDialogHandler && handlersMask & HandlerMasks::Dialog)
+        myRemoteDialogHandler = new RemoteDialogHandler(myCtx->javaService());
+
+    if (!myRemoteJSDialogHandler && handlersMask & HandlerMasks::JSDialog)
+        myRemoteJSDialogHandler = new RemoteJSDialogHandler(myCtx->javaService());
+
     // TODO: implement remaining handlers
-    //  if (handlersMask & HandlerMasks::Dialog)
-    //    ;
-    //  if (handlersMask & HandlerMasks::JSDialog)
-    //    ;
     //  if (handlersMask & HandlerMasks::Print)
     //    ;
     //  if (handlersMask & HandlerMasks::Download)
@@ -114,11 +118,13 @@ void RemoteClientHandler::removeHandlers(int handlersMask) {
     if (myRemotePermissionHandler && handlersMask & HandlerMasks::Permission)
         myRemotePermissionHandler = nullptr;
 
+    if (myRemoteDialogHandler && handlersMask & HandlerMasks::Dialog)
+        myRemoteDialogHandler = nullptr;
+
+    if (myRemoteJSDialogHandler && handlersMask & HandlerMasks::JSDialog)
+        myRemoteJSDialogHandler = nullptr;
+
     // TODO: implement remaining handlers
-    //  if (handlersMask & HandlerMasks::Dialog)
-    //    ;
-    //  if (handlersMask & HandlerMasks::JSDialog)
-    //    ;
     //  if (handlersMask & HandlerMasks::Print)
     //    ;
     //  if (handlersMask & HandlerMasks::Download)
@@ -140,8 +146,7 @@ CefRefPtr<CefContextMenuHandler> RemoteClientHandler::GetContextMenuHandler() {
 }
 
 CefRefPtr<CefDialogHandler> RemoteClientHandler::GetDialogHandler() {
-    Log::error("TODO: implement: RemoteClientHandler::GetDialogHandler");
-    return nullptr;
+    return myRemoteDialogHandler;
 }
 
 CefRefPtr<CefDisplayHandler> RemoteClientHandler::GetDisplayHandler() {
@@ -167,8 +172,7 @@ CefRefPtr<CefPermissionHandler> RemoteClientHandler::GetPermissionHandler() {
 }
 
 CefRefPtr<CefJSDialogHandler> RemoteClientHandler::GetJSDialogHandler() {
-    Log::error("TODO: implement: RemoteClientHandler::GetJSDialogHandler");
-    return nullptr;
+    return myRemoteJSDialogHandler;
 }
 
 CefRefPtr<CefKeyboardHandler> RemoteClientHandler::GetKeyboardHandler() {

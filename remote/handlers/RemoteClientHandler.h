@@ -66,6 +66,8 @@ class RemoteClientHandler : public CefClient {
     CefRefPtr<CefFocusHandler> myRemoteFocusHandler;
     CefRefPtr<CefContextMenuHandler> myRemoteContextMenuHandler;
     CefRefPtr<CefPermissionHandler> myRemotePermissionHandler;
+    CefRefPtr<CefDialogHandler> myRemoteDialogHandler;
+    CefRefPtr<CefJSDialogHandler> myRemoteJSDialogHandler;
 
     IMPLEMENT_REFCOUNTING(RemoteClientHandler);
 };

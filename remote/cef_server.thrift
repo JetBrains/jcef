@@ -219,4 +219,17 @@ service Server {
     oneway void MediaAccessCallback_Dispose(1: shared.RObject mediaAccessCallback),
     oneway void MediaAccessCallback_Continue(1: shared.RObject mediaAccessCallback, 2: i32 allowed_permissions),    // NOTE: can be oneway (because mediaAccessCallback is server-side object (and will be disposed after Continue execution))
     oneway void MediaAccessCallback_Cancel(1: shared.RObject mediaAccessCallback),                                  // NOTE: can be oneway (because mediaAccessCallback is server-side object (and will be disposed after Cancel execution))
+
+    //
+    // CefFileDialogCallback
+    //
+    oneway void FileDialogCallback_Dispose(1: shared.RObject fileDialogCallback),
+    oneway void FileDialogCallback_Continue(1: shared.RObject fileDialogCallback, 2: list<string> file_paths),
+    oneway void FileDialogCallback_Cancel(1: shared.RObject fileDialogCallback),
+
+    //
+    // CefJSDialogCallback
+    //
+    oneway void JSDialogCallback_Dispose(1: shared.RObject jsDialogCallback),
+    oneway void JSDialogCallback_Continue(1: shared.RObject jsDialogCallback, 2: bool success, 3: string user_input),
 }

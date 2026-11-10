@@ -191,7 +191,13 @@ set(SERVER_SOURCES
         CefSettingsParser.h
         handlers/RemotePermissionHandler.cpp
         handlers/RemotePermissionHandler.h
+        handlers/RemoteDialogHandler.cpp
+        handlers/RemoteDialogHandler.h
+        handlers/RemoteJSDialogHandler.cpp
+        handlers/RemoteJSDialogHandler.h
         callback/RemoteMediaAccessCallback.h
+        callback/RemoteFileDialogCallback.h
+        callback/RemoteJSDialogCallback.h
         callback/RemoteRunFileDialogCallback.cpp
         callback/RemoteRunFileDialogCallback.h
         callback/RemotePdfPrintCallback.cpp
