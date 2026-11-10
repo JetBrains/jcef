@@ -400,6 +400,31 @@ class ClientHandlersHandler : virtual public ClientHandlersIf {
     printf("RunFileDialogCallback_OnFileDialogDismissed\n");
   }
 
+  bool DialogHandler_OnFileDialog(const int32_t bid, const std::string& mode, const std::string& title, const std::string& defaultFilePath, const std::vector<std::string> & acceptFilters, const std::vector<std::string> & acceptExtensions, const std::vector<std::string> & acceptDescriptions, const  ::thrift_codegen::RObject& fileDialogCallback) {
+    // Your implementation goes here
+    printf("DialogHandler_OnFileDialog\n");
+  }
+
+  void JSDialogHandler_OnJSDialog(JSDialogResult& _return, const int32_t bid, const std::string& origin_url, const std::string& dialog_type, const std::string& message_text, const std::string& default_prompt_text, const  ::thrift_codegen::RObject& jsDialogCallback) {
+    // Your implementation goes here
+    printf("JSDialogHandler_OnJSDialog\n");
+  }
+
+  bool JSDialogHandler_OnBeforeUnloadDialog(const int32_t bid, const std::string& message_text, const bool is_reload, const  ::thrift_codegen::RObject& jsDialogCallback) {
+    // Your implementation goes here
+    printf("JSDialogHandler_OnBeforeUnloadDialog\n");
+  }
+
+  void JSDialogHandler_OnResetDialogState(const int32_t bid) {
+    // Your implementation goes here
+    printf("JSDialogHandler_OnResetDialogState\n");
+  }
+
+  void JSDialogHandler_OnDialogClosed(const int32_t bid) {
+    // Your implementation goes here
+    printf("JSDialogHandler_OnDialogClosed\n");
+  }
+
 };
 
 int main(int argc, char **argv) {

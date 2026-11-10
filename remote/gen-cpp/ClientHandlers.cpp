@@ -1544,14 +1544,14 @@ uint32_t ClientHandlers_RenderHandler_OnImeCompositionRangeChanged_args::read(::
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->characterBounds.clear();
-            uint32_t _size17;
-            ::apache::thrift::protocol::TType _etype20;
-            xfer += iprot->readListBegin(_etype20, _size17);
-            this->characterBounds.resize(_size17);
-            uint32_t _i21;
-            for (_i21 = 0; _i21 < _size17; ++_i21)
+            uint32_t _size19;
+            ::apache::thrift::protocol::TType _etype22;
+            xfer += iprot->readListBegin(_etype22, _size19);
+            this->characterBounds.resize(_size19);
+            uint32_t _i23;
+            for (_i23 = 0; _i23 < _size19; ++_i23)
             {
-              xfer += this->characterBounds[_i21].read(iprot);
+              xfer += this->characterBounds[_i23].read(iprot);
             }
             xfer += iprot->readListEnd();
           }
@@ -1588,10 +1588,10 @@ uint32_t ClientHandlers_RenderHandler_OnImeCompositionRangeChanged_args::write(:
   xfer += oprot->writeFieldBegin("characterBounds", ::apache::thrift::protocol::T_LIST, 3);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>(this->characterBounds.size()));
-    std::vector<Rect> ::const_iterator _iter22;
-    for (_iter22 = this->characterBounds.begin(); _iter22 != this->characterBounds.end(); ++_iter22)
+    std::vector<Rect> ::const_iterator _iter24;
+    for (_iter24 = this->characterBounds.begin(); _iter24 != this->characterBounds.end(); ++_iter24)
     {
-      xfer += (*_iter22).write(oprot);
+      xfer += (*_iter24).write(oprot);
     }
     xfer += oprot->writeListEnd();
   }
@@ -1623,10 +1623,10 @@ uint32_t ClientHandlers_RenderHandler_OnImeCompositionRangeChanged_pargs::write(
   xfer += oprot->writeFieldBegin("characterBounds", ::apache::thrift::protocol::T_LIST, 3);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>((*(this->characterBounds)).size()));
-    std::vector<Rect> ::const_iterator _iter23;
-    for (_iter23 = (*(this->characterBounds)).begin(); _iter23 != (*(this->characterBounds)).end(); ++_iter23)
+    std::vector<Rect> ::const_iterator _iter25;
+    for (_iter25 = (*(this->characterBounds)).begin(); _iter25 != (*(this->characterBounds)).end(); ++_iter25)
     {
-      xfer += (*_iter23).write(oprot);
+      xfer += (*_iter25).write(oprot);
     }
     xfer += oprot->writeListEnd();
   }
@@ -7068,14 +7068,14 @@ uint32_t ClientHandlers_CookieAccessFilter_CanSendCookie_args::read(::apache::th
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->cookie.clear();
-            uint32_t _size24;
-            ::apache::thrift::protocol::TType _etype27;
-            xfer += iprot->readListBegin(_etype27, _size24);
-            this->cookie.resize(_size24);
-            uint32_t _i28;
-            for (_i28 = 0; _i28 < _size24; ++_i28)
+            uint32_t _size26;
+            ::apache::thrift::protocol::TType _etype29;
+            xfer += iprot->readListBegin(_etype29, _size26);
+            this->cookie.resize(_size26);
+            uint32_t _i30;
+            for (_i30 = 0; _i30 < _size26; ++_i30)
             {
-              xfer += iprot->readString(this->cookie[_i28]);
+              xfer += iprot->readString(this->cookie[_i30]);
             }
             xfer += iprot->readListEnd();
           }
@@ -7120,10 +7120,10 @@ uint32_t ClientHandlers_CookieAccessFilter_CanSendCookie_args::write(::apache::t
   xfer += oprot->writeFieldBegin("cookie", ::apache::thrift::protocol::T_LIST, 5);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->cookie.size()));
-    std::vector<std::string> ::const_iterator _iter29;
-    for (_iter29 = this->cookie.begin(); _iter29 != this->cookie.end(); ++_iter29)
+    std::vector<std::string> ::const_iterator _iter31;
+    for (_iter31 = this->cookie.begin(); _iter31 != this->cookie.end(); ++_iter31)
     {
-      xfer += oprot->writeString((*_iter29));
+      xfer += oprot->writeString((*_iter31));
     }
     xfer += oprot->writeListEnd();
   }
@@ -7163,10 +7163,10 @@ uint32_t ClientHandlers_CookieAccessFilter_CanSendCookie_pargs::write(::apache::
   xfer += oprot->writeFieldBegin("cookie", ::apache::thrift::protocol::T_LIST, 5);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>((*(this->cookie)).size()));
-    std::vector<std::string> ::const_iterator _iter30;
-    for (_iter30 = (*(this->cookie)).begin(); _iter30 != (*(this->cookie)).end(); ++_iter30)
+    std::vector<std::string> ::const_iterator _iter32;
+    for (_iter32 = (*(this->cookie)).begin(); _iter32 != (*(this->cookie)).end(); ++_iter32)
     {
-      xfer += oprot->writeString((*_iter30));
+      xfer += oprot->writeString((*_iter32));
     }
     xfer += oprot->writeListEnd();
   }
@@ -7362,14 +7362,14 @@ uint32_t ClientHandlers_CookieAccessFilter_CanSaveCookie_args::read(::apache::th
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->cookie.clear();
-            uint32_t _size31;
-            ::apache::thrift::protocol::TType _etype34;
-            xfer += iprot->readListBegin(_etype34, _size31);
-            this->cookie.resize(_size31);
-            uint32_t _i35;
-            for (_i35 = 0; _i35 < _size31; ++_i35)
+            uint32_t _size33;
+            ::apache::thrift::protocol::TType _etype36;
+            xfer += iprot->readListBegin(_etype36, _size33);
+            this->cookie.resize(_size33);
+            uint32_t _i37;
+            for (_i37 = 0; _i37 < _size33; ++_i37)
             {
-              xfer += iprot->readString(this->cookie[_i35]);
+              xfer += iprot->readString(this->cookie[_i37]);
             }
             xfer += iprot->readListEnd();
           }
@@ -7418,10 +7418,10 @@ uint32_t ClientHandlers_CookieAccessFilter_CanSaveCookie_args::write(::apache::t
   xfer += oprot->writeFieldBegin("cookie", ::apache::thrift::protocol::T_LIST, 6);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->cookie.size()));
-    std::vector<std::string> ::const_iterator _iter36;
-    for (_iter36 = this->cookie.begin(); _iter36 != this->cookie.end(); ++_iter36)
+    std::vector<std::string> ::const_iterator _iter38;
+    for (_iter38 = this->cookie.begin(); _iter38 != this->cookie.end(); ++_iter38)
     {
-      xfer += oprot->writeString((*_iter36));
+      xfer += oprot->writeString((*_iter38));
     }
     xfer += oprot->writeListEnd();
   }
@@ -7465,10 +7465,10 @@ uint32_t ClientHandlers_CookieAccessFilter_CanSaveCookie_pargs::write(::apache::
   xfer += oprot->writeFieldBegin("cookie", ::apache::thrift::protocol::T_LIST, 6);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>((*(this->cookie)).size()));
-    std::vector<std::string> ::const_iterator _iter37;
-    for (_iter37 = (*(this->cookie)).begin(); _iter37 != (*(this->cookie)).end(); ++_iter37)
+    std::vector<std::string> ::const_iterator _iter39;
+    for (_iter39 = (*(this->cookie)).begin(); _iter39 != (*(this->cookie)).end(); ++_iter39)
     {
-      xfer += oprot->writeString((*_iter37));
+      xfer += oprot->writeString((*_iter39));
     }
     xfer += oprot->writeListEnd();
   }
@@ -10083,14 +10083,14 @@ uint32_t ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_args::read(::apac
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->menu_model.clear();
-            uint32_t _size38;
-            ::apache::thrift::protocol::TType _etype41;
-            xfer += iprot->readListBegin(_etype41, _size38);
-            this->menu_model.resize(_size38);
-            uint32_t _i42;
-            for (_i42 = 0; _i42 < _size38; ++_i42)
+            uint32_t _size40;
+            ::apache::thrift::protocol::TType _etype43;
+            xfer += iprot->readListBegin(_etype43, _size40);
+            this->menu_model.resize(_size40);
+            uint32_t _i44;
+            for (_i44 = 0; _i44 < _size40; ++_i44)
             {
-              xfer += this->menu_model[_i42].read(iprot);
+              xfer += this->menu_model[_i44].read(iprot);
             }
             xfer += iprot->readListEnd();
           }
@@ -10131,10 +10131,10 @@ uint32_t ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_args::write(::apa
   xfer += oprot->writeFieldBegin("menu_model", ::apache::thrift::protocol::T_LIST, 4);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>(this->menu_model.size()));
-    std::vector<MenuItem> ::const_iterator _iter43;
-    for (_iter43 = this->menu_model.begin(); _iter43 != this->menu_model.end(); ++_iter43)
+    std::vector<MenuItem> ::const_iterator _iter45;
+    for (_iter45 = this->menu_model.begin(); _iter45 != this->menu_model.end(); ++_iter45)
     {
-      xfer += (*_iter43).write(oprot);
+      xfer += (*_iter45).write(oprot);
     }
     xfer += oprot->writeListEnd();
   }
@@ -10170,10 +10170,10 @@ uint32_t ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_pargs::write(::ap
   xfer += oprot->writeFieldBegin("menu_model", ::apache::thrift::protocol::T_LIST, 4);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>((*(this->menu_model)).size()));
-    std::vector<MenuItem> ::const_iterator _iter44;
-    for (_iter44 = (*(this->menu_model)).begin(); _iter44 != (*(this->menu_model)).end(); ++_iter44)
+    std::vector<MenuItem> ::const_iterator _iter46;
+    for (_iter46 = (*(this->menu_model)).begin(); _iter46 != (*(this->menu_model)).end(); ++_iter46)
     {
-      xfer += (*_iter44).write(oprot);
+      xfer += (*_iter46).write(oprot);
     }
     xfer += oprot->writeListEnd();
   }
@@ -10216,14 +10216,14 @@ uint32_t ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_result::read(::ap
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->success.clear();
-            uint32_t _size45;
-            ::apache::thrift::protocol::TType _etype48;
-            xfer += iprot->readListBegin(_etype48, _size45);
-            this->success.resize(_size45);
-            uint32_t _i49;
-            for (_i49 = 0; _i49 < _size45; ++_i49)
+            uint32_t _size47;
+            ::apache::thrift::protocol::TType _etype50;
+            xfer += iprot->readListBegin(_etype50, _size47);
+            this->success.resize(_size47);
+            uint32_t _i51;
+            for (_i51 = 0; _i51 < _size47; ++_i51)
             {
-              xfer += this->success[_i49].read(iprot);
+              xfer += this->success[_i51].read(iprot);
             }
             xfer += iprot->readListEnd();
           }
@@ -10254,10 +10254,10 @@ uint32_t ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_result::write(::a
     xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_LIST, 0);
     {
       xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>(this->success.size()));
-      std::vector<MenuItem> ::const_iterator _iter50;
-      for (_iter50 = this->success.begin(); _iter50 != this->success.end(); ++_iter50)
+      std::vector<MenuItem> ::const_iterator _iter52;
+      for (_iter52 = this->success.begin(); _iter52 != this->success.end(); ++_iter52)
       {
-        xfer += (*_iter50).write(oprot);
+        xfer += (*_iter52).write(oprot);
       }
       xfer += oprot->writeListEnd();
     }
@@ -10298,14 +10298,14 @@ uint32_t ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_presult::read(::a
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             (*(this->success)).clear();
-            uint32_t _size51;
-            ::apache::thrift::protocol::TType _etype54;
-            xfer += iprot->readListBegin(_etype54, _size51);
-            (*(this->success)).resize(_size51);
-            uint32_t _i55;
-            for (_i55 = 0; _i55 < _size51; ++_i55)
+            uint32_t _size53;
+            ::apache::thrift::protocol::TType _etype56;
+            xfer += iprot->readListBegin(_etype56, _size53);
+            (*(this->success)).resize(_size53);
+            uint32_t _i57;
+            for (_i57 = 0; _i57 < _size53; ++_i57)
             {
-              xfer += (*(this->success))[_i55].read(iprot);
+              xfer += (*(this->success))[_i57].read(iprot);
             }
             xfer += iprot->readListEnd();
           }
@@ -10383,14 +10383,14 @@ uint32_t ClientHandlers_ContextMenuHandler_RunContextMenu_args::read(::apache::t
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->model.clear();
-            uint32_t _size56;
-            ::apache::thrift::protocol::TType _etype59;
-            xfer += iprot->readListBegin(_etype59, _size56);
-            this->model.resize(_size56);
-            uint32_t _i60;
-            for (_i60 = 0; _i60 < _size56; ++_i60)
+            uint32_t _size58;
+            ::apache::thrift::protocol::TType _etype61;
+            xfer += iprot->readListBegin(_etype61, _size58);
+            this->model.resize(_size58);
+            uint32_t _i62;
+            for (_i62 = 0; _i62 < _size58; ++_i62)
             {
-              xfer += this->model[_i60].read(iprot);
+              xfer += this->model[_i62].read(iprot);
             }
             xfer += iprot->readListEnd();
           }
@@ -10439,10 +10439,10 @@ uint32_t ClientHandlers_ContextMenuHandler_RunContextMenu_args::write(::apache::
   xfer += oprot->writeFieldBegin("model", ::apache::thrift::protocol::T_LIST, 4);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>(this->model.size()));
-    std::vector<MenuItem> ::const_iterator _iter61;
-    for (_iter61 = this->model.begin(); _iter61 != this->model.end(); ++_iter61)
+    std::vector<MenuItem> ::const_iterator _iter63;
+    for (_iter63 = this->model.begin(); _iter63 != this->model.end(); ++_iter63)
     {
-      xfer += (*_iter61).write(oprot);
+      xfer += (*_iter63).write(oprot);
     }
     xfer += oprot->writeListEnd();
   }
@@ -10482,10 +10482,10 @@ uint32_t ClientHandlers_ContextMenuHandler_RunContextMenu_pargs::write(::apache:
   xfer += oprot->writeFieldBegin("model", ::apache::thrift::protocol::T_LIST, 4);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>((*(this->model)).size()));
-    std::vector<MenuItem> ::const_iterator _iter62;
-    for (_iter62 = (*(this->model)).begin(); _iter62 != (*(this->model)).end(); ++_iter62)
+    std::vector<MenuItem> ::const_iterator _iter64;
+    for (_iter64 = (*(this->model)).begin(); _iter64 != (*(this->model)).end(); ++_iter64)
     {
-      xfer += (*_iter62).write(oprot);
+      xfer += (*_iter64).write(oprot);
     }
     xfer += oprot->writeListEnd();
   }
@@ -13810,14 +13810,14 @@ uint32_t ClientHandlers_RunFileDialogCallback_OnFileDialogDismissed_args::read(:
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->filePaths.clear();
-            uint32_t _size63;
-            ::apache::thrift::protocol::TType _etype66;
-            xfer += iprot->readListBegin(_etype66, _size63);
-            this->filePaths.resize(_size63);
-            uint32_t _i67;
-            for (_i67 = 0; _i67 < _size63; ++_i67)
+            uint32_t _size65;
+            ::apache::thrift::protocol::TType _etype68;
+            xfer += iprot->readListBegin(_etype68, _size65);
+            this->filePaths.resize(_size65);
+            uint32_t _i69;
+            for (_i69 = 0; _i69 < _size65; ++_i69)
             {
-              xfer += iprot->readString(this->filePaths[_i67]);
+              xfer += iprot->readString(this->filePaths[_i69]);
             }
             xfer += iprot->readListEnd();
           }
@@ -13850,10 +13850,10 @@ uint32_t ClientHandlers_RunFileDialogCallback_OnFileDialogDismissed_args::write(
   xfer += oprot->writeFieldBegin("filePaths", ::apache::thrift::protocol::T_LIST, 2);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->filePaths.size()));
-    std::vector<std::string> ::const_iterator _iter68;
-    for (_iter68 = this->filePaths.begin(); _iter68 != this->filePaths.end(); ++_iter68)
+    std::vector<std::string> ::const_iterator _iter70;
+    for (_iter70 = this->filePaths.begin(); _iter70 != this->filePaths.end(); ++_iter70)
     {
-      xfer += oprot->writeString((*_iter68));
+      xfer += oprot->writeString((*_iter70));
     }
     xfer += oprot->writeListEnd();
   }
@@ -13881,13 +13881,1088 @@ uint32_t ClientHandlers_RunFileDialogCallback_OnFileDialogDismissed_pargs::write
   xfer += oprot->writeFieldBegin("filePaths", ::apache::thrift::protocol::T_LIST, 2);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>((*(this->filePaths)).size()));
-    std::vector<std::string> ::const_iterator _iter69;
-    for (_iter69 = (*(this->filePaths)).begin(); _iter69 != (*(this->filePaths)).end(); ++_iter69)
+    std::vector<std::string> ::const_iterator _iter71;
+    for (_iter71 = (*(this->filePaths)).begin(); _iter71 != (*(this->filePaths)).end(); ++_iter71)
     {
-      xfer += oprot->writeString((*_iter69));
+      xfer += oprot->writeString((*_iter71));
     }
     xfer += oprot->writeListEnd();
   }
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_DialogHandler_OnFileDialog_args::~ClientHandlers_DialogHandler_OnFileDialog_args() noexcept {
+}
+
+ClientHandlers_DialogHandler_OnFileDialog_args::ClientHandlers_DialogHandler_OnFileDialog_args() noexcept
+   : bid(0),
+     mode(),
+     title(),
+     defaultFilePath() {
+}
+
+uint32_t ClientHandlers_DialogHandler_OnFileDialog_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->bid);
+          this->__isset.bid = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->mode);
+          this->__isset.mode = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->title);
+          this->__isset.title = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 4:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->defaultFilePath);
+          this->__isset.defaultFilePath = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 5:
+        if (ftype == ::apache::thrift::protocol::T_LIST) {
+          {
+            this->acceptFilters.clear();
+            uint32_t _size72;
+            ::apache::thrift::protocol::TType _etype75;
+            xfer += iprot->readListBegin(_etype75, _size72);
+            this->acceptFilters.resize(_size72);
+            uint32_t _i76;
+            for (_i76 = 0; _i76 < _size72; ++_i76)
+            {
+              xfer += iprot->readString(this->acceptFilters[_i76]);
+            }
+            xfer += iprot->readListEnd();
+          }
+          this->__isset.acceptFilters = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 6:
+        if (ftype == ::apache::thrift::protocol::T_LIST) {
+          {
+            this->acceptExtensions.clear();
+            uint32_t _size77;
+            ::apache::thrift::protocol::TType _etype80;
+            xfer += iprot->readListBegin(_etype80, _size77);
+            this->acceptExtensions.resize(_size77);
+            uint32_t _i81;
+            for (_i81 = 0; _i81 < _size77; ++_i81)
+            {
+              xfer += iprot->readString(this->acceptExtensions[_i81]);
+            }
+            xfer += iprot->readListEnd();
+          }
+          this->__isset.acceptExtensions = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 7:
+        if (ftype == ::apache::thrift::protocol::T_LIST) {
+          {
+            this->acceptDescriptions.clear();
+            uint32_t _size82;
+            ::apache::thrift::protocol::TType _etype85;
+            xfer += iprot->readListBegin(_etype85, _size82);
+            this->acceptDescriptions.resize(_size82);
+            uint32_t _i86;
+            for (_i86 = 0; _i86 < _size82; ++_i86)
+            {
+              xfer += iprot->readString(this->acceptDescriptions[_i86]);
+            }
+            xfer += iprot->readListEnd();
+          }
+          this->__isset.acceptDescriptions = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 8:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->fileDialogCallback.read(iprot);
+          this->__isset.fileDialogCallback = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_DialogHandler_OnFileDialog_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_DialogHandler_OnFileDialog_args");
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->bid);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("mode", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeString(this->mode);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("title", ::apache::thrift::protocol::T_STRING, 3);
+  xfer += oprot->writeString(this->title);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("defaultFilePath", ::apache::thrift::protocol::T_STRING, 4);
+  xfer += oprot->writeString(this->defaultFilePath);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("acceptFilters", ::apache::thrift::protocol::T_LIST, 5);
+  {
+    xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->acceptFilters.size()));
+    std::vector<std::string> ::const_iterator _iter87;
+    for (_iter87 = this->acceptFilters.begin(); _iter87 != this->acceptFilters.end(); ++_iter87)
+    {
+      xfer += oprot->writeString((*_iter87));
+    }
+    xfer += oprot->writeListEnd();
+  }
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("acceptExtensions", ::apache::thrift::protocol::T_LIST, 6);
+  {
+    xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->acceptExtensions.size()));
+    std::vector<std::string> ::const_iterator _iter88;
+    for (_iter88 = this->acceptExtensions.begin(); _iter88 != this->acceptExtensions.end(); ++_iter88)
+    {
+      xfer += oprot->writeString((*_iter88));
+    }
+    xfer += oprot->writeListEnd();
+  }
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("acceptDescriptions", ::apache::thrift::protocol::T_LIST, 7);
+  {
+    xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->acceptDescriptions.size()));
+    std::vector<std::string> ::const_iterator _iter89;
+    for (_iter89 = this->acceptDescriptions.begin(); _iter89 != this->acceptDescriptions.end(); ++_iter89)
+    {
+      xfer += oprot->writeString((*_iter89));
+    }
+    xfer += oprot->writeListEnd();
+  }
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("fileDialogCallback", ::apache::thrift::protocol::T_STRUCT, 8);
+  xfer += this->fileDialogCallback.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_DialogHandler_OnFileDialog_pargs::~ClientHandlers_DialogHandler_OnFileDialog_pargs() noexcept {
+}
+
+
+uint32_t ClientHandlers_DialogHandler_OnFileDialog_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_DialogHandler_OnFileDialog_pargs");
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32((*(this->bid)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("mode", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeString((*(this->mode)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("title", ::apache::thrift::protocol::T_STRING, 3);
+  xfer += oprot->writeString((*(this->title)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("defaultFilePath", ::apache::thrift::protocol::T_STRING, 4);
+  xfer += oprot->writeString((*(this->defaultFilePath)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("acceptFilters", ::apache::thrift::protocol::T_LIST, 5);
+  {
+    xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>((*(this->acceptFilters)).size()));
+    std::vector<std::string> ::const_iterator _iter90;
+    for (_iter90 = (*(this->acceptFilters)).begin(); _iter90 != (*(this->acceptFilters)).end(); ++_iter90)
+    {
+      xfer += oprot->writeString((*_iter90));
+    }
+    xfer += oprot->writeListEnd();
+  }
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("acceptExtensions", ::apache::thrift::protocol::T_LIST, 6);
+  {
+    xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>((*(this->acceptExtensions)).size()));
+    std::vector<std::string> ::const_iterator _iter91;
+    for (_iter91 = (*(this->acceptExtensions)).begin(); _iter91 != (*(this->acceptExtensions)).end(); ++_iter91)
+    {
+      xfer += oprot->writeString((*_iter91));
+    }
+    xfer += oprot->writeListEnd();
+  }
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("acceptDescriptions", ::apache::thrift::protocol::T_LIST, 7);
+  {
+    xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>((*(this->acceptDescriptions)).size()));
+    std::vector<std::string> ::const_iterator _iter92;
+    for (_iter92 = (*(this->acceptDescriptions)).begin(); _iter92 != (*(this->acceptDescriptions)).end(); ++_iter92)
+    {
+      xfer += oprot->writeString((*_iter92));
+    }
+    xfer += oprot->writeListEnd();
+  }
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("fileDialogCallback", ::apache::thrift::protocol::T_STRUCT, 8);
+  xfer += (*(this->fileDialogCallback)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_DialogHandler_OnFileDialog_result::~ClientHandlers_DialogHandler_OnFileDialog_result() noexcept {
+}
+
+ClientHandlers_DialogHandler_OnFileDialog_result::ClientHandlers_DialogHandler_OnFileDialog_result() noexcept
+   : success(0) {
+}
+
+uint32_t ClientHandlers_DialogHandler_OnFileDialog_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->success);
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_DialogHandler_OnFileDialog_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("ClientHandlers_DialogHandler_OnFileDialog_result");
+
+  if (this->__isset.success) {
+    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_BOOL, 0);
+    xfer += oprot->writeBool(this->success);
+    xfer += oprot->writeFieldEnd();
+  }
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_DialogHandler_OnFileDialog_presult::~ClientHandlers_DialogHandler_OnFileDialog_presult() noexcept {
+}
+
+
+uint32_t ClientHandlers_DialogHandler_OnFileDialog_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool((*(this->success)));
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+
+ClientHandlers_JSDialogHandler_OnJSDialog_args::~ClientHandlers_JSDialogHandler_OnJSDialog_args() noexcept {
+}
+
+ClientHandlers_JSDialogHandler_OnJSDialog_args::ClientHandlers_JSDialogHandler_OnJSDialog_args() noexcept
+   : bid(0),
+     origin_url(),
+     dialog_type(),
+     message_text(),
+     default_prompt_text() {
+}
+
+uint32_t ClientHandlers_JSDialogHandler_OnJSDialog_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->bid);
+          this->__isset.bid = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->origin_url);
+          this->__isset.origin_url = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->dialog_type);
+          this->__isset.dialog_type = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 4:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->message_text);
+          this->__isset.message_text = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 5:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->default_prompt_text);
+          this->__isset.default_prompt_text = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 6:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->jsDialogCallback.read(iprot);
+          this->__isset.jsDialogCallback = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_JSDialogHandler_OnJSDialog_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_JSDialogHandler_OnJSDialog_args");
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->bid);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("origin_url", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeString(this->origin_url);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("dialog_type", ::apache::thrift::protocol::T_STRING, 3);
+  xfer += oprot->writeString(this->dialog_type);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("message_text", ::apache::thrift::protocol::T_STRING, 4);
+  xfer += oprot->writeString(this->message_text);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("default_prompt_text", ::apache::thrift::protocol::T_STRING, 5);
+  xfer += oprot->writeString(this->default_prompt_text);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("jsDialogCallback", ::apache::thrift::protocol::T_STRUCT, 6);
+  xfer += this->jsDialogCallback.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_JSDialogHandler_OnJSDialog_pargs::~ClientHandlers_JSDialogHandler_OnJSDialog_pargs() noexcept {
+}
+
+
+uint32_t ClientHandlers_JSDialogHandler_OnJSDialog_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_JSDialogHandler_OnJSDialog_pargs");
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32((*(this->bid)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("origin_url", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeString((*(this->origin_url)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("dialog_type", ::apache::thrift::protocol::T_STRING, 3);
+  xfer += oprot->writeString((*(this->dialog_type)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("message_text", ::apache::thrift::protocol::T_STRING, 4);
+  xfer += oprot->writeString((*(this->message_text)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("default_prompt_text", ::apache::thrift::protocol::T_STRING, 5);
+  xfer += oprot->writeString((*(this->default_prompt_text)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("jsDialogCallback", ::apache::thrift::protocol::T_STRUCT, 6);
+  xfer += (*(this->jsDialogCallback)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_JSDialogHandler_OnJSDialog_result::~ClientHandlers_JSDialogHandler_OnJSDialog_result() noexcept {
+}
+
+ClientHandlers_JSDialogHandler_OnJSDialog_result::ClientHandlers_JSDialogHandler_OnJSDialog_result() noexcept {
+}
+
+uint32_t ClientHandlers_JSDialogHandler_OnJSDialog_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->success.read(iprot);
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_JSDialogHandler_OnJSDialog_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("ClientHandlers_JSDialogHandler_OnJSDialog_result");
+
+  if (this->__isset.success) {
+    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_STRUCT, 0);
+    xfer += this->success.write(oprot);
+    xfer += oprot->writeFieldEnd();
+  }
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_JSDialogHandler_OnJSDialog_presult::~ClientHandlers_JSDialogHandler_OnJSDialog_presult() noexcept {
+}
+
+
+uint32_t ClientHandlers_JSDialogHandler_OnJSDialog_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += (*(this->success)).read(iprot);
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+
+ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_args::~ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_args() noexcept {
+}
+
+ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_args::ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_args() noexcept
+   : bid(0),
+     message_text(),
+     is_reload(0) {
+}
+
+uint32_t ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->bid);
+          this->__isset.bid = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->message_text);
+          this->__isset.message_text = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->is_reload);
+          this->__isset.is_reload = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 4:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->jsDialogCallback.read(iprot);
+          this->__isset.jsDialogCallback = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_args");
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->bid);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("message_text", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeString(this->message_text);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("is_reload", ::apache::thrift::protocol::T_BOOL, 3);
+  xfer += oprot->writeBool(this->is_reload);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("jsDialogCallback", ::apache::thrift::protocol::T_STRUCT, 4);
+  xfer += this->jsDialogCallback.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_pargs::~ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_pargs() noexcept {
+}
+
+
+uint32_t ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_pargs");
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32((*(this->bid)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("message_text", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeString((*(this->message_text)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("is_reload", ::apache::thrift::protocol::T_BOOL, 3);
+  xfer += oprot->writeBool((*(this->is_reload)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("jsDialogCallback", ::apache::thrift::protocol::T_STRUCT, 4);
+  xfer += (*(this->jsDialogCallback)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_result::~ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_result() noexcept {
+}
+
+ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_result::ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_result() noexcept
+   : success(0) {
+}
+
+uint32_t ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->success);
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_result");
+
+  if (this->__isset.success) {
+    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_BOOL, 0);
+    xfer += oprot->writeBool(this->success);
+    xfer += oprot->writeFieldEnd();
+  }
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_presult::~ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_presult() noexcept {
+}
+
+
+uint32_t ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool((*(this->success)));
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+
+ClientHandlers_JSDialogHandler_OnResetDialogState_args::~ClientHandlers_JSDialogHandler_OnResetDialogState_args() noexcept {
+}
+
+ClientHandlers_JSDialogHandler_OnResetDialogState_args::ClientHandlers_JSDialogHandler_OnResetDialogState_args() noexcept
+   : bid(0) {
+}
+
+uint32_t ClientHandlers_JSDialogHandler_OnResetDialogState_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->bid);
+          this->__isset.bid = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_JSDialogHandler_OnResetDialogState_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_JSDialogHandler_OnResetDialogState_args");
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->bid);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_JSDialogHandler_OnResetDialogState_pargs::~ClientHandlers_JSDialogHandler_OnResetDialogState_pargs() noexcept {
+}
+
+
+uint32_t ClientHandlers_JSDialogHandler_OnResetDialogState_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_JSDialogHandler_OnResetDialogState_pargs");
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32((*(this->bid)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_JSDialogHandler_OnDialogClosed_args::~ClientHandlers_JSDialogHandler_OnDialogClosed_args() noexcept {
+}
+
+ClientHandlers_JSDialogHandler_OnDialogClosed_args::ClientHandlers_JSDialogHandler_OnDialogClosed_args() noexcept
+   : bid(0) {
+}
+
+uint32_t ClientHandlers_JSDialogHandler_OnDialogClosed_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->bid);
+          this->__isset.bid = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_JSDialogHandler_OnDialogClosed_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_JSDialogHandler_OnDialogClosed_args");
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->bid);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_JSDialogHandler_OnDialogClosed_pargs::~ClientHandlers_JSDialogHandler_OnDialogClosed_pargs() noexcept {
+}
+
+
+uint32_t ClientHandlers_JSDialogHandler_OnDialogClosed_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_JSDialogHandler_OnDialogClosed_pargs");
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32((*(this->bid)));
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -17238,6 +18313,233 @@ void ClientHandlersClient::send_RunFileDialogCallback_OnFileDialogDismissed(cons
   ClientHandlers_RunFileDialogCallback_OnFileDialogDismissed_pargs args;
   args.runFileDialogCallback = &runFileDialogCallback;
   args.filePaths = &filePaths;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+bool ClientHandlersClient::DialogHandler_OnFileDialog(const int32_t bid, const std::string& mode, const std::string& title, const std::string& defaultFilePath, const std::vector<std::string> & acceptFilters, const std::vector<std::string> & acceptExtensions, const std::vector<std::string> & acceptDescriptions, const  ::thrift_codegen::RObject& fileDialogCallback)
+{
+  send_DialogHandler_OnFileDialog(bid, mode, title, defaultFilePath, acceptFilters, acceptExtensions, acceptDescriptions, fileDialogCallback);
+  return recv_DialogHandler_OnFileDialog();
+}
+
+void ClientHandlersClient::send_DialogHandler_OnFileDialog(const int32_t bid, const std::string& mode, const std::string& title, const std::string& defaultFilePath, const std::vector<std::string> & acceptFilters, const std::vector<std::string> & acceptExtensions, const std::vector<std::string> & acceptDescriptions, const  ::thrift_codegen::RObject& fileDialogCallback)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("DialogHandler_OnFileDialog", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  ClientHandlers_DialogHandler_OnFileDialog_pargs args;
+  args.bid = &bid;
+  args.mode = &mode;
+  args.title = &title;
+  args.defaultFilePath = &defaultFilePath;
+  args.acceptFilters = &acceptFilters;
+  args.acceptExtensions = &acceptExtensions;
+  args.acceptDescriptions = &acceptDescriptions;
+  args.fileDialogCallback = &fileDialogCallback;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+bool ClientHandlersClient::recv_DialogHandler_OnFileDialog()
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("DialogHandler_OnFileDialog") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  bool _return;
+  ClientHandlers_DialogHandler_OnFileDialog_presult result;
+  result.success = &_return;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  if (result.__isset.success) {
+    return _return;
+  }
+  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "DialogHandler_OnFileDialog failed: unknown result");
+}
+
+void ClientHandlersClient::JSDialogHandler_OnJSDialog(JSDialogResult& _return, const int32_t bid, const std::string& origin_url, const std::string& dialog_type, const std::string& message_text, const std::string& default_prompt_text, const  ::thrift_codegen::RObject& jsDialogCallback)
+{
+  send_JSDialogHandler_OnJSDialog(bid, origin_url, dialog_type, message_text, default_prompt_text, jsDialogCallback);
+  recv_JSDialogHandler_OnJSDialog(_return);
+}
+
+void ClientHandlersClient::send_JSDialogHandler_OnJSDialog(const int32_t bid, const std::string& origin_url, const std::string& dialog_type, const std::string& message_text, const std::string& default_prompt_text, const  ::thrift_codegen::RObject& jsDialogCallback)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("JSDialogHandler_OnJSDialog", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  ClientHandlers_JSDialogHandler_OnJSDialog_pargs args;
+  args.bid = &bid;
+  args.origin_url = &origin_url;
+  args.dialog_type = &dialog_type;
+  args.message_text = &message_text;
+  args.default_prompt_text = &default_prompt_text;
+  args.jsDialogCallback = &jsDialogCallback;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void ClientHandlersClient::recv_JSDialogHandler_OnJSDialog(JSDialogResult& _return)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("JSDialogHandler_OnJSDialog") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  ClientHandlers_JSDialogHandler_OnJSDialog_presult result;
+  result.success = &_return;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  if (result.__isset.success) {
+    // _return pointer has now been filled
+    return;
+  }
+  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "JSDialogHandler_OnJSDialog failed: unknown result");
+}
+
+bool ClientHandlersClient::JSDialogHandler_OnBeforeUnloadDialog(const int32_t bid, const std::string& message_text, const bool is_reload, const  ::thrift_codegen::RObject& jsDialogCallback)
+{
+  send_JSDialogHandler_OnBeforeUnloadDialog(bid, message_text, is_reload, jsDialogCallback);
+  return recv_JSDialogHandler_OnBeforeUnloadDialog();
+}
+
+void ClientHandlersClient::send_JSDialogHandler_OnBeforeUnloadDialog(const int32_t bid, const std::string& message_text, const bool is_reload, const  ::thrift_codegen::RObject& jsDialogCallback)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("JSDialogHandler_OnBeforeUnloadDialog", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_pargs args;
+  args.bid = &bid;
+  args.message_text = &message_text;
+  args.is_reload = &is_reload;
+  args.jsDialogCallback = &jsDialogCallback;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+bool ClientHandlersClient::recv_JSDialogHandler_OnBeforeUnloadDialog()
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("JSDialogHandler_OnBeforeUnloadDialog") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  bool _return;
+  ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_presult result;
+  result.success = &_return;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  if (result.__isset.success) {
+    return _return;
+  }
+  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "JSDialogHandler_OnBeforeUnloadDialog failed: unknown result");
+}
+
+void ClientHandlersClient::JSDialogHandler_OnResetDialogState(const int32_t bid)
+{
+  send_JSDialogHandler_OnResetDialogState(bid);
+}
+
+void ClientHandlersClient::send_JSDialogHandler_OnResetDialogState(const int32_t bid)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("JSDialogHandler_OnResetDialogState", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  ClientHandlers_JSDialogHandler_OnResetDialogState_pargs args;
+  args.bid = &bid;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void ClientHandlersClient::JSDialogHandler_OnDialogClosed(const int32_t bid)
+{
+  send_JSDialogHandler_OnDialogClosed(bid);
+}
+
+void ClientHandlersClient::send_JSDialogHandler_OnDialogClosed(const int32_t bid)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("JSDialogHandler_OnDialogClosed", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  ClientHandlers_JSDialogHandler_OnDialogClosed_pargs args;
+  args.bid = &bid;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -20843,6 +22145,242 @@ void ClientHandlersProcessor::process_RunFileDialogCallback_OnFileDialogDismisse
 
   if (this->eventHandler_.get() != nullptr) {
     this->eventHandler_->asyncComplete(ctx, "ClientHandlers.RunFileDialogCallback_OnFileDialogDismissed");
+  }
+
+  return;
+}
+
+void ClientHandlersProcessor::process_DialogHandler_OnFileDialog(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("ClientHandlers.DialogHandler_OnFileDialog", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ClientHandlers.DialogHandler_OnFileDialog");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "ClientHandlers.DialogHandler_OnFileDialog");
+  }
+
+  ClientHandlers_DialogHandler_OnFileDialog_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "ClientHandlers.DialogHandler_OnFileDialog", bytes);
+  }
+
+  ClientHandlers_DialogHandler_OnFileDialog_result result;
+  try {
+    result.success = iface_->DialogHandler_OnFileDialog(args.bid, args.mode, args.title, args.defaultFilePath, args.acceptFilters, args.acceptExtensions, args.acceptDescriptions, args.fileDialogCallback);
+    result.__isset.success = true;
+  } catch (const std::exception& e) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "ClientHandlers.DialogHandler_OnFileDialog");
+    }
+
+    ::apache::thrift::TApplicationException x(e.what());
+    oprot->writeMessageBegin("DialogHandler_OnFileDialog", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    x.write(oprot);
+    oprot->writeMessageEnd();
+    oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preWrite(ctx, "ClientHandlers.DialogHandler_OnFileDialog");
+  }
+
+  oprot->writeMessageBegin("DialogHandler_OnFileDialog", ::apache::thrift::protocol::T_REPLY, seqid);
+  result.write(oprot);
+  oprot->writeMessageEnd();
+  bytes = oprot->getTransport()->writeEnd();
+  oprot->getTransport()->flush();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postWrite(ctx, "ClientHandlers.DialogHandler_OnFileDialog", bytes);
+  }
+}
+
+void ClientHandlersProcessor::process_JSDialogHandler_OnJSDialog(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("ClientHandlers.JSDialogHandler_OnJSDialog", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ClientHandlers.JSDialogHandler_OnJSDialog");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "ClientHandlers.JSDialogHandler_OnJSDialog");
+  }
+
+  ClientHandlers_JSDialogHandler_OnJSDialog_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "ClientHandlers.JSDialogHandler_OnJSDialog", bytes);
+  }
+
+  ClientHandlers_JSDialogHandler_OnJSDialog_result result;
+  try {
+    iface_->JSDialogHandler_OnJSDialog(result.success, args.bid, args.origin_url, args.dialog_type, args.message_text, args.default_prompt_text, args.jsDialogCallback);
+    result.__isset.success = true;
+  } catch (const std::exception& e) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "ClientHandlers.JSDialogHandler_OnJSDialog");
+    }
+
+    ::apache::thrift::TApplicationException x(e.what());
+    oprot->writeMessageBegin("JSDialogHandler_OnJSDialog", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    x.write(oprot);
+    oprot->writeMessageEnd();
+    oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preWrite(ctx, "ClientHandlers.JSDialogHandler_OnJSDialog");
+  }
+
+  oprot->writeMessageBegin("JSDialogHandler_OnJSDialog", ::apache::thrift::protocol::T_REPLY, seqid);
+  result.write(oprot);
+  oprot->writeMessageEnd();
+  bytes = oprot->getTransport()->writeEnd();
+  oprot->getTransport()->flush();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postWrite(ctx, "ClientHandlers.JSDialogHandler_OnJSDialog", bytes);
+  }
+}
+
+void ClientHandlersProcessor::process_JSDialogHandler_OnBeforeUnloadDialog(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("ClientHandlers.JSDialogHandler_OnBeforeUnloadDialog", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ClientHandlers.JSDialogHandler_OnBeforeUnloadDialog");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "ClientHandlers.JSDialogHandler_OnBeforeUnloadDialog");
+  }
+
+  ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "ClientHandlers.JSDialogHandler_OnBeforeUnloadDialog", bytes);
+  }
+
+  ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_result result;
+  try {
+    result.success = iface_->JSDialogHandler_OnBeforeUnloadDialog(args.bid, args.message_text, args.is_reload, args.jsDialogCallback);
+    result.__isset.success = true;
+  } catch (const std::exception& e) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "ClientHandlers.JSDialogHandler_OnBeforeUnloadDialog");
+    }
+
+    ::apache::thrift::TApplicationException x(e.what());
+    oprot->writeMessageBegin("JSDialogHandler_OnBeforeUnloadDialog", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    x.write(oprot);
+    oprot->writeMessageEnd();
+    oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preWrite(ctx, "ClientHandlers.JSDialogHandler_OnBeforeUnloadDialog");
+  }
+
+  oprot->writeMessageBegin("JSDialogHandler_OnBeforeUnloadDialog", ::apache::thrift::protocol::T_REPLY, seqid);
+  result.write(oprot);
+  oprot->writeMessageEnd();
+  bytes = oprot->getTransport()->writeEnd();
+  oprot->getTransport()->flush();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postWrite(ctx, "ClientHandlers.JSDialogHandler_OnBeforeUnloadDialog", bytes);
+  }
+}
+
+void ClientHandlersProcessor::process_JSDialogHandler_OnResetDialogState(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("ClientHandlers.JSDialogHandler_OnResetDialogState", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ClientHandlers.JSDialogHandler_OnResetDialogState");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "ClientHandlers.JSDialogHandler_OnResetDialogState");
+  }
+
+  ClientHandlers_JSDialogHandler_OnResetDialogState_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "ClientHandlers.JSDialogHandler_OnResetDialogState", bytes);
+  }
+
+  try {
+    iface_->JSDialogHandler_OnResetDialogState(args.bid);
+  } catch (const std::exception&) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "ClientHandlers.JSDialogHandler_OnResetDialogState");
+    }
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->asyncComplete(ctx, "ClientHandlers.JSDialogHandler_OnResetDialogState");
+  }
+
+  return;
+}
+
+void ClientHandlersProcessor::process_JSDialogHandler_OnDialogClosed(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("ClientHandlers.JSDialogHandler_OnDialogClosed", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ClientHandlers.JSDialogHandler_OnDialogClosed");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "ClientHandlers.JSDialogHandler_OnDialogClosed");
+  }
+
+  ClientHandlers_JSDialogHandler_OnDialogClosed_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "ClientHandlers.JSDialogHandler_OnDialogClosed", bytes);
+  }
+
+  try {
+    iface_->JSDialogHandler_OnDialogClosed(args.bid);
+  } catch (const std::exception&) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "ClientHandlers.JSDialogHandler_OnDialogClosed");
+    }
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->asyncComplete(ctx, "ClientHandlers.JSDialogHandler_OnDialogClosed");
   }
 
   return;
@@ -25472,6 +27010,317 @@ void ClientHandlersConcurrentClient::send_RunFileDialogCallback_OnFileDialogDism
   ClientHandlers_RunFileDialogCallback_OnFileDialogDismissed_pargs args;
   args.runFileDialogCallback = &runFileDialogCallback;
   args.filePaths = &filePaths;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+}
+
+bool ClientHandlersConcurrentClient::DialogHandler_OnFileDialog(const int32_t bid, const std::string& mode, const std::string& title, const std::string& defaultFilePath, const std::vector<std::string> & acceptFilters, const std::vector<std::string> & acceptExtensions, const std::vector<std::string> & acceptDescriptions, const  ::thrift_codegen::RObject& fileDialogCallback)
+{
+  int32_t seqid = send_DialogHandler_OnFileDialog(bid, mode, title, defaultFilePath, acceptFilters, acceptExtensions, acceptDescriptions, fileDialogCallback);
+  return recv_DialogHandler_OnFileDialog(seqid);
+}
+
+int32_t ClientHandlersConcurrentClient::send_DialogHandler_OnFileDialog(const int32_t bid, const std::string& mode, const std::string& title, const std::string& defaultFilePath, const std::vector<std::string> & acceptFilters, const std::vector<std::string> & acceptExtensions, const std::vector<std::string> & acceptDescriptions, const  ::thrift_codegen::RObject& fileDialogCallback)
+{
+  int32_t cseqid = this->sync_->generateSeqId();
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("DialogHandler_OnFileDialog", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  ClientHandlers_DialogHandler_OnFileDialog_pargs args;
+  args.bid = &bid;
+  args.mode = &mode;
+  args.title = &title;
+  args.defaultFilePath = &defaultFilePath;
+  args.acceptFilters = &acceptFilters;
+  args.acceptExtensions = &acceptExtensions;
+  args.acceptDescriptions = &acceptDescriptions;
+  args.fileDialogCallback = &fileDialogCallback;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+  return cseqid;
+}
+
+bool ClientHandlersConcurrentClient::recv_DialogHandler_OnFileDialog(const int32_t seqid)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  // the read mutex gets dropped and reacquired as part of waitForWork()
+  // The destructor of this sentry wakes up other clients
+  ::apache::thrift::async::TConcurrentRecvSentry sentry(this->sync_.get(), seqid);
+
+  while(true) {
+    if(!this->sync_->getPending(fname, mtype, rseqid)) {
+      iprot_->readMessageBegin(fname, mtype, rseqid);
+    }
+    if(seqid == rseqid) {
+      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+        ::apache::thrift::TApplicationException x;
+        x.read(iprot_);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+        sentry.commit();
+        throw x;
+      }
+      if (mtype != ::apache::thrift::protocol::T_REPLY) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+      }
+      if (fname.compare("DialogHandler_OnFileDialog") != 0) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+
+        // in a bad state, don't commit
+        using ::apache::thrift::protocol::TProtocolException;
+        throw TProtocolException(TProtocolException::INVALID_DATA);
+      }
+      bool _return;
+      ClientHandlers_DialogHandler_OnFileDialog_presult result;
+      result.success = &_return;
+      result.read(iprot_);
+      iprot_->readMessageEnd();
+      iprot_->getTransport()->readEnd();
+
+      if (result.__isset.success) {
+        sentry.commit();
+        return _return;
+      }
+      // in a bad state, don't commit
+      throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "DialogHandler_OnFileDialog failed: unknown result");
+    }
+    // seqid != rseqid
+    this->sync_->updatePending(fname, mtype, rseqid);
+
+    // this will temporarily unlock the readMutex, and let other clients get work done
+    this->sync_->waitForWork(seqid);
+  } // end while(true)
+}
+
+void ClientHandlersConcurrentClient::JSDialogHandler_OnJSDialog(JSDialogResult& _return, const int32_t bid, const std::string& origin_url, const std::string& dialog_type, const std::string& message_text, const std::string& default_prompt_text, const  ::thrift_codegen::RObject& jsDialogCallback)
+{
+  int32_t seqid = send_JSDialogHandler_OnJSDialog(bid, origin_url, dialog_type, message_text, default_prompt_text, jsDialogCallback);
+  recv_JSDialogHandler_OnJSDialog(_return, seqid);
+}
+
+int32_t ClientHandlersConcurrentClient::send_JSDialogHandler_OnJSDialog(const int32_t bid, const std::string& origin_url, const std::string& dialog_type, const std::string& message_text, const std::string& default_prompt_text, const  ::thrift_codegen::RObject& jsDialogCallback)
+{
+  int32_t cseqid = this->sync_->generateSeqId();
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("JSDialogHandler_OnJSDialog", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  ClientHandlers_JSDialogHandler_OnJSDialog_pargs args;
+  args.bid = &bid;
+  args.origin_url = &origin_url;
+  args.dialog_type = &dialog_type;
+  args.message_text = &message_text;
+  args.default_prompt_text = &default_prompt_text;
+  args.jsDialogCallback = &jsDialogCallback;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+  return cseqid;
+}
+
+void ClientHandlersConcurrentClient::recv_JSDialogHandler_OnJSDialog(JSDialogResult& _return, const int32_t seqid)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  // the read mutex gets dropped and reacquired as part of waitForWork()
+  // The destructor of this sentry wakes up other clients
+  ::apache::thrift::async::TConcurrentRecvSentry sentry(this->sync_.get(), seqid);
+
+  while(true) {
+    if(!this->sync_->getPending(fname, mtype, rseqid)) {
+      iprot_->readMessageBegin(fname, mtype, rseqid);
+    }
+    if(seqid == rseqid) {
+      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+        ::apache::thrift::TApplicationException x;
+        x.read(iprot_);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+        sentry.commit();
+        throw x;
+      }
+      if (mtype != ::apache::thrift::protocol::T_REPLY) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+      }
+      if (fname.compare("JSDialogHandler_OnJSDialog") != 0) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+
+        // in a bad state, don't commit
+        using ::apache::thrift::protocol::TProtocolException;
+        throw TProtocolException(TProtocolException::INVALID_DATA);
+      }
+      ClientHandlers_JSDialogHandler_OnJSDialog_presult result;
+      result.success = &_return;
+      result.read(iprot_);
+      iprot_->readMessageEnd();
+      iprot_->getTransport()->readEnd();
+
+      if (result.__isset.success) {
+        // _return pointer has now been filled
+        sentry.commit();
+        return;
+      }
+      // in a bad state, don't commit
+      throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "JSDialogHandler_OnJSDialog failed: unknown result");
+    }
+    // seqid != rseqid
+    this->sync_->updatePending(fname, mtype, rseqid);
+
+    // this will temporarily unlock the readMutex, and let other clients get work done
+    this->sync_->waitForWork(seqid);
+  } // end while(true)
+}
+
+bool ClientHandlersConcurrentClient::JSDialogHandler_OnBeforeUnloadDialog(const int32_t bid, const std::string& message_text, const bool is_reload, const  ::thrift_codegen::RObject& jsDialogCallback)
+{
+  int32_t seqid = send_JSDialogHandler_OnBeforeUnloadDialog(bid, message_text, is_reload, jsDialogCallback);
+  return recv_JSDialogHandler_OnBeforeUnloadDialog(seqid);
+}
+
+int32_t ClientHandlersConcurrentClient::send_JSDialogHandler_OnBeforeUnloadDialog(const int32_t bid, const std::string& message_text, const bool is_reload, const  ::thrift_codegen::RObject& jsDialogCallback)
+{
+  int32_t cseqid = this->sync_->generateSeqId();
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("JSDialogHandler_OnBeforeUnloadDialog", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_pargs args;
+  args.bid = &bid;
+  args.message_text = &message_text;
+  args.is_reload = &is_reload;
+  args.jsDialogCallback = &jsDialogCallback;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+  return cseqid;
+}
+
+bool ClientHandlersConcurrentClient::recv_JSDialogHandler_OnBeforeUnloadDialog(const int32_t seqid)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  // the read mutex gets dropped and reacquired as part of waitForWork()
+  // The destructor of this sentry wakes up other clients
+  ::apache::thrift::async::TConcurrentRecvSentry sentry(this->sync_.get(), seqid);
+
+  while(true) {
+    if(!this->sync_->getPending(fname, mtype, rseqid)) {
+      iprot_->readMessageBegin(fname, mtype, rseqid);
+    }
+    if(seqid == rseqid) {
+      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+        ::apache::thrift::TApplicationException x;
+        x.read(iprot_);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+        sentry.commit();
+        throw x;
+      }
+      if (mtype != ::apache::thrift::protocol::T_REPLY) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+      }
+      if (fname.compare("JSDialogHandler_OnBeforeUnloadDialog") != 0) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+
+        // in a bad state, don't commit
+        using ::apache::thrift::protocol::TProtocolException;
+        throw TProtocolException(TProtocolException::INVALID_DATA);
+      }
+      bool _return;
+      ClientHandlers_JSDialogHandler_OnBeforeUnloadDialog_presult result;
+      result.success = &_return;
+      result.read(iprot_);
+      iprot_->readMessageEnd();
+      iprot_->getTransport()->readEnd();
+
+      if (result.__isset.success) {
+        sentry.commit();
+        return _return;
+      }
+      // in a bad state, don't commit
+      throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "JSDialogHandler_OnBeforeUnloadDialog failed: unknown result");
+    }
+    // seqid != rseqid
+    this->sync_->updatePending(fname, mtype, rseqid);
+
+    // this will temporarily unlock the readMutex, and let other clients get work done
+    this->sync_->waitForWork(seqid);
+  } // end while(true)
+}
+
+void ClientHandlersConcurrentClient::JSDialogHandler_OnResetDialogState(const int32_t bid)
+{
+  send_JSDialogHandler_OnResetDialogState(bid);
+}
+
+void ClientHandlersConcurrentClient::send_JSDialogHandler_OnResetDialogState(const int32_t bid)
+{
+  int32_t cseqid = 0;
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("JSDialogHandler_OnResetDialogState", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  ClientHandlers_JSDialogHandler_OnResetDialogState_pargs args;
+  args.bid = &bid;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+}
+
+void ClientHandlersConcurrentClient::JSDialogHandler_OnDialogClosed(const int32_t bid)
+{
+  send_JSDialogHandler_OnDialogClosed(bid);
+}
+
+void ClientHandlersConcurrentClient::send_JSDialogHandler_OnDialogClosed(const int32_t bid)
+{
+  int32_t cseqid = 0;
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("JSDialogHandler_OnDialogClosed", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  ClientHandlers_JSDialogHandler_OnDialogClosed_pargs args;
+  args.bid = &bid;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();

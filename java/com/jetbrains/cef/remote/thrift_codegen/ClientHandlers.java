@@ -163,6 +163,16 @@ public class ClientHandlers {
 
     public void RunFileDialogCallback_OnFileDialogDismissed(int runFileDialogCallback, java.util.List<java.lang.String> filePaths) throws com.jetbrains.cef.remote.thrift.TException;
 
+    public boolean DialogHandler_OnFileDialog(int bid, java.lang.String mode, java.lang.String title, java.lang.String defaultFilePath, java.util.List<java.lang.String> acceptFilters, java.util.List<java.lang.String> acceptExtensions, java.util.List<java.lang.String> acceptDescriptions, com.jetbrains.cef.remote.thrift_codegen.RObject fileDialogCallback) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public JSDialogResult JSDialogHandler_OnJSDialog(int bid, java.lang.String origin_url, java.lang.String dialog_type, java.lang.String message_text, java.lang.String default_prompt_text, com.jetbrains.cef.remote.thrift_codegen.RObject jsDialogCallback) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public boolean JSDialogHandler_OnBeforeUnloadDialog(int bid, java.lang.String message_text, boolean is_reload, com.jetbrains.cef.remote.thrift_codegen.RObject jsDialogCallback) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void JSDialogHandler_OnResetDialogState(int bid) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void JSDialogHandler_OnDialogClosed(int bid) throws com.jetbrains.cef.remote.thrift.TException;
+
   }
 
   public interface AsyncIface {
@@ -318,6 +328,16 @@ public class ClientHandlers {
     public void PdfPrintCallback_OnPdfPrintFinished(int pdfPrintCallback, java.lang.String path, boolean ok, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
     public void RunFileDialogCallback_OnFileDialogDismissed(int runFileDialogCallback, java.util.List<java.lang.String> filePaths, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void DialogHandler_OnFileDialog(int bid, java.lang.String mode, java.lang.String title, java.lang.String defaultFilePath, java.util.List<java.lang.String> acceptFilters, java.util.List<java.lang.String> acceptExtensions, java.util.List<java.lang.String> acceptDescriptions, com.jetbrains.cef.remote.thrift_codegen.RObject fileDialogCallback, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void JSDialogHandler_OnJSDialog(int bid, java.lang.String origin_url, java.lang.String dialog_type, java.lang.String message_text, java.lang.String default_prompt_text, com.jetbrains.cef.remote.thrift_codegen.RObject jsDialogCallback, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<JSDialogResult> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void JSDialogHandler_OnBeforeUnloadDialog(int bid, java.lang.String message_text, boolean is_reload, com.jetbrains.cef.remote.thrift_codegen.RObject jsDialogCallback, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void JSDialogHandler_OnResetDialogState(int bid, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void JSDialogHandler_OnDialogClosed(int bid, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
   }
 
@@ -1967,6 +1987,119 @@ public class ClientHandlers {
       args.setRunFileDialogCallback(runFileDialogCallback);
       args.setFilePaths(filePaths);
       sendBaseOneway("RunFileDialogCallback_OnFileDialogDismissed", args);
+    }
+
+    @Override
+    public boolean DialogHandler_OnFileDialog(int bid, java.lang.String mode, java.lang.String title, java.lang.String defaultFilePath, java.util.List<java.lang.String> acceptFilters, java.util.List<java.lang.String> acceptExtensions, java.util.List<java.lang.String> acceptDescriptions, com.jetbrains.cef.remote.thrift_codegen.RObject fileDialogCallback) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      send_DialogHandler_OnFileDialog(bid, mode, title, defaultFilePath, acceptFilters, acceptExtensions, acceptDescriptions, fileDialogCallback);
+      return recv_DialogHandler_OnFileDialog();
+    }
+
+    public void send_DialogHandler_OnFileDialog(int bid, java.lang.String mode, java.lang.String title, java.lang.String defaultFilePath, java.util.List<java.lang.String> acceptFilters, java.util.List<java.lang.String> acceptExtensions, java.util.List<java.lang.String> acceptDescriptions, com.jetbrains.cef.remote.thrift_codegen.RObject fileDialogCallback) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      DialogHandler_OnFileDialog_args args = new DialogHandler_OnFileDialog_args();
+      args.setBid(bid);
+      args.setMode(mode);
+      args.setTitle(title);
+      args.setDefaultFilePath(defaultFilePath);
+      args.setAcceptFilters(acceptFilters);
+      args.setAcceptExtensions(acceptExtensions);
+      args.setAcceptDescriptions(acceptDescriptions);
+      args.setFileDialogCallback(fileDialogCallback);
+      sendBase("DialogHandler_OnFileDialog", args);
+    }
+
+    public boolean recv_DialogHandler_OnFileDialog() throws com.jetbrains.cef.remote.thrift.TException
+    {
+      DialogHandler_OnFileDialog_result result = new DialogHandler_OnFileDialog_result();
+      receiveBase(result, "DialogHandler_OnFileDialog");
+      if (result.isSetSuccess()) {
+        return result.success;
+      }
+      throw new com.jetbrains.cef.remote.thrift.TApplicationException(com.jetbrains.cef.remote.thrift.TApplicationException.MISSING_RESULT, "DialogHandler_OnFileDialog failed: unknown result");
+    }
+
+    @Override
+    public JSDialogResult JSDialogHandler_OnJSDialog(int bid, java.lang.String origin_url, java.lang.String dialog_type, java.lang.String message_text, java.lang.String default_prompt_text, com.jetbrains.cef.remote.thrift_codegen.RObject jsDialogCallback) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      send_JSDialogHandler_OnJSDialog(bid, origin_url, dialog_type, message_text, default_prompt_text, jsDialogCallback);
+      return recv_JSDialogHandler_OnJSDialog();
+    }
+
+    public void send_JSDialogHandler_OnJSDialog(int bid, java.lang.String origin_url, java.lang.String dialog_type, java.lang.String message_text, java.lang.String default_prompt_text, com.jetbrains.cef.remote.thrift_codegen.RObject jsDialogCallback) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      JSDialogHandler_OnJSDialog_args args = new JSDialogHandler_OnJSDialog_args();
+      args.setBid(bid);
+      args.setOrigin_url(origin_url);
+      args.setDialog_type(dialog_type);
+      args.setMessage_text(message_text);
+      args.setDefault_prompt_text(default_prompt_text);
+      args.setJsDialogCallback(jsDialogCallback);
+      sendBase("JSDialogHandler_OnJSDialog", args);
+    }
+
+    public JSDialogResult recv_JSDialogHandler_OnJSDialog() throws com.jetbrains.cef.remote.thrift.TException
+    {
+      JSDialogHandler_OnJSDialog_result result = new JSDialogHandler_OnJSDialog_result();
+      receiveBase(result, "JSDialogHandler_OnJSDialog");
+      if (result.isSetSuccess()) {
+        return result.success;
+      }
+      throw new com.jetbrains.cef.remote.thrift.TApplicationException(com.jetbrains.cef.remote.thrift.TApplicationException.MISSING_RESULT, "JSDialogHandler_OnJSDialog failed: unknown result");
+    }
+
+    @Override
+    public boolean JSDialogHandler_OnBeforeUnloadDialog(int bid, java.lang.String message_text, boolean is_reload, com.jetbrains.cef.remote.thrift_codegen.RObject jsDialogCallback) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      send_JSDialogHandler_OnBeforeUnloadDialog(bid, message_text, is_reload, jsDialogCallback);
+      return recv_JSDialogHandler_OnBeforeUnloadDialog();
+    }
+
+    public void send_JSDialogHandler_OnBeforeUnloadDialog(int bid, java.lang.String message_text, boolean is_reload, com.jetbrains.cef.remote.thrift_codegen.RObject jsDialogCallback) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      JSDialogHandler_OnBeforeUnloadDialog_args args = new JSDialogHandler_OnBeforeUnloadDialog_args();
+      args.setBid(bid);
+      args.setMessage_text(message_text);
+      args.setIs_reload(is_reload);
+      args.setJsDialogCallback(jsDialogCallback);
+      sendBase("JSDialogHandler_OnBeforeUnloadDialog", args);
+    }
+
+    public boolean recv_JSDialogHandler_OnBeforeUnloadDialog() throws com.jetbrains.cef.remote.thrift.TException
+    {
+      JSDialogHandler_OnBeforeUnloadDialog_result result = new JSDialogHandler_OnBeforeUnloadDialog_result();
+      receiveBase(result, "JSDialogHandler_OnBeforeUnloadDialog");
+      if (result.isSetSuccess()) {
+        return result.success;
+      }
+      throw new com.jetbrains.cef.remote.thrift.TApplicationException(com.jetbrains.cef.remote.thrift.TApplicationException.MISSING_RESULT, "JSDialogHandler_OnBeforeUnloadDialog failed: unknown result");
+    }
+
+    @Override
+    public void JSDialogHandler_OnResetDialogState(int bid) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      send_JSDialogHandler_OnResetDialogState(bid);
+    }
+
+    public void send_JSDialogHandler_OnResetDialogState(int bid) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      JSDialogHandler_OnResetDialogState_args args = new JSDialogHandler_OnResetDialogState_args();
+      args.setBid(bid);
+      sendBaseOneway("JSDialogHandler_OnResetDialogState", args);
+    }
+
+    @Override
+    public void JSDialogHandler_OnDialogClosed(int bid) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      send_JSDialogHandler_OnDialogClosed(bid);
+    }
+
+    public void send_JSDialogHandler_OnDialogClosed(int bid) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      JSDialogHandler_OnDialogClosed_args args = new JSDialogHandler_OnDialogClosed_args();
+      args.setBid(bid);
+      sendBaseOneway("JSDialogHandler_OnDialogClosed", args);
     }
 
   }
@@ -5144,6 +5277,226 @@ public class ClientHandlers {
       }
     }
 
+    @Override
+    public void DialogHandler_OnFileDialog(int bid, java.lang.String mode, java.lang.String title, java.lang.String defaultFilePath, java.util.List<java.lang.String> acceptFilters, java.util.List<java.lang.String> acceptExtensions, java.util.List<java.lang.String> acceptDescriptions, com.jetbrains.cef.remote.thrift_codegen.RObject fileDialogCallback, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+      checkReady();
+      DialogHandler_OnFileDialog_call method_call = new DialogHandler_OnFileDialog_call(bid, mode, title, defaultFilePath, acceptFilters, acceptExtensions, acceptDescriptions, fileDialogCallback, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class DialogHandler_OnFileDialog_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<java.lang.Boolean> {
+      private int bid;
+      private java.lang.String mode;
+      private java.lang.String title;
+      private java.lang.String defaultFilePath;
+      private java.util.List<java.lang.String> acceptFilters;
+      private java.util.List<java.lang.String> acceptExtensions;
+      private java.util.List<java.lang.String> acceptDescriptions;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject fileDialogCallback;
+      public DialogHandler_OnFileDialog_call(int bid, java.lang.String mode, java.lang.String title, java.lang.String defaultFilePath, java.util.List<java.lang.String> acceptFilters, java.util.List<java.lang.String> acceptExtensions, java.util.List<java.lang.String> acceptDescriptions, com.jetbrains.cef.remote.thrift_codegen.RObject fileDialogCallback, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, false);
+        this.bid = bid;
+        this.mode = mode;
+        this.title = title;
+        this.defaultFilePath = defaultFilePath;
+        this.acceptFilters = acceptFilters;
+        this.acceptExtensions = acceptExtensions;
+        this.acceptDescriptions = acceptDescriptions;
+        this.fileDialogCallback = fileDialogCallback;
+      }
+
+      @Override
+      public void write_args(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("DialogHandler_OnFileDialog", com.jetbrains.cef.remote.thrift.protocol.TMessageType.CALL, 0));
+        DialogHandler_OnFileDialog_args args = new DialogHandler_OnFileDialog_args();
+        args.setBid(bid);
+        args.setMode(mode);
+        args.setTitle(title);
+        args.setDefaultFilePath(defaultFilePath);
+        args.setAcceptFilters(acceptFilters);
+        args.setAcceptExtensions(acceptExtensions);
+        args.setAcceptDescriptions(acceptDescriptions);
+        args.setFileDialogCallback(fileDialogCallback);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public java.lang.Boolean getResult() throws com.jetbrains.cef.remote.thrift.TException {
+        if (getState() != com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport memoryTransport = new com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        com.jetbrains.cef.remote.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return (new Client(prot)).recv_DialogHandler_OnFileDialog();
+      }
+    }
+
+    @Override
+    public void JSDialogHandler_OnJSDialog(int bid, java.lang.String origin_url, java.lang.String dialog_type, java.lang.String message_text, java.lang.String default_prompt_text, com.jetbrains.cef.remote.thrift_codegen.RObject jsDialogCallback, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<JSDialogResult> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+      checkReady();
+      JSDialogHandler_OnJSDialog_call method_call = new JSDialogHandler_OnJSDialog_call(bid, origin_url, dialog_type, message_text, default_prompt_text, jsDialogCallback, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class JSDialogHandler_OnJSDialog_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<JSDialogResult> {
+      private int bid;
+      private java.lang.String origin_url;
+      private java.lang.String dialog_type;
+      private java.lang.String message_text;
+      private java.lang.String default_prompt_text;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject jsDialogCallback;
+      public JSDialogHandler_OnJSDialog_call(int bid, java.lang.String origin_url, java.lang.String dialog_type, java.lang.String message_text, java.lang.String default_prompt_text, com.jetbrains.cef.remote.thrift_codegen.RObject jsDialogCallback, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<JSDialogResult> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, false);
+        this.bid = bid;
+        this.origin_url = origin_url;
+        this.dialog_type = dialog_type;
+        this.message_text = message_text;
+        this.default_prompt_text = default_prompt_text;
+        this.jsDialogCallback = jsDialogCallback;
+      }
+
+      @Override
+      public void write_args(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("JSDialogHandler_OnJSDialog", com.jetbrains.cef.remote.thrift.protocol.TMessageType.CALL, 0));
+        JSDialogHandler_OnJSDialog_args args = new JSDialogHandler_OnJSDialog_args();
+        args.setBid(bid);
+        args.setOrigin_url(origin_url);
+        args.setDialog_type(dialog_type);
+        args.setMessage_text(message_text);
+        args.setDefault_prompt_text(default_prompt_text);
+        args.setJsDialogCallback(jsDialogCallback);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public JSDialogResult getResult() throws com.jetbrains.cef.remote.thrift.TException {
+        if (getState() != com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport memoryTransport = new com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        com.jetbrains.cef.remote.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return (new Client(prot)).recv_JSDialogHandler_OnJSDialog();
+      }
+    }
+
+    @Override
+    public void JSDialogHandler_OnBeforeUnloadDialog(int bid, java.lang.String message_text, boolean is_reload, com.jetbrains.cef.remote.thrift_codegen.RObject jsDialogCallback, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+      checkReady();
+      JSDialogHandler_OnBeforeUnloadDialog_call method_call = new JSDialogHandler_OnBeforeUnloadDialog_call(bid, message_text, is_reload, jsDialogCallback, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class JSDialogHandler_OnBeforeUnloadDialog_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<java.lang.Boolean> {
+      private int bid;
+      private java.lang.String message_text;
+      private boolean is_reload;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject jsDialogCallback;
+      public JSDialogHandler_OnBeforeUnloadDialog_call(int bid, java.lang.String message_text, boolean is_reload, com.jetbrains.cef.remote.thrift_codegen.RObject jsDialogCallback, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, false);
+        this.bid = bid;
+        this.message_text = message_text;
+        this.is_reload = is_reload;
+        this.jsDialogCallback = jsDialogCallback;
+      }
+
+      @Override
+      public void write_args(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("JSDialogHandler_OnBeforeUnloadDialog", com.jetbrains.cef.remote.thrift.protocol.TMessageType.CALL, 0));
+        JSDialogHandler_OnBeforeUnloadDialog_args args = new JSDialogHandler_OnBeforeUnloadDialog_args();
+        args.setBid(bid);
+        args.setMessage_text(message_text);
+        args.setIs_reload(is_reload);
+        args.setJsDialogCallback(jsDialogCallback);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public java.lang.Boolean getResult() throws com.jetbrains.cef.remote.thrift.TException {
+        if (getState() != com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport memoryTransport = new com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        com.jetbrains.cef.remote.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return (new Client(prot)).recv_JSDialogHandler_OnBeforeUnloadDialog();
+      }
+    }
+
+    @Override
+    public void JSDialogHandler_OnResetDialogState(int bid, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+      checkReady();
+      JSDialogHandler_OnResetDialogState_call method_call = new JSDialogHandler_OnResetDialogState_call(bid, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class JSDialogHandler_OnResetDialogState_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<Void> {
+      private int bid;
+      public JSDialogHandler_OnResetDialogState_call(int bid, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, true);
+        this.bid = bid;
+      }
+
+      @Override
+      public void write_args(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("JSDialogHandler_OnResetDialogState", com.jetbrains.cef.remote.thrift.protocol.TMessageType.ONEWAY, 0));
+        JSDialogHandler_OnResetDialogState_args args = new JSDialogHandler_OnResetDialogState_args();
+        args.setBid(bid);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public Void getResult() throws com.jetbrains.cef.remote.thrift.TException {
+        if (getState() != com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport memoryTransport = new com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        com.jetbrains.cef.remote.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return null;
+      }
+    }
+
+    @Override
+    public void JSDialogHandler_OnDialogClosed(int bid, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+      checkReady();
+      JSDialogHandler_OnDialogClosed_call method_call = new JSDialogHandler_OnDialogClosed_call(bid, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class JSDialogHandler_OnDialogClosed_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<Void> {
+      private int bid;
+      public JSDialogHandler_OnDialogClosed_call(int bid, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, true);
+        this.bid = bid;
+      }
+
+      @Override
+      public void write_args(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("JSDialogHandler_OnDialogClosed", com.jetbrains.cef.remote.thrift.protocol.TMessageType.ONEWAY, 0));
+        JSDialogHandler_OnDialogClosed_args args = new JSDialogHandler_OnDialogClosed_args();
+        args.setBid(bid);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public Void getResult() throws com.jetbrains.cef.remote.thrift.TException {
+        if (getState() != com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport memoryTransport = new com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        com.jetbrains.cef.remote.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return null;
+      }
+    }
+
   }
 
   public static class Processor<I extends Iface> extends com.jetbrains.cef.remote.thrift.TBaseProcessor<I> implements com.jetbrains.cef.remote.thrift.TProcessor {
@@ -5233,6 +5586,11 @@ public class ClientHandlers {
       processMap.put("PermissionHandler_OnRequestMediaAccessPermission", new PermissionHandler_OnRequestMediaAccessPermission());
       processMap.put("PdfPrintCallback_OnPdfPrintFinished", new PdfPrintCallback_OnPdfPrintFinished());
       processMap.put("RunFileDialogCallback_OnFileDialogDismissed", new RunFileDialogCallback_OnFileDialogDismissed());
+      processMap.put("DialogHandler_OnFileDialog", new DialogHandler_OnFileDialog());
+      processMap.put("JSDialogHandler_OnJSDialog", new JSDialogHandler_OnJSDialog());
+      processMap.put("JSDialogHandler_OnBeforeUnloadDialog", new JSDialogHandler_OnBeforeUnloadDialog());
+      processMap.put("JSDialogHandler_OnResetDialogState", new JSDialogHandler_OnResetDialogState());
+      processMap.put("JSDialogHandler_OnDialogClosed", new JSDialogHandler_OnDialogClosed());
       return processMap;
     }
 
@@ -7737,6 +8095,171 @@ public class ClientHandlers {
       }
     }
 
+    public static class DialogHandler_OnFileDialog<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, DialogHandler_OnFileDialog_args, DialogHandler_OnFileDialog_result> {
+      public DialogHandler_OnFileDialog() {
+        super("DialogHandler_OnFileDialog");
+      }
+
+      @Override
+      public DialogHandler_OnFileDialog_args getEmptyArgsInstance() {
+        return new DialogHandler_OnFileDialog_args();
+      }
+
+      @Override
+      public boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public DialogHandler_OnFileDialog_result getEmptyResultInstance() {
+        return new DialogHandler_OnFileDialog_result();
+      }
+
+      @Override
+      public DialogHandler_OnFileDialog_result getResult(I iface, DialogHandler_OnFileDialog_args args) throws com.jetbrains.cef.remote.thrift.TException {
+        DialogHandler_OnFileDialog_result result = getEmptyResultInstance();
+        result.success = iface.DialogHandler_OnFileDialog(args.bid, args.mode, args.title, args.defaultFilePath, args.acceptFilters, args.acceptExtensions, args.acceptDescriptions, args.fileDialogCallback);
+        result.setSuccessIsSet(true);
+        return result;
+      }
+    }
+
+    public static class JSDialogHandler_OnJSDialog<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, JSDialogHandler_OnJSDialog_args, JSDialogHandler_OnJSDialog_result> {
+      public JSDialogHandler_OnJSDialog() {
+        super("JSDialogHandler_OnJSDialog");
+      }
+
+      @Override
+      public JSDialogHandler_OnJSDialog_args getEmptyArgsInstance() {
+        return new JSDialogHandler_OnJSDialog_args();
+      }
+
+      @Override
+      public boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public JSDialogHandler_OnJSDialog_result getEmptyResultInstance() {
+        return new JSDialogHandler_OnJSDialog_result();
+      }
+
+      @Override
+      public JSDialogHandler_OnJSDialog_result getResult(I iface, JSDialogHandler_OnJSDialog_args args) throws com.jetbrains.cef.remote.thrift.TException {
+        JSDialogHandler_OnJSDialog_result result = getEmptyResultInstance();
+        result.success = iface.JSDialogHandler_OnJSDialog(args.bid, args.origin_url, args.dialog_type, args.message_text, args.default_prompt_text, args.jsDialogCallback);
+        return result;
+      }
+    }
+
+    public static class JSDialogHandler_OnBeforeUnloadDialog<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, JSDialogHandler_OnBeforeUnloadDialog_args, JSDialogHandler_OnBeforeUnloadDialog_result> {
+      public JSDialogHandler_OnBeforeUnloadDialog() {
+        super("JSDialogHandler_OnBeforeUnloadDialog");
+      }
+
+      @Override
+      public JSDialogHandler_OnBeforeUnloadDialog_args getEmptyArgsInstance() {
+        return new JSDialogHandler_OnBeforeUnloadDialog_args();
+      }
+
+      @Override
+      public boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public JSDialogHandler_OnBeforeUnloadDialog_result getEmptyResultInstance() {
+        return new JSDialogHandler_OnBeforeUnloadDialog_result();
+      }
+
+      @Override
+      public JSDialogHandler_OnBeforeUnloadDialog_result getResult(I iface, JSDialogHandler_OnBeforeUnloadDialog_args args) throws com.jetbrains.cef.remote.thrift.TException {
+        JSDialogHandler_OnBeforeUnloadDialog_result result = getEmptyResultInstance();
+        result.success = iface.JSDialogHandler_OnBeforeUnloadDialog(args.bid, args.message_text, args.is_reload, args.jsDialogCallback);
+        result.setSuccessIsSet(true);
+        return result;
+      }
+    }
+
+    public static class JSDialogHandler_OnResetDialogState<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, JSDialogHandler_OnResetDialogState_args, com.jetbrains.cef.remote.thrift.TBase> {
+      public JSDialogHandler_OnResetDialogState() {
+        super("JSDialogHandler_OnResetDialogState");
+      }
+
+      @Override
+      public JSDialogHandler_OnResetDialogState_args getEmptyArgsInstance() {
+        return new JSDialogHandler_OnResetDialogState_args();
+      }
+
+      @Override
+      public boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.TBase getEmptyResultInstance() {
+        return null;
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.TBase getResult(I iface, JSDialogHandler_OnResetDialogState_args args) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.JSDialogHandler_OnResetDialogState(args.bid);
+        return null;
+      }
+    }
+
+    public static class JSDialogHandler_OnDialogClosed<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, JSDialogHandler_OnDialogClosed_args, com.jetbrains.cef.remote.thrift.TBase> {
+      public JSDialogHandler_OnDialogClosed() {
+        super("JSDialogHandler_OnDialogClosed");
+      }
+
+      @Override
+      public JSDialogHandler_OnDialogClosed_args getEmptyArgsInstance() {
+        return new JSDialogHandler_OnDialogClosed_args();
+      }
+
+      @Override
+      public boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.TBase getEmptyResultInstance() {
+        return null;
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.TBase getResult(I iface, JSDialogHandler_OnDialogClosed_args args) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.JSDialogHandler_OnDialogClosed(args.bid);
+        return null;
+      }
+    }
+
   }
 
   public static class AsyncProcessor<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.TBaseAsyncProcessor<I> {
@@ -7826,6 +8349,11 @@ public class ClientHandlers {
       processMap.put("PermissionHandler_OnRequestMediaAccessPermission", new PermissionHandler_OnRequestMediaAccessPermission());
       processMap.put("PdfPrintCallback_OnPdfPrintFinished", new PdfPrintCallback_OnPdfPrintFinished());
       processMap.put("RunFileDialogCallback_OnFileDialogDismissed", new RunFileDialogCallback_OnFileDialogDismissed());
+      processMap.put("DialogHandler_OnFileDialog", new DialogHandler_OnFileDialog());
+      processMap.put("JSDialogHandler_OnJSDialog", new JSDialogHandler_OnJSDialog());
+      processMap.put("JSDialogHandler_OnBeforeUnloadDialog", new JSDialogHandler_OnBeforeUnloadDialog());
+      processMap.put("JSDialogHandler_OnResetDialogState", new JSDialogHandler_OnResetDialogState());
+      processMap.put("JSDialogHandler_OnDialogClosed", new JSDialogHandler_OnDialogClosed());
       return processMap;
     }
 
@@ -12501,6 +13029,314 @@ public class ClientHandlers {
       @Override
       public void start(I iface, RunFileDialogCallback_OnFileDialogDismissed_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
         iface.RunFileDialogCallback_OnFileDialogDismissed(args.runFileDialogCallback, args.filePaths,resultHandler);
+      }
+    }
+
+    public static class DialogHandler_OnFileDialog<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, DialogHandler_OnFileDialog_args, java.lang.Boolean, DialogHandler_OnFileDialog_result> {
+      public DialogHandler_OnFileDialog() {
+        super("DialogHandler_OnFileDialog");
+      }
+
+      @Override
+      public DialogHandler_OnFileDialog_result getEmptyResultInstance() {
+        return new DialogHandler_OnFileDialog_result();
+      }
+
+      @Override
+      public DialogHandler_OnFileDialog_args getEmptyArgsInstance() {
+        return new DialogHandler_OnFileDialog_args();
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> getResultHandler(final com.jetbrains.cef.remote.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final com.jetbrains.cef.remote.thrift.AsyncProcessFunction fcall = this;
+        return new com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean>() { 
+          @Override
+          public void onComplete(java.lang.Boolean o) {
+            DialogHandler_OnFileDialog_result result = new DialogHandler_OnFileDialog_result();
+            result.success = o;
+            result.setSuccessIsSet(true);
+            try {
+              fcall.sendResponse(fb, result, com.jetbrains.cef.remote.thrift.protocol.TMessageType.REPLY,seqid);
+            } catch (com.jetbrains.cef.remote.thrift.transport.TTransportException e) {
+              _LOGGER.error("TTransportException writing to internal frame buffer", e);
+              fb.close();
+            } catch (java.lang.Exception e) {
+              _LOGGER.error("Exception writing to internal frame buffer", e);
+              onError(e);
+            }
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            byte msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.REPLY;
+            com.jetbrains.cef.remote.thrift.TSerializable msg;
+            DialogHandler_OnFileDialog_result result = new DialogHandler_OnFileDialog_result();
+            if (e instanceof com.jetbrains.cef.remote.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+              return;
+            } else if (e instanceof com.jetbrains.cef.remote.thrift.TApplicationException) {
+              _LOGGER.error("TApplicationException inside handler", e);
+              msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.EXCEPTION;
+              msg = (com.jetbrains.cef.remote.thrift.TApplicationException)e;
+            } else {
+              _LOGGER.error("Exception inside handler", e);
+              msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.EXCEPTION;
+              msg = new com.jetbrains.cef.remote.thrift.TApplicationException(com.jetbrains.cef.remote.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
+            }
+            try {
+              fcall.sendResponse(fb,msg,msgType,seqid);
+            } catch (java.lang.Exception ex) {
+              _LOGGER.error("Exception writing to internal frame buffer", ex);
+              fb.close();
+            }
+          }
+        };
+      }
+
+      @Override
+      public boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      public void start(I iface, DialogHandler_OnFileDialog_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.DialogHandler_OnFileDialog(args.bid, args.mode, args.title, args.defaultFilePath, args.acceptFilters, args.acceptExtensions, args.acceptDescriptions, args.fileDialogCallback,resultHandler);
+      }
+    }
+
+    public static class JSDialogHandler_OnJSDialog<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, JSDialogHandler_OnJSDialog_args, JSDialogResult, JSDialogHandler_OnJSDialog_result> {
+      public JSDialogHandler_OnJSDialog() {
+        super("JSDialogHandler_OnJSDialog");
+      }
+
+      @Override
+      public JSDialogHandler_OnJSDialog_result getEmptyResultInstance() {
+        return new JSDialogHandler_OnJSDialog_result();
+      }
+
+      @Override
+      public JSDialogHandler_OnJSDialog_args getEmptyArgsInstance() {
+        return new JSDialogHandler_OnJSDialog_args();
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<JSDialogResult> getResultHandler(final com.jetbrains.cef.remote.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final com.jetbrains.cef.remote.thrift.AsyncProcessFunction fcall = this;
+        return new com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<JSDialogResult>() { 
+          @Override
+          public void onComplete(JSDialogResult o) {
+            JSDialogHandler_OnJSDialog_result result = new JSDialogHandler_OnJSDialog_result();
+            result.success = o;
+            try {
+              fcall.sendResponse(fb, result, com.jetbrains.cef.remote.thrift.protocol.TMessageType.REPLY,seqid);
+            } catch (com.jetbrains.cef.remote.thrift.transport.TTransportException e) {
+              _LOGGER.error("TTransportException writing to internal frame buffer", e);
+              fb.close();
+            } catch (java.lang.Exception e) {
+              _LOGGER.error("Exception writing to internal frame buffer", e);
+              onError(e);
+            }
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            byte msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.REPLY;
+            com.jetbrains.cef.remote.thrift.TSerializable msg;
+            JSDialogHandler_OnJSDialog_result result = new JSDialogHandler_OnJSDialog_result();
+            if (e instanceof com.jetbrains.cef.remote.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+              return;
+            } else if (e instanceof com.jetbrains.cef.remote.thrift.TApplicationException) {
+              _LOGGER.error("TApplicationException inside handler", e);
+              msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.EXCEPTION;
+              msg = (com.jetbrains.cef.remote.thrift.TApplicationException)e;
+            } else {
+              _LOGGER.error("Exception inside handler", e);
+              msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.EXCEPTION;
+              msg = new com.jetbrains.cef.remote.thrift.TApplicationException(com.jetbrains.cef.remote.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
+            }
+            try {
+              fcall.sendResponse(fb,msg,msgType,seqid);
+            } catch (java.lang.Exception ex) {
+              _LOGGER.error("Exception writing to internal frame buffer", ex);
+              fb.close();
+            }
+          }
+        };
+      }
+
+      @Override
+      public boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      public void start(I iface, JSDialogHandler_OnJSDialog_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<JSDialogResult> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.JSDialogHandler_OnJSDialog(args.bid, args.origin_url, args.dialog_type, args.message_text, args.default_prompt_text, args.jsDialogCallback,resultHandler);
+      }
+    }
+
+    public static class JSDialogHandler_OnBeforeUnloadDialog<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, JSDialogHandler_OnBeforeUnloadDialog_args, java.lang.Boolean, JSDialogHandler_OnBeforeUnloadDialog_result> {
+      public JSDialogHandler_OnBeforeUnloadDialog() {
+        super("JSDialogHandler_OnBeforeUnloadDialog");
+      }
+
+      @Override
+      public JSDialogHandler_OnBeforeUnloadDialog_result getEmptyResultInstance() {
+        return new JSDialogHandler_OnBeforeUnloadDialog_result();
+      }
+
+      @Override
+      public JSDialogHandler_OnBeforeUnloadDialog_args getEmptyArgsInstance() {
+        return new JSDialogHandler_OnBeforeUnloadDialog_args();
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> getResultHandler(final com.jetbrains.cef.remote.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final com.jetbrains.cef.remote.thrift.AsyncProcessFunction fcall = this;
+        return new com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean>() { 
+          @Override
+          public void onComplete(java.lang.Boolean o) {
+            JSDialogHandler_OnBeforeUnloadDialog_result result = new JSDialogHandler_OnBeforeUnloadDialog_result();
+            result.success = o;
+            result.setSuccessIsSet(true);
+            try {
+              fcall.sendResponse(fb, result, com.jetbrains.cef.remote.thrift.protocol.TMessageType.REPLY,seqid);
+            } catch (com.jetbrains.cef.remote.thrift.transport.TTransportException e) {
+              _LOGGER.error("TTransportException writing to internal frame buffer", e);
+              fb.close();
+            } catch (java.lang.Exception e) {
+              _LOGGER.error("Exception writing to internal frame buffer", e);
+              onError(e);
+            }
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            byte msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.REPLY;
+            com.jetbrains.cef.remote.thrift.TSerializable msg;
+            JSDialogHandler_OnBeforeUnloadDialog_result result = new JSDialogHandler_OnBeforeUnloadDialog_result();
+            if (e instanceof com.jetbrains.cef.remote.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+              return;
+            } else if (e instanceof com.jetbrains.cef.remote.thrift.TApplicationException) {
+              _LOGGER.error("TApplicationException inside handler", e);
+              msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.EXCEPTION;
+              msg = (com.jetbrains.cef.remote.thrift.TApplicationException)e;
+            } else {
+              _LOGGER.error("Exception inside handler", e);
+              msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.EXCEPTION;
+              msg = new com.jetbrains.cef.remote.thrift.TApplicationException(com.jetbrains.cef.remote.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
+            }
+            try {
+              fcall.sendResponse(fb,msg,msgType,seqid);
+            } catch (java.lang.Exception ex) {
+              _LOGGER.error("Exception writing to internal frame buffer", ex);
+              fb.close();
+            }
+          }
+        };
+      }
+
+      @Override
+      public boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      public void start(I iface, JSDialogHandler_OnBeforeUnloadDialog_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.JSDialogHandler_OnBeforeUnloadDialog(args.bid, args.message_text, args.is_reload, args.jsDialogCallback,resultHandler);
+      }
+    }
+
+    public static class JSDialogHandler_OnResetDialogState<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, JSDialogHandler_OnResetDialogState_args, Void, com.jetbrains.cef.remote.thrift.TBase> {
+      public JSDialogHandler_OnResetDialogState() {
+        super("JSDialogHandler_OnResetDialogState");
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.TBase getEmptyResultInstance() {
+        return null;
+      }
+
+      @Override
+      public JSDialogHandler_OnResetDialogState_args getEmptyArgsInstance() {
+        return new JSDialogHandler_OnResetDialogState_args();
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> getResultHandler(final com.jetbrains.cef.remote.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final com.jetbrains.cef.remote.thrift.AsyncProcessFunction fcall = this;
+        return new com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void>() { 
+          @Override
+          public void onComplete(Void o) {
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            if (e instanceof com.jetbrains.cef.remote.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+            } else {
+              _LOGGER.error("Exception inside oneway handler", e);
+            }
+          }
+        };
+      }
+
+      @Override
+      public boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      public void start(I iface, JSDialogHandler_OnResetDialogState_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.JSDialogHandler_OnResetDialogState(args.bid,resultHandler);
+      }
+    }
+
+    public static class JSDialogHandler_OnDialogClosed<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, JSDialogHandler_OnDialogClosed_args, Void, com.jetbrains.cef.remote.thrift.TBase> {
+      public JSDialogHandler_OnDialogClosed() {
+        super("JSDialogHandler_OnDialogClosed");
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.TBase getEmptyResultInstance() {
+        return null;
+      }
+
+      @Override
+      public JSDialogHandler_OnDialogClosed_args getEmptyArgsInstance() {
+        return new JSDialogHandler_OnDialogClosed_args();
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> getResultHandler(final com.jetbrains.cef.remote.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final com.jetbrains.cef.remote.thrift.AsyncProcessFunction fcall = this;
+        return new com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void>() { 
+          @Override
+          public void onComplete(Void o) {
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            if (e instanceof com.jetbrains.cef.remote.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+            } else {
+              _LOGGER.error("Exception inside oneway handler", e);
+            }
+          }
+        };
+      }
+
+      @Override
+      public boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      public void start(I iface, JSDialogHandler_OnDialogClosed_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.JSDialogHandler_OnDialogClosed(args.bid,resultHandler);
       }
     }
 
@@ -75575,6 +76411,4820 @@ public class ClientHandlers {
               }
             }
             struct.setFilePathsIsSet(true);
+          }
+        } finally {
+          prot.decrementRecursionDepth();
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class DialogHandler_OnFileDialog_args implements com.jetbrains.cef.remote.thrift.TBase<DialogHandler_OnFileDialog_args, DialogHandler_OnFileDialog_args._Fields>, java.io.Serializable, Cloneable, Comparable<DialogHandler_OnFileDialog_args>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("DialogHandler_OnFileDialog_args");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField BID_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("bid", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)1);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField MODE_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("mode", com.jetbrains.cef.remote.thrift.protocol.TType.STRING, (short)2);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField TITLE_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("title", com.jetbrains.cef.remote.thrift.protocol.TType.STRING, (short)3);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField DEFAULT_FILE_PATH_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("defaultFilePath", com.jetbrains.cef.remote.thrift.protocol.TType.STRING, (short)4);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField ACCEPT_FILTERS_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("acceptFilters", com.jetbrains.cef.remote.thrift.protocol.TType.LIST, (short)5);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField ACCEPT_EXTENSIONS_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("acceptExtensions", com.jetbrains.cef.remote.thrift.protocol.TType.LIST, (short)6);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField ACCEPT_DESCRIPTIONS_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("acceptDescriptions", com.jetbrains.cef.remote.thrift.protocol.TType.LIST, (short)7);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField FILE_DIALOG_CALLBACK_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("fileDialogCallback", com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, (short)8);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new DialogHandler_OnFileDialog_argsStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new DialogHandler_OnFileDialog_argsTupleSchemeFactory();
+
+    public int bid; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String mode; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String title; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String defaultFilePath; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.util.List<java.lang.String> acceptFilters; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.util.List<java.lang.String> acceptExtensions; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.util.List<java.lang.String> acceptDescriptions; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject fileDialogCallback; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      BID((short)1, "bid"),
+      MODE((short)2, "mode"),
+      TITLE((short)3, "title"),
+      DEFAULT_FILE_PATH((short)4, "defaultFilePath"),
+      ACCEPT_FILTERS((short)5, "acceptFilters"),
+      ACCEPT_EXTENSIONS((short)6, "acceptExtensions"),
+      ACCEPT_DESCRIPTIONS((short)7, "acceptDescriptions"),
+      FILE_DIALOG_CALLBACK((short)8, "fileDialogCallback");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // BID
+            return BID;
+          case 2: // MODE
+            return MODE;
+          case 3: // TITLE
+            return TITLE;
+          case 4: // DEFAULT_FILE_PATH
+            return DEFAULT_FILE_PATH;
+          case 5: // ACCEPT_FILTERS
+            return ACCEPT_FILTERS;
+          case 6: // ACCEPT_EXTENSIONS
+            return ACCEPT_EXTENSIONS;
+          case 7: // ACCEPT_DESCRIPTIONS
+            return ACCEPT_DESCRIPTIONS;
+          case 8: // FILE_DIALOG_CALLBACK
+            return FILE_DIALOG_CALLBACK;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __BID_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.BID, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("bid", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.MODE, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("mode", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.TITLE, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("title", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.DEFAULT_FILE_PATH, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("defaultFilePath", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.ACCEPT_FILTERS, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("acceptFilters", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.ListMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.LIST, 
+              new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRING))));
+      tmpMap.put(_Fields.ACCEPT_EXTENSIONS, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("acceptExtensions", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.ListMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.LIST, 
+              new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRING))));
+      tmpMap.put(_Fields.ACCEPT_DESCRIPTIONS, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("acceptDescriptions", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.ListMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.LIST, 
+              new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRING))));
+      tmpMap.put(_Fields.FILE_DIALOG_CALLBACK, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("fileDialogCallback", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(DialogHandler_OnFileDialog_args.class, metaDataMap);
+    }
+
+    public DialogHandler_OnFileDialog_args() {
+    }
+
+    public DialogHandler_OnFileDialog_args(
+      int bid,
+      java.lang.String mode,
+      java.lang.String title,
+      java.lang.String defaultFilePath,
+      java.util.List<java.lang.String> acceptFilters,
+      java.util.List<java.lang.String> acceptExtensions,
+      java.util.List<java.lang.String> acceptDescriptions,
+      com.jetbrains.cef.remote.thrift_codegen.RObject fileDialogCallback)
+    {
+      this();
+      this.bid = bid;
+      setBidIsSet(true);
+      this.mode = mode;
+      this.title = title;
+      this.defaultFilePath = defaultFilePath;
+      this.acceptFilters = acceptFilters;
+      this.acceptExtensions = acceptExtensions;
+      this.acceptDescriptions = acceptDescriptions;
+      this.fileDialogCallback = fileDialogCallback;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public DialogHandler_OnFileDialog_args(DialogHandler_OnFileDialog_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.bid = other.bid;
+      if (other.isSetMode()) {
+        this.mode = other.mode;
+      }
+      if (other.isSetTitle()) {
+        this.title = other.title;
+      }
+      if (other.isSetDefaultFilePath()) {
+        this.defaultFilePath = other.defaultFilePath;
+      }
+      if (other.isSetAcceptFilters()) {
+        java.util.List<java.lang.String> __this__acceptFilters = new java.util.ArrayList<java.lang.String>(other.acceptFilters);
+        this.acceptFilters = __this__acceptFilters;
+      }
+      if (other.isSetAcceptExtensions()) {
+        java.util.List<java.lang.String> __this__acceptExtensions = new java.util.ArrayList<java.lang.String>(other.acceptExtensions);
+        this.acceptExtensions = __this__acceptExtensions;
+      }
+      if (other.isSetAcceptDescriptions()) {
+        java.util.List<java.lang.String> __this__acceptDescriptions = new java.util.ArrayList<java.lang.String>(other.acceptDescriptions);
+        this.acceptDescriptions = __this__acceptDescriptions;
+      }
+      if (other.isSetFileDialogCallback()) {
+        this.fileDialogCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.fileDialogCallback);
+      }
+    }
+
+    @Override
+    public DialogHandler_OnFileDialog_args deepCopy() {
+      return new DialogHandler_OnFileDialog_args(this);
+    }
+
+    @Override
+    public void clear() {
+      setBidIsSet(false);
+      this.bid = 0;
+      this.mode = null;
+      this.title = null;
+      this.defaultFilePath = null;
+      this.acceptFilters = null;
+      this.acceptExtensions = null;
+      this.acceptDescriptions = null;
+      this.fileDialogCallback = null;
+    }
+
+    public int getBid() {
+      return this.bid;
+    }
+
+    public DialogHandler_OnFileDialog_args setBid(int bid) {
+      this.bid = bid;
+      setBidIsSet(true);
+      return this;
+    }
+
+    public void unsetBid() {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    /** Returns true if field bid is set (has been assigned a value) and false otherwise */
+    public boolean isSetBid() {
+      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    public void setBidIsSet(boolean value) {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public java.lang.String getMode() {
+      return this.mode;
+    }
+
+    public DialogHandler_OnFileDialog_args setMode(@com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String mode) {
+      this.mode = mode;
+      return this;
+    }
+
+    public void unsetMode() {
+      this.mode = null;
+    }
+
+    /** Returns true if field mode is set (has been assigned a value) and false otherwise */
+    public boolean isSetMode() {
+      return this.mode != null;
+    }
+
+    public void setModeIsSet(boolean value) {
+      if (!value) {
+        this.mode = null;
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public java.lang.String getTitle() {
+      return this.title;
+    }
+
+    public DialogHandler_OnFileDialog_args setTitle(@com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String title) {
+      this.title = title;
+      return this;
+    }
+
+    public void unsetTitle() {
+      this.title = null;
+    }
+
+    /** Returns true if field title is set (has been assigned a value) and false otherwise */
+    public boolean isSetTitle() {
+      return this.title != null;
+    }
+
+    public void setTitleIsSet(boolean value) {
+      if (!value) {
+        this.title = null;
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public java.lang.String getDefaultFilePath() {
+      return this.defaultFilePath;
+    }
+
+    public DialogHandler_OnFileDialog_args setDefaultFilePath(@com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String defaultFilePath) {
+      this.defaultFilePath = defaultFilePath;
+      return this;
+    }
+
+    public void unsetDefaultFilePath() {
+      this.defaultFilePath = null;
+    }
+
+    /** Returns true if field defaultFilePath is set (has been assigned a value) and false otherwise */
+    public boolean isSetDefaultFilePath() {
+      return this.defaultFilePath != null;
+    }
+
+    public void setDefaultFilePathIsSet(boolean value) {
+      if (!value) {
+        this.defaultFilePath = null;
+      }
+    }
+
+    public int getAcceptFiltersSize() {
+      return (this.acceptFilters == null) ? 0 : this.acceptFilters.size();
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public java.util.Iterator<java.lang.String> getAcceptFiltersIterator() {
+      return (this.acceptFilters == null) ? null : this.acceptFilters.iterator();
+    }
+
+    public void addToAcceptFilters(java.lang.String elem) {
+      if (this.acceptFilters == null) {
+        this.acceptFilters = new java.util.ArrayList<java.lang.String>();
+      }
+      this.acceptFilters.add(elem);
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public java.util.List<java.lang.String> getAcceptFilters() {
+      return this.acceptFilters;
+    }
+
+    public DialogHandler_OnFileDialog_args setAcceptFilters(@com.jetbrains.cef.remote.thrift.annotation.Nullable java.util.List<java.lang.String> acceptFilters) {
+      this.acceptFilters = acceptFilters;
+      return this;
+    }
+
+    public void unsetAcceptFilters() {
+      this.acceptFilters = null;
+    }
+
+    /** Returns true if field acceptFilters is set (has been assigned a value) and false otherwise */
+    public boolean isSetAcceptFilters() {
+      return this.acceptFilters != null;
+    }
+
+    public void setAcceptFiltersIsSet(boolean value) {
+      if (!value) {
+        this.acceptFilters = null;
+      }
+    }
+
+    public int getAcceptExtensionsSize() {
+      return (this.acceptExtensions == null) ? 0 : this.acceptExtensions.size();
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public java.util.Iterator<java.lang.String> getAcceptExtensionsIterator() {
+      return (this.acceptExtensions == null) ? null : this.acceptExtensions.iterator();
+    }
+
+    public void addToAcceptExtensions(java.lang.String elem) {
+      if (this.acceptExtensions == null) {
+        this.acceptExtensions = new java.util.ArrayList<java.lang.String>();
+      }
+      this.acceptExtensions.add(elem);
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public java.util.List<java.lang.String> getAcceptExtensions() {
+      return this.acceptExtensions;
+    }
+
+    public DialogHandler_OnFileDialog_args setAcceptExtensions(@com.jetbrains.cef.remote.thrift.annotation.Nullable java.util.List<java.lang.String> acceptExtensions) {
+      this.acceptExtensions = acceptExtensions;
+      return this;
+    }
+
+    public void unsetAcceptExtensions() {
+      this.acceptExtensions = null;
+    }
+
+    /** Returns true if field acceptExtensions is set (has been assigned a value) and false otherwise */
+    public boolean isSetAcceptExtensions() {
+      return this.acceptExtensions != null;
+    }
+
+    public void setAcceptExtensionsIsSet(boolean value) {
+      if (!value) {
+        this.acceptExtensions = null;
+      }
+    }
+
+    public int getAcceptDescriptionsSize() {
+      return (this.acceptDescriptions == null) ? 0 : this.acceptDescriptions.size();
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public java.util.Iterator<java.lang.String> getAcceptDescriptionsIterator() {
+      return (this.acceptDescriptions == null) ? null : this.acceptDescriptions.iterator();
+    }
+
+    public void addToAcceptDescriptions(java.lang.String elem) {
+      if (this.acceptDescriptions == null) {
+        this.acceptDescriptions = new java.util.ArrayList<java.lang.String>();
+      }
+      this.acceptDescriptions.add(elem);
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public java.util.List<java.lang.String> getAcceptDescriptions() {
+      return this.acceptDescriptions;
+    }
+
+    public DialogHandler_OnFileDialog_args setAcceptDescriptions(@com.jetbrains.cef.remote.thrift.annotation.Nullable java.util.List<java.lang.String> acceptDescriptions) {
+      this.acceptDescriptions = acceptDescriptions;
+      return this;
+    }
+
+    public void unsetAcceptDescriptions() {
+      this.acceptDescriptions = null;
+    }
+
+    /** Returns true if field acceptDescriptions is set (has been assigned a value) and false otherwise */
+    public boolean isSetAcceptDescriptions() {
+      return this.acceptDescriptions != null;
+    }
+
+    public void setAcceptDescriptionsIsSet(boolean value) {
+      if (!value) {
+        this.acceptDescriptions = null;
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getFileDialogCallback() {
+      return this.fileDialogCallback;
+    }
+
+    public DialogHandler_OnFileDialog_args setFileDialogCallback(@com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject fileDialogCallback) {
+      this.fileDialogCallback = fileDialogCallback;
+      return this;
+    }
+
+    public void unsetFileDialogCallback() {
+      this.fileDialogCallback = null;
+    }
+
+    /** Returns true if field fileDialogCallback is set (has been assigned a value) and false otherwise */
+    public boolean isSetFileDialogCallback() {
+      return this.fileDialogCallback != null;
+    }
+
+    public void setFileDialogCallbackIsSet(boolean value) {
+      if (!value) {
+        this.fileDialogCallback = null;
+      }
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case BID:
+        if (value == null) {
+          unsetBid();
+        } else {
+          setBid((java.lang.Integer)value);
+        }
+        break;
+
+      case MODE:
+        if (value == null) {
+          unsetMode();
+        } else {
+          setMode((java.lang.String)value);
+        }
+        break;
+
+      case TITLE:
+        if (value == null) {
+          unsetTitle();
+        } else {
+          setTitle((java.lang.String)value);
+        }
+        break;
+
+      case DEFAULT_FILE_PATH:
+        if (value == null) {
+          unsetDefaultFilePath();
+        } else {
+          setDefaultFilePath((java.lang.String)value);
+        }
+        break;
+
+      case ACCEPT_FILTERS:
+        if (value == null) {
+          unsetAcceptFilters();
+        } else {
+          setAcceptFilters((java.util.List<java.lang.String>)value);
+        }
+        break;
+
+      case ACCEPT_EXTENSIONS:
+        if (value == null) {
+          unsetAcceptExtensions();
+        } else {
+          setAcceptExtensions((java.util.List<java.lang.String>)value);
+        }
+        break;
+
+      case ACCEPT_DESCRIPTIONS:
+        if (value == null) {
+          unsetAcceptDescriptions();
+        } else {
+          setAcceptDescriptions((java.util.List<java.lang.String>)value);
+        }
+        break;
+
+      case FILE_DIALOG_CALLBACK:
+        if (value == null) {
+          unsetFileDialogCallback();
+        } else {
+          setFileDialogCallback((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case BID:
+        return getBid();
+
+      case MODE:
+        return getMode();
+
+      case TITLE:
+        return getTitle();
+
+      case DEFAULT_FILE_PATH:
+        return getDefaultFilePath();
+
+      case ACCEPT_FILTERS:
+        return getAcceptFilters();
+
+      case ACCEPT_EXTENSIONS:
+        return getAcceptExtensions();
+
+      case ACCEPT_DESCRIPTIONS:
+        return getAcceptDescriptions();
+
+      case FILE_DIALOG_CALLBACK:
+        return getFileDialogCallback();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case BID:
+        return isSetBid();
+      case MODE:
+        return isSetMode();
+      case TITLE:
+        return isSetTitle();
+      case DEFAULT_FILE_PATH:
+        return isSetDefaultFilePath();
+      case ACCEPT_FILTERS:
+        return isSetAcceptFilters();
+      case ACCEPT_EXTENSIONS:
+        return isSetAcceptExtensions();
+      case ACCEPT_DESCRIPTIONS:
+        return isSetAcceptDescriptions();
+      case FILE_DIALOG_CALLBACK:
+        return isSetFileDialogCallback();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof DialogHandler_OnFileDialog_args)
+        return this.equals((DialogHandler_OnFileDialog_args)that);
+      return false;
+    }
+
+    public boolean equals(DialogHandler_OnFileDialog_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_bid = true;
+      boolean that_present_bid = true;
+      if (this_present_bid || that_present_bid) {
+        if (!(this_present_bid && that_present_bid))
+          return false;
+        if (this.bid != that.bid)
+          return false;
+      }
+
+      boolean this_present_mode = true && this.isSetMode();
+      boolean that_present_mode = true && that.isSetMode();
+      if (this_present_mode || that_present_mode) {
+        if (!(this_present_mode && that_present_mode))
+          return false;
+        if (!this.mode.equals(that.mode))
+          return false;
+      }
+
+      boolean this_present_title = true && this.isSetTitle();
+      boolean that_present_title = true && that.isSetTitle();
+      if (this_present_title || that_present_title) {
+        if (!(this_present_title && that_present_title))
+          return false;
+        if (!this.title.equals(that.title))
+          return false;
+      }
+
+      boolean this_present_defaultFilePath = true && this.isSetDefaultFilePath();
+      boolean that_present_defaultFilePath = true && that.isSetDefaultFilePath();
+      if (this_present_defaultFilePath || that_present_defaultFilePath) {
+        if (!(this_present_defaultFilePath && that_present_defaultFilePath))
+          return false;
+        if (!this.defaultFilePath.equals(that.defaultFilePath))
+          return false;
+      }
+
+      boolean this_present_acceptFilters = true && this.isSetAcceptFilters();
+      boolean that_present_acceptFilters = true && that.isSetAcceptFilters();
+      if (this_present_acceptFilters || that_present_acceptFilters) {
+        if (!(this_present_acceptFilters && that_present_acceptFilters))
+          return false;
+        if (!this.acceptFilters.equals(that.acceptFilters))
+          return false;
+      }
+
+      boolean this_present_acceptExtensions = true && this.isSetAcceptExtensions();
+      boolean that_present_acceptExtensions = true && that.isSetAcceptExtensions();
+      if (this_present_acceptExtensions || that_present_acceptExtensions) {
+        if (!(this_present_acceptExtensions && that_present_acceptExtensions))
+          return false;
+        if (!this.acceptExtensions.equals(that.acceptExtensions))
+          return false;
+      }
+
+      boolean this_present_acceptDescriptions = true && this.isSetAcceptDescriptions();
+      boolean that_present_acceptDescriptions = true && that.isSetAcceptDescriptions();
+      if (this_present_acceptDescriptions || that_present_acceptDescriptions) {
+        if (!(this_present_acceptDescriptions && that_present_acceptDescriptions))
+          return false;
+        if (!this.acceptDescriptions.equals(that.acceptDescriptions))
+          return false;
+      }
+
+      boolean this_present_fileDialogCallback = true && this.isSetFileDialogCallback();
+      boolean that_present_fileDialogCallback = true && that.isSetFileDialogCallback();
+      if (this_present_fileDialogCallback || that_present_fileDialogCallback) {
+        if (!(this_present_fileDialogCallback && that_present_fileDialogCallback))
+          return false;
+        if (!this.fileDialogCallback.equals(that.fileDialogCallback))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + bid;
+
+      hashCode = hashCode * 8191 + ((isSetMode()) ? 131071 : 524287);
+      if (isSetMode())
+        hashCode = hashCode * 8191 + mode.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetTitle()) ? 131071 : 524287);
+      if (isSetTitle())
+        hashCode = hashCode * 8191 + title.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetDefaultFilePath()) ? 131071 : 524287);
+      if (isSetDefaultFilePath())
+        hashCode = hashCode * 8191 + defaultFilePath.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetAcceptFilters()) ? 131071 : 524287);
+      if (isSetAcceptFilters())
+        hashCode = hashCode * 8191 + acceptFilters.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetAcceptExtensions()) ? 131071 : 524287);
+      if (isSetAcceptExtensions())
+        hashCode = hashCode * 8191 + acceptExtensions.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetAcceptDescriptions()) ? 131071 : 524287);
+      if (isSetAcceptDescriptions())
+        hashCode = hashCode * 8191 + acceptDescriptions.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetFileDialogCallback()) ? 131071 : 524287);
+      if (isSetFileDialogCallback())
+        hashCode = hashCode * 8191 + fileDialogCallback.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(DialogHandler_OnFileDialog_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetBid(), other.isSetBid());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetBid()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetMode(), other.isSetMode());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetMode()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.mode, other.mode);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetTitle(), other.isSetTitle());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetTitle()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.title, other.title);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetDefaultFilePath(), other.isSetDefaultFilePath());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetDefaultFilePath()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.defaultFilePath, other.defaultFilePath);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetAcceptFilters(), other.isSetAcceptFilters());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetAcceptFilters()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.acceptFilters, other.acceptFilters);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetAcceptExtensions(), other.isSetAcceptExtensions());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetAcceptExtensions()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.acceptExtensions, other.acceptExtensions);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetAcceptDescriptions(), other.isSetAcceptDescriptions());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetAcceptDescriptions()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.acceptDescriptions, other.acceptDescriptions);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetFileDialogCallback(), other.isSetFileDialogCallback());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetFileDialogCallback()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.fileDialogCallback, other.fileDialogCallback);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("DialogHandler_OnFileDialog_args(");
+      boolean first = true;
+
+      sb.append("bid:");
+      sb.append(this.bid);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("mode:");
+      if (this.mode == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.mode);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("title:");
+      if (this.title == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.title);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("defaultFilePath:");
+      if (this.defaultFilePath == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.defaultFilePath);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("acceptFilters:");
+      if (this.acceptFilters == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.acceptFilters);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("acceptExtensions:");
+      if (this.acceptExtensions == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.acceptExtensions);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("acceptDescriptions:");
+      if (this.acceptDescriptions == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.acceptDescriptions);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("fileDialogCallback:");
+      if (this.fileDialogCallback == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.fileDialogCallback);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (fileDialogCallback != null) {
+        fileDialogCallback.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class DialogHandler_OnFileDialog_argsStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public DialogHandler_OnFileDialog_argsStandardScheme getScheme() {
+        return new DialogHandler_OnFileDialog_argsStandardScheme();
+      }
+    }
+
+    private static class DialogHandler_OnFileDialog_argsStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<DialogHandler_OnFileDialog_args> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, DialogHandler_OnFileDialog_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        iprot.incrementRecursionDepth();
+        try {
+          com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+          iprot.readStructBegin();
+          while (true)
+          {
+            schemeField = iprot.readFieldBegin();
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+              break;
+            }
+            switch (schemeField.id) {
+              case 1: // BID
+                if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
+                  struct.bid = iprot.readI32();
+                  struct.setBidIsSet(true);
+                } else { 
+                  com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+                }
+                break;
+              case 2: // MODE
+                if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRING) {
+                  struct.mode = iprot.readString();
+                  struct.setModeIsSet(true);
+                } else { 
+                  com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+                }
+                break;
+              case 3: // TITLE
+                if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRING) {
+                  struct.title = iprot.readString();
+                  struct.setTitleIsSet(true);
+                } else { 
+                  com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+                }
+                break;
+              case 4: // DEFAULT_FILE_PATH
+                if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRING) {
+                  struct.defaultFilePath = iprot.readString();
+                  struct.setDefaultFilePathIsSet(true);
+                } else { 
+                  com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+                }
+                break;
+              case 5: // ACCEPT_FILTERS
+                if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.LIST) {
+                  {
+                    com.jetbrains.cef.remote.thrift.protocol.TList _list64 = iprot.readListBegin();
+                    struct.acceptFilters = new java.util.ArrayList<java.lang.String>(_list64.size);
+                    @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _elem65;
+                    for (int _i66 = 0; _i66 < _list64.size; ++_i66)
+                    {
+                      _elem65 = iprot.readString();
+                      struct.acceptFilters.add(_elem65);
+                    }
+                    iprot.readListEnd();
+                  }
+                  struct.setAcceptFiltersIsSet(true);
+                } else { 
+                  com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+                }
+                break;
+              case 6: // ACCEPT_EXTENSIONS
+                if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.LIST) {
+                  {
+                    com.jetbrains.cef.remote.thrift.protocol.TList _list67 = iprot.readListBegin();
+                    struct.acceptExtensions = new java.util.ArrayList<java.lang.String>(_list67.size);
+                    @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _elem68;
+                    for (int _i69 = 0; _i69 < _list67.size; ++_i69)
+                    {
+                      _elem68 = iprot.readString();
+                      struct.acceptExtensions.add(_elem68);
+                    }
+                    iprot.readListEnd();
+                  }
+                  struct.setAcceptExtensionsIsSet(true);
+                } else { 
+                  com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+                }
+                break;
+              case 7: // ACCEPT_DESCRIPTIONS
+                if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.LIST) {
+                  {
+                    com.jetbrains.cef.remote.thrift.protocol.TList _list70 = iprot.readListBegin();
+                    struct.acceptDescriptions = new java.util.ArrayList<java.lang.String>(_list70.size);
+                    @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _elem71;
+                    for (int _i72 = 0; _i72 < _list70.size; ++_i72)
+                    {
+                      _elem71 = iprot.readString();
+                      struct.acceptDescriptions.add(_elem71);
+                    }
+                    iprot.readListEnd();
+                  }
+                  struct.setAcceptDescriptionsIsSet(true);
+                } else { 
+                  com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+                }
+                break;
+              case 8: // FILE_DIALOG_CALLBACK
+                if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT) {
+                  struct.fileDialogCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                  struct.fileDialogCallback.read(iprot);
+                  struct.setFileDialogCallbackIsSet(true);
+                } else { 
+                  com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+                }
+                break;
+              default:
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            iprot.readFieldEnd();
+          }
+          iprot.readStructEnd();
+
+          // check for required fields of primitive type, which can't be checked in the validate method
+          struct.validate();
+        } finally {
+          iprot.decrementRecursionDepth();
+        }
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, DialogHandler_OnFileDialog_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldBegin(BID_FIELD_DESC);
+        oprot.writeI32(struct.bid);
+        oprot.writeFieldEnd();
+        if (struct.mode != null) {
+          oprot.writeFieldBegin(MODE_FIELD_DESC);
+          oprot.writeString(struct.mode);
+          oprot.writeFieldEnd();
+        }
+        if (struct.title != null) {
+          oprot.writeFieldBegin(TITLE_FIELD_DESC);
+          oprot.writeString(struct.title);
+          oprot.writeFieldEnd();
+        }
+        if (struct.defaultFilePath != null) {
+          oprot.writeFieldBegin(DEFAULT_FILE_PATH_FIELD_DESC);
+          oprot.writeString(struct.defaultFilePath);
+          oprot.writeFieldEnd();
+        }
+        if (struct.acceptFilters != null) {
+          oprot.writeFieldBegin(ACCEPT_FILTERS_FIELD_DESC);
+          {
+            oprot.writeListBegin(new com.jetbrains.cef.remote.thrift.protocol.TList(com.jetbrains.cef.remote.thrift.protocol.TType.STRING, struct.acceptFilters.size()));
+            for (java.lang.String _iter73 : struct.acceptFilters)
+            {
+              oprot.writeString(_iter73);
+            }
+            oprot.writeListEnd();
+          }
+          oprot.writeFieldEnd();
+        }
+        if (struct.acceptExtensions != null) {
+          oprot.writeFieldBegin(ACCEPT_EXTENSIONS_FIELD_DESC);
+          {
+            oprot.writeListBegin(new com.jetbrains.cef.remote.thrift.protocol.TList(com.jetbrains.cef.remote.thrift.protocol.TType.STRING, struct.acceptExtensions.size()));
+            for (java.lang.String _iter74 : struct.acceptExtensions)
+            {
+              oprot.writeString(_iter74);
+            }
+            oprot.writeListEnd();
+          }
+          oprot.writeFieldEnd();
+        }
+        if (struct.acceptDescriptions != null) {
+          oprot.writeFieldBegin(ACCEPT_DESCRIPTIONS_FIELD_DESC);
+          {
+            oprot.writeListBegin(new com.jetbrains.cef.remote.thrift.protocol.TList(com.jetbrains.cef.remote.thrift.protocol.TType.STRING, struct.acceptDescriptions.size()));
+            for (java.lang.String _iter75 : struct.acceptDescriptions)
+            {
+              oprot.writeString(_iter75);
+            }
+            oprot.writeListEnd();
+          }
+          oprot.writeFieldEnd();
+        }
+        if (struct.fileDialogCallback != null) {
+          oprot.writeFieldBegin(FILE_DIALOG_CALLBACK_FIELD_DESC);
+          struct.fileDialogCallback.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class DialogHandler_OnFileDialog_argsTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public DialogHandler_OnFileDialog_argsTupleScheme getScheme() {
+        return new DialogHandler_OnFileDialog_argsTupleScheme();
+      }
+    }
+
+    private static class DialogHandler_OnFileDialog_argsTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<DialogHandler_OnFileDialog_args> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, DialogHandler_OnFileDialog_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetBid()) {
+          optionals.set(0);
+        }
+        if (struct.isSetMode()) {
+          optionals.set(1);
+        }
+        if (struct.isSetTitle()) {
+          optionals.set(2);
+        }
+        if (struct.isSetDefaultFilePath()) {
+          optionals.set(3);
+        }
+        if (struct.isSetAcceptFilters()) {
+          optionals.set(4);
+        }
+        if (struct.isSetAcceptExtensions()) {
+          optionals.set(5);
+        }
+        if (struct.isSetAcceptDescriptions()) {
+          optionals.set(6);
+        }
+        if (struct.isSetFileDialogCallback()) {
+          optionals.set(7);
+        }
+        oprot.writeBitSet(optionals, 8);
+        if (struct.isSetBid()) {
+          oprot.writeI32(struct.bid);
+        }
+        if (struct.isSetMode()) {
+          oprot.writeString(struct.mode);
+        }
+        if (struct.isSetTitle()) {
+          oprot.writeString(struct.title);
+        }
+        if (struct.isSetDefaultFilePath()) {
+          oprot.writeString(struct.defaultFilePath);
+        }
+        if (struct.isSetAcceptFilters()) {
+          {
+            oprot.writeI32(struct.acceptFilters.size());
+            for (java.lang.String _iter76 : struct.acceptFilters)
+            {
+              oprot.writeString(_iter76);
+            }
+          }
+        }
+        if (struct.isSetAcceptExtensions()) {
+          {
+            oprot.writeI32(struct.acceptExtensions.size());
+            for (java.lang.String _iter77 : struct.acceptExtensions)
+            {
+              oprot.writeString(_iter77);
+            }
+          }
+        }
+        if (struct.isSetAcceptDescriptions()) {
+          {
+            oprot.writeI32(struct.acceptDescriptions.size());
+            for (java.lang.String _iter78 : struct.acceptDescriptions)
+            {
+              oprot.writeString(_iter78);
+            }
+          }
+        }
+        if (struct.isSetFileDialogCallback()) {
+          struct.fileDialogCallback.write(oprot);
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, DialogHandler_OnFileDialog_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.incrementRecursionDepth();
+        try {
+          com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+          java.util.BitSet incoming = iprot.readBitSet(8);
+          if (incoming.get(0)) {
+            struct.bid = iprot.readI32();
+            struct.setBidIsSet(true);
+          }
+          if (incoming.get(1)) {
+            struct.mode = iprot.readString();
+            struct.setModeIsSet(true);
+          }
+          if (incoming.get(2)) {
+            struct.title = iprot.readString();
+            struct.setTitleIsSet(true);
+          }
+          if (incoming.get(3)) {
+            struct.defaultFilePath = iprot.readString();
+            struct.setDefaultFilePathIsSet(true);
+          }
+          if (incoming.get(4)) {
+            {
+              com.jetbrains.cef.remote.thrift.protocol.TList _list79 = iprot.readListBegin(com.jetbrains.cef.remote.thrift.protocol.TType.STRING);
+              struct.acceptFilters = new java.util.ArrayList<java.lang.String>(_list79.size);
+              @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _elem80;
+              for (int _i81 = 0; _i81 < _list79.size; ++_i81)
+              {
+                _elem80 = iprot.readString();
+                struct.acceptFilters.add(_elem80);
+              }
+            }
+            struct.setAcceptFiltersIsSet(true);
+          }
+          if (incoming.get(5)) {
+            {
+              com.jetbrains.cef.remote.thrift.protocol.TList _list82 = iprot.readListBegin(com.jetbrains.cef.remote.thrift.protocol.TType.STRING);
+              struct.acceptExtensions = new java.util.ArrayList<java.lang.String>(_list82.size);
+              @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _elem83;
+              for (int _i84 = 0; _i84 < _list82.size; ++_i84)
+              {
+                _elem83 = iprot.readString();
+                struct.acceptExtensions.add(_elem83);
+              }
+            }
+            struct.setAcceptExtensionsIsSet(true);
+          }
+          if (incoming.get(6)) {
+            {
+              com.jetbrains.cef.remote.thrift.protocol.TList _list85 = iprot.readListBegin(com.jetbrains.cef.remote.thrift.protocol.TType.STRING);
+              struct.acceptDescriptions = new java.util.ArrayList<java.lang.String>(_list85.size);
+              @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _elem86;
+              for (int _i87 = 0; _i87 < _list85.size; ++_i87)
+              {
+                _elem86 = iprot.readString();
+                struct.acceptDescriptions.add(_elem86);
+              }
+            }
+            struct.setAcceptDescriptionsIsSet(true);
+          }
+          if (incoming.get(7)) {
+            struct.fileDialogCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+            struct.fileDialogCallback.read(iprot);
+            struct.setFileDialogCallbackIsSet(true);
+          }
+        } finally {
+          prot.decrementRecursionDepth();
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class DialogHandler_OnFileDialog_result implements com.jetbrains.cef.remote.thrift.TBase<DialogHandler_OnFileDialog_result, DialogHandler_OnFileDialog_result._Fields>, java.io.Serializable, Cloneable, Comparable<DialogHandler_OnFileDialog_result>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("DialogHandler_OnFileDialog_result");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField SUCCESS_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("success", com.jetbrains.cef.remote.thrift.protocol.TType.BOOL, (short)0);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new DialogHandler_OnFileDialog_resultStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new DialogHandler_OnFileDialog_resultTupleSchemeFactory();
+
+    public boolean success; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      SUCCESS((short)0, "success");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 0: // SUCCESS
+            return SUCCESS;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __SUCCESS_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("success", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.BOOL)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(DialogHandler_OnFileDialog_result.class, metaDataMap);
+    }
+
+    public DialogHandler_OnFileDialog_result() {
+    }
+
+    public DialogHandler_OnFileDialog_result(
+      boolean success)
+    {
+      this();
+      this.success = success;
+      setSuccessIsSet(true);
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public DialogHandler_OnFileDialog_result(DialogHandler_OnFileDialog_result other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.success = other.success;
+    }
+
+    @Override
+    public DialogHandler_OnFileDialog_result deepCopy() {
+      return new DialogHandler_OnFileDialog_result(this);
+    }
+
+    @Override
+    public void clear() {
+      setSuccessIsSet(false);
+      this.success = false;
+    }
+
+    public boolean isSuccess() {
+      return this.success;
+    }
+
+    public DialogHandler_OnFileDialog_result setSuccess(boolean success) {
+      this.success = success;
+      setSuccessIsSet(true);
+      return this;
+    }
+
+    public void unsetSuccess() {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __SUCCESS_ISSET_ID);
+    }
+
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
+    public boolean isSetSuccess() {
+      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __SUCCESS_ISSET_ID);
+    }
+
+    public void setSuccessIsSet(boolean value) {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __SUCCESS_ISSET_ID, value);
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((java.lang.Boolean)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case SUCCESS:
+        return isSuccess();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case SUCCESS:
+        return isSetSuccess();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof DialogHandler_OnFileDialog_result)
+        return this.equals((DialogHandler_OnFileDialog_result)that);
+      return false;
+    }
+
+    public boolean equals(DialogHandler_OnFileDialog_result that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_success = true;
+      boolean that_present_success = true;
+      if (this_present_success || that_present_success) {
+        if (!(this_present_success && that_present_success))
+          return false;
+        if (this.success != that.success)
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((success) ? 131071 : 524287);
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(DialogHandler_OnFileDialog_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetSuccess(), other.isSetSuccess());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSuccess()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.success, other.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+      }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("DialogHandler_OnFileDialog_result(");
+      boolean first = true;
+
+      sb.append("success:");
+      sb.append(this.success);
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class DialogHandler_OnFileDialog_resultStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public DialogHandler_OnFileDialog_resultStandardScheme getScheme() {
+        return new DialogHandler_OnFileDialog_resultStandardScheme();
+      }
+    }
+
+    private static class DialogHandler_OnFileDialog_resultStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<DialogHandler_OnFileDialog_result> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, DialogHandler_OnFileDialog_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        iprot.incrementRecursionDepth();
+        try {
+          com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+          iprot.readStructBegin();
+          while (true)
+          {
+            schemeField = iprot.readFieldBegin();
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+              break;
+            }
+            switch (schemeField.id) {
+              case 0: // SUCCESS
+                if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.BOOL) {
+                  struct.success = iprot.readBool();
+                  struct.setSuccessIsSet(true);
+                } else { 
+                  com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+                }
+                break;
+              default:
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            iprot.readFieldEnd();
+          }
+          iprot.readStructEnd();
+
+          // check for required fields of primitive type, which can't be checked in the validate method
+          struct.validate();
+        } finally {
+          iprot.decrementRecursionDepth();
+        }
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, DialogHandler_OnFileDialog_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.isSetSuccess()) {
+          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
+          oprot.writeBool(struct.success);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class DialogHandler_OnFileDialog_resultTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public DialogHandler_OnFileDialog_resultTupleScheme getScheme() {
+        return new DialogHandler_OnFileDialog_resultTupleScheme();
+      }
+    }
+
+    private static class DialogHandler_OnFileDialog_resultTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<DialogHandler_OnFileDialog_result> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, DialogHandler_OnFileDialog_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetSuccess()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetSuccess()) {
+          oprot.writeBool(struct.success);
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, DialogHandler_OnFileDialog_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.incrementRecursionDepth();
+        try {
+          com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+          java.util.BitSet incoming = iprot.readBitSet(1);
+          if (incoming.get(0)) {
+            struct.success = iprot.readBool();
+            struct.setSuccessIsSet(true);
+          }
+        } finally {
+          prot.decrementRecursionDepth();
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class JSDialogHandler_OnJSDialog_args implements com.jetbrains.cef.remote.thrift.TBase<JSDialogHandler_OnJSDialog_args, JSDialogHandler_OnJSDialog_args._Fields>, java.io.Serializable, Cloneable, Comparable<JSDialogHandler_OnJSDialog_args>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("JSDialogHandler_OnJSDialog_args");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField BID_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("bid", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)1);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField ORIGIN_URL_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("origin_url", com.jetbrains.cef.remote.thrift.protocol.TType.STRING, (short)2);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField DIALOG_TYPE_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("dialog_type", com.jetbrains.cef.remote.thrift.protocol.TType.STRING, (short)3);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField MESSAGE_TEXT_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("message_text", com.jetbrains.cef.remote.thrift.protocol.TType.STRING, (short)4);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField DEFAULT_PROMPT_TEXT_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("default_prompt_text", com.jetbrains.cef.remote.thrift.protocol.TType.STRING, (short)5);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField JS_DIALOG_CALLBACK_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("jsDialogCallback", com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, (short)6);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new JSDialogHandler_OnJSDialog_argsStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new JSDialogHandler_OnJSDialog_argsTupleSchemeFactory();
+
+    public int bid; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String origin_url; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String dialog_type; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String message_text; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String default_prompt_text; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject jsDialogCallback; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      BID((short)1, "bid"),
+      ORIGIN_URL((short)2, "origin_url"),
+      DIALOG_TYPE((short)3, "dialog_type"),
+      MESSAGE_TEXT((short)4, "message_text"),
+      DEFAULT_PROMPT_TEXT((short)5, "default_prompt_text"),
+      JS_DIALOG_CALLBACK((short)6, "jsDialogCallback");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // BID
+            return BID;
+          case 2: // ORIGIN_URL
+            return ORIGIN_URL;
+          case 3: // DIALOG_TYPE
+            return DIALOG_TYPE;
+          case 4: // MESSAGE_TEXT
+            return MESSAGE_TEXT;
+          case 5: // DEFAULT_PROMPT_TEXT
+            return DEFAULT_PROMPT_TEXT;
+          case 6: // JS_DIALOG_CALLBACK
+            return JS_DIALOG_CALLBACK;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __BID_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.BID, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("bid", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.ORIGIN_URL, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("origin_url", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.DIALOG_TYPE, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("dialog_type", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.MESSAGE_TEXT, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("message_text", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.DEFAULT_PROMPT_TEXT, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("default_prompt_text", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.JS_DIALOG_CALLBACK, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("jsDialogCallback", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(JSDialogHandler_OnJSDialog_args.class, metaDataMap);
+    }
+
+    public JSDialogHandler_OnJSDialog_args() {
+    }
+
+    public JSDialogHandler_OnJSDialog_args(
+      int bid,
+      java.lang.String origin_url,
+      java.lang.String dialog_type,
+      java.lang.String message_text,
+      java.lang.String default_prompt_text,
+      com.jetbrains.cef.remote.thrift_codegen.RObject jsDialogCallback)
+    {
+      this();
+      this.bid = bid;
+      setBidIsSet(true);
+      this.origin_url = origin_url;
+      this.dialog_type = dialog_type;
+      this.message_text = message_text;
+      this.default_prompt_text = default_prompt_text;
+      this.jsDialogCallback = jsDialogCallback;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public JSDialogHandler_OnJSDialog_args(JSDialogHandler_OnJSDialog_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.bid = other.bid;
+      if (other.isSetOrigin_url()) {
+        this.origin_url = other.origin_url;
+      }
+      if (other.isSetDialog_type()) {
+        this.dialog_type = other.dialog_type;
+      }
+      if (other.isSetMessage_text()) {
+        this.message_text = other.message_text;
+      }
+      if (other.isSetDefault_prompt_text()) {
+        this.default_prompt_text = other.default_prompt_text;
+      }
+      if (other.isSetJsDialogCallback()) {
+        this.jsDialogCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.jsDialogCallback);
+      }
+    }
+
+    @Override
+    public JSDialogHandler_OnJSDialog_args deepCopy() {
+      return new JSDialogHandler_OnJSDialog_args(this);
+    }
+
+    @Override
+    public void clear() {
+      setBidIsSet(false);
+      this.bid = 0;
+      this.origin_url = null;
+      this.dialog_type = null;
+      this.message_text = null;
+      this.default_prompt_text = null;
+      this.jsDialogCallback = null;
+    }
+
+    public int getBid() {
+      return this.bid;
+    }
+
+    public JSDialogHandler_OnJSDialog_args setBid(int bid) {
+      this.bid = bid;
+      setBidIsSet(true);
+      return this;
+    }
+
+    public void unsetBid() {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    /** Returns true if field bid is set (has been assigned a value) and false otherwise */
+    public boolean isSetBid() {
+      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    public void setBidIsSet(boolean value) {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public java.lang.String getOrigin_url() {
+      return this.origin_url;
+    }
+
+    public JSDialogHandler_OnJSDialog_args setOrigin_url(@com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String origin_url) {
+      this.origin_url = origin_url;
+      return this;
+    }
+
+    public void unsetOrigin_url() {
+      this.origin_url = null;
+    }
+
+    /** Returns true if field origin_url is set (has been assigned a value) and false otherwise */
+    public boolean isSetOrigin_url() {
+      return this.origin_url != null;
+    }
+
+    public void setOrigin_urlIsSet(boolean value) {
+      if (!value) {
+        this.origin_url = null;
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public java.lang.String getDialog_type() {
+      return this.dialog_type;
+    }
+
+    public JSDialogHandler_OnJSDialog_args setDialog_type(@com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String dialog_type) {
+      this.dialog_type = dialog_type;
+      return this;
+    }
+
+    public void unsetDialog_type() {
+      this.dialog_type = null;
+    }
+
+    /** Returns true if field dialog_type is set (has been assigned a value) and false otherwise */
+    public boolean isSetDialog_type() {
+      return this.dialog_type != null;
+    }
+
+    public void setDialog_typeIsSet(boolean value) {
+      if (!value) {
+        this.dialog_type = null;
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public java.lang.String getMessage_text() {
+      return this.message_text;
+    }
+
+    public JSDialogHandler_OnJSDialog_args setMessage_text(@com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String message_text) {
+      this.message_text = message_text;
+      return this;
+    }
+
+    public void unsetMessage_text() {
+      this.message_text = null;
+    }
+
+    /** Returns true if field message_text is set (has been assigned a value) and false otherwise */
+    public boolean isSetMessage_text() {
+      return this.message_text != null;
+    }
+
+    public void setMessage_textIsSet(boolean value) {
+      if (!value) {
+        this.message_text = null;
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public java.lang.String getDefault_prompt_text() {
+      return this.default_prompt_text;
+    }
+
+    public JSDialogHandler_OnJSDialog_args setDefault_prompt_text(@com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String default_prompt_text) {
+      this.default_prompt_text = default_prompt_text;
+      return this;
+    }
+
+    public void unsetDefault_prompt_text() {
+      this.default_prompt_text = null;
+    }
+
+    /** Returns true if field default_prompt_text is set (has been assigned a value) and false otherwise */
+    public boolean isSetDefault_prompt_text() {
+      return this.default_prompt_text != null;
+    }
+
+    public void setDefault_prompt_textIsSet(boolean value) {
+      if (!value) {
+        this.default_prompt_text = null;
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getJsDialogCallback() {
+      return this.jsDialogCallback;
+    }
+
+    public JSDialogHandler_OnJSDialog_args setJsDialogCallback(@com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject jsDialogCallback) {
+      this.jsDialogCallback = jsDialogCallback;
+      return this;
+    }
+
+    public void unsetJsDialogCallback() {
+      this.jsDialogCallback = null;
+    }
+
+    /** Returns true if field jsDialogCallback is set (has been assigned a value) and false otherwise */
+    public boolean isSetJsDialogCallback() {
+      return this.jsDialogCallback != null;
+    }
+
+    public void setJsDialogCallbackIsSet(boolean value) {
+      if (!value) {
+        this.jsDialogCallback = null;
+      }
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case BID:
+        if (value == null) {
+          unsetBid();
+        } else {
+          setBid((java.lang.Integer)value);
+        }
+        break;
+
+      case ORIGIN_URL:
+        if (value == null) {
+          unsetOrigin_url();
+        } else {
+          setOrigin_url((java.lang.String)value);
+        }
+        break;
+
+      case DIALOG_TYPE:
+        if (value == null) {
+          unsetDialog_type();
+        } else {
+          setDialog_type((java.lang.String)value);
+        }
+        break;
+
+      case MESSAGE_TEXT:
+        if (value == null) {
+          unsetMessage_text();
+        } else {
+          setMessage_text((java.lang.String)value);
+        }
+        break;
+
+      case DEFAULT_PROMPT_TEXT:
+        if (value == null) {
+          unsetDefault_prompt_text();
+        } else {
+          setDefault_prompt_text((java.lang.String)value);
+        }
+        break;
+
+      case JS_DIALOG_CALLBACK:
+        if (value == null) {
+          unsetJsDialogCallback();
+        } else {
+          setJsDialogCallback((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case BID:
+        return getBid();
+
+      case ORIGIN_URL:
+        return getOrigin_url();
+
+      case DIALOG_TYPE:
+        return getDialog_type();
+
+      case MESSAGE_TEXT:
+        return getMessage_text();
+
+      case DEFAULT_PROMPT_TEXT:
+        return getDefault_prompt_text();
+
+      case JS_DIALOG_CALLBACK:
+        return getJsDialogCallback();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case BID:
+        return isSetBid();
+      case ORIGIN_URL:
+        return isSetOrigin_url();
+      case DIALOG_TYPE:
+        return isSetDialog_type();
+      case MESSAGE_TEXT:
+        return isSetMessage_text();
+      case DEFAULT_PROMPT_TEXT:
+        return isSetDefault_prompt_text();
+      case JS_DIALOG_CALLBACK:
+        return isSetJsDialogCallback();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof JSDialogHandler_OnJSDialog_args)
+        return this.equals((JSDialogHandler_OnJSDialog_args)that);
+      return false;
+    }
+
+    public boolean equals(JSDialogHandler_OnJSDialog_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_bid = true;
+      boolean that_present_bid = true;
+      if (this_present_bid || that_present_bid) {
+        if (!(this_present_bid && that_present_bid))
+          return false;
+        if (this.bid != that.bid)
+          return false;
+      }
+
+      boolean this_present_origin_url = true && this.isSetOrigin_url();
+      boolean that_present_origin_url = true && that.isSetOrigin_url();
+      if (this_present_origin_url || that_present_origin_url) {
+        if (!(this_present_origin_url && that_present_origin_url))
+          return false;
+        if (!this.origin_url.equals(that.origin_url))
+          return false;
+      }
+
+      boolean this_present_dialog_type = true && this.isSetDialog_type();
+      boolean that_present_dialog_type = true && that.isSetDialog_type();
+      if (this_present_dialog_type || that_present_dialog_type) {
+        if (!(this_present_dialog_type && that_present_dialog_type))
+          return false;
+        if (!this.dialog_type.equals(that.dialog_type))
+          return false;
+      }
+
+      boolean this_present_message_text = true && this.isSetMessage_text();
+      boolean that_present_message_text = true && that.isSetMessage_text();
+      if (this_present_message_text || that_present_message_text) {
+        if (!(this_present_message_text && that_present_message_text))
+          return false;
+        if (!this.message_text.equals(that.message_text))
+          return false;
+      }
+
+      boolean this_present_default_prompt_text = true && this.isSetDefault_prompt_text();
+      boolean that_present_default_prompt_text = true && that.isSetDefault_prompt_text();
+      if (this_present_default_prompt_text || that_present_default_prompt_text) {
+        if (!(this_present_default_prompt_text && that_present_default_prompt_text))
+          return false;
+        if (!this.default_prompt_text.equals(that.default_prompt_text))
+          return false;
+      }
+
+      boolean this_present_jsDialogCallback = true && this.isSetJsDialogCallback();
+      boolean that_present_jsDialogCallback = true && that.isSetJsDialogCallback();
+      if (this_present_jsDialogCallback || that_present_jsDialogCallback) {
+        if (!(this_present_jsDialogCallback && that_present_jsDialogCallback))
+          return false;
+        if (!this.jsDialogCallback.equals(that.jsDialogCallback))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + bid;
+
+      hashCode = hashCode * 8191 + ((isSetOrigin_url()) ? 131071 : 524287);
+      if (isSetOrigin_url())
+        hashCode = hashCode * 8191 + origin_url.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetDialog_type()) ? 131071 : 524287);
+      if (isSetDialog_type())
+        hashCode = hashCode * 8191 + dialog_type.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetMessage_text()) ? 131071 : 524287);
+      if (isSetMessage_text())
+        hashCode = hashCode * 8191 + message_text.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetDefault_prompt_text()) ? 131071 : 524287);
+      if (isSetDefault_prompt_text())
+        hashCode = hashCode * 8191 + default_prompt_text.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetJsDialogCallback()) ? 131071 : 524287);
+      if (isSetJsDialogCallback())
+        hashCode = hashCode * 8191 + jsDialogCallback.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(JSDialogHandler_OnJSDialog_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetBid(), other.isSetBid());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetBid()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetOrigin_url(), other.isSetOrigin_url());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetOrigin_url()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.origin_url, other.origin_url);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetDialog_type(), other.isSetDialog_type());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetDialog_type()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.dialog_type, other.dialog_type);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetMessage_text(), other.isSetMessage_text());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetMessage_text()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.message_text, other.message_text);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetDefault_prompt_text(), other.isSetDefault_prompt_text());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetDefault_prompt_text()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.default_prompt_text, other.default_prompt_text);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetJsDialogCallback(), other.isSetJsDialogCallback());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetJsDialogCallback()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.jsDialogCallback, other.jsDialogCallback);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("JSDialogHandler_OnJSDialog_args(");
+      boolean first = true;
+
+      sb.append("bid:");
+      sb.append(this.bid);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("origin_url:");
+      if (this.origin_url == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.origin_url);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("dialog_type:");
+      if (this.dialog_type == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.dialog_type);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("message_text:");
+      if (this.message_text == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.message_text);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("default_prompt_text:");
+      if (this.default_prompt_text == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.default_prompt_text);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("jsDialogCallback:");
+      if (this.jsDialogCallback == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.jsDialogCallback);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (jsDialogCallback != null) {
+        jsDialogCallback.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class JSDialogHandler_OnJSDialog_argsStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public JSDialogHandler_OnJSDialog_argsStandardScheme getScheme() {
+        return new JSDialogHandler_OnJSDialog_argsStandardScheme();
+      }
+    }
+
+    private static class JSDialogHandler_OnJSDialog_argsStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<JSDialogHandler_OnJSDialog_args> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, JSDialogHandler_OnJSDialog_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        iprot.incrementRecursionDepth();
+        try {
+          com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+          iprot.readStructBegin();
+          while (true)
+          {
+            schemeField = iprot.readFieldBegin();
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+              break;
+            }
+            switch (schemeField.id) {
+              case 1: // BID
+                if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
+                  struct.bid = iprot.readI32();
+                  struct.setBidIsSet(true);
+                } else { 
+                  com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+                }
+                break;
+              case 2: // ORIGIN_URL
+                if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRING) {
+                  struct.origin_url = iprot.readString();
+                  struct.setOrigin_urlIsSet(true);
+                } else { 
+                  com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+                }
+                break;
+              case 3: // DIALOG_TYPE
+                if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRING) {
+                  struct.dialog_type = iprot.readString();
+                  struct.setDialog_typeIsSet(true);
+                } else { 
+                  com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+                }
+                break;
+              case 4: // MESSAGE_TEXT
+                if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRING) {
+                  struct.message_text = iprot.readString();
+                  struct.setMessage_textIsSet(true);
+                } else { 
+                  com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+                }
+                break;
+              case 5: // DEFAULT_PROMPT_TEXT
+                if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRING) {
+                  struct.default_prompt_text = iprot.readString();
+                  struct.setDefault_prompt_textIsSet(true);
+                } else { 
+                  com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+                }
+                break;
+              case 6: // JS_DIALOG_CALLBACK
+                if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT) {
+                  struct.jsDialogCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                  struct.jsDialogCallback.read(iprot);
+                  struct.setJsDialogCallbackIsSet(true);
+                } else { 
+                  com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+                }
+                break;
+              default:
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            iprot.readFieldEnd();
+          }
+          iprot.readStructEnd();
+
+          // check for required fields of primitive type, which can't be checked in the validate method
+          struct.validate();
+        } finally {
+          iprot.decrementRecursionDepth();
+        }
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, JSDialogHandler_OnJSDialog_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldBegin(BID_FIELD_DESC);
+        oprot.writeI32(struct.bid);
+        oprot.writeFieldEnd();
+        if (struct.origin_url != null) {
+          oprot.writeFieldBegin(ORIGIN_URL_FIELD_DESC);
+          oprot.writeString(struct.origin_url);
+          oprot.writeFieldEnd();
+        }
+        if (struct.dialog_type != null) {
+          oprot.writeFieldBegin(DIALOG_TYPE_FIELD_DESC);
+          oprot.writeString(struct.dialog_type);
+          oprot.writeFieldEnd();
+        }
+        if (struct.message_text != null) {
+          oprot.writeFieldBegin(MESSAGE_TEXT_FIELD_DESC);
+          oprot.writeString(struct.message_text);
+          oprot.writeFieldEnd();
+        }
+        if (struct.default_prompt_text != null) {
+          oprot.writeFieldBegin(DEFAULT_PROMPT_TEXT_FIELD_DESC);
+          oprot.writeString(struct.default_prompt_text);
+          oprot.writeFieldEnd();
+        }
+        if (struct.jsDialogCallback != null) {
+          oprot.writeFieldBegin(JS_DIALOG_CALLBACK_FIELD_DESC);
+          struct.jsDialogCallback.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class JSDialogHandler_OnJSDialog_argsTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public JSDialogHandler_OnJSDialog_argsTupleScheme getScheme() {
+        return new JSDialogHandler_OnJSDialog_argsTupleScheme();
+      }
+    }
+
+    private static class JSDialogHandler_OnJSDialog_argsTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<JSDialogHandler_OnJSDialog_args> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, JSDialogHandler_OnJSDialog_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetBid()) {
+          optionals.set(0);
+        }
+        if (struct.isSetOrigin_url()) {
+          optionals.set(1);
+        }
+        if (struct.isSetDialog_type()) {
+          optionals.set(2);
+        }
+        if (struct.isSetMessage_text()) {
+          optionals.set(3);
+        }
+        if (struct.isSetDefault_prompt_text()) {
+          optionals.set(4);
+        }
+        if (struct.isSetJsDialogCallback()) {
+          optionals.set(5);
+        }
+        oprot.writeBitSet(optionals, 6);
+        if (struct.isSetBid()) {
+          oprot.writeI32(struct.bid);
+        }
+        if (struct.isSetOrigin_url()) {
+          oprot.writeString(struct.origin_url);
+        }
+        if (struct.isSetDialog_type()) {
+          oprot.writeString(struct.dialog_type);
+        }
+        if (struct.isSetMessage_text()) {
+          oprot.writeString(struct.message_text);
+        }
+        if (struct.isSetDefault_prompt_text()) {
+          oprot.writeString(struct.default_prompt_text);
+        }
+        if (struct.isSetJsDialogCallback()) {
+          struct.jsDialogCallback.write(oprot);
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, JSDialogHandler_OnJSDialog_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.incrementRecursionDepth();
+        try {
+          com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+          java.util.BitSet incoming = iprot.readBitSet(6);
+          if (incoming.get(0)) {
+            struct.bid = iprot.readI32();
+            struct.setBidIsSet(true);
+          }
+          if (incoming.get(1)) {
+            struct.origin_url = iprot.readString();
+            struct.setOrigin_urlIsSet(true);
+          }
+          if (incoming.get(2)) {
+            struct.dialog_type = iprot.readString();
+            struct.setDialog_typeIsSet(true);
+          }
+          if (incoming.get(3)) {
+            struct.message_text = iprot.readString();
+            struct.setMessage_textIsSet(true);
+          }
+          if (incoming.get(4)) {
+            struct.default_prompt_text = iprot.readString();
+            struct.setDefault_prompt_textIsSet(true);
+          }
+          if (incoming.get(5)) {
+            struct.jsDialogCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+            struct.jsDialogCallback.read(iprot);
+            struct.setJsDialogCallbackIsSet(true);
+          }
+        } finally {
+          prot.decrementRecursionDepth();
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class JSDialogHandler_OnJSDialog_result implements com.jetbrains.cef.remote.thrift.TBase<JSDialogHandler_OnJSDialog_result, JSDialogHandler_OnJSDialog_result._Fields>, java.io.Serializable, Cloneable, Comparable<JSDialogHandler_OnJSDialog_result>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("JSDialogHandler_OnJSDialog_result");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField SUCCESS_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("success", com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, (short)0);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new JSDialogHandler_OnJSDialog_resultStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new JSDialogHandler_OnJSDialog_resultTupleSchemeFactory();
+
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable JSDialogResult success; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      SUCCESS((short)0, "success");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 0: // SUCCESS
+            return SUCCESS;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("success", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, JSDialogResult.class)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(JSDialogHandler_OnJSDialog_result.class, metaDataMap);
+    }
+
+    public JSDialogHandler_OnJSDialog_result() {
+    }
+
+    public JSDialogHandler_OnJSDialog_result(
+      JSDialogResult success)
+    {
+      this();
+      this.success = success;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public JSDialogHandler_OnJSDialog_result(JSDialogHandler_OnJSDialog_result other) {
+      if (other.isSetSuccess()) {
+        this.success = new JSDialogResult(other.success);
+      }
+    }
+
+    @Override
+    public JSDialogHandler_OnJSDialog_result deepCopy() {
+      return new JSDialogHandler_OnJSDialog_result(this);
+    }
+
+    @Override
+    public void clear() {
+      this.success = null;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public JSDialogResult getSuccess() {
+      return this.success;
+    }
+
+    public JSDialogHandler_OnJSDialog_result setSuccess(@com.jetbrains.cef.remote.thrift.annotation.Nullable JSDialogResult success) {
+      this.success = success;
+      return this;
+    }
+
+    public void unsetSuccess() {
+      this.success = null;
+    }
+
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
+    public boolean isSetSuccess() {
+      return this.success != null;
+    }
+
+    public void setSuccessIsSet(boolean value) {
+      if (!value) {
+        this.success = null;
+      }
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((JSDialogResult)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case SUCCESS:
+        return getSuccess();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case SUCCESS:
+        return isSetSuccess();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof JSDialogHandler_OnJSDialog_result)
+        return this.equals((JSDialogHandler_OnJSDialog_result)that);
+      return false;
+    }
+
+    public boolean equals(JSDialogHandler_OnJSDialog_result that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_success = true && this.isSetSuccess();
+      boolean that_present_success = true && that.isSetSuccess();
+      if (this_present_success || that_present_success) {
+        if (!(this_present_success && that_present_success))
+          return false;
+        if (!this.success.equals(that.success))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((isSetSuccess()) ? 131071 : 524287);
+      if (isSetSuccess())
+        hashCode = hashCode * 8191 + success.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(JSDialogHandler_OnJSDialog_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetSuccess(), other.isSetSuccess());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSuccess()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.success, other.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+      }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("JSDialogHandler_OnJSDialog_result(");
+      boolean first = true;
+
+      sb.append("success:");
+      if (this.success == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.success);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (success != null) {
+        success.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class JSDialogHandler_OnJSDialog_resultStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public JSDialogHandler_OnJSDialog_resultStandardScheme getScheme() {
+        return new JSDialogHandler_OnJSDialog_resultStandardScheme();
+      }
+    }
+
+    private static class JSDialogHandler_OnJSDialog_resultStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<JSDialogHandler_OnJSDialog_result> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, JSDialogHandler_OnJSDialog_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        iprot.incrementRecursionDepth();
+        try {
+          com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+          iprot.readStructBegin();
+          while (true)
+          {
+            schemeField = iprot.readFieldBegin();
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+              break;
+            }
+            switch (schemeField.id) {
+              case 0: // SUCCESS
+                if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT) {
+                  struct.success = new JSDialogResult();
+                  struct.success.read(iprot);
+                  struct.setSuccessIsSet(true);
+                } else { 
+                  com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+                }
+                break;
+              default:
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            iprot.readFieldEnd();
+          }
+          iprot.readStructEnd();
+
+          // check for required fields of primitive type, which can't be checked in the validate method
+          struct.validate();
+        } finally {
+          iprot.decrementRecursionDepth();
+        }
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, JSDialogHandler_OnJSDialog_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.success != null) {
+          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
+          struct.success.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class JSDialogHandler_OnJSDialog_resultTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public JSDialogHandler_OnJSDialog_resultTupleScheme getScheme() {
+        return new JSDialogHandler_OnJSDialog_resultTupleScheme();
+      }
+    }
+
+    private static class JSDialogHandler_OnJSDialog_resultTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<JSDialogHandler_OnJSDialog_result> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, JSDialogHandler_OnJSDialog_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetSuccess()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetSuccess()) {
+          struct.success.write(oprot);
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, JSDialogHandler_OnJSDialog_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.incrementRecursionDepth();
+        try {
+          com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+          java.util.BitSet incoming = iprot.readBitSet(1);
+          if (incoming.get(0)) {
+            struct.success = new JSDialogResult();
+            struct.success.read(iprot);
+            struct.setSuccessIsSet(true);
+          }
+        } finally {
+          prot.decrementRecursionDepth();
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class JSDialogHandler_OnBeforeUnloadDialog_args implements com.jetbrains.cef.remote.thrift.TBase<JSDialogHandler_OnBeforeUnloadDialog_args, JSDialogHandler_OnBeforeUnloadDialog_args._Fields>, java.io.Serializable, Cloneable, Comparable<JSDialogHandler_OnBeforeUnloadDialog_args>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("JSDialogHandler_OnBeforeUnloadDialog_args");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField BID_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("bid", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)1);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField MESSAGE_TEXT_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("message_text", com.jetbrains.cef.remote.thrift.protocol.TType.STRING, (short)2);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField IS_RELOAD_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("is_reload", com.jetbrains.cef.remote.thrift.protocol.TType.BOOL, (short)3);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField JS_DIALOG_CALLBACK_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("jsDialogCallback", com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, (short)4);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new JSDialogHandler_OnBeforeUnloadDialog_argsStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new JSDialogHandler_OnBeforeUnloadDialog_argsTupleSchemeFactory();
+
+    public int bid; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String message_text; // required
+    public boolean is_reload; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject jsDialogCallback; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      BID((short)1, "bid"),
+      MESSAGE_TEXT((short)2, "message_text"),
+      IS_RELOAD((short)3, "is_reload"),
+      JS_DIALOG_CALLBACK((short)4, "jsDialogCallback");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // BID
+            return BID;
+          case 2: // MESSAGE_TEXT
+            return MESSAGE_TEXT;
+          case 3: // IS_RELOAD
+            return IS_RELOAD;
+          case 4: // JS_DIALOG_CALLBACK
+            return JS_DIALOG_CALLBACK;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __BID_ISSET_ID = 0;
+    private static final int __IS_RELOAD_ISSET_ID = 1;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.BID, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("bid", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.MESSAGE_TEXT, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("message_text", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.IS_RELOAD, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("is_reload", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.BOOL)));
+      tmpMap.put(_Fields.JS_DIALOG_CALLBACK, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("jsDialogCallback", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(JSDialogHandler_OnBeforeUnloadDialog_args.class, metaDataMap);
+    }
+
+    public JSDialogHandler_OnBeforeUnloadDialog_args() {
+    }
+
+    public JSDialogHandler_OnBeforeUnloadDialog_args(
+      int bid,
+      java.lang.String message_text,
+      boolean is_reload,
+      com.jetbrains.cef.remote.thrift_codegen.RObject jsDialogCallback)
+    {
+      this();
+      this.bid = bid;
+      setBidIsSet(true);
+      this.message_text = message_text;
+      this.is_reload = is_reload;
+      setIs_reloadIsSet(true);
+      this.jsDialogCallback = jsDialogCallback;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public JSDialogHandler_OnBeforeUnloadDialog_args(JSDialogHandler_OnBeforeUnloadDialog_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.bid = other.bid;
+      if (other.isSetMessage_text()) {
+        this.message_text = other.message_text;
+      }
+      this.is_reload = other.is_reload;
+      if (other.isSetJsDialogCallback()) {
+        this.jsDialogCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.jsDialogCallback);
+      }
+    }
+
+    @Override
+    public JSDialogHandler_OnBeforeUnloadDialog_args deepCopy() {
+      return new JSDialogHandler_OnBeforeUnloadDialog_args(this);
+    }
+
+    @Override
+    public void clear() {
+      setBidIsSet(false);
+      this.bid = 0;
+      this.message_text = null;
+      setIs_reloadIsSet(false);
+      this.is_reload = false;
+      this.jsDialogCallback = null;
+    }
+
+    public int getBid() {
+      return this.bid;
+    }
+
+    public JSDialogHandler_OnBeforeUnloadDialog_args setBid(int bid) {
+      this.bid = bid;
+      setBidIsSet(true);
+      return this;
+    }
+
+    public void unsetBid() {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    /** Returns true if field bid is set (has been assigned a value) and false otherwise */
+    public boolean isSetBid() {
+      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    public void setBidIsSet(boolean value) {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public java.lang.String getMessage_text() {
+      return this.message_text;
+    }
+
+    public JSDialogHandler_OnBeforeUnloadDialog_args setMessage_text(@com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String message_text) {
+      this.message_text = message_text;
+      return this;
+    }
+
+    public void unsetMessage_text() {
+      this.message_text = null;
+    }
+
+    /** Returns true if field message_text is set (has been assigned a value) and false otherwise */
+    public boolean isSetMessage_text() {
+      return this.message_text != null;
+    }
+
+    public void setMessage_textIsSet(boolean value) {
+      if (!value) {
+        this.message_text = null;
+      }
+    }
+
+    public boolean isIs_reload() {
+      return this.is_reload;
+    }
+
+    public JSDialogHandler_OnBeforeUnloadDialog_args setIs_reload(boolean is_reload) {
+      this.is_reload = is_reload;
+      setIs_reloadIsSet(true);
+      return this;
+    }
+
+    public void unsetIs_reload() {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __IS_RELOAD_ISSET_ID);
+    }
+
+    /** Returns true if field is_reload is set (has been assigned a value) and false otherwise */
+    public boolean isSetIs_reload() {
+      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __IS_RELOAD_ISSET_ID);
+    }
+
+    public void setIs_reloadIsSet(boolean value) {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __IS_RELOAD_ISSET_ID, value);
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getJsDialogCallback() {
+      return this.jsDialogCallback;
+    }
+
+    public JSDialogHandler_OnBeforeUnloadDialog_args setJsDialogCallback(@com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject jsDialogCallback) {
+      this.jsDialogCallback = jsDialogCallback;
+      return this;
+    }
+
+    public void unsetJsDialogCallback() {
+      this.jsDialogCallback = null;
+    }
+
+    /** Returns true if field jsDialogCallback is set (has been assigned a value) and false otherwise */
+    public boolean isSetJsDialogCallback() {
+      return this.jsDialogCallback != null;
+    }
+
+    public void setJsDialogCallbackIsSet(boolean value) {
+      if (!value) {
+        this.jsDialogCallback = null;
+      }
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case BID:
+        if (value == null) {
+          unsetBid();
+        } else {
+          setBid((java.lang.Integer)value);
+        }
+        break;
+
+      case MESSAGE_TEXT:
+        if (value == null) {
+          unsetMessage_text();
+        } else {
+          setMessage_text((java.lang.String)value);
+        }
+        break;
+
+      case IS_RELOAD:
+        if (value == null) {
+          unsetIs_reload();
+        } else {
+          setIs_reload((java.lang.Boolean)value);
+        }
+        break;
+
+      case JS_DIALOG_CALLBACK:
+        if (value == null) {
+          unsetJsDialogCallback();
+        } else {
+          setJsDialogCallback((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case BID:
+        return getBid();
+
+      case MESSAGE_TEXT:
+        return getMessage_text();
+
+      case IS_RELOAD:
+        return isIs_reload();
+
+      case JS_DIALOG_CALLBACK:
+        return getJsDialogCallback();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case BID:
+        return isSetBid();
+      case MESSAGE_TEXT:
+        return isSetMessage_text();
+      case IS_RELOAD:
+        return isSetIs_reload();
+      case JS_DIALOG_CALLBACK:
+        return isSetJsDialogCallback();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof JSDialogHandler_OnBeforeUnloadDialog_args)
+        return this.equals((JSDialogHandler_OnBeforeUnloadDialog_args)that);
+      return false;
+    }
+
+    public boolean equals(JSDialogHandler_OnBeforeUnloadDialog_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_bid = true;
+      boolean that_present_bid = true;
+      if (this_present_bid || that_present_bid) {
+        if (!(this_present_bid && that_present_bid))
+          return false;
+        if (this.bid != that.bid)
+          return false;
+      }
+
+      boolean this_present_message_text = true && this.isSetMessage_text();
+      boolean that_present_message_text = true && that.isSetMessage_text();
+      if (this_present_message_text || that_present_message_text) {
+        if (!(this_present_message_text && that_present_message_text))
+          return false;
+        if (!this.message_text.equals(that.message_text))
+          return false;
+      }
+
+      boolean this_present_is_reload = true;
+      boolean that_present_is_reload = true;
+      if (this_present_is_reload || that_present_is_reload) {
+        if (!(this_present_is_reload && that_present_is_reload))
+          return false;
+        if (this.is_reload != that.is_reload)
+          return false;
+      }
+
+      boolean this_present_jsDialogCallback = true && this.isSetJsDialogCallback();
+      boolean that_present_jsDialogCallback = true && that.isSetJsDialogCallback();
+      if (this_present_jsDialogCallback || that_present_jsDialogCallback) {
+        if (!(this_present_jsDialogCallback && that_present_jsDialogCallback))
+          return false;
+        if (!this.jsDialogCallback.equals(that.jsDialogCallback))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + bid;
+
+      hashCode = hashCode * 8191 + ((isSetMessage_text()) ? 131071 : 524287);
+      if (isSetMessage_text())
+        hashCode = hashCode * 8191 + message_text.hashCode();
+
+      hashCode = hashCode * 8191 + ((is_reload) ? 131071 : 524287);
+
+      hashCode = hashCode * 8191 + ((isSetJsDialogCallback()) ? 131071 : 524287);
+      if (isSetJsDialogCallback())
+        hashCode = hashCode * 8191 + jsDialogCallback.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(JSDialogHandler_OnBeforeUnloadDialog_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetBid(), other.isSetBid());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetBid()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetMessage_text(), other.isSetMessage_text());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetMessage_text()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.message_text, other.message_text);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetIs_reload(), other.isSetIs_reload());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetIs_reload()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.is_reload, other.is_reload);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetJsDialogCallback(), other.isSetJsDialogCallback());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetJsDialogCallback()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.jsDialogCallback, other.jsDialogCallback);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("JSDialogHandler_OnBeforeUnloadDialog_args(");
+      boolean first = true;
+
+      sb.append("bid:");
+      sb.append(this.bid);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("message_text:");
+      if (this.message_text == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.message_text);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("is_reload:");
+      sb.append(this.is_reload);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("jsDialogCallback:");
+      if (this.jsDialogCallback == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.jsDialogCallback);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (jsDialogCallback != null) {
+        jsDialogCallback.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class JSDialogHandler_OnBeforeUnloadDialog_argsStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public JSDialogHandler_OnBeforeUnloadDialog_argsStandardScheme getScheme() {
+        return new JSDialogHandler_OnBeforeUnloadDialog_argsStandardScheme();
+      }
+    }
+
+    private static class JSDialogHandler_OnBeforeUnloadDialog_argsStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<JSDialogHandler_OnBeforeUnloadDialog_args> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, JSDialogHandler_OnBeforeUnloadDialog_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        iprot.incrementRecursionDepth();
+        try {
+          com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+          iprot.readStructBegin();
+          while (true)
+          {
+            schemeField = iprot.readFieldBegin();
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+              break;
+            }
+            switch (schemeField.id) {
+              case 1: // BID
+                if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
+                  struct.bid = iprot.readI32();
+                  struct.setBidIsSet(true);
+                } else { 
+                  com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+                }
+                break;
+              case 2: // MESSAGE_TEXT
+                if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRING) {
+                  struct.message_text = iprot.readString();
+                  struct.setMessage_textIsSet(true);
+                } else { 
+                  com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+                }
+                break;
+              case 3: // IS_RELOAD
+                if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.BOOL) {
+                  struct.is_reload = iprot.readBool();
+                  struct.setIs_reloadIsSet(true);
+                } else { 
+                  com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+                }
+                break;
+              case 4: // JS_DIALOG_CALLBACK
+                if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT) {
+                  struct.jsDialogCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                  struct.jsDialogCallback.read(iprot);
+                  struct.setJsDialogCallbackIsSet(true);
+                } else { 
+                  com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+                }
+                break;
+              default:
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            iprot.readFieldEnd();
+          }
+          iprot.readStructEnd();
+
+          // check for required fields of primitive type, which can't be checked in the validate method
+          struct.validate();
+        } finally {
+          iprot.decrementRecursionDepth();
+        }
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, JSDialogHandler_OnBeforeUnloadDialog_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldBegin(BID_FIELD_DESC);
+        oprot.writeI32(struct.bid);
+        oprot.writeFieldEnd();
+        if (struct.message_text != null) {
+          oprot.writeFieldBegin(MESSAGE_TEXT_FIELD_DESC);
+          oprot.writeString(struct.message_text);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldBegin(IS_RELOAD_FIELD_DESC);
+        oprot.writeBool(struct.is_reload);
+        oprot.writeFieldEnd();
+        if (struct.jsDialogCallback != null) {
+          oprot.writeFieldBegin(JS_DIALOG_CALLBACK_FIELD_DESC);
+          struct.jsDialogCallback.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class JSDialogHandler_OnBeforeUnloadDialog_argsTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public JSDialogHandler_OnBeforeUnloadDialog_argsTupleScheme getScheme() {
+        return new JSDialogHandler_OnBeforeUnloadDialog_argsTupleScheme();
+      }
+    }
+
+    private static class JSDialogHandler_OnBeforeUnloadDialog_argsTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<JSDialogHandler_OnBeforeUnloadDialog_args> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, JSDialogHandler_OnBeforeUnloadDialog_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetBid()) {
+          optionals.set(0);
+        }
+        if (struct.isSetMessage_text()) {
+          optionals.set(1);
+        }
+        if (struct.isSetIs_reload()) {
+          optionals.set(2);
+        }
+        if (struct.isSetJsDialogCallback()) {
+          optionals.set(3);
+        }
+        oprot.writeBitSet(optionals, 4);
+        if (struct.isSetBid()) {
+          oprot.writeI32(struct.bid);
+        }
+        if (struct.isSetMessage_text()) {
+          oprot.writeString(struct.message_text);
+        }
+        if (struct.isSetIs_reload()) {
+          oprot.writeBool(struct.is_reload);
+        }
+        if (struct.isSetJsDialogCallback()) {
+          struct.jsDialogCallback.write(oprot);
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, JSDialogHandler_OnBeforeUnloadDialog_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.incrementRecursionDepth();
+        try {
+          com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+          java.util.BitSet incoming = iprot.readBitSet(4);
+          if (incoming.get(0)) {
+            struct.bid = iprot.readI32();
+            struct.setBidIsSet(true);
+          }
+          if (incoming.get(1)) {
+            struct.message_text = iprot.readString();
+            struct.setMessage_textIsSet(true);
+          }
+          if (incoming.get(2)) {
+            struct.is_reload = iprot.readBool();
+            struct.setIs_reloadIsSet(true);
+          }
+          if (incoming.get(3)) {
+            struct.jsDialogCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+            struct.jsDialogCallback.read(iprot);
+            struct.setJsDialogCallbackIsSet(true);
+          }
+        } finally {
+          prot.decrementRecursionDepth();
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class JSDialogHandler_OnBeforeUnloadDialog_result implements com.jetbrains.cef.remote.thrift.TBase<JSDialogHandler_OnBeforeUnloadDialog_result, JSDialogHandler_OnBeforeUnloadDialog_result._Fields>, java.io.Serializable, Cloneable, Comparable<JSDialogHandler_OnBeforeUnloadDialog_result>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("JSDialogHandler_OnBeforeUnloadDialog_result");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField SUCCESS_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("success", com.jetbrains.cef.remote.thrift.protocol.TType.BOOL, (short)0);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new JSDialogHandler_OnBeforeUnloadDialog_resultStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new JSDialogHandler_OnBeforeUnloadDialog_resultTupleSchemeFactory();
+
+    public boolean success; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      SUCCESS((short)0, "success");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 0: // SUCCESS
+            return SUCCESS;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __SUCCESS_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("success", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.BOOL)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(JSDialogHandler_OnBeforeUnloadDialog_result.class, metaDataMap);
+    }
+
+    public JSDialogHandler_OnBeforeUnloadDialog_result() {
+    }
+
+    public JSDialogHandler_OnBeforeUnloadDialog_result(
+      boolean success)
+    {
+      this();
+      this.success = success;
+      setSuccessIsSet(true);
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public JSDialogHandler_OnBeforeUnloadDialog_result(JSDialogHandler_OnBeforeUnloadDialog_result other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.success = other.success;
+    }
+
+    @Override
+    public JSDialogHandler_OnBeforeUnloadDialog_result deepCopy() {
+      return new JSDialogHandler_OnBeforeUnloadDialog_result(this);
+    }
+
+    @Override
+    public void clear() {
+      setSuccessIsSet(false);
+      this.success = false;
+    }
+
+    public boolean isSuccess() {
+      return this.success;
+    }
+
+    public JSDialogHandler_OnBeforeUnloadDialog_result setSuccess(boolean success) {
+      this.success = success;
+      setSuccessIsSet(true);
+      return this;
+    }
+
+    public void unsetSuccess() {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __SUCCESS_ISSET_ID);
+    }
+
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
+    public boolean isSetSuccess() {
+      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __SUCCESS_ISSET_ID);
+    }
+
+    public void setSuccessIsSet(boolean value) {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __SUCCESS_ISSET_ID, value);
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((java.lang.Boolean)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case SUCCESS:
+        return isSuccess();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case SUCCESS:
+        return isSetSuccess();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof JSDialogHandler_OnBeforeUnloadDialog_result)
+        return this.equals((JSDialogHandler_OnBeforeUnloadDialog_result)that);
+      return false;
+    }
+
+    public boolean equals(JSDialogHandler_OnBeforeUnloadDialog_result that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_success = true;
+      boolean that_present_success = true;
+      if (this_present_success || that_present_success) {
+        if (!(this_present_success && that_present_success))
+          return false;
+        if (this.success != that.success)
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((success) ? 131071 : 524287);
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(JSDialogHandler_OnBeforeUnloadDialog_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetSuccess(), other.isSetSuccess());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSuccess()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.success, other.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+      }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("JSDialogHandler_OnBeforeUnloadDialog_result(");
+      boolean first = true;
+
+      sb.append("success:");
+      sb.append(this.success);
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class JSDialogHandler_OnBeforeUnloadDialog_resultStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public JSDialogHandler_OnBeforeUnloadDialog_resultStandardScheme getScheme() {
+        return new JSDialogHandler_OnBeforeUnloadDialog_resultStandardScheme();
+      }
+    }
+
+    private static class JSDialogHandler_OnBeforeUnloadDialog_resultStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<JSDialogHandler_OnBeforeUnloadDialog_result> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, JSDialogHandler_OnBeforeUnloadDialog_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        iprot.incrementRecursionDepth();
+        try {
+          com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+          iprot.readStructBegin();
+          while (true)
+          {
+            schemeField = iprot.readFieldBegin();
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+              break;
+            }
+            switch (schemeField.id) {
+              case 0: // SUCCESS
+                if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.BOOL) {
+                  struct.success = iprot.readBool();
+                  struct.setSuccessIsSet(true);
+                } else { 
+                  com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+                }
+                break;
+              default:
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            iprot.readFieldEnd();
+          }
+          iprot.readStructEnd();
+
+          // check for required fields of primitive type, which can't be checked in the validate method
+          struct.validate();
+        } finally {
+          iprot.decrementRecursionDepth();
+        }
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, JSDialogHandler_OnBeforeUnloadDialog_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.isSetSuccess()) {
+          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
+          oprot.writeBool(struct.success);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class JSDialogHandler_OnBeforeUnloadDialog_resultTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public JSDialogHandler_OnBeforeUnloadDialog_resultTupleScheme getScheme() {
+        return new JSDialogHandler_OnBeforeUnloadDialog_resultTupleScheme();
+      }
+    }
+
+    private static class JSDialogHandler_OnBeforeUnloadDialog_resultTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<JSDialogHandler_OnBeforeUnloadDialog_result> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, JSDialogHandler_OnBeforeUnloadDialog_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetSuccess()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetSuccess()) {
+          oprot.writeBool(struct.success);
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, JSDialogHandler_OnBeforeUnloadDialog_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.incrementRecursionDepth();
+        try {
+          com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+          java.util.BitSet incoming = iprot.readBitSet(1);
+          if (incoming.get(0)) {
+            struct.success = iprot.readBool();
+            struct.setSuccessIsSet(true);
+          }
+        } finally {
+          prot.decrementRecursionDepth();
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class JSDialogHandler_OnResetDialogState_args implements com.jetbrains.cef.remote.thrift.TBase<JSDialogHandler_OnResetDialogState_args, JSDialogHandler_OnResetDialogState_args._Fields>, java.io.Serializable, Cloneable, Comparable<JSDialogHandler_OnResetDialogState_args>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("JSDialogHandler_OnResetDialogState_args");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField BID_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("bid", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)1);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new JSDialogHandler_OnResetDialogState_argsStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new JSDialogHandler_OnResetDialogState_argsTupleSchemeFactory();
+
+    public int bid; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      BID((short)1, "bid");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // BID
+            return BID;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __BID_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.BID, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("bid", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(JSDialogHandler_OnResetDialogState_args.class, metaDataMap);
+    }
+
+    public JSDialogHandler_OnResetDialogState_args() {
+    }
+
+    public JSDialogHandler_OnResetDialogState_args(
+      int bid)
+    {
+      this();
+      this.bid = bid;
+      setBidIsSet(true);
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public JSDialogHandler_OnResetDialogState_args(JSDialogHandler_OnResetDialogState_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.bid = other.bid;
+    }
+
+    @Override
+    public JSDialogHandler_OnResetDialogState_args deepCopy() {
+      return new JSDialogHandler_OnResetDialogState_args(this);
+    }
+
+    @Override
+    public void clear() {
+      setBidIsSet(false);
+      this.bid = 0;
+    }
+
+    public int getBid() {
+      return this.bid;
+    }
+
+    public JSDialogHandler_OnResetDialogState_args setBid(int bid) {
+      this.bid = bid;
+      setBidIsSet(true);
+      return this;
+    }
+
+    public void unsetBid() {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    /** Returns true if field bid is set (has been assigned a value) and false otherwise */
+    public boolean isSetBid() {
+      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    public void setBidIsSet(boolean value) {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case BID:
+        if (value == null) {
+          unsetBid();
+        } else {
+          setBid((java.lang.Integer)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case BID:
+        return getBid();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case BID:
+        return isSetBid();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof JSDialogHandler_OnResetDialogState_args)
+        return this.equals((JSDialogHandler_OnResetDialogState_args)that);
+      return false;
+    }
+
+    public boolean equals(JSDialogHandler_OnResetDialogState_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_bid = true;
+      boolean that_present_bid = true;
+      if (this_present_bid || that_present_bid) {
+        if (!(this_present_bid && that_present_bid))
+          return false;
+        if (this.bid != that.bid)
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + bid;
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(JSDialogHandler_OnResetDialogState_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetBid(), other.isSetBid());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetBid()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("JSDialogHandler_OnResetDialogState_args(");
+      boolean first = true;
+
+      sb.append("bid:");
+      sb.append(this.bid);
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class JSDialogHandler_OnResetDialogState_argsStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public JSDialogHandler_OnResetDialogState_argsStandardScheme getScheme() {
+        return new JSDialogHandler_OnResetDialogState_argsStandardScheme();
+      }
+    }
+
+    private static class JSDialogHandler_OnResetDialogState_argsStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<JSDialogHandler_OnResetDialogState_args> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, JSDialogHandler_OnResetDialogState_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        iprot.incrementRecursionDepth();
+        try {
+          com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+          iprot.readStructBegin();
+          while (true)
+          {
+            schemeField = iprot.readFieldBegin();
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+              break;
+            }
+            switch (schemeField.id) {
+              case 1: // BID
+                if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
+                  struct.bid = iprot.readI32();
+                  struct.setBidIsSet(true);
+                } else { 
+                  com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+                }
+                break;
+              default:
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            iprot.readFieldEnd();
+          }
+          iprot.readStructEnd();
+
+          // check for required fields of primitive type, which can't be checked in the validate method
+          struct.validate();
+        } finally {
+          iprot.decrementRecursionDepth();
+        }
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, JSDialogHandler_OnResetDialogState_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldBegin(BID_FIELD_DESC);
+        oprot.writeI32(struct.bid);
+        oprot.writeFieldEnd();
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class JSDialogHandler_OnResetDialogState_argsTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public JSDialogHandler_OnResetDialogState_argsTupleScheme getScheme() {
+        return new JSDialogHandler_OnResetDialogState_argsTupleScheme();
+      }
+    }
+
+    private static class JSDialogHandler_OnResetDialogState_argsTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<JSDialogHandler_OnResetDialogState_args> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, JSDialogHandler_OnResetDialogState_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetBid()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetBid()) {
+          oprot.writeI32(struct.bid);
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, JSDialogHandler_OnResetDialogState_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.incrementRecursionDepth();
+        try {
+          com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+          java.util.BitSet incoming = iprot.readBitSet(1);
+          if (incoming.get(0)) {
+            struct.bid = iprot.readI32();
+            struct.setBidIsSet(true);
+          }
+        } finally {
+          prot.decrementRecursionDepth();
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class JSDialogHandler_OnDialogClosed_args implements com.jetbrains.cef.remote.thrift.TBase<JSDialogHandler_OnDialogClosed_args, JSDialogHandler_OnDialogClosed_args._Fields>, java.io.Serializable, Cloneable, Comparable<JSDialogHandler_OnDialogClosed_args>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("JSDialogHandler_OnDialogClosed_args");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField BID_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("bid", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)1);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new JSDialogHandler_OnDialogClosed_argsStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new JSDialogHandler_OnDialogClosed_argsTupleSchemeFactory();
+
+    public int bid; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      BID((short)1, "bid");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // BID
+            return BID;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __BID_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.BID, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("bid", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(JSDialogHandler_OnDialogClosed_args.class, metaDataMap);
+    }
+
+    public JSDialogHandler_OnDialogClosed_args() {
+    }
+
+    public JSDialogHandler_OnDialogClosed_args(
+      int bid)
+    {
+      this();
+      this.bid = bid;
+      setBidIsSet(true);
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public JSDialogHandler_OnDialogClosed_args(JSDialogHandler_OnDialogClosed_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.bid = other.bid;
+    }
+
+    @Override
+    public JSDialogHandler_OnDialogClosed_args deepCopy() {
+      return new JSDialogHandler_OnDialogClosed_args(this);
+    }
+
+    @Override
+    public void clear() {
+      setBidIsSet(false);
+      this.bid = 0;
+    }
+
+    public int getBid() {
+      return this.bid;
+    }
+
+    public JSDialogHandler_OnDialogClosed_args setBid(int bid) {
+      this.bid = bid;
+      setBidIsSet(true);
+      return this;
+    }
+
+    public void unsetBid() {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    /** Returns true if field bid is set (has been assigned a value) and false otherwise */
+    public boolean isSetBid() {
+      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    public void setBidIsSet(boolean value) {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case BID:
+        if (value == null) {
+          unsetBid();
+        } else {
+          setBid((java.lang.Integer)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case BID:
+        return getBid();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case BID:
+        return isSetBid();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof JSDialogHandler_OnDialogClosed_args)
+        return this.equals((JSDialogHandler_OnDialogClosed_args)that);
+      return false;
+    }
+
+    public boolean equals(JSDialogHandler_OnDialogClosed_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_bid = true;
+      boolean that_present_bid = true;
+      if (this_present_bid || that_present_bid) {
+        if (!(this_present_bid && that_present_bid))
+          return false;
+        if (this.bid != that.bid)
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + bid;
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(JSDialogHandler_OnDialogClosed_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetBid(), other.isSetBid());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetBid()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("JSDialogHandler_OnDialogClosed_args(");
+      boolean first = true;
+
+      sb.append("bid:");
+      sb.append(this.bid);
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class JSDialogHandler_OnDialogClosed_argsStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public JSDialogHandler_OnDialogClosed_argsStandardScheme getScheme() {
+        return new JSDialogHandler_OnDialogClosed_argsStandardScheme();
+      }
+    }
+
+    private static class JSDialogHandler_OnDialogClosed_argsStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<JSDialogHandler_OnDialogClosed_args> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, JSDialogHandler_OnDialogClosed_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        iprot.incrementRecursionDepth();
+        try {
+          com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+          iprot.readStructBegin();
+          while (true)
+          {
+            schemeField = iprot.readFieldBegin();
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+              break;
+            }
+            switch (schemeField.id) {
+              case 1: // BID
+                if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
+                  struct.bid = iprot.readI32();
+                  struct.setBidIsSet(true);
+                } else { 
+                  com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+                }
+                break;
+              default:
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            iprot.readFieldEnd();
+          }
+          iprot.readStructEnd();
+
+          // check for required fields of primitive type, which can't be checked in the validate method
+          struct.validate();
+        } finally {
+          iprot.decrementRecursionDepth();
+        }
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, JSDialogHandler_OnDialogClosed_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldBegin(BID_FIELD_DESC);
+        oprot.writeI32(struct.bid);
+        oprot.writeFieldEnd();
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class JSDialogHandler_OnDialogClosed_argsTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public JSDialogHandler_OnDialogClosed_argsTupleScheme getScheme() {
+        return new JSDialogHandler_OnDialogClosed_argsTupleScheme();
+      }
+    }
+
+    private static class JSDialogHandler_OnDialogClosed_argsTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<JSDialogHandler_OnDialogClosed_args> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, JSDialogHandler_OnDialogClosed_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetBid()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetBid()) {
+          oprot.writeI32(struct.bid);
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, JSDialogHandler_OnDialogClosed_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.incrementRecursionDepth();
+        try {
+          com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+          java.util.BitSet incoming = iprot.readBitSet(1);
+          if (incoming.get(0)) {
+            struct.bid = iprot.readI32();
+            struct.setBidIsSet(true);
           }
         } finally {
           prot.decrementRecursionDepth();

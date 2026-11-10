@@ -1463,4 +1463,132 @@ void MenuItem::printTo(std::ostream& out) const {
   out << ")";
 }
 
+
+JSDialogResult::~JSDialogResult() noexcept {
+}
+
+JSDialogResult::JSDialogResult() noexcept
+   : handled(0),
+     suppress_message(0) {
+}
+
+void JSDialogResult::__set_handled(const bool val) {
+  this->handled = val;
+}
+
+void JSDialogResult::__set_suppress_message(const bool val) {
+  this->suppress_message = val;
+}
+std::ostream& operator<<(std::ostream& out, const JSDialogResult& obj)
+{
+  obj.printTo(out);
+  return out;
+}
+
+
+uint32_t JSDialogResult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+  bool isset_handled = false;
+  bool isset_suppress_message = false;
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->handled);
+          isset_handled = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->suppress_message);
+          isset_suppress_message = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  if (!isset_handled)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_suppress_message)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  return xfer;
+}
+
+uint32_t JSDialogResult::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("JSDialogResult");
+
+  xfer += oprot->writeFieldBegin("handled", ::apache::thrift::protocol::T_BOOL, 1);
+  xfer += oprot->writeBool(this->handled);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("suppress_message", ::apache::thrift::protocol::T_BOOL, 2);
+  xfer += oprot->writeBool(this->suppress_message);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+void swap(JSDialogResult &a, JSDialogResult &b) noexcept {
+  using ::std::swap;
+  swap(a.handled, b.handled);
+  swap(a.suppress_message, b.suppress_message);
+}
+
+bool JSDialogResult::operator==(const JSDialogResult & rhs) const
+{
+  if (!(handled == rhs.handled))
+    return false;
+  if (!(suppress_message == rhs.suppress_message))
+    return false;
+  return true;
+}
+
+JSDialogResult::JSDialogResult(const JSDialogResult& other17) noexcept {
+  handled = other17.handled;
+  suppress_message = other17.suppress_message;
+}
+JSDialogResult& JSDialogResult::operator=(const JSDialogResult& other18) noexcept {
+  handled = other18.handled;
+  suppress_message = other18.suppress_message;
+  return *this;
+}
+void JSDialogResult::printTo(std::ostream& out) const {
+  using ::apache::thrift::to_string;
+  out << "JSDialogResult(";
+  out << "handled=" << to_string(handled);
+  out << ", " << "suppress_message=" << to_string(suppress_message);
+  out << ")";
+}
+
 } // namespace

@@ -680,6 +680,31 @@ class ServerHandler : virtual public ServerIf {
     printf("MediaAccessCallback_Cancel\n");
   }
 
+  void FileDialogCallback_Dispose(const  ::thrift_codegen::RObject& fileDialogCallback) {
+    // Your implementation goes here
+    printf("FileDialogCallback_Dispose\n");
+  }
+
+  void FileDialogCallback_Continue(const  ::thrift_codegen::RObject& fileDialogCallback, const std::vector<std::string> & file_paths) {
+    // Your implementation goes here
+    printf("FileDialogCallback_Continue\n");
+  }
+
+  void FileDialogCallback_Cancel(const  ::thrift_codegen::RObject& fileDialogCallback) {
+    // Your implementation goes here
+    printf("FileDialogCallback_Cancel\n");
+  }
+
+  void JSDialogCallback_Dispose(const  ::thrift_codegen::RObject& jsDialogCallback) {
+    // Your implementation goes here
+    printf("JSDialogCallback_Dispose\n");
+  }
+
+  void JSDialogCallback_Continue(const  ::thrift_codegen::RObject& jsDialogCallback, const bool success, const std::string& user_input) {
+    // Your implementation goes here
+    printf("JSDialogCallback_Continue\n");
+  }
+
 };
 
 int main(int argc, char **argv) {

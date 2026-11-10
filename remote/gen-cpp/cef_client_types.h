@@ -49,6 +49,8 @@ class ContextMenuParams;
 
 class MenuItem;
 
+class JSDialogResult;
+
 
 class Point : public virtual ::apache::thrift::TBase {
  public:
@@ -304,6 +306,39 @@ class MenuItem : public virtual ::apache::thrift::TBase {
 void swap(MenuItem &a, MenuItem &b) noexcept;
 
 std::ostream& operator<<(std::ostream& out, const MenuItem& obj);
+
+
+class JSDialogResult : public virtual ::apache::thrift::TBase {
+ public:
+
+  JSDialogResult(const JSDialogResult&) noexcept;
+  JSDialogResult& operator=(const JSDialogResult&) noexcept;
+  JSDialogResult() noexcept;
+
+  virtual ~JSDialogResult() noexcept;
+  bool handled;
+  bool suppress_message;
+
+  void __set_handled(const bool val);
+
+  void __set_suppress_message(const bool val);
+
+  bool operator == (const JSDialogResult & rhs) const;
+  bool operator != (const JSDialogResult &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const JSDialogResult & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
+
+  virtual void printTo(std::ostream& out) const;
+};
+
+void swap(JSDialogResult &a, JSDialogResult &b) noexcept;
+
+std::ostream& operator<<(std::ostream& out, const JSDialogResult& obj);
 
 } // namespace
 

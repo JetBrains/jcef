@@ -19808,6 +19808,489 @@ uint32_t Server_MediaAccessCallback_Cancel_pargs::write(::apache::thrift::protoc
   return xfer;
 }
 
+
+Server_FileDialogCallback_Dispose_args::~Server_FileDialogCallback_Dispose_args() noexcept {
+}
+
+Server_FileDialogCallback_Dispose_args::Server_FileDialogCallback_Dispose_args() noexcept {
+}
+
+uint32_t Server_FileDialogCallback_Dispose_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->fileDialogCallback.read(iprot);
+          this->__isset.fileDialogCallback = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Server_FileDialogCallback_Dispose_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_FileDialogCallback_Dispose_args");
+
+  xfer += oprot->writeFieldBegin("fileDialogCallback", ::apache::thrift::protocol::T_STRUCT, 1);
+  xfer += this->fileDialogCallback.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_FileDialogCallback_Dispose_pargs::~Server_FileDialogCallback_Dispose_pargs() noexcept {
+}
+
+
+uint32_t Server_FileDialogCallback_Dispose_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_FileDialogCallback_Dispose_pargs");
+
+  xfer += oprot->writeFieldBegin("fileDialogCallback", ::apache::thrift::protocol::T_STRUCT, 1);
+  xfer += (*(this->fileDialogCallback)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_FileDialogCallback_Continue_args::~Server_FileDialogCallback_Continue_args() noexcept {
+}
+
+Server_FileDialogCallback_Continue_args::Server_FileDialogCallback_Continue_args() noexcept {
+}
+
+uint32_t Server_FileDialogCallback_Continue_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->fileDialogCallback.read(iprot);
+          this->__isset.fileDialogCallback = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_LIST) {
+          {
+            this->file_paths.clear();
+            uint32_t _size119;
+            ::apache::thrift::protocol::TType _etype122;
+            xfer += iprot->readListBegin(_etype122, _size119);
+            this->file_paths.resize(_size119);
+            uint32_t _i123;
+            for (_i123 = 0; _i123 < _size119; ++_i123)
+            {
+              xfer += iprot->readString(this->file_paths[_i123]);
+            }
+            xfer += iprot->readListEnd();
+          }
+          this->__isset.file_paths = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Server_FileDialogCallback_Continue_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_FileDialogCallback_Continue_args");
+
+  xfer += oprot->writeFieldBegin("fileDialogCallback", ::apache::thrift::protocol::T_STRUCT, 1);
+  xfer += this->fileDialogCallback.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("file_paths", ::apache::thrift::protocol::T_LIST, 2);
+  {
+    xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->file_paths.size()));
+    std::vector<std::string> ::const_iterator _iter124;
+    for (_iter124 = this->file_paths.begin(); _iter124 != this->file_paths.end(); ++_iter124)
+    {
+      xfer += oprot->writeString((*_iter124));
+    }
+    xfer += oprot->writeListEnd();
+  }
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_FileDialogCallback_Continue_pargs::~Server_FileDialogCallback_Continue_pargs() noexcept {
+}
+
+
+uint32_t Server_FileDialogCallback_Continue_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_FileDialogCallback_Continue_pargs");
+
+  xfer += oprot->writeFieldBegin("fileDialogCallback", ::apache::thrift::protocol::T_STRUCT, 1);
+  xfer += (*(this->fileDialogCallback)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("file_paths", ::apache::thrift::protocol::T_LIST, 2);
+  {
+    xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>((*(this->file_paths)).size()));
+    std::vector<std::string> ::const_iterator _iter125;
+    for (_iter125 = (*(this->file_paths)).begin(); _iter125 != (*(this->file_paths)).end(); ++_iter125)
+    {
+      xfer += oprot->writeString((*_iter125));
+    }
+    xfer += oprot->writeListEnd();
+  }
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_FileDialogCallback_Cancel_args::~Server_FileDialogCallback_Cancel_args() noexcept {
+}
+
+Server_FileDialogCallback_Cancel_args::Server_FileDialogCallback_Cancel_args() noexcept {
+}
+
+uint32_t Server_FileDialogCallback_Cancel_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->fileDialogCallback.read(iprot);
+          this->__isset.fileDialogCallback = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Server_FileDialogCallback_Cancel_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_FileDialogCallback_Cancel_args");
+
+  xfer += oprot->writeFieldBegin("fileDialogCallback", ::apache::thrift::protocol::T_STRUCT, 1);
+  xfer += this->fileDialogCallback.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_FileDialogCallback_Cancel_pargs::~Server_FileDialogCallback_Cancel_pargs() noexcept {
+}
+
+
+uint32_t Server_FileDialogCallback_Cancel_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_FileDialogCallback_Cancel_pargs");
+
+  xfer += oprot->writeFieldBegin("fileDialogCallback", ::apache::thrift::protocol::T_STRUCT, 1);
+  xfer += (*(this->fileDialogCallback)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_JSDialogCallback_Dispose_args::~Server_JSDialogCallback_Dispose_args() noexcept {
+}
+
+Server_JSDialogCallback_Dispose_args::Server_JSDialogCallback_Dispose_args() noexcept {
+}
+
+uint32_t Server_JSDialogCallback_Dispose_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->jsDialogCallback.read(iprot);
+          this->__isset.jsDialogCallback = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Server_JSDialogCallback_Dispose_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_JSDialogCallback_Dispose_args");
+
+  xfer += oprot->writeFieldBegin("jsDialogCallback", ::apache::thrift::protocol::T_STRUCT, 1);
+  xfer += this->jsDialogCallback.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_JSDialogCallback_Dispose_pargs::~Server_JSDialogCallback_Dispose_pargs() noexcept {
+}
+
+
+uint32_t Server_JSDialogCallback_Dispose_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_JSDialogCallback_Dispose_pargs");
+
+  xfer += oprot->writeFieldBegin("jsDialogCallback", ::apache::thrift::protocol::T_STRUCT, 1);
+  xfer += (*(this->jsDialogCallback)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_JSDialogCallback_Continue_args::~Server_JSDialogCallback_Continue_args() noexcept {
+}
+
+Server_JSDialogCallback_Continue_args::Server_JSDialogCallback_Continue_args() noexcept
+   : success(0),
+     user_input() {
+}
+
+uint32_t Server_JSDialogCallback_Continue_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->jsDialogCallback.read(iprot);
+          this->__isset.jsDialogCallback = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->success);
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->user_input);
+          this->__isset.user_input = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Server_JSDialogCallback_Continue_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_JSDialogCallback_Continue_args");
+
+  xfer += oprot->writeFieldBegin("jsDialogCallback", ::apache::thrift::protocol::T_STRUCT, 1);
+  xfer += this->jsDialogCallback.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_BOOL, 2);
+  xfer += oprot->writeBool(this->success);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("user_input", ::apache::thrift::protocol::T_STRING, 3);
+  xfer += oprot->writeString(this->user_input);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_JSDialogCallback_Continue_pargs::~Server_JSDialogCallback_Continue_pargs() noexcept {
+}
+
+
+uint32_t Server_JSDialogCallback_Continue_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_JSDialogCallback_Continue_pargs");
+
+  xfer += oprot->writeFieldBegin("jsDialogCallback", ::apache::thrift::protocol::T_STRUCT, 1);
+  xfer += (*(this->jsDialogCallback)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_BOOL, 2);
+  xfer += oprot->writeBool((*(this->success)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("user_input", ::apache::thrift::protocol::T_STRING, 3);
+  xfer += oprot->writeString((*(this->user_input)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
 int32_t ServerClient::connect(const std::string& backwardConnectionPipe, const bool isMaster)
 {
   send_connect(backwardConnectionPipe, isMaster);
@@ -24982,6 +25465,104 @@ void ServerClient::send_MediaAccessCallback_Cancel(const  ::thrift_codegen::RObj
 
   Server_MediaAccessCallback_Cancel_pargs args;
   args.mediaAccessCallback = &mediaAccessCallback;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void ServerClient::FileDialogCallback_Dispose(const  ::thrift_codegen::RObject& fileDialogCallback)
+{
+  send_FileDialogCallback_Dispose(fileDialogCallback);
+}
+
+void ServerClient::send_FileDialogCallback_Dispose(const  ::thrift_codegen::RObject& fileDialogCallback)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("FileDialogCallback_Dispose", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  Server_FileDialogCallback_Dispose_pargs args;
+  args.fileDialogCallback = &fileDialogCallback;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void ServerClient::FileDialogCallback_Continue(const  ::thrift_codegen::RObject& fileDialogCallback, const std::vector<std::string> & file_paths)
+{
+  send_FileDialogCallback_Continue(fileDialogCallback, file_paths);
+}
+
+void ServerClient::send_FileDialogCallback_Continue(const  ::thrift_codegen::RObject& fileDialogCallback, const std::vector<std::string> & file_paths)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("FileDialogCallback_Continue", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  Server_FileDialogCallback_Continue_pargs args;
+  args.fileDialogCallback = &fileDialogCallback;
+  args.file_paths = &file_paths;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void ServerClient::FileDialogCallback_Cancel(const  ::thrift_codegen::RObject& fileDialogCallback)
+{
+  send_FileDialogCallback_Cancel(fileDialogCallback);
+}
+
+void ServerClient::send_FileDialogCallback_Cancel(const  ::thrift_codegen::RObject& fileDialogCallback)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("FileDialogCallback_Cancel", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  Server_FileDialogCallback_Cancel_pargs args;
+  args.fileDialogCallback = &fileDialogCallback;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void ServerClient::JSDialogCallback_Dispose(const  ::thrift_codegen::RObject& jsDialogCallback)
+{
+  send_JSDialogCallback_Dispose(jsDialogCallback);
+}
+
+void ServerClient::send_JSDialogCallback_Dispose(const  ::thrift_codegen::RObject& jsDialogCallback)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("JSDialogCallback_Dispose", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  Server_JSDialogCallback_Dispose_pargs args;
+  args.jsDialogCallback = &jsDialogCallback;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void ServerClient::JSDialogCallback_Continue(const  ::thrift_codegen::RObject& jsDialogCallback, const bool success, const std::string& user_input)
+{
+  send_JSDialogCallback_Continue(jsDialogCallback, success, user_input);
+}
+
+void ServerClient::send_JSDialogCallback_Continue(const  ::thrift_codegen::RObject& jsDialogCallback, const bool success, const std::string& user_input)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("JSDialogCallback_Continue", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  Server_JSDialogCallback_Continue_pargs args;
+  args.jsDialogCallback = &jsDialogCallback;
+  args.success = &success;
+  args.user_input = &user_input;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -31034,6 +31615,191 @@ void ServerProcessor::process_MediaAccessCallback_Cancel(int32_t, ::apache::thri
 
   if (this->eventHandler_.get() != nullptr) {
     this->eventHandler_->asyncComplete(ctx, "Server.MediaAccessCallback_Cancel");
+  }
+
+  return;
+}
+
+void ServerProcessor::process_FileDialogCallback_Dispose(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("Server.FileDialogCallback_Dispose", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "Server.FileDialogCallback_Dispose");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "Server.FileDialogCallback_Dispose");
+  }
+
+  Server_FileDialogCallback_Dispose_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "Server.FileDialogCallback_Dispose", bytes);
+  }
+
+  try {
+    iface_->FileDialogCallback_Dispose(args.fileDialogCallback);
+  } catch (const std::exception&) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "Server.FileDialogCallback_Dispose");
+    }
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->asyncComplete(ctx, "Server.FileDialogCallback_Dispose");
+  }
+
+  return;
+}
+
+void ServerProcessor::process_FileDialogCallback_Continue(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("Server.FileDialogCallback_Continue", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "Server.FileDialogCallback_Continue");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "Server.FileDialogCallback_Continue");
+  }
+
+  Server_FileDialogCallback_Continue_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "Server.FileDialogCallback_Continue", bytes);
+  }
+
+  try {
+    iface_->FileDialogCallback_Continue(args.fileDialogCallback, args.file_paths);
+  } catch (const std::exception&) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "Server.FileDialogCallback_Continue");
+    }
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->asyncComplete(ctx, "Server.FileDialogCallback_Continue");
+  }
+
+  return;
+}
+
+void ServerProcessor::process_FileDialogCallback_Cancel(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("Server.FileDialogCallback_Cancel", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "Server.FileDialogCallback_Cancel");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "Server.FileDialogCallback_Cancel");
+  }
+
+  Server_FileDialogCallback_Cancel_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "Server.FileDialogCallback_Cancel", bytes);
+  }
+
+  try {
+    iface_->FileDialogCallback_Cancel(args.fileDialogCallback);
+  } catch (const std::exception&) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "Server.FileDialogCallback_Cancel");
+    }
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->asyncComplete(ctx, "Server.FileDialogCallback_Cancel");
+  }
+
+  return;
+}
+
+void ServerProcessor::process_JSDialogCallback_Dispose(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("Server.JSDialogCallback_Dispose", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "Server.JSDialogCallback_Dispose");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "Server.JSDialogCallback_Dispose");
+  }
+
+  Server_JSDialogCallback_Dispose_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "Server.JSDialogCallback_Dispose", bytes);
+  }
+
+  try {
+    iface_->JSDialogCallback_Dispose(args.jsDialogCallback);
+  } catch (const std::exception&) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "Server.JSDialogCallback_Dispose");
+    }
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->asyncComplete(ctx, "Server.JSDialogCallback_Dispose");
+  }
+
+  return;
+}
+
+void ServerProcessor::process_JSDialogCallback_Continue(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("Server.JSDialogCallback_Continue", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "Server.JSDialogCallback_Continue");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "Server.JSDialogCallback_Continue");
+  }
+
+  Server_JSDialogCallback_Continue_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "Server.JSDialogCallback_Continue", bytes);
+  }
+
+  try {
+    iface_->JSDialogCallback_Continue(args.jsDialogCallback, args.success, args.user_input);
+  } catch (const std::exception&) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "Server.JSDialogCallback_Continue");
+    }
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->asyncComplete(ctx, "Server.JSDialogCallback_Continue");
   }
 
   return;
@@ -38175,6 +38941,119 @@ void ServerConcurrentClient::send_MediaAccessCallback_Cancel(const  ::thrift_cod
 
   Server_MediaAccessCallback_Cancel_pargs args;
   args.mediaAccessCallback = &mediaAccessCallback;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+}
+
+void ServerConcurrentClient::FileDialogCallback_Dispose(const  ::thrift_codegen::RObject& fileDialogCallback)
+{
+  send_FileDialogCallback_Dispose(fileDialogCallback);
+}
+
+void ServerConcurrentClient::send_FileDialogCallback_Dispose(const  ::thrift_codegen::RObject& fileDialogCallback)
+{
+  int32_t cseqid = 0;
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("FileDialogCallback_Dispose", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  Server_FileDialogCallback_Dispose_pargs args;
+  args.fileDialogCallback = &fileDialogCallback;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+}
+
+void ServerConcurrentClient::FileDialogCallback_Continue(const  ::thrift_codegen::RObject& fileDialogCallback, const std::vector<std::string> & file_paths)
+{
+  send_FileDialogCallback_Continue(fileDialogCallback, file_paths);
+}
+
+void ServerConcurrentClient::send_FileDialogCallback_Continue(const  ::thrift_codegen::RObject& fileDialogCallback, const std::vector<std::string> & file_paths)
+{
+  int32_t cseqid = 0;
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("FileDialogCallback_Continue", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  Server_FileDialogCallback_Continue_pargs args;
+  args.fileDialogCallback = &fileDialogCallback;
+  args.file_paths = &file_paths;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+}
+
+void ServerConcurrentClient::FileDialogCallback_Cancel(const  ::thrift_codegen::RObject& fileDialogCallback)
+{
+  send_FileDialogCallback_Cancel(fileDialogCallback);
+}
+
+void ServerConcurrentClient::send_FileDialogCallback_Cancel(const  ::thrift_codegen::RObject& fileDialogCallback)
+{
+  int32_t cseqid = 0;
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("FileDialogCallback_Cancel", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  Server_FileDialogCallback_Cancel_pargs args;
+  args.fileDialogCallback = &fileDialogCallback;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+}
+
+void ServerConcurrentClient::JSDialogCallback_Dispose(const  ::thrift_codegen::RObject& jsDialogCallback)
+{
+  send_JSDialogCallback_Dispose(jsDialogCallback);
+}
+
+void ServerConcurrentClient::send_JSDialogCallback_Dispose(const  ::thrift_codegen::RObject& jsDialogCallback)
+{
+  int32_t cseqid = 0;
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("JSDialogCallback_Dispose", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  Server_JSDialogCallback_Dispose_pargs args;
+  args.jsDialogCallback = &jsDialogCallback;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+}
+
+void ServerConcurrentClient::JSDialogCallback_Continue(const  ::thrift_codegen::RObject& jsDialogCallback, const bool success, const std::string& user_input)
+{
+  send_JSDialogCallback_Continue(jsDialogCallback, success, user_input);
+}
+
+void ServerConcurrentClient::send_JSDialogCallback_Continue(const  ::thrift_codegen::RObject& jsDialogCallback, const bool success, const std::string& user_input)
+{
+  int32_t cseqid = 0;
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("JSDialogCallback_Continue", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  Server_JSDialogCallback_Continue_pargs args;
+  args.jsDialogCallback = &jsDialogCallback;
+  args.success = &success;
+  args.user_input = &user_input;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
