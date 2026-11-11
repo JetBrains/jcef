@@ -178,6 +178,8 @@ Java_org_cef_browser_CefRequestContext_1N_N_1ClearCertificateExceptions(
     jlong self,
     jobject jcallback) {
   CefRefPtr<CefRequestContext> request_context = GetSelf(self);
+  if (!request_context)
+    return;
   CefRefPtr<CefCompletionCallback> callback =
       new CompletionCallback(env, jcallback);
   request_context->ClearCertificateExceptions(callback);
@@ -190,6 +192,8 @@ Java_org_cef_browser_CefRequestContext_1N_N_1CloseAllConnections(
     jlong self,
     jobject jcallback) {
   CefRefPtr<CefRequestContext> request_context = GetSelf(self);
+  if (!request_context)
+    return;
   CefRefPtr<CefCompletionCallback> callback =
       new CompletionCallback(env, jcallback);
   request_context->CloseAllConnections(callback);

@@ -14,14 +14,14 @@ import java.util.Map;
 
 class CefRequestContext_N extends CefRequestContext {
     // Used internally to store a pointer to the CEF object.
-    private static CefRequestContext_N globalInstance = null;
+    private static volatile CefRequestContext_N globalInstance = null;
     private CefRequestContextHandler handler = null;
 
     CefRequestContext_N() {
         super();
     }
 
-    static final CefRequestContext_N getGlobalContextNative() {
+    static final synchronized CefRequestContext_N getGlobalContextNative() {
         CefRequestContext_N result = null;
         try {
             result = CefRequestContext_N.N_GetGlobalContext();
@@ -29,9 +29,12 @@ class CefRequestContext_N extends CefRequestContext {
             ule.printStackTrace();
         }
 
+        if (result == null)
+            return globalInstance;
+
         if (globalInstance == null) {
             globalInstance = result;
-        } else if (globalInstance.getNativeRef() == result.getNativeRef()) {
+        } else {
             result.N_CefRequestContext_DTOR();
         }
         return globalInstance;
@@ -50,6 +53,8 @@ class CefRequestContext_N extends CefRequestContext {
 
     @Override
     public void dispose() {
+        if (this == globalInstance)
+            return;
         try {
             N_CefRequestContext_DTOR();
         } catch (UnsatisfiedLinkError ule) {
