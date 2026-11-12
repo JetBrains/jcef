@@ -1629,12 +1629,38 @@ void ServerHandler::RequestContext_GetGlobal(thrift_codegen::RObject& _return) {
   getRequestContextImpl(_return, CefRequestContext::GetGlobalContext());
 }
 
-void ServerHandler::RequestContext_Create(thrift_codegen::RObject& _return, const thrift_codegen::RObject& requestContextHandler) {
+void ServerHandler::RequestContext_Create(thrift_codegen::RObject& _return, const thrift_codegen::RObject& requestContextHandler, const thrift_codegen::RequestContextSettings& rcs) {
   MEASURE;
   if (doTraceRequest && Log::isTraceEnabled())
-    Log::trace("ServerHandler: RequestContext_Create");
-  CefRequestContextSettings settings; // TODO: Expose CefRequestContextSettings.
-  CefRefPtr<CefRequestContext> cefReqCtx = CefRequestContext::CreateContext(settings,requestContextHandler.isNull ? nullptr : new RemoteRequestContextHandler(myCtx, requestContextHandler));
+    Log::trace("ServerHandler: RequestContext_Create, cachePath='%s'", rcs.cachePath.c_str());
+  // Unset thrift fields have default values (""/false) which are also the CEF defaults.
+  CefRequestContextSettings settings;
+  CefString(&settings.cache_path) = rcs.cachePath;
+  settings.persist_session_cookies = rcs.persistSessionCookies;
+  CefString(&settings.accept_language_list) = rcs.acceptLanguageList;
+  CefString(&settings.cookieable_schemes_list) = rcs.cookieableSchemesList;
+  settings.cookieable_schemes_exclude_defaults = rcs.cookieableSchemesExcludeDefaults;
+  CefRefPtr<CefRequestContextHandler> handler;
+  if (!requestContextHandler.isNull)
+    handler = new RemoteRequestContextHandler(myCtx, requestContextHandler);
+  CefRefPtr<CefRequestContext> cefReqCtx = CefRequestContext::CreateContext(settings, handler);
+  getRequestContextImpl(_return, cefReqCtx);
+}
+
+void ServerHandler::RequestContext_CreateShared(thrift_codegen::RObject& _return, const thrift_codegen::RObject& other, const thrift_codegen::RObject& requestContextHandler) {
+  MEASURE;
+  if (doTraceRequest && Log::isTraceEnabled())
+    Log::trace("ServerHandler: RequestContext_CreateShared, other=%d", other.uid);
+  _return.isNull = true;
+  auto rcOther = RemoteRequestContext::get(other);
+  if (!rcOther) {
+    Log::error("ServerHandler: RequestContext_CreateShared: can't find request context %d", other.uid);
+    return;
+  }
+  CefRefPtr<CefRequestContextHandler> handler;
+  if (!requestContextHandler.isNull)
+    handler = new RemoteRequestContextHandler(myCtx, requestContextHandler);
+  CefRefPtr<CefRequestContext> cefReqCtx = CefRequestContext::CreateContext(rcOther->getDelegate(), handler);
   getRequestContextImpl(_return, cefReqCtx);
 }
 
@@ -1643,6 +1669,79 @@ void ServerHandler::RequestContext_Dispose(const thrift_codegen::RObject& reques
   if (doTraceRequest && Log::isTraceEnabled())
     Log::trace("ServerHandler: RequestContext_Dispose");
   RemoteRequestContext::dispose(requestContext.uid);
+}
+
+bool ServerHandler::RequestContext_IsSame(const thrift_codegen::RObject& requestContext, const thrift_codegen::RObject& other) {
+  MEASURE;
+  auto rc = RemoteRequestContext::get(requestContext);
+  auto rcOther = RemoteRequestContext::get(other);
+  if (!rc || !rcOther)
+    return false;
+  return rc->getDelegate()->IsSame(rcOther->getDelegate());
+}
+
+bool ServerHandler::RequestContext_IsSharingWith(const thrift_codegen::RObject& requestContext, const thrift_codegen::RObject& other) {
+  MEASURE;
+  auto rc = RemoteRequestContext::get(requestContext);
+  auto rcOther = RemoteRequestContext::get(other);
+  if (!rc || !rcOther)
+    return false;
+  return rc->getDelegate()->IsSharingWith(rcOther->getDelegate());
+}
+
+void ServerHandler::RequestContext_GetCachePath(std::string& _return, const thrift_codegen::RObject& requestContext) {
+  MEASURE;
+  _return = "";
+  auto rc = RemoteRequestContext::get(requestContext);
+  if (rc)
+    _return = rc->getDelegate()->GetCachePath().ToString();
+}
+
+void ServerHandler::RequestContext_GetCookieManager(thrift_codegen::RObject& _return, const thrift_codegen::RObject& requestContext) {
+  MEASURE;
+  if (doTraceCookie && Log::isTraceEnabled())
+    Log::trace("ServerHandler: RequestContext_GetCookieManager, requestContext=%d", requestContext.uid);
+  _return.isNull = true;
+  auto rc = RemoteRequestContext::get(requestContext);
+  if (!rc) {
+    Log::error("ServerHandler: RequestContext_GetCookieManager: can't find request context %d", requestContext.uid);
+    return;
+  }
+  // TODO(JCEF): Expose the callback object.
+  CefRefPtr<CefCookieManager> manager = rc->getDelegate()->GetCookieManager(nullptr);
+  if (!manager)
+    return;
+
+  std::shared_ptr<RemoteCookieManager> rm = RemoteCookieManager::create(myCtx->javaServiceIO(), manager);
+  _return = rm->toRObject();
+  if (doTraceCookie && Log::isTraceEnabled())
+    Log::trace("ServerHandler: RequestContext_GetCookieManager, requestContext=%d, created id=%d", requestContext.uid, rm->getId());
+}
+
+void ServerHandler::RequestContext_ClearHttpCache(const thrift_codegen::RObject& requestContext, const thrift_codegen::RObject& completionCallback) {
+  MEASURE;
+  if (doTraceRequest && Log::isTraceEnabled())
+    Log::trace("ServerHandler: RequestContext_ClearHttpCache, requestContext=%d.", requestContext.uid);
+  auto rc = RemoteRequestContext::get(requestContext);
+  if (rc) {
+    CefRefPtr<RemoteCompletionCallback> cb;
+    if (!completionCallback.isNull)
+      cb = new RemoteCompletionCallback(myCtx, completionCallback);
+    rc->getDelegate()->ClearHttpCache(cb);
+  }
+}
+
+void ServerHandler::RequestContext_ClearHttpAuthCredentials(const thrift_codegen::RObject& requestContext, const thrift_codegen::RObject& completionCallback) {
+  MEASURE;
+  if (doTraceRequest && Log::isTraceEnabled())
+    Log::trace("ServerHandler: RequestContext_ClearHttpAuthCredentials, requestContext=%d.", requestContext.uid);
+  auto rc = RemoteRequestContext::get(requestContext);
+  if (rc) {
+    CefRefPtr<RemoteCompletionCallback> cb;
+    if (!completionCallback.isNull)
+      cb = new RemoteCompletionCallback(myCtx, completionCallback);
+    rc->getDelegate()->ClearHttpAuthCredentials(cb);
+  }
 }
 
 bool ServerHandler::RequestContext_HasPreference(const thrift_codegen::RObject& requestContext, const std::string& name) {
@@ -1815,7 +1914,6 @@ void ServerHandler::RequestContext_CloseAllConnections(
 
 void ServerHandler::CookieManager_Create(thrift_codegen::RObject& _return) {
   MEASURE;
-
   // TODO(JCEF): Expose the callback object.
   CefRefPtr<CefCookieManager> manager = CefCookieManager::GetGlobalManager(nullptr);
   if (!manager)
@@ -1915,7 +2013,6 @@ bool ServerHandler::CookieManager_FlushStore(
     Log::trace("ServerHandler: CookieManager_FlushStore, id=%d", cookieManager.uid);
 
   GET_COOKIE_MANAGER_OR_RETURN_VAL(false);
-
   CefRefPtr<RemoteCompletionCallback> cb;
   if (!rcompletionCallback.isNull)
     cb = new RemoteCompletionCallback(myCtx, rcompletionCallback);

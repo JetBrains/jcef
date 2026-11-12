@@ -14,14 +14,24 @@ public class RemoteCookieManager extends CefCookieManager {
     RemoteCookieManagerImpl myImpl;
     private volatile boolean myIsDisposed = false;
 
-    private RemoteCookieManager(CefServer server) {
-        server.onConnected(()->{
-            myImpl = RemoteCookieManagerImpl.create(server.getRpcContext());
-        }, "CookieManager_Create", true);
-    }
+    private RemoteCookieManager() {}
 
     public static RemoteCookieManager createGlobal(CefServer server) {
-        return new RemoteCookieManager(server);
+        RemoteCookieManager result = new RemoteCookieManager();
+        server.onConnected(()->{
+            result.myImpl = RemoteCookieManagerImpl.create(server.getRpcContext());
+        }, "CookieManager_Create", true);
+        return result;
+    }
+
+    private RemoteCookieManager(RemoteRequestContext context) {
+        context.runOrDelay(()->{
+            myImpl = RemoteCookieManagerImpl.createForContext(context.getRpcContext(), context.getPeer());
+        }, "RequestContext_GetCookieManager");
+    }
+
+    public static RemoteCookieManager createForContext(RemoteRequestContext context) {
+        return new RemoteCookieManager(context);
     }
 
     @Override

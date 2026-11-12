@@ -11,6 +11,7 @@ import org.cef.callback.CefCookieVisitor;
 import org.cef.callback.CefNativeAdapter;
 
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Supplier;
 
 /**
  * Class used for managing cookies. The methods of this class may be called on any thread unless
@@ -43,6 +44,13 @@ public abstract class CefCookieManager extends CefNativeAdapter {
         });
 
         return instance;
+    }
+
+    /**
+     * Creates a cookie manager whose native implementation may become available later.
+     */
+    public static final CefCookieManager createDeferred(Supplier<CefCookieManager> managerSupplier) {
+        return new CookieManagerWrapper(managerSupplier);
     }
 
     /**
@@ -101,14 +109,41 @@ public abstract class CefCookieManager extends CefNativeAdapter {
 
     private static class CookieManagerWrapper extends CefCookieManager {
         private final AtomicReference<CefCookieManager> myInstance = new AtomicReference<>();
+        private final Supplier<CefCookieManager> myManagerSupplier;
+        private volatile boolean myDisposed;
+
+        CookieManagerWrapper() {
+            this(null);
+        }
+
+        CookieManagerWrapper(Supplier<CefCookieManager> managerSupplier) {
+            myManagerSupplier = managerSupplier;
+        }
 
         public void setInstance(CefCookieManager manager) {
             myInstance.set(manager);
         }
 
+        private CefCookieManager getInstance() {
+            CefCookieManager instance = myInstance.get();
+            if (instance != null || myDisposed || myManagerSupplier == null) return instance;
+
+            synchronized (this) {
+                instance = myInstance.get();
+                if (instance == null && !myDisposed) {
+                    instance = myManagerSupplier.get();
+                    if (instance != null) myInstance.set(instance);
+                }
+            }
+            return instance;
+        }
+
         @Override
         public void dispose() {
-            CefCookieManager impl = myInstance.get();
+            synchronized (this) {
+                myDisposed = true;
+            }
+            CefCookieManager impl = getInstance();
             if (impl != null) {
                 impl.dispose();
             }
@@ -116,7 +151,7 @@ public abstract class CefCookieManager extends CefNativeAdapter {
 
         @Override
         public boolean visitAllCookies(CefCookieVisitor visitor) {
-            CefCookieManager impl = myInstance.get();
+            CefCookieManager impl = getInstance();
             if (impl != null) {
                 return impl.visitAllCookies(visitor);
             }
@@ -126,7 +161,7 @@ public abstract class CefCookieManager extends CefNativeAdapter {
 
         @Override
         public boolean visitUrlCookies(String url, boolean includeHttpOnly, CefCookieVisitor visitor) {
-            CefCookieManager impl = myInstance.get();
+            CefCookieManager impl = getInstance();
             if (impl != null) {
                 return impl.visitUrlCookies(url, includeHttpOnly, visitor);
             }
@@ -136,7 +171,7 @@ public abstract class CefCookieManager extends CefNativeAdapter {
 
         @Override
         public boolean setCookie(String url, CefCookie cookie) {
-            CefCookieManager impl = myInstance.get();
+            CefCookieManager impl = getInstance();
             if (impl != null) {
                 return impl.setCookie(url, cookie);
             }
@@ -146,7 +181,7 @@ public abstract class CefCookieManager extends CefNativeAdapter {
 
         @Override
         public boolean deleteCookies(String url, String cookieName) {
-            CefCookieManager impl = myInstance.get();
+            CefCookieManager impl = getInstance();
             if (impl != null) {
                 return impl.deleteCookies(url, cookieName);
             }
@@ -156,7 +191,7 @@ public abstract class CefCookieManager extends CefNativeAdapter {
 
         @Override
         public boolean flushStore(CefCompletionCallback handler) {
-            CefCookieManager impl = myInstance.get();
+            CefCookieManager impl = getInstance();
             if (impl != null) {
                 return impl.flushStore(handler);
             }

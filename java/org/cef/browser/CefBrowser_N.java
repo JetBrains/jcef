@@ -167,7 +167,8 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     public synchronized void onBeforeClose() {
         if (TRACE_LIFESPAN) CefLog.Debug("CefBrowser_N: %s: onBeforeClose", this);
         isClosed_ = true;
-        if (request_context_ != null) request_context_.dispose();
+        // Don't dispose the request context of the DevTools child.
+        if (request_context_ != null && parent_ == null) request_context_.dispose();
         if (parent_ != null) {
             parent_.closeDevTools();
             parent_ = null;
@@ -259,6 +260,11 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
             isCreating_ = true;
             executeNative(() -> {
                 try {
+                    if (request_context_ != null && request_context_.getNativeRef() == 0) {
+                        CefLog.Error("CefBrowser_N: refusing to create browser with an unresolved request context");
+                        notifyBrowserCreationFailed();
+                        return;
+                    }
                     if (TRACE_LIFESPAN) CefLog.Debug("CefBrowser_N: %s: started native creation", this);
                     N_CreateBrowser(clientHandler, windowHandle, url, osr, transparent, canvas, request_context_,
                             settings_);
@@ -274,6 +280,12 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
      */
     private void notifyBrowserCreated() {
         isPending_ = true;
+    }
+
+    private synchronized void notifyBrowserCreationFailed() {
+        isCreating_ = false;
+        isClosed_ = true;
+        if (request_context_ != null && parent_ == null) request_context_.dispose();
     }
 
     /**

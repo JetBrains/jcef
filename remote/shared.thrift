@@ -103,3 +103,11 @@ struct CefValue {
     6: optional map<string, CefValue> mapVal
     7: optional list<CefValue> listVal
 }
+
+struct RequestContextSettings {
+    1: optional string cachePath,
+    2: optional bool persistSessionCookies,
+    3: optional string acceptLanguageList,
+    4: optional string cookieableSchemesList,
+    5: optional bool cookieableSchemesExcludeDefaults
+}

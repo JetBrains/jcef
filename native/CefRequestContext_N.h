@@ -18,10 +18,34 @@ JNIEXPORT jobject JNICALL Java_org_cef_browser_CefRequestContext_1N_N_1GetGlobal
 /*
  * Class:     org_cef_browser_CefRequestContext_N
  * Method:    N_CreateContext
- * Signature: (Lorg/cef/handler/CefRequestContextHandler;)Lorg/cef/browser/CefRequestContext_N;
+ * Signature: (Lorg/cef/browser/CefRequestContextSettings;Lorg/cef/handler/CefRequestContextHandler;)Lorg/cef/browser/CefRequestContext_N;
  */
 JNIEXPORT jobject JNICALL Java_org_cef_browser_CefRequestContext_1N_N_1CreateContext
-  (JNIEnv *, jclass, jobject);
+  (JNIEnv *, jclass, jobject, jobject);
+
+/*
+ * Class:     org_cef_browser_CefRequestContext_N
+ * Method:    N_CreateContextShared
+ * Signature: (Lorg/cef/browser/CefRequestContext_N;Lorg/cef/handler/CefRequestContextHandler;)Lorg/cef/browser/CefRequestContext_N;
+ */
+JNIEXPORT jobject JNICALL Java_org_cef_browser_CefRequestContext_1N_N_1CreateContextShared
+  (JNIEnv *, jclass, jobject, jobject);
+
+/*
+ * Class:     org_cef_browser_CefRequestContext_N
+ * Method:    N_IsSame
+ * Signature: (Lorg/cef/browser/CefRequestContext_N;)Z
+ */
+JNIEXPORT jboolean JNICALL Java_org_cef_browser_CefRequestContext_1N_N_1IsSame
+  (JNIEnv *, jobject, jobject);
+
+/*
+ * Class:     org_cef_browser_CefRequestContext_N
+ * Method:    N_IsSharingWith
+ * Signature: (Lorg/cef/browser/CefRequestContext_N;)Z
+ */
+JNIEXPORT jboolean JNICALL Java_org_cef_browser_CefRequestContext_1N_N_1IsSharingWith
+  (JNIEnv *, jobject, jobject);
 
 /*
  * Class:     org_cef_browser_CefRequestContext_N
@@ -29,6 +53,22 @@ JNIEXPORT jobject JNICALL Java_org_cef_browser_CefRequestContext_1N_N_1CreateCon
  * Signature: ()Z
  */
 JNIEXPORT jboolean JNICALL Java_org_cef_browser_CefRequestContext_1N_N_1IsGlobal
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     org_cef_browser_CefRequestContext_N
+ * Method:    N_GetCachePath
+ * Signature: ()Ljava/lang/String;
+ */
+JNIEXPORT jstring JNICALL Java_org_cef_browser_CefRequestContext_1N_N_1GetCachePath
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     org_cef_browser_CefRequestContext_N
+ * Method:    N_GetCookieManager
+ * Signature: ()Lorg/cef/network/CefCookieManager;
+ */
+JNIEXPORT jobject JNICALL Java_org_cef_browser_CefRequestContext_1N_N_1GetCookieManager
   (JNIEnv *, jobject);
 
 /*
@@ -104,6 +144,22 @@ JNIEXPORT void JNICALL Java_org_cef_browser_CefRequestContext_1N_N_1ClearCertifi
  * Signature: (JLorg/cef/callback/CefCompletionCallback;)V
  */
 JNIEXPORT void JNICALL Java_org_cef_browser_CefRequestContext_1N_N_1CloseAllConnections
+  (JNIEnv *, jobject, jlong, jobject);
+
+/*
+ * Class:     org_cef_browser_CefRequestContext_N
+ * Method:    N_ClearHttpCache
+ * Signature: (JLorg/cef/callback/CefCompletionCallback;)V
+ */
+JNIEXPORT void JNICALL Java_org_cef_browser_CefRequestContext_1N_N_1ClearHttpCache
+  (JNIEnv *, jobject, jlong, jobject);
+
+/*
+ * Class:     org_cef_browser_CefRequestContext_N
+ * Method:    N_ClearHttpAuthCredentials
+ * Signature: (JLorg/cef/callback/CefCompletionCallback;)V
+ */
+JNIEXPORT void JNICALL Java_org_cef_browser_CefRequestContext_1N_N_1ClearHttpAuthCredentials
   (JNIEnv *, jobject, jlong, jobject);
 
 #ifdef __cplusplus
