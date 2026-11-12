@@ -235,9 +235,23 @@ public class Server {
 
     public com.jetbrains.cef.remote.thrift_codegen.RObject RequestContext_GetGlobal() throws com.jetbrains.cef.remote.thrift.TException;
 
-    public com.jetbrains.cef.remote.thrift_codegen.RObject RequestContext_Create(com.jetbrains.cef.remote.thrift_codegen.RObject requestContextHandler) throws com.jetbrains.cef.remote.thrift.TException;
+    public com.jetbrains.cef.remote.thrift_codegen.RObject RequestContext_Create(com.jetbrains.cef.remote.thrift_codegen.RObject requestContextHandler, com.jetbrains.cef.remote.thrift_codegen.RequestContextSettings settings) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public com.jetbrains.cef.remote.thrift_codegen.RObject RequestContext_CreateShared(com.jetbrains.cef.remote.thrift_codegen.RObject other, com.jetbrains.cef.remote.thrift_codegen.RObject requestContextHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
     public void RequestContext_Dispose(com.jetbrains.cef.remote.thrift_codegen.RObject requestContext) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public boolean RequestContext_IsSame(com.jetbrains.cef.remote.thrift_codegen.RObject requestContext, com.jetbrains.cef.remote.thrift_codegen.RObject other) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public boolean RequestContext_IsSharingWith(com.jetbrains.cef.remote.thrift_codegen.RObject requestContext, com.jetbrains.cef.remote.thrift_codegen.RObject other) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public java.lang.String RequestContext_GetCachePath(com.jetbrains.cef.remote.thrift_codegen.RObject requestContext) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public com.jetbrains.cef.remote.thrift_codegen.RObject RequestContext_GetCookieManager(com.jetbrains.cef.remote.thrift_codegen.RObject requestContext) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void RequestContext_ClearHttpCache(com.jetbrains.cef.remote.thrift_codegen.RObject requestContext, com.jetbrains.cef.remote.thrift_codegen.RObject completionCallback) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void RequestContext_ClearHttpAuthCredentials(com.jetbrains.cef.remote.thrift_codegen.RObject requestContext, com.jetbrains.cef.remote.thrift_codegen.RObject completionCallback) throws com.jetbrains.cef.remote.thrift.TException;
 
     public boolean RequestContext_HasPreference(com.jetbrains.cef.remote.thrift_codegen.RObject requestContext, java.lang.String name) throws com.jetbrains.cef.remote.thrift.TException;
 
@@ -513,9 +527,23 @@ public class Server {
 
     public void RequestContext_GetGlobal(com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
-    public void RequestContext_Create(com.jetbrains.cef.remote.thrift_codegen.RObject requestContextHandler, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
+    public void RequestContext_Create(com.jetbrains.cef.remote.thrift_codegen.RObject requestContextHandler, com.jetbrains.cef.remote.thrift_codegen.RequestContextSettings settings, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void RequestContext_CreateShared(com.jetbrains.cef.remote.thrift_codegen.RObject other, com.jetbrains.cef.remote.thrift_codegen.RObject requestContextHandler, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
     public void RequestContext_Dispose(com.jetbrains.cef.remote.thrift_codegen.RObject requestContext, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void RequestContext_IsSame(com.jetbrains.cef.remote.thrift_codegen.RObject requestContext, com.jetbrains.cef.remote.thrift_codegen.RObject other, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void RequestContext_IsSharingWith(com.jetbrains.cef.remote.thrift_codegen.RObject requestContext, com.jetbrains.cef.remote.thrift_codegen.RObject other, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void RequestContext_GetCachePath(com.jetbrains.cef.remote.thrift_codegen.RObject requestContext, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void RequestContext_GetCookieManager(com.jetbrains.cef.remote.thrift_codegen.RObject requestContext, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void RequestContext_ClearHttpCache(com.jetbrains.cef.remote.thrift_codegen.RObject requestContext, com.jetbrains.cef.remote.thrift_codegen.RObject completionCallback, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void RequestContext_ClearHttpAuthCredentials(com.jetbrains.cef.remote.thrift_codegen.RObject requestContext, com.jetbrains.cef.remote.thrift_codegen.RObject completionCallback, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
     public void RequestContext_HasPreference(com.jetbrains.cef.remote.thrift_codegen.RObject requestContext, java.lang.String name, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
@@ -2688,16 +2716,17 @@ public class Server {
     }
 
     @Override
-    public com.jetbrains.cef.remote.thrift_codegen.RObject RequestContext_Create(com.jetbrains.cef.remote.thrift_codegen.RObject requestContextHandler) throws com.jetbrains.cef.remote.thrift.TException
+    public com.jetbrains.cef.remote.thrift_codegen.RObject RequestContext_Create(com.jetbrains.cef.remote.thrift_codegen.RObject requestContextHandler, com.jetbrains.cef.remote.thrift_codegen.RequestContextSettings settings) throws com.jetbrains.cef.remote.thrift.TException
     {
-      send_RequestContext_Create(requestContextHandler);
+      send_RequestContext_Create(requestContextHandler, settings);
       return recv_RequestContext_Create();
     }
 
-    public void send_RequestContext_Create(com.jetbrains.cef.remote.thrift_codegen.RObject requestContextHandler) throws com.jetbrains.cef.remote.thrift.TException
+    public void send_RequestContext_Create(com.jetbrains.cef.remote.thrift_codegen.RObject requestContextHandler, com.jetbrains.cef.remote.thrift_codegen.RequestContextSettings settings) throws com.jetbrains.cef.remote.thrift.TException
     {
       RequestContext_Create_args args = new RequestContext_Create_args();
       args.setRequestContextHandler(requestContextHandler);
+      args.setSettings(settings);
       sendBase("RequestContext_Create", args);
     }
 
@@ -2712,6 +2741,31 @@ public class Server {
     }
 
     @Override
+    public com.jetbrains.cef.remote.thrift_codegen.RObject RequestContext_CreateShared(com.jetbrains.cef.remote.thrift_codegen.RObject other, com.jetbrains.cef.remote.thrift_codegen.RObject requestContextHandler) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      send_RequestContext_CreateShared(other, requestContextHandler);
+      return recv_RequestContext_CreateShared();
+    }
+
+    public void send_RequestContext_CreateShared(com.jetbrains.cef.remote.thrift_codegen.RObject other, com.jetbrains.cef.remote.thrift_codegen.RObject requestContextHandler) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      RequestContext_CreateShared_args args = new RequestContext_CreateShared_args();
+      args.setOther(other);
+      args.setRequestContextHandler(requestContextHandler);
+      sendBase("RequestContext_CreateShared", args);
+    }
+
+    public com.jetbrains.cef.remote.thrift_codegen.RObject recv_RequestContext_CreateShared() throws com.jetbrains.cef.remote.thrift.TException
+    {
+      RequestContext_CreateShared_result result = new RequestContext_CreateShared_result();
+      receiveBase(result, "RequestContext_CreateShared");
+      if (result.isSetSuccess()) {
+        return result.success;
+      }
+      throw new com.jetbrains.cef.remote.thrift.TApplicationException(com.jetbrains.cef.remote.thrift.TApplicationException.MISSING_RESULT, "RequestContext_CreateShared failed: unknown result");
+    }
+
+    @Override
     public void RequestContext_Dispose(com.jetbrains.cef.remote.thrift_codegen.RObject requestContext) throws com.jetbrains.cef.remote.thrift.TException
     {
       send_RequestContext_Dispose(requestContext);
@@ -2722,6 +2776,132 @@ public class Server {
       RequestContext_Dispose_args args = new RequestContext_Dispose_args();
       args.setRequestContext(requestContext);
       sendBaseOneway("RequestContext_Dispose", args);
+    }
+
+    @Override
+    public boolean RequestContext_IsSame(com.jetbrains.cef.remote.thrift_codegen.RObject requestContext, com.jetbrains.cef.remote.thrift_codegen.RObject other) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      send_RequestContext_IsSame(requestContext, other);
+      return recv_RequestContext_IsSame();
+    }
+
+    public void send_RequestContext_IsSame(com.jetbrains.cef.remote.thrift_codegen.RObject requestContext, com.jetbrains.cef.remote.thrift_codegen.RObject other) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      RequestContext_IsSame_args args = new RequestContext_IsSame_args();
+      args.setRequestContext(requestContext);
+      args.setOther(other);
+      sendBase("RequestContext_IsSame", args);
+    }
+
+    public boolean recv_RequestContext_IsSame() throws com.jetbrains.cef.remote.thrift.TException
+    {
+      RequestContext_IsSame_result result = new RequestContext_IsSame_result();
+      receiveBase(result, "RequestContext_IsSame");
+      if (result.isSetSuccess()) {
+        return result.success;
+      }
+      throw new com.jetbrains.cef.remote.thrift.TApplicationException(com.jetbrains.cef.remote.thrift.TApplicationException.MISSING_RESULT, "RequestContext_IsSame failed: unknown result");
+    }
+
+    @Override
+    public boolean RequestContext_IsSharingWith(com.jetbrains.cef.remote.thrift_codegen.RObject requestContext, com.jetbrains.cef.remote.thrift_codegen.RObject other) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      send_RequestContext_IsSharingWith(requestContext, other);
+      return recv_RequestContext_IsSharingWith();
+    }
+
+    public void send_RequestContext_IsSharingWith(com.jetbrains.cef.remote.thrift_codegen.RObject requestContext, com.jetbrains.cef.remote.thrift_codegen.RObject other) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      RequestContext_IsSharingWith_args args = new RequestContext_IsSharingWith_args();
+      args.setRequestContext(requestContext);
+      args.setOther(other);
+      sendBase("RequestContext_IsSharingWith", args);
+    }
+
+    public boolean recv_RequestContext_IsSharingWith() throws com.jetbrains.cef.remote.thrift.TException
+    {
+      RequestContext_IsSharingWith_result result = new RequestContext_IsSharingWith_result();
+      receiveBase(result, "RequestContext_IsSharingWith");
+      if (result.isSetSuccess()) {
+        return result.success;
+      }
+      throw new com.jetbrains.cef.remote.thrift.TApplicationException(com.jetbrains.cef.remote.thrift.TApplicationException.MISSING_RESULT, "RequestContext_IsSharingWith failed: unknown result");
+    }
+
+    @Override
+    public java.lang.String RequestContext_GetCachePath(com.jetbrains.cef.remote.thrift_codegen.RObject requestContext) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      send_RequestContext_GetCachePath(requestContext);
+      return recv_RequestContext_GetCachePath();
+    }
+
+    public void send_RequestContext_GetCachePath(com.jetbrains.cef.remote.thrift_codegen.RObject requestContext) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      RequestContext_GetCachePath_args args = new RequestContext_GetCachePath_args();
+      args.setRequestContext(requestContext);
+      sendBase("RequestContext_GetCachePath", args);
+    }
+
+    public java.lang.String recv_RequestContext_GetCachePath() throws com.jetbrains.cef.remote.thrift.TException
+    {
+      RequestContext_GetCachePath_result result = new RequestContext_GetCachePath_result();
+      receiveBase(result, "RequestContext_GetCachePath");
+      if (result.isSetSuccess()) {
+        return result.success;
+      }
+      throw new com.jetbrains.cef.remote.thrift.TApplicationException(com.jetbrains.cef.remote.thrift.TApplicationException.MISSING_RESULT, "RequestContext_GetCachePath failed: unknown result");
+    }
+
+    @Override
+    public com.jetbrains.cef.remote.thrift_codegen.RObject RequestContext_GetCookieManager(com.jetbrains.cef.remote.thrift_codegen.RObject requestContext) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      send_RequestContext_GetCookieManager(requestContext);
+      return recv_RequestContext_GetCookieManager();
+    }
+
+    public void send_RequestContext_GetCookieManager(com.jetbrains.cef.remote.thrift_codegen.RObject requestContext) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      RequestContext_GetCookieManager_args args = new RequestContext_GetCookieManager_args();
+      args.setRequestContext(requestContext);
+      sendBase("RequestContext_GetCookieManager", args);
+    }
+
+    public com.jetbrains.cef.remote.thrift_codegen.RObject recv_RequestContext_GetCookieManager() throws com.jetbrains.cef.remote.thrift.TException
+    {
+      RequestContext_GetCookieManager_result result = new RequestContext_GetCookieManager_result();
+      receiveBase(result, "RequestContext_GetCookieManager");
+      if (result.isSetSuccess()) {
+        return result.success;
+      }
+      throw new com.jetbrains.cef.remote.thrift.TApplicationException(com.jetbrains.cef.remote.thrift.TApplicationException.MISSING_RESULT, "RequestContext_GetCookieManager failed: unknown result");
+    }
+
+    @Override
+    public void RequestContext_ClearHttpCache(com.jetbrains.cef.remote.thrift_codegen.RObject requestContext, com.jetbrains.cef.remote.thrift_codegen.RObject completionCallback) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      send_RequestContext_ClearHttpCache(requestContext, completionCallback);
+    }
+
+    public void send_RequestContext_ClearHttpCache(com.jetbrains.cef.remote.thrift_codegen.RObject requestContext, com.jetbrains.cef.remote.thrift_codegen.RObject completionCallback) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      RequestContext_ClearHttpCache_args args = new RequestContext_ClearHttpCache_args();
+      args.setRequestContext(requestContext);
+      args.setCompletionCallback(completionCallback);
+      sendBaseOneway("RequestContext_ClearHttpCache", args);
+    }
+
+    @Override
+    public void RequestContext_ClearHttpAuthCredentials(com.jetbrains.cef.remote.thrift_codegen.RObject requestContext, com.jetbrains.cef.remote.thrift_codegen.RObject completionCallback) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      send_RequestContext_ClearHttpAuthCredentials(requestContext, completionCallback);
+    }
+
+    public void send_RequestContext_ClearHttpAuthCredentials(com.jetbrains.cef.remote.thrift_codegen.RObject requestContext, com.jetbrains.cef.remote.thrift_codegen.RObject completionCallback) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      RequestContext_ClearHttpAuthCredentials_args args = new RequestContext_ClearHttpAuthCredentials_args();
+      args.setRequestContext(requestContext);
+      args.setCompletionCallback(completionCallback);
+      sendBaseOneway("RequestContext_ClearHttpAuthCredentials", args);
     }
 
     @Override
@@ -7415,18 +7595,20 @@ public class Server {
     }
 
     @Override
-    public void RequestContext_Create(com.jetbrains.cef.remote.thrift_codegen.RObject requestContextHandler, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+    public void RequestContext_Create(com.jetbrains.cef.remote.thrift_codegen.RObject requestContextHandler, com.jetbrains.cef.remote.thrift_codegen.RequestContextSettings settings, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
       checkReady();
-      RequestContext_Create_call method_call = new RequestContext_Create_call(requestContextHandler, resultHandler, this, ___protocolFactory, ___transport);
+      RequestContext_Create_call method_call = new RequestContext_Create_call(requestContextHandler, settings, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
     public static class RequestContext_Create_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<com.jetbrains.cef.remote.thrift_codegen.RObject> {
       private com.jetbrains.cef.remote.thrift_codegen.RObject requestContextHandler;
-      public RequestContext_Create_call(com.jetbrains.cef.remote.thrift_codegen.RObject requestContextHandler, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
+      private com.jetbrains.cef.remote.thrift_codegen.RequestContextSettings settings;
+      public RequestContext_Create_call(com.jetbrains.cef.remote.thrift_codegen.RObject requestContextHandler, com.jetbrains.cef.remote.thrift_codegen.RequestContextSettings settings, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.requestContextHandler = requestContextHandler;
+        this.settings = settings;
       }
 
       @Override
@@ -7434,6 +7616,7 @@ public class Server {
         prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("RequestContext_Create", com.jetbrains.cef.remote.thrift.protocol.TMessageType.CALL, 0));
         RequestContext_Create_args args = new RequestContext_Create_args();
         args.setRequestContextHandler(requestContextHandler);
+        args.setSettings(settings);
         args.write(prot);
         prot.writeMessageEnd();
       }
@@ -7446,6 +7629,44 @@ public class Server {
         com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport memoryTransport = new com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
         com.jetbrains.cef.remote.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         return (new Client(prot)).recv_RequestContext_Create();
+      }
+    }
+
+    @Override
+    public void RequestContext_CreateShared(com.jetbrains.cef.remote.thrift_codegen.RObject other, com.jetbrains.cef.remote.thrift_codegen.RObject requestContextHandler, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+      checkReady();
+      RequestContext_CreateShared_call method_call = new RequestContext_CreateShared_call(other, requestContextHandler, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class RequestContext_CreateShared_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<com.jetbrains.cef.remote.thrift_codegen.RObject> {
+      private com.jetbrains.cef.remote.thrift_codegen.RObject other;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject requestContextHandler;
+      public RequestContext_CreateShared_call(com.jetbrains.cef.remote.thrift_codegen.RObject other, com.jetbrains.cef.remote.thrift_codegen.RObject requestContextHandler, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, false);
+        this.other = other;
+        this.requestContextHandler = requestContextHandler;
+      }
+
+      @Override
+      public void write_args(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("RequestContext_CreateShared", com.jetbrains.cef.remote.thrift.protocol.TMessageType.CALL, 0));
+        RequestContext_CreateShared_args args = new RequestContext_CreateShared_args();
+        args.setOther(other);
+        args.setRequestContextHandler(requestContextHandler);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift_codegen.RObject getResult() throws com.jetbrains.cef.remote.thrift.TException {
+        if (getState() != com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport memoryTransport = new com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        com.jetbrains.cef.remote.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return (new Client(prot)).recv_RequestContext_CreateShared();
       }
     }
 
@@ -7469,6 +7690,228 @@ public class Server {
         prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("RequestContext_Dispose", com.jetbrains.cef.remote.thrift.protocol.TMessageType.ONEWAY, 0));
         RequestContext_Dispose_args args = new RequestContext_Dispose_args();
         args.setRequestContext(requestContext);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public Void getResult() throws com.jetbrains.cef.remote.thrift.TException {
+        if (getState() != com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport memoryTransport = new com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        com.jetbrains.cef.remote.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return null;
+      }
+    }
+
+    @Override
+    public void RequestContext_IsSame(com.jetbrains.cef.remote.thrift_codegen.RObject requestContext, com.jetbrains.cef.remote.thrift_codegen.RObject other, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+      checkReady();
+      RequestContext_IsSame_call method_call = new RequestContext_IsSame_call(requestContext, other, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class RequestContext_IsSame_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<java.lang.Boolean> {
+      private com.jetbrains.cef.remote.thrift_codegen.RObject requestContext;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject other;
+      public RequestContext_IsSame_call(com.jetbrains.cef.remote.thrift_codegen.RObject requestContext, com.jetbrains.cef.remote.thrift_codegen.RObject other, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, false);
+        this.requestContext = requestContext;
+        this.other = other;
+      }
+
+      @Override
+      public void write_args(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("RequestContext_IsSame", com.jetbrains.cef.remote.thrift.protocol.TMessageType.CALL, 0));
+        RequestContext_IsSame_args args = new RequestContext_IsSame_args();
+        args.setRequestContext(requestContext);
+        args.setOther(other);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public java.lang.Boolean getResult() throws com.jetbrains.cef.remote.thrift.TException {
+        if (getState() != com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport memoryTransport = new com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        com.jetbrains.cef.remote.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return (new Client(prot)).recv_RequestContext_IsSame();
+      }
+    }
+
+    @Override
+    public void RequestContext_IsSharingWith(com.jetbrains.cef.remote.thrift_codegen.RObject requestContext, com.jetbrains.cef.remote.thrift_codegen.RObject other, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+      checkReady();
+      RequestContext_IsSharingWith_call method_call = new RequestContext_IsSharingWith_call(requestContext, other, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class RequestContext_IsSharingWith_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<java.lang.Boolean> {
+      private com.jetbrains.cef.remote.thrift_codegen.RObject requestContext;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject other;
+      public RequestContext_IsSharingWith_call(com.jetbrains.cef.remote.thrift_codegen.RObject requestContext, com.jetbrains.cef.remote.thrift_codegen.RObject other, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, false);
+        this.requestContext = requestContext;
+        this.other = other;
+      }
+
+      @Override
+      public void write_args(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("RequestContext_IsSharingWith", com.jetbrains.cef.remote.thrift.protocol.TMessageType.CALL, 0));
+        RequestContext_IsSharingWith_args args = new RequestContext_IsSharingWith_args();
+        args.setRequestContext(requestContext);
+        args.setOther(other);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public java.lang.Boolean getResult() throws com.jetbrains.cef.remote.thrift.TException {
+        if (getState() != com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport memoryTransport = new com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        com.jetbrains.cef.remote.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return (new Client(prot)).recv_RequestContext_IsSharingWith();
+      }
+    }
+
+    @Override
+    public void RequestContext_GetCachePath(com.jetbrains.cef.remote.thrift_codegen.RObject requestContext, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+      checkReady();
+      RequestContext_GetCachePath_call method_call = new RequestContext_GetCachePath_call(requestContext, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class RequestContext_GetCachePath_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<java.lang.String> {
+      private com.jetbrains.cef.remote.thrift_codegen.RObject requestContext;
+      public RequestContext_GetCachePath_call(com.jetbrains.cef.remote.thrift_codegen.RObject requestContext, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, false);
+        this.requestContext = requestContext;
+      }
+
+      @Override
+      public void write_args(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("RequestContext_GetCachePath", com.jetbrains.cef.remote.thrift.protocol.TMessageType.CALL, 0));
+        RequestContext_GetCachePath_args args = new RequestContext_GetCachePath_args();
+        args.setRequestContext(requestContext);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public java.lang.String getResult() throws com.jetbrains.cef.remote.thrift.TException {
+        if (getState() != com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport memoryTransport = new com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        com.jetbrains.cef.remote.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return (new Client(prot)).recv_RequestContext_GetCachePath();
+      }
+    }
+
+    @Override
+    public void RequestContext_GetCookieManager(com.jetbrains.cef.remote.thrift_codegen.RObject requestContext, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+      checkReady();
+      RequestContext_GetCookieManager_call method_call = new RequestContext_GetCookieManager_call(requestContext, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class RequestContext_GetCookieManager_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<com.jetbrains.cef.remote.thrift_codegen.RObject> {
+      private com.jetbrains.cef.remote.thrift_codegen.RObject requestContext;
+      public RequestContext_GetCookieManager_call(com.jetbrains.cef.remote.thrift_codegen.RObject requestContext, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, false);
+        this.requestContext = requestContext;
+      }
+
+      @Override
+      public void write_args(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("RequestContext_GetCookieManager", com.jetbrains.cef.remote.thrift.protocol.TMessageType.CALL, 0));
+        RequestContext_GetCookieManager_args args = new RequestContext_GetCookieManager_args();
+        args.setRequestContext(requestContext);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift_codegen.RObject getResult() throws com.jetbrains.cef.remote.thrift.TException {
+        if (getState() != com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport memoryTransport = new com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        com.jetbrains.cef.remote.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return (new Client(prot)).recv_RequestContext_GetCookieManager();
+      }
+    }
+
+    @Override
+    public void RequestContext_ClearHttpCache(com.jetbrains.cef.remote.thrift_codegen.RObject requestContext, com.jetbrains.cef.remote.thrift_codegen.RObject completionCallback, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+      checkReady();
+      RequestContext_ClearHttpCache_call method_call = new RequestContext_ClearHttpCache_call(requestContext, completionCallback, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class RequestContext_ClearHttpCache_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<Void> {
+      private com.jetbrains.cef.remote.thrift_codegen.RObject requestContext;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject completionCallback;
+      public RequestContext_ClearHttpCache_call(com.jetbrains.cef.remote.thrift_codegen.RObject requestContext, com.jetbrains.cef.remote.thrift_codegen.RObject completionCallback, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, true);
+        this.requestContext = requestContext;
+        this.completionCallback = completionCallback;
+      }
+
+      @Override
+      public void write_args(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("RequestContext_ClearHttpCache", com.jetbrains.cef.remote.thrift.protocol.TMessageType.ONEWAY, 0));
+        RequestContext_ClearHttpCache_args args = new RequestContext_ClearHttpCache_args();
+        args.setRequestContext(requestContext);
+        args.setCompletionCallback(completionCallback);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public Void getResult() throws com.jetbrains.cef.remote.thrift.TException {
+        if (getState() != com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport memoryTransport = new com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        com.jetbrains.cef.remote.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return null;
+      }
+    }
+
+    @Override
+    public void RequestContext_ClearHttpAuthCredentials(com.jetbrains.cef.remote.thrift_codegen.RObject requestContext, com.jetbrains.cef.remote.thrift_codegen.RObject completionCallback, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+      checkReady();
+      RequestContext_ClearHttpAuthCredentials_call method_call = new RequestContext_ClearHttpAuthCredentials_call(requestContext, completionCallback, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class RequestContext_ClearHttpAuthCredentials_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<Void> {
+      private com.jetbrains.cef.remote.thrift_codegen.RObject requestContext;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject completionCallback;
+      public RequestContext_ClearHttpAuthCredentials_call(com.jetbrains.cef.remote.thrift_codegen.RObject requestContext, com.jetbrains.cef.remote.thrift_codegen.RObject completionCallback, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, true);
+        this.requestContext = requestContext;
+        this.completionCallback = completionCallback;
+      }
+
+      @Override
+      public void write_args(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("RequestContext_ClearHttpAuthCredentials", com.jetbrains.cef.remote.thrift.protocol.TMessageType.ONEWAY, 0));
+        RequestContext_ClearHttpAuthCredentials_args args = new RequestContext_ClearHttpAuthCredentials_args();
+        args.setRequestContext(requestContext);
+        args.setCompletionCallback(completionCallback);
         args.write(prot);
         prot.writeMessageEnd();
       }
@@ -8475,7 +8918,14 @@ public class Server {
       processMap.put("ClearAllSchemeHandlerFactories", new ClearAllSchemeHandlerFactories());
       processMap.put("RequestContext_GetGlobal", new RequestContext_GetGlobal());
       processMap.put("RequestContext_Create", new RequestContext_Create());
+      processMap.put("RequestContext_CreateShared", new RequestContext_CreateShared());
       processMap.put("RequestContext_Dispose", new RequestContext_Dispose());
+      processMap.put("RequestContext_IsSame", new RequestContext_IsSame());
+      processMap.put("RequestContext_IsSharingWith", new RequestContext_IsSharingWith());
+      processMap.put("RequestContext_GetCachePath", new RequestContext_GetCachePath());
+      processMap.put("RequestContext_GetCookieManager", new RequestContext_GetCookieManager());
+      processMap.put("RequestContext_ClearHttpCache", new RequestContext_ClearHttpCache());
+      processMap.put("RequestContext_ClearHttpAuthCredentials", new RequestContext_ClearHttpAuthCredentials());
       processMap.put("RequestContext_HasPreference", new RequestContext_HasPreference());
       processMap.put("RequestContext_GetPreference", new RequestContext_GetPreference());
       processMap.put("RequestContext_GetAllPreferences", new RequestContext_GetAllPreferences());
@@ -12183,7 +12633,40 @@ public class Server {
       @Override
       public RequestContext_Create_result getResult(I iface, RequestContext_Create_args args) throws com.jetbrains.cef.remote.thrift.TException {
         RequestContext_Create_result result = getEmptyResultInstance();
-        result.success = iface.RequestContext_Create(args.requestContextHandler);
+        result.success = iface.RequestContext_Create(args.requestContextHandler, args.settings);
+        return result;
+      }
+    }
+
+    public static class RequestContext_CreateShared<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, RequestContext_CreateShared_args, RequestContext_CreateShared_result> {
+      public RequestContext_CreateShared() {
+        super("RequestContext_CreateShared");
+      }
+
+      @Override
+      public RequestContext_CreateShared_args getEmptyArgsInstance() {
+        return new RequestContext_CreateShared_args();
+      }
+
+      @Override
+      public boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public RequestContext_CreateShared_result getEmptyResultInstance() {
+        return new RequestContext_CreateShared_result();
+      }
+
+      @Override
+      public RequestContext_CreateShared_result getResult(I iface, RequestContext_CreateShared_args args) throws com.jetbrains.cef.remote.thrift.TException {
+        RequestContext_CreateShared_result result = getEmptyResultInstance();
+        result.success = iface.RequestContext_CreateShared(args.other, args.requestContextHandler);
         return result;
       }
     }
@@ -12216,6 +12699,204 @@ public class Server {
       @Override
       public com.jetbrains.cef.remote.thrift.TBase getResult(I iface, RequestContext_Dispose_args args) throws com.jetbrains.cef.remote.thrift.TException {
         iface.RequestContext_Dispose(args.requestContext);
+        return null;
+      }
+    }
+
+    public static class RequestContext_IsSame<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, RequestContext_IsSame_args, RequestContext_IsSame_result> {
+      public RequestContext_IsSame() {
+        super("RequestContext_IsSame");
+      }
+
+      @Override
+      public RequestContext_IsSame_args getEmptyArgsInstance() {
+        return new RequestContext_IsSame_args();
+      }
+
+      @Override
+      public boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public RequestContext_IsSame_result getEmptyResultInstance() {
+        return new RequestContext_IsSame_result();
+      }
+
+      @Override
+      public RequestContext_IsSame_result getResult(I iface, RequestContext_IsSame_args args) throws com.jetbrains.cef.remote.thrift.TException {
+        RequestContext_IsSame_result result = getEmptyResultInstance();
+        result.success = iface.RequestContext_IsSame(args.requestContext, args.other);
+        result.setSuccessIsSet(true);
+        return result;
+      }
+    }
+
+    public static class RequestContext_IsSharingWith<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, RequestContext_IsSharingWith_args, RequestContext_IsSharingWith_result> {
+      public RequestContext_IsSharingWith() {
+        super("RequestContext_IsSharingWith");
+      }
+
+      @Override
+      public RequestContext_IsSharingWith_args getEmptyArgsInstance() {
+        return new RequestContext_IsSharingWith_args();
+      }
+
+      @Override
+      public boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public RequestContext_IsSharingWith_result getEmptyResultInstance() {
+        return new RequestContext_IsSharingWith_result();
+      }
+
+      @Override
+      public RequestContext_IsSharingWith_result getResult(I iface, RequestContext_IsSharingWith_args args) throws com.jetbrains.cef.remote.thrift.TException {
+        RequestContext_IsSharingWith_result result = getEmptyResultInstance();
+        result.success = iface.RequestContext_IsSharingWith(args.requestContext, args.other);
+        result.setSuccessIsSet(true);
+        return result;
+      }
+    }
+
+    public static class RequestContext_GetCachePath<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, RequestContext_GetCachePath_args, RequestContext_GetCachePath_result> {
+      public RequestContext_GetCachePath() {
+        super("RequestContext_GetCachePath");
+      }
+
+      @Override
+      public RequestContext_GetCachePath_args getEmptyArgsInstance() {
+        return new RequestContext_GetCachePath_args();
+      }
+
+      @Override
+      public boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public RequestContext_GetCachePath_result getEmptyResultInstance() {
+        return new RequestContext_GetCachePath_result();
+      }
+
+      @Override
+      public RequestContext_GetCachePath_result getResult(I iface, RequestContext_GetCachePath_args args) throws com.jetbrains.cef.remote.thrift.TException {
+        RequestContext_GetCachePath_result result = getEmptyResultInstance();
+        result.success = iface.RequestContext_GetCachePath(args.requestContext);
+        return result;
+      }
+    }
+
+    public static class RequestContext_GetCookieManager<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, RequestContext_GetCookieManager_args, RequestContext_GetCookieManager_result> {
+      public RequestContext_GetCookieManager() {
+        super("RequestContext_GetCookieManager");
+      }
+
+      @Override
+      public RequestContext_GetCookieManager_args getEmptyArgsInstance() {
+        return new RequestContext_GetCookieManager_args();
+      }
+
+      @Override
+      public boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public RequestContext_GetCookieManager_result getEmptyResultInstance() {
+        return new RequestContext_GetCookieManager_result();
+      }
+
+      @Override
+      public RequestContext_GetCookieManager_result getResult(I iface, RequestContext_GetCookieManager_args args) throws com.jetbrains.cef.remote.thrift.TException {
+        RequestContext_GetCookieManager_result result = getEmptyResultInstance();
+        result.success = iface.RequestContext_GetCookieManager(args.requestContext);
+        return result;
+      }
+    }
+
+    public static class RequestContext_ClearHttpCache<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, RequestContext_ClearHttpCache_args, com.jetbrains.cef.remote.thrift.TBase> {
+      public RequestContext_ClearHttpCache() {
+        super("RequestContext_ClearHttpCache");
+      }
+
+      @Override
+      public RequestContext_ClearHttpCache_args getEmptyArgsInstance() {
+        return new RequestContext_ClearHttpCache_args();
+      }
+
+      @Override
+      public boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.TBase getEmptyResultInstance() {
+        return null;
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.TBase getResult(I iface, RequestContext_ClearHttpCache_args args) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.RequestContext_ClearHttpCache(args.requestContext, args.completionCallback);
+        return null;
+      }
+    }
+
+    public static class RequestContext_ClearHttpAuthCredentials<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, RequestContext_ClearHttpAuthCredentials_args, com.jetbrains.cef.remote.thrift.TBase> {
+      public RequestContext_ClearHttpAuthCredentials() {
+        super("RequestContext_ClearHttpAuthCredentials");
+      }
+
+      @Override
+      public RequestContext_ClearHttpAuthCredentials_args getEmptyArgsInstance() {
+        return new RequestContext_ClearHttpAuthCredentials_args();
+      }
+
+      @Override
+      public boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.TBase getEmptyResultInstance() {
+        return null;
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.TBase getResult(I iface, RequestContext_ClearHttpAuthCredentials_args args) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.RequestContext_ClearHttpAuthCredentials(args.requestContext, args.completionCallback);
         return null;
       }
     }
@@ -13100,7 +13781,14 @@ public class Server {
       processMap.put("ClearAllSchemeHandlerFactories", new ClearAllSchemeHandlerFactories());
       processMap.put("RequestContext_GetGlobal", new RequestContext_GetGlobal());
       processMap.put("RequestContext_Create", new RequestContext_Create());
+      processMap.put("RequestContext_CreateShared", new RequestContext_CreateShared());
       processMap.put("RequestContext_Dispose", new RequestContext_Dispose());
+      processMap.put("RequestContext_IsSame", new RequestContext_IsSame());
+      processMap.put("RequestContext_IsSharingWith", new RequestContext_IsSharingWith());
+      processMap.put("RequestContext_GetCachePath", new RequestContext_GetCachePath());
+      processMap.put("RequestContext_GetCookieManager", new RequestContext_GetCookieManager());
+      processMap.put("RequestContext_ClearHttpCache", new RequestContext_ClearHttpCache());
+      processMap.put("RequestContext_ClearHttpAuthCredentials", new RequestContext_ClearHttpAuthCredentials());
       processMap.put("RequestContext_HasPreference", new RequestContext_HasPreference());
       processMap.put("RequestContext_GetPreference", new RequestContext_GetPreference());
       processMap.put("RequestContext_GetAllPreferences", new RequestContext_GetAllPreferences());
@@ -19760,7 +20448,79 @@ public class Server {
 
       @Override
       public void start(I iface, RequestContext_Create_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
-        iface.RequestContext_Create(args.requestContextHandler,resultHandler);
+        iface.RequestContext_Create(args.requestContextHandler, args.settings,resultHandler);
+      }
+    }
+
+    public static class RequestContext_CreateShared<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, RequestContext_CreateShared_args, com.jetbrains.cef.remote.thrift_codegen.RObject, RequestContext_CreateShared_result> {
+      public RequestContext_CreateShared() {
+        super("RequestContext_CreateShared");
+      }
+
+      @Override
+      public RequestContext_CreateShared_result getEmptyResultInstance() {
+        return new RequestContext_CreateShared_result();
+      }
+
+      @Override
+      public RequestContext_CreateShared_args getEmptyArgsInstance() {
+        return new RequestContext_CreateShared_args();
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> getResultHandler(final com.jetbrains.cef.remote.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final com.jetbrains.cef.remote.thrift.AsyncProcessFunction fcall = this;
+        return new com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject>() { 
+          @Override
+          public void onComplete(com.jetbrains.cef.remote.thrift_codegen.RObject o) {
+            RequestContext_CreateShared_result result = new RequestContext_CreateShared_result();
+            result.success = o;
+            try {
+              fcall.sendResponse(fb, result, com.jetbrains.cef.remote.thrift.protocol.TMessageType.REPLY,seqid);
+            } catch (com.jetbrains.cef.remote.thrift.transport.TTransportException e) {
+              _LOGGER.error("TTransportException writing to internal frame buffer", e);
+              fb.close();
+            } catch (java.lang.Exception e) {
+              _LOGGER.error("Exception writing to internal frame buffer", e);
+              onError(e);
+            }
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            byte msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.REPLY;
+            com.jetbrains.cef.remote.thrift.TSerializable msg;
+            RequestContext_CreateShared_result result = new RequestContext_CreateShared_result();
+            if (e instanceof com.jetbrains.cef.remote.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+              return;
+            } else if (e instanceof com.jetbrains.cef.remote.thrift.TApplicationException) {
+              _LOGGER.error("TApplicationException inside handler", e);
+              msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.EXCEPTION;
+              msg = (com.jetbrains.cef.remote.thrift.TApplicationException)e;
+            } else {
+              _LOGGER.error("Exception inside handler", e);
+              msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.EXCEPTION;
+              msg = new com.jetbrains.cef.remote.thrift.TApplicationException(com.jetbrains.cef.remote.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
+            }
+            try {
+              fcall.sendResponse(fb,msg,msgType,seqid);
+            } catch (java.lang.Exception ex) {
+              _LOGGER.error("Exception writing to internal frame buffer", ex);
+              fb.close();
+            }
+          }
+        };
+      }
+
+      @Override
+      public boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      public void start(I iface, RequestContext_CreateShared_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.RequestContext_CreateShared(args.other, args.requestContextHandler,resultHandler);
       }
     }
 
@@ -19806,6 +20566,386 @@ public class Server {
       @Override
       public void start(I iface, RequestContext_Dispose_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
         iface.RequestContext_Dispose(args.requestContext,resultHandler);
+      }
+    }
+
+    public static class RequestContext_IsSame<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, RequestContext_IsSame_args, java.lang.Boolean, RequestContext_IsSame_result> {
+      public RequestContext_IsSame() {
+        super("RequestContext_IsSame");
+      }
+
+      @Override
+      public RequestContext_IsSame_result getEmptyResultInstance() {
+        return new RequestContext_IsSame_result();
+      }
+
+      @Override
+      public RequestContext_IsSame_args getEmptyArgsInstance() {
+        return new RequestContext_IsSame_args();
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> getResultHandler(final com.jetbrains.cef.remote.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final com.jetbrains.cef.remote.thrift.AsyncProcessFunction fcall = this;
+        return new com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean>() { 
+          @Override
+          public void onComplete(java.lang.Boolean o) {
+            RequestContext_IsSame_result result = new RequestContext_IsSame_result();
+            result.success = o;
+            result.setSuccessIsSet(true);
+            try {
+              fcall.sendResponse(fb, result, com.jetbrains.cef.remote.thrift.protocol.TMessageType.REPLY,seqid);
+            } catch (com.jetbrains.cef.remote.thrift.transport.TTransportException e) {
+              _LOGGER.error("TTransportException writing to internal frame buffer", e);
+              fb.close();
+            } catch (java.lang.Exception e) {
+              _LOGGER.error("Exception writing to internal frame buffer", e);
+              onError(e);
+            }
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            byte msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.REPLY;
+            com.jetbrains.cef.remote.thrift.TSerializable msg;
+            RequestContext_IsSame_result result = new RequestContext_IsSame_result();
+            if (e instanceof com.jetbrains.cef.remote.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+              return;
+            } else if (e instanceof com.jetbrains.cef.remote.thrift.TApplicationException) {
+              _LOGGER.error("TApplicationException inside handler", e);
+              msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.EXCEPTION;
+              msg = (com.jetbrains.cef.remote.thrift.TApplicationException)e;
+            } else {
+              _LOGGER.error("Exception inside handler", e);
+              msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.EXCEPTION;
+              msg = new com.jetbrains.cef.remote.thrift.TApplicationException(com.jetbrains.cef.remote.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
+            }
+            try {
+              fcall.sendResponse(fb,msg,msgType,seqid);
+            } catch (java.lang.Exception ex) {
+              _LOGGER.error("Exception writing to internal frame buffer", ex);
+              fb.close();
+            }
+          }
+        };
+      }
+
+      @Override
+      public boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      public void start(I iface, RequestContext_IsSame_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.RequestContext_IsSame(args.requestContext, args.other,resultHandler);
+      }
+    }
+
+    public static class RequestContext_IsSharingWith<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, RequestContext_IsSharingWith_args, java.lang.Boolean, RequestContext_IsSharingWith_result> {
+      public RequestContext_IsSharingWith() {
+        super("RequestContext_IsSharingWith");
+      }
+
+      @Override
+      public RequestContext_IsSharingWith_result getEmptyResultInstance() {
+        return new RequestContext_IsSharingWith_result();
+      }
+
+      @Override
+      public RequestContext_IsSharingWith_args getEmptyArgsInstance() {
+        return new RequestContext_IsSharingWith_args();
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> getResultHandler(final com.jetbrains.cef.remote.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final com.jetbrains.cef.remote.thrift.AsyncProcessFunction fcall = this;
+        return new com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean>() { 
+          @Override
+          public void onComplete(java.lang.Boolean o) {
+            RequestContext_IsSharingWith_result result = new RequestContext_IsSharingWith_result();
+            result.success = o;
+            result.setSuccessIsSet(true);
+            try {
+              fcall.sendResponse(fb, result, com.jetbrains.cef.remote.thrift.protocol.TMessageType.REPLY,seqid);
+            } catch (com.jetbrains.cef.remote.thrift.transport.TTransportException e) {
+              _LOGGER.error("TTransportException writing to internal frame buffer", e);
+              fb.close();
+            } catch (java.lang.Exception e) {
+              _LOGGER.error("Exception writing to internal frame buffer", e);
+              onError(e);
+            }
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            byte msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.REPLY;
+            com.jetbrains.cef.remote.thrift.TSerializable msg;
+            RequestContext_IsSharingWith_result result = new RequestContext_IsSharingWith_result();
+            if (e instanceof com.jetbrains.cef.remote.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+              return;
+            } else if (e instanceof com.jetbrains.cef.remote.thrift.TApplicationException) {
+              _LOGGER.error("TApplicationException inside handler", e);
+              msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.EXCEPTION;
+              msg = (com.jetbrains.cef.remote.thrift.TApplicationException)e;
+            } else {
+              _LOGGER.error("Exception inside handler", e);
+              msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.EXCEPTION;
+              msg = new com.jetbrains.cef.remote.thrift.TApplicationException(com.jetbrains.cef.remote.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
+            }
+            try {
+              fcall.sendResponse(fb,msg,msgType,seqid);
+            } catch (java.lang.Exception ex) {
+              _LOGGER.error("Exception writing to internal frame buffer", ex);
+              fb.close();
+            }
+          }
+        };
+      }
+
+      @Override
+      public boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      public void start(I iface, RequestContext_IsSharingWith_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.RequestContext_IsSharingWith(args.requestContext, args.other,resultHandler);
+      }
+    }
+
+    public static class RequestContext_GetCachePath<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, RequestContext_GetCachePath_args, java.lang.String, RequestContext_GetCachePath_result> {
+      public RequestContext_GetCachePath() {
+        super("RequestContext_GetCachePath");
+      }
+
+      @Override
+      public RequestContext_GetCachePath_result getEmptyResultInstance() {
+        return new RequestContext_GetCachePath_result();
+      }
+
+      @Override
+      public RequestContext_GetCachePath_args getEmptyArgsInstance() {
+        return new RequestContext_GetCachePath_args();
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.String> getResultHandler(final com.jetbrains.cef.remote.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final com.jetbrains.cef.remote.thrift.AsyncProcessFunction fcall = this;
+        return new com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.String>() { 
+          @Override
+          public void onComplete(java.lang.String o) {
+            RequestContext_GetCachePath_result result = new RequestContext_GetCachePath_result();
+            result.success = o;
+            try {
+              fcall.sendResponse(fb, result, com.jetbrains.cef.remote.thrift.protocol.TMessageType.REPLY,seqid);
+            } catch (com.jetbrains.cef.remote.thrift.transport.TTransportException e) {
+              _LOGGER.error("TTransportException writing to internal frame buffer", e);
+              fb.close();
+            } catch (java.lang.Exception e) {
+              _LOGGER.error("Exception writing to internal frame buffer", e);
+              onError(e);
+            }
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            byte msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.REPLY;
+            com.jetbrains.cef.remote.thrift.TSerializable msg;
+            RequestContext_GetCachePath_result result = new RequestContext_GetCachePath_result();
+            if (e instanceof com.jetbrains.cef.remote.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+              return;
+            } else if (e instanceof com.jetbrains.cef.remote.thrift.TApplicationException) {
+              _LOGGER.error("TApplicationException inside handler", e);
+              msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.EXCEPTION;
+              msg = (com.jetbrains.cef.remote.thrift.TApplicationException)e;
+            } else {
+              _LOGGER.error("Exception inside handler", e);
+              msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.EXCEPTION;
+              msg = new com.jetbrains.cef.remote.thrift.TApplicationException(com.jetbrains.cef.remote.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
+            }
+            try {
+              fcall.sendResponse(fb,msg,msgType,seqid);
+            } catch (java.lang.Exception ex) {
+              _LOGGER.error("Exception writing to internal frame buffer", ex);
+              fb.close();
+            }
+          }
+        };
+      }
+
+      @Override
+      public boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      public void start(I iface, RequestContext_GetCachePath_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.RequestContext_GetCachePath(args.requestContext,resultHandler);
+      }
+    }
+
+    public static class RequestContext_GetCookieManager<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, RequestContext_GetCookieManager_args, com.jetbrains.cef.remote.thrift_codegen.RObject, RequestContext_GetCookieManager_result> {
+      public RequestContext_GetCookieManager() {
+        super("RequestContext_GetCookieManager");
+      }
+
+      @Override
+      public RequestContext_GetCookieManager_result getEmptyResultInstance() {
+        return new RequestContext_GetCookieManager_result();
+      }
+
+      @Override
+      public RequestContext_GetCookieManager_args getEmptyArgsInstance() {
+        return new RequestContext_GetCookieManager_args();
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> getResultHandler(final com.jetbrains.cef.remote.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final com.jetbrains.cef.remote.thrift.AsyncProcessFunction fcall = this;
+        return new com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject>() { 
+          @Override
+          public void onComplete(com.jetbrains.cef.remote.thrift_codegen.RObject o) {
+            RequestContext_GetCookieManager_result result = new RequestContext_GetCookieManager_result();
+            result.success = o;
+            try {
+              fcall.sendResponse(fb, result, com.jetbrains.cef.remote.thrift.protocol.TMessageType.REPLY,seqid);
+            } catch (com.jetbrains.cef.remote.thrift.transport.TTransportException e) {
+              _LOGGER.error("TTransportException writing to internal frame buffer", e);
+              fb.close();
+            } catch (java.lang.Exception e) {
+              _LOGGER.error("Exception writing to internal frame buffer", e);
+              onError(e);
+            }
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            byte msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.REPLY;
+            com.jetbrains.cef.remote.thrift.TSerializable msg;
+            RequestContext_GetCookieManager_result result = new RequestContext_GetCookieManager_result();
+            if (e instanceof com.jetbrains.cef.remote.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+              return;
+            } else if (e instanceof com.jetbrains.cef.remote.thrift.TApplicationException) {
+              _LOGGER.error("TApplicationException inside handler", e);
+              msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.EXCEPTION;
+              msg = (com.jetbrains.cef.remote.thrift.TApplicationException)e;
+            } else {
+              _LOGGER.error("Exception inside handler", e);
+              msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.EXCEPTION;
+              msg = new com.jetbrains.cef.remote.thrift.TApplicationException(com.jetbrains.cef.remote.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
+            }
+            try {
+              fcall.sendResponse(fb,msg,msgType,seqid);
+            } catch (java.lang.Exception ex) {
+              _LOGGER.error("Exception writing to internal frame buffer", ex);
+              fb.close();
+            }
+          }
+        };
+      }
+
+      @Override
+      public boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      public void start(I iface, RequestContext_GetCookieManager_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.RequestContext_GetCookieManager(args.requestContext,resultHandler);
+      }
+    }
+
+    public static class RequestContext_ClearHttpCache<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, RequestContext_ClearHttpCache_args, Void, com.jetbrains.cef.remote.thrift.TBase> {
+      public RequestContext_ClearHttpCache() {
+        super("RequestContext_ClearHttpCache");
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.TBase getEmptyResultInstance() {
+        return null;
+      }
+
+      @Override
+      public RequestContext_ClearHttpCache_args getEmptyArgsInstance() {
+        return new RequestContext_ClearHttpCache_args();
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> getResultHandler(final com.jetbrains.cef.remote.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final com.jetbrains.cef.remote.thrift.AsyncProcessFunction fcall = this;
+        return new com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void>() { 
+          @Override
+          public void onComplete(Void o) {
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            if (e instanceof com.jetbrains.cef.remote.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+            } else {
+              _LOGGER.error("Exception inside oneway handler", e);
+            }
+          }
+        };
+      }
+
+      @Override
+      public boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      public void start(I iface, RequestContext_ClearHttpCache_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.RequestContext_ClearHttpCache(args.requestContext, args.completionCallback,resultHandler);
+      }
+    }
+
+    public static class RequestContext_ClearHttpAuthCredentials<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, RequestContext_ClearHttpAuthCredentials_args, Void, com.jetbrains.cef.remote.thrift.TBase> {
+      public RequestContext_ClearHttpAuthCredentials() {
+        super("RequestContext_ClearHttpAuthCredentials");
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.TBase getEmptyResultInstance() {
+        return null;
+      }
+
+      @Override
+      public RequestContext_ClearHttpAuthCredentials_args getEmptyArgsInstance() {
+        return new RequestContext_ClearHttpAuthCredentials_args();
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> getResultHandler(final com.jetbrains.cef.remote.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final com.jetbrains.cef.remote.thrift.AsyncProcessFunction fcall = this;
+        return new com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void>() { 
+          @Override
+          public void onComplete(Void o) {
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            if (e instanceof com.jetbrains.cef.remote.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+            } else {
+              _LOGGER.error("Exception inside oneway handler", e);
+            }
+          }
+        };
+      }
+
+      @Override
+      public boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      public void start(I iface, RequestContext_ClearHttpAuthCredentials_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.RequestContext_ClearHttpAuthCredentials(args.requestContext, args.completionCallback,resultHandler);
       }
     }
 
@@ -93941,15 +95081,18 @@ public class Server {
     private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("RequestContext_Create_args");
 
     private static final com.jetbrains.cef.remote.thrift.protocol.TField REQUEST_CONTEXT_HANDLER_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("requestContextHandler", com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, (short)1);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField SETTINGS_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("settings", com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, (short)2);
 
     private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new RequestContext_Create_argsStandardSchemeFactory();
     private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new RequestContext_Create_argsTupleSchemeFactory();
 
     public @com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject requestContextHandler; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RequestContextSettings settings; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
-      REQUEST_CONTEXT_HANDLER((short)1, "requestContextHandler");
+      REQUEST_CONTEXT_HANDLER((short)1, "requestContextHandler"),
+      SETTINGS((short)2, "settings");
 
       private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -93967,6 +95110,8 @@ public class Server {
         switch(fieldId) {
           case 1: // REQUEST_CONTEXT_HANDLER
             return REQUEST_CONTEXT_HANDLER;
+          case 2: // SETTINGS
+            return SETTINGS;
           default:
             return null;
         }
@@ -94015,6 +95160,8 @@ public class Server {
       java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.REQUEST_CONTEXT_HANDLER, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("requestContextHandler", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
           new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
+      tmpMap.put(_Fields.SETTINGS, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("settings", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RequestContextSettings.class)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
       com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(RequestContext_Create_args.class, metaDataMap);
     }
@@ -94023,10 +95170,12 @@ public class Server {
     }
 
     public RequestContext_Create_args(
-      com.jetbrains.cef.remote.thrift_codegen.RObject requestContextHandler)
+      com.jetbrains.cef.remote.thrift_codegen.RObject requestContextHandler,
+      com.jetbrains.cef.remote.thrift_codegen.RequestContextSettings settings)
     {
       this();
       this.requestContextHandler = requestContextHandler;
+      this.settings = settings;
     }
 
     /**
@@ -94035,6 +95184,9 @@ public class Server {
     public RequestContext_Create_args(RequestContext_Create_args other) {
       if (other.isSetRequestContextHandler()) {
         this.requestContextHandler = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.requestContextHandler);
+      }
+      if (other.isSetSettings()) {
+        this.settings = new com.jetbrains.cef.remote.thrift_codegen.RequestContextSettings(other.settings);
       }
     }
 
@@ -94046,6 +95198,7 @@ public class Server {
     @Override
     public void clear() {
       this.requestContextHandler = null;
+      this.settings = null;
     }
 
     @com.jetbrains.cef.remote.thrift.annotation.Nullable
@@ -94073,6 +95226,31 @@ public class Server {
       }
     }
 
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RequestContextSettings getSettings() {
+      return this.settings;
+    }
+
+    public RequestContext_Create_args setSettings(@com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RequestContextSettings settings) {
+      this.settings = settings;
+      return this;
+    }
+
+    public void unsetSettings() {
+      this.settings = null;
+    }
+
+    /** Returns true if field settings is set (has been assigned a value) and false otherwise */
+    public boolean isSetSettings() {
+      return this.settings != null;
+    }
+
+    public void setSettingsIsSet(boolean value) {
+      if (!value) {
+        this.settings = null;
+      }
+    }
+
     @Override
     public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
       switch (field) {
@@ -94081,6 +95259,14 @@ public class Server {
           unsetRequestContextHandler();
         } else {
           setRequestContextHandler((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
+      case SETTINGS:
+        if (value == null) {
+          unsetSettings();
+        } else {
+          setSettings((com.jetbrains.cef.remote.thrift_codegen.RequestContextSettings)value);
         }
         break;
 
@@ -94093,6 +95279,9 @@ public class Server {
       switch (field) {
       case REQUEST_CONTEXT_HANDLER:
         return getRequestContextHandler();
+
+      case SETTINGS:
+        return getSettings();
 
       }
       throw new java.lang.IllegalStateException();
@@ -94108,6 +95297,8 @@ public class Server {
       switch (field) {
       case REQUEST_CONTEXT_HANDLER:
         return isSetRequestContextHandler();
+      case SETTINGS:
+        return isSetSettings();
       }
       throw new java.lang.IllegalStateException();
     }
@@ -94134,6 +95325,15 @@ public class Server {
           return false;
       }
 
+      boolean this_present_settings = true && this.isSetSettings();
+      boolean that_present_settings = true && that.isSetSettings();
+      if (this_present_settings || that_present_settings) {
+        if (!(this_present_settings && that_present_settings))
+          return false;
+        if (!this.settings.equals(that.settings))
+          return false;
+      }
+
       return true;
     }
 
@@ -94144,6 +95344,10 @@ public class Server {
       hashCode = hashCode * 8191 + ((isSetRequestContextHandler()) ? 131071 : 524287);
       if (isSetRequestContextHandler())
         hashCode = hashCode * 8191 + requestContextHandler.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetSettings()) ? 131071 : 524287);
+      if (isSetSettings())
+        hashCode = hashCode * 8191 + settings.hashCode();
 
       return hashCode;
     }
@@ -94162,6 +95366,16 @@ public class Server {
       }
       if (isSetRequestContextHandler()) {
         lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.requestContextHandler, other.requestContextHandler);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetSettings(), other.isSetSettings());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSettings()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.settings, other.settings);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -94197,6 +95411,14 @@ public class Server {
         sb.append(this.requestContextHandler);
       }
       first = false;
+      if (!first) sb.append(", ");
+      sb.append("settings:");
+      if (this.settings == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.settings);
+      }
+      first = false;
       sb.append(")");
       return sb.toString();
     }
@@ -94206,6 +95428,9 @@ public class Server {
       // check for sub-struct validity
       if (requestContextHandler != null) {
         requestContextHandler.validate();
+      }
+      if (settings != null) {
+        settings.validate();
       }
     }
 
@@ -94256,6 +95481,15 @@ public class Server {
                   com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
                 }
                 break;
+              case 2: // SETTINGS
+                if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT) {
+                  struct.settings = new com.jetbrains.cef.remote.thrift_codegen.RequestContextSettings();
+                  struct.settings.read(iprot);
+                  struct.setSettingsIsSet(true);
+                } else { 
+                  com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+                }
+                break;
               default:
                 com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
@@ -94280,6 +95514,11 @@ public class Server {
           struct.requestContextHandler.write(oprot);
           oprot.writeFieldEnd();
         }
+        if (struct.settings != null) {
+          oprot.writeFieldBegin(SETTINGS_FIELD_DESC);
+          struct.settings.write(oprot);
+          oprot.writeFieldEnd();
+        }
         oprot.writeFieldStop();
         oprot.writeStructEnd();
       }
@@ -94302,9 +95541,15 @@ public class Server {
         if (struct.isSetRequestContextHandler()) {
           optionals.set(0);
         }
-        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetSettings()) {
+          optionals.set(1);
+        }
+        oprot.writeBitSet(optionals, 2);
         if (struct.isSetRequestContextHandler()) {
           struct.requestContextHandler.write(oprot);
+        }
+        if (struct.isSetSettings()) {
+          struct.settings.write(oprot);
         }
       }
 
@@ -94313,11 +95558,16 @@ public class Server {
         prot.incrementRecursionDepth();
         try {
           com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
-          java.util.BitSet incoming = iprot.readBitSet(1);
+          java.util.BitSet incoming = iprot.readBitSet(2);
           if (incoming.get(0)) {
             struct.requestContextHandler = new com.jetbrains.cef.remote.thrift_codegen.RObject();
             struct.requestContextHandler.read(iprot);
             struct.setRequestContextHandlerIsSet(true);
+          }
+          if (incoming.get(1)) {
+            struct.settings = new com.jetbrains.cef.remote.thrift_codegen.RequestContextSettings();
+            struct.settings.read(iprot);
+            struct.setSettingsIsSet(true);
           }
         } finally {
           prot.decrementRecursionDepth();
@@ -94724,6 +95974,903 @@ public class Server {
   }
 
   @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class RequestContext_CreateShared_args implements com.jetbrains.cef.remote.thrift.TBase<RequestContext_CreateShared_args, RequestContext_CreateShared_args._Fields>, java.io.Serializable, Cloneable, Comparable<RequestContext_CreateShared_args>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("RequestContext_CreateShared_args");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField OTHER_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("other", com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, (short)1);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField REQUEST_CONTEXT_HANDLER_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("requestContextHandler", com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, (short)2);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new RequestContext_CreateShared_argsStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new RequestContext_CreateShared_argsTupleSchemeFactory();
+
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject other; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject requestContextHandler; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      OTHER((short)1, "other"),
+      REQUEST_CONTEXT_HANDLER((short)2, "requestContextHandler");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // OTHER
+            return OTHER;
+          case 2: // REQUEST_CONTEXT_HANDLER
+            return REQUEST_CONTEXT_HANDLER;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.OTHER, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("other", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
+      tmpMap.put(_Fields.REQUEST_CONTEXT_HANDLER, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("requestContextHandler", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(RequestContext_CreateShared_args.class, metaDataMap);
+    }
+
+    public RequestContext_CreateShared_args() {
+    }
+
+    public RequestContext_CreateShared_args(
+      com.jetbrains.cef.remote.thrift_codegen.RObject other,
+      com.jetbrains.cef.remote.thrift_codegen.RObject requestContextHandler)
+    {
+      this();
+      this.other = other;
+      this.requestContextHandler = requestContextHandler;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public RequestContext_CreateShared_args(RequestContext_CreateShared_args other) {
+      if (other.isSetOther()) {
+        this.other = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.other);
+      }
+      if (other.isSetRequestContextHandler()) {
+        this.requestContextHandler = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.requestContextHandler);
+      }
+    }
+
+    @Override
+    public RequestContext_CreateShared_args deepCopy() {
+      return new RequestContext_CreateShared_args(this);
+    }
+
+    @Override
+    public void clear() {
+      this.other = null;
+      this.requestContextHandler = null;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getOther() {
+      return this.other;
+    }
+
+    public RequestContext_CreateShared_args setOther(@com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject other) {
+      this.other = other;
+      return this;
+    }
+
+    public void unsetOther() {
+      this.other = null;
+    }
+
+    /** Returns true if field other is set (has been assigned a value) and false otherwise */
+    public boolean isSetOther() {
+      return this.other != null;
+    }
+
+    public void setOtherIsSet(boolean value) {
+      if (!value) {
+        this.other = null;
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getRequestContextHandler() {
+      return this.requestContextHandler;
+    }
+
+    public RequestContext_CreateShared_args setRequestContextHandler(@com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject requestContextHandler) {
+      this.requestContextHandler = requestContextHandler;
+      return this;
+    }
+
+    public void unsetRequestContextHandler() {
+      this.requestContextHandler = null;
+    }
+
+    /** Returns true if field requestContextHandler is set (has been assigned a value) and false otherwise */
+    public boolean isSetRequestContextHandler() {
+      return this.requestContextHandler != null;
+    }
+
+    public void setRequestContextHandlerIsSet(boolean value) {
+      if (!value) {
+        this.requestContextHandler = null;
+      }
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case OTHER:
+        if (value == null) {
+          unsetOther();
+        } else {
+          setOther((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
+      case REQUEST_CONTEXT_HANDLER:
+        if (value == null) {
+          unsetRequestContextHandler();
+        } else {
+          setRequestContextHandler((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case OTHER:
+        return getOther();
+
+      case REQUEST_CONTEXT_HANDLER:
+        return getRequestContextHandler();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case OTHER:
+        return isSetOther();
+      case REQUEST_CONTEXT_HANDLER:
+        return isSetRequestContextHandler();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof RequestContext_CreateShared_args)
+        return this.equals((RequestContext_CreateShared_args)that);
+      return false;
+    }
+
+    public boolean equals(RequestContext_CreateShared_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_other = true && this.isSetOther();
+      boolean that_present_other = true && that.isSetOther();
+      if (this_present_other || that_present_other) {
+        if (!(this_present_other && that_present_other))
+          return false;
+        if (!this.other.equals(that.other))
+          return false;
+      }
+
+      boolean this_present_requestContextHandler = true && this.isSetRequestContextHandler();
+      boolean that_present_requestContextHandler = true && that.isSetRequestContextHandler();
+      if (this_present_requestContextHandler || that_present_requestContextHandler) {
+        if (!(this_present_requestContextHandler && that_present_requestContextHandler))
+          return false;
+        if (!this.requestContextHandler.equals(that.requestContextHandler))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((isSetOther()) ? 131071 : 524287);
+      if (isSetOther())
+        hashCode = hashCode * 8191 + other.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetRequestContextHandler()) ? 131071 : 524287);
+      if (isSetRequestContextHandler())
+        hashCode = hashCode * 8191 + requestContextHandler.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(RequestContext_CreateShared_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetOther(), other.isSetOther());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetOther()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.other, other.other);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetRequestContextHandler(), other.isSetRequestContextHandler());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetRequestContextHandler()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.requestContextHandler, other.requestContextHandler);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("RequestContext_CreateShared_args(");
+      boolean first = true;
+
+      sb.append("other:");
+      if (this.other == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.other);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("requestContextHandler:");
+      if (this.requestContextHandler == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.requestContextHandler);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (other != null) {
+        other.validate();
+      }
+      if (requestContextHandler != null) {
+        requestContextHandler.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class RequestContext_CreateShared_argsStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public RequestContext_CreateShared_argsStandardScheme getScheme() {
+        return new RequestContext_CreateShared_argsStandardScheme();
+      }
+    }
+
+    private static class RequestContext_CreateShared_argsStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<RequestContext_CreateShared_args> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, RequestContext_CreateShared_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        iprot.incrementRecursionDepth();
+        try {
+          com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+          iprot.readStructBegin();
+          while (true)
+          {
+            schemeField = iprot.readFieldBegin();
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+              break;
+            }
+            switch (schemeField.id) {
+              case 1: // OTHER
+                if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT) {
+                  struct.other = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                  struct.other.read(iprot);
+                  struct.setOtherIsSet(true);
+                } else { 
+                  com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+                }
+                break;
+              case 2: // REQUEST_CONTEXT_HANDLER
+                if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT) {
+                  struct.requestContextHandler = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                  struct.requestContextHandler.read(iprot);
+                  struct.setRequestContextHandlerIsSet(true);
+                } else { 
+                  com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+                }
+                break;
+              default:
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            iprot.readFieldEnd();
+          }
+          iprot.readStructEnd();
+
+          // check for required fields of primitive type, which can't be checked in the validate method
+          struct.validate();
+        } finally {
+          iprot.decrementRecursionDepth();
+        }
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, RequestContext_CreateShared_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.other != null) {
+          oprot.writeFieldBegin(OTHER_FIELD_DESC);
+          struct.other.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        if (struct.requestContextHandler != null) {
+          oprot.writeFieldBegin(REQUEST_CONTEXT_HANDLER_FIELD_DESC);
+          struct.requestContextHandler.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class RequestContext_CreateShared_argsTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public RequestContext_CreateShared_argsTupleScheme getScheme() {
+        return new RequestContext_CreateShared_argsTupleScheme();
+      }
+    }
+
+    private static class RequestContext_CreateShared_argsTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<RequestContext_CreateShared_args> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, RequestContext_CreateShared_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetOther()) {
+          optionals.set(0);
+        }
+        if (struct.isSetRequestContextHandler()) {
+          optionals.set(1);
+        }
+        oprot.writeBitSet(optionals, 2);
+        if (struct.isSetOther()) {
+          struct.other.write(oprot);
+        }
+        if (struct.isSetRequestContextHandler()) {
+          struct.requestContextHandler.write(oprot);
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, RequestContext_CreateShared_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.incrementRecursionDepth();
+        try {
+          com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+          java.util.BitSet incoming = iprot.readBitSet(2);
+          if (incoming.get(0)) {
+            struct.other = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+            struct.other.read(iprot);
+            struct.setOtherIsSet(true);
+          }
+          if (incoming.get(1)) {
+            struct.requestContextHandler = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+            struct.requestContextHandler.read(iprot);
+            struct.setRequestContextHandlerIsSet(true);
+          }
+        } finally {
+          prot.decrementRecursionDepth();
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class RequestContext_CreateShared_result implements com.jetbrains.cef.remote.thrift.TBase<RequestContext_CreateShared_result, RequestContext_CreateShared_result._Fields>, java.io.Serializable, Cloneable, Comparable<RequestContext_CreateShared_result>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("RequestContext_CreateShared_result");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField SUCCESS_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("success", com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, (short)0);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new RequestContext_CreateShared_resultStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new RequestContext_CreateShared_resultTupleSchemeFactory();
+
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject success; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      SUCCESS((short)0, "success");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 0: // SUCCESS
+            return SUCCESS;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("success", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(RequestContext_CreateShared_result.class, metaDataMap);
+    }
+
+    public RequestContext_CreateShared_result() {
+    }
+
+    public RequestContext_CreateShared_result(
+      com.jetbrains.cef.remote.thrift_codegen.RObject success)
+    {
+      this();
+      this.success = success;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public RequestContext_CreateShared_result(RequestContext_CreateShared_result other) {
+      if (other.isSetSuccess()) {
+        this.success = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.success);
+      }
+    }
+
+    @Override
+    public RequestContext_CreateShared_result deepCopy() {
+      return new RequestContext_CreateShared_result(this);
+    }
+
+    @Override
+    public void clear() {
+      this.success = null;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getSuccess() {
+      return this.success;
+    }
+
+    public RequestContext_CreateShared_result setSuccess(@com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject success) {
+      this.success = success;
+      return this;
+    }
+
+    public void unsetSuccess() {
+      this.success = null;
+    }
+
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
+    public boolean isSetSuccess() {
+      return this.success != null;
+    }
+
+    public void setSuccessIsSet(boolean value) {
+      if (!value) {
+        this.success = null;
+      }
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case SUCCESS:
+        return getSuccess();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case SUCCESS:
+        return isSetSuccess();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof RequestContext_CreateShared_result)
+        return this.equals((RequestContext_CreateShared_result)that);
+      return false;
+    }
+
+    public boolean equals(RequestContext_CreateShared_result that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_success = true && this.isSetSuccess();
+      boolean that_present_success = true && that.isSetSuccess();
+      if (this_present_success || that_present_success) {
+        if (!(this_present_success && that_present_success))
+          return false;
+        if (!this.success.equals(that.success))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((isSetSuccess()) ? 131071 : 524287);
+      if (isSetSuccess())
+        hashCode = hashCode * 8191 + success.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(RequestContext_CreateShared_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetSuccess(), other.isSetSuccess());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSuccess()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.success, other.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+      }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("RequestContext_CreateShared_result(");
+      boolean first = true;
+
+      sb.append("success:");
+      if (this.success == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.success);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (success != null) {
+        success.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class RequestContext_CreateShared_resultStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public RequestContext_CreateShared_resultStandardScheme getScheme() {
+        return new RequestContext_CreateShared_resultStandardScheme();
+      }
+    }
+
+    private static class RequestContext_CreateShared_resultStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<RequestContext_CreateShared_result> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, RequestContext_CreateShared_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        iprot.incrementRecursionDepth();
+        try {
+          com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+          iprot.readStructBegin();
+          while (true)
+          {
+            schemeField = iprot.readFieldBegin();
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+              break;
+            }
+            switch (schemeField.id) {
+              case 0: // SUCCESS
+                if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT) {
+                  struct.success = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                  struct.success.read(iprot);
+                  struct.setSuccessIsSet(true);
+                } else { 
+                  com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+                }
+                break;
+              default:
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            iprot.readFieldEnd();
+          }
+          iprot.readStructEnd();
+
+          // check for required fields of primitive type, which can't be checked in the validate method
+          struct.validate();
+        } finally {
+          iprot.decrementRecursionDepth();
+        }
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, RequestContext_CreateShared_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.success != null) {
+          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
+          struct.success.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class RequestContext_CreateShared_resultTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public RequestContext_CreateShared_resultTupleScheme getScheme() {
+        return new RequestContext_CreateShared_resultTupleScheme();
+      }
+    }
+
+    private static class RequestContext_CreateShared_resultTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<RequestContext_CreateShared_result> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, RequestContext_CreateShared_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetSuccess()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetSuccess()) {
+          struct.success.write(oprot);
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, RequestContext_CreateShared_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.incrementRecursionDepth();
+        try {
+          com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+          java.util.BitSet incoming = iprot.readBitSet(1);
+          if (incoming.get(0)) {
+            struct.success = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+            struct.success.read(iprot);
+            struct.setSuccessIsSet(true);
+          }
+        } finally {
+          prot.decrementRecursionDepth();
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
   public static class RequestContext_Dispose_args implements com.jetbrains.cef.remote.thrift.TBase<RequestContext_Dispose_args, RequestContext_Dispose_args._Fields>, java.io.Serializable, Cloneable, Comparable<RequestContext_Dispose_args>   {
     private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("RequestContext_Dispose_args");
 
@@ -95105,6 +97252,4361 @@ public class Server {
             struct.requestContext = new com.jetbrains.cef.remote.thrift_codegen.RObject();
             struct.requestContext.read(iprot);
             struct.setRequestContextIsSet(true);
+          }
+        } finally {
+          prot.decrementRecursionDepth();
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class RequestContext_IsSame_args implements com.jetbrains.cef.remote.thrift.TBase<RequestContext_IsSame_args, RequestContext_IsSame_args._Fields>, java.io.Serializable, Cloneable, Comparable<RequestContext_IsSame_args>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("RequestContext_IsSame_args");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField REQUEST_CONTEXT_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("requestContext", com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, (short)1);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField OTHER_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("other", com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, (short)2);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new RequestContext_IsSame_argsStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new RequestContext_IsSame_argsTupleSchemeFactory();
+
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject requestContext; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject other; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      REQUEST_CONTEXT((short)1, "requestContext"),
+      OTHER((short)2, "other");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // REQUEST_CONTEXT
+            return REQUEST_CONTEXT;
+          case 2: // OTHER
+            return OTHER;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.REQUEST_CONTEXT, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("requestContext", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
+      tmpMap.put(_Fields.OTHER, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("other", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(RequestContext_IsSame_args.class, metaDataMap);
+    }
+
+    public RequestContext_IsSame_args() {
+    }
+
+    public RequestContext_IsSame_args(
+      com.jetbrains.cef.remote.thrift_codegen.RObject requestContext,
+      com.jetbrains.cef.remote.thrift_codegen.RObject other)
+    {
+      this();
+      this.requestContext = requestContext;
+      this.other = other;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public RequestContext_IsSame_args(RequestContext_IsSame_args other) {
+      if (other.isSetRequestContext()) {
+        this.requestContext = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.requestContext);
+      }
+      if (other.isSetOther()) {
+        this.other = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.other);
+      }
+    }
+
+    @Override
+    public RequestContext_IsSame_args deepCopy() {
+      return new RequestContext_IsSame_args(this);
+    }
+
+    @Override
+    public void clear() {
+      this.requestContext = null;
+      this.other = null;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getRequestContext() {
+      return this.requestContext;
+    }
+
+    public RequestContext_IsSame_args setRequestContext(@com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject requestContext) {
+      this.requestContext = requestContext;
+      return this;
+    }
+
+    public void unsetRequestContext() {
+      this.requestContext = null;
+    }
+
+    /** Returns true if field requestContext is set (has been assigned a value) and false otherwise */
+    public boolean isSetRequestContext() {
+      return this.requestContext != null;
+    }
+
+    public void setRequestContextIsSet(boolean value) {
+      if (!value) {
+        this.requestContext = null;
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getOther() {
+      return this.other;
+    }
+
+    public RequestContext_IsSame_args setOther(@com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject other) {
+      this.other = other;
+      return this;
+    }
+
+    public void unsetOther() {
+      this.other = null;
+    }
+
+    /** Returns true if field other is set (has been assigned a value) and false otherwise */
+    public boolean isSetOther() {
+      return this.other != null;
+    }
+
+    public void setOtherIsSet(boolean value) {
+      if (!value) {
+        this.other = null;
+      }
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case REQUEST_CONTEXT:
+        if (value == null) {
+          unsetRequestContext();
+        } else {
+          setRequestContext((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
+      case OTHER:
+        if (value == null) {
+          unsetOther();
+        } else {
+          setOther((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case REQUEST_CONTEXT:
+        return getRequestContext();
+
+      case OTHER:
+        return getOther();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case REQUEST_CONTEXT:
+        return isSetRequestContext();
+      case OTHER:
+        return isSetOther();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof RequestContext_IsSame_args)
+        return this.equals((RequestContext_IsSame_args)that);
+      return false;
+    }
+
+    public boolean equals(RequestContext_IsSame_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_requestContext = true && this.isSetRequestContext();
+      boolean that_present_requestContext = true && that.isSetRequestContext();
+      if (this_present_requestContext || that_present_requestContext) {
+        if (!(this_present_requestContext && that_present_requestContext))
+          return false;
+        if (!this.requestContext.equals(that.requestContext))
+          return false;
+      }
+
+      boolean this_present_other = true && this.isSetOther();
+      boolean that_present_other = true && that.isSetOther();
+      if (this_present_other || that_present_other) {
+        if (!(this_present_other && that_present_other))
+          return false;
+        if (!this.other.equals(that.other))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((isSetRequestContext()) ? 131071 : 524287);
+      if (isSetRequestContext())
+        hashCode = hashCode * 8191 + requestContext.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetOther()) ? 131071 : 524287);
+      if (isSetOther())
+        hashCode = hashCode * 8191 + other.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(RequestContext_IsSame_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetRequestContext(), other.isSetRequestContext());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetRequestContext()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.requestContext, other.requestContext);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetOther(), other.isSetOther());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetOther()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.other, other.other);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("RequestContext_IsSame_args(");
+      boolean first = true;
+
+      sb.append("requestContext:");
+      if (this.requestContext == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.requestContext);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("other:");
+      if (this.other == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.other);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (requestContext != null) {
+        requestContext.validate();
+      }
+      if (other != null) {
+        other.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class RequestContext_IsSame_argsStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public RequestContext_IsSame_argsStandardScheme getScheme() {
+        return new RequestContext_IsSame_argsStandardScheme();
+      }
+    }
+
+    private static class RequestContext_IsSame_argsStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<RequestContext_IsSame_args> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, RequestContext_IsSame_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        iprot.incrementRecursionDepth();
+        try {
+          com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+          iprot.readStructBegin();
+          while (true)
+          {
+            schemeField = iprot.readFieldBegin();
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+              break;
+            }
+            switch (schemeField.id) {
+              case 1: // REQUEST_CONTEXT
+                if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT) {
+                  struct.requestContext = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                  struct.requestContext.read(iprot);
+                  struct.setRequestContextIsSet(true);
+                } else { 
+                  com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+                }
+                break;
+              case 2: // OTHER
+                if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT) {
+                  struct.other = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                  struct.other.read(iprot);
+                  struct.setOtherIsSet(true);
+                } else { 
+                  com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+                }
+                break;
+              default:
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            iprot.readFieldEnd();
+          }
+          iprot.readStructEnd();
+
+          // check for required fields of primitive type, which can't be checked in the validate method
+          struct.validate();
+        } finally {
+          iprot.decrementRecursionDepth();
+        }
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, RequestContext_IsSame_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.requestContext != null) {
+          oprot.writeFieldBegin(REQUEST_CONTEXT_FIELD_DESC);
+          struct.requestContext.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        if (struct.other != null) {
+          oprot.writeFieldBegin(OTHER_FIELD_DESC);
+          struct.other.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class RequestContext_IsSame_argsTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public RequestContext_IsSame_argsTupleScheme getScheme() {
+        return new RequestContext_IsSame_argsTupleScheme();
+      }
+    }
+
+    private static class RequestContext_IsSame_argsTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<RequestContext_IsSame_args> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, RequestContext_IsSame_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetRequestContext()) {
+          optionals.set(0);
+        }
+        if (struct.isSetOther()) {
+          optionals.set(1);
+        }
+        oprot.writeBitSet(optionals, 2);
+        if (struct.isSetRequestContext()) {
+          struct.requestContext.write(oprot);
+        }
+        if (struct.isSetOther()) {
+          struct.other.write(oprot);
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, RequestContext_IsSame_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.incrementRecursionDepth();
+        try {
+          com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+          java.util.BitSet incoming = iprot.readBitSet(2);
+          if (incoming.get(0)) {
+            struct.requestContext = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+            struct.requestContext.read(iprot);
+            struct.setRequestContextIsSet(true);
+          }
+          if (incoming.get(1)) {
+            struct.other = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+            struct.other.read(iprot);
+            struct.setOtherIsSet(true);
+          }
+        } finally {
+          prot.decrementRecursionDepth();
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class RequestContext_IsSame_result implements com.jetbrains.cef.remote.thrift.TBase<RequestContext_IsSame_result, RequestContext_IsSame_result._Fields>, java.io.Serializable, Cloneable, Comparable<RequestContext_IsSame_result>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("RequestContext_IsSame_result");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField SUCCESS_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("success", com.jetbrains.cef.remote.thrift.protocol.TType.BOOL, (short)0);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new RequestContext_IsSame_resultStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new RequestContext_IsSame_resultTupleSchemeFactory();
+
+    public boolean success; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      SUCCESS((short)0, "success");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 0: // SUCCESS
+            return SUCCESS;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __SUCCESS_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("success", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.BOOL)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(RequestContext_IsSame_result.class, metaDataMap);
+    }
+
+    public RequestContext_IsSame_result() {
+    }
+
+    public RequestContext_IsSame_result(
+      boolean success)
+    {
+      this();
+      this.success = success;
+      setSuccessIsSet(true);
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public RequestContext_IsSame_result(RequestContext_IsSame_result other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.success = other.success;
+    }
+
+    @Override
+    public RequestContext_IsSame_result deepCopy() {
+      return new RequestContext_IsSame_result(this);
+    }
+
+    @Override
+    public void clear() {
+      setSuccessIsSet(false);
+      this.success = false;
+    }
+
+    public boolean isSuccess() {
+      return this.success;
+    }
+
+    public RequestContext_IsSame_result setSuccess(boolean success) {
+      this.success = success;
+      setSuccessIsSet(true);
+      return this;
+    }
+
+    public void unsetSuccess() {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __SUCCESS_ISSET_ID);
+    }
+
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
+    public boolean isSetSuccess() {
+      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __SUCCESS_ISSET_ID);
+    }
+
+    public void setSuccessIsSet(boolean value) {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __SUCCESS_ISSET_ID, value);
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((java.lang.Boolean)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case SUCCESS:
+        return isSuccess();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case SUCCESS:
+        return isSetSuccess();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof RequestContext_IsSame_result)
+        return this.equals((RequestContext_IsSame_result)that);
+      return false;
+    }
+
+    public boolean equals(RequestContext_IsSame_result that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_success = true;
+      boolean that_present_success = true;
+      if (this_present_success || that_present_success) {
+        if (!(this_present_success && that_present_success))
+          return false;
+        if (this.success != that.success)
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((success) ? 131071 : 524287);
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(RequestContext_IsSame_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetSuccess(), other.isSetSuccess());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSuccess()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.success, other.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+      }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("RequestContext_IsSame_result(");
+      boolean first = true;
+
+      sb.append("success:");
+      sb.append(this.success);
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class RequestContext_IsSame_resultStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public RequestContext_IsSame_resultStandardScheme getScheme() {
+        return new RequestContext_IsSame_resultStandardScheme();
+      }
+    }
+
+    private static class RequestContext_IsSame_resultStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<RequestContext_IsSame_result> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, RequestContext_IsSame_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        iprot.incrementRecursionDepth();
+        try {
+          com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+          iprot.readStructBegin();
+          while (true)
+          {
+            schemeField = iprot.readFieldBegin();
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+              break;
+            }
+            switch (schemeField.id) {
+              case 0: // SUCCESS
+                if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.BOOL) {
+                  struct.success = iprot.readBool();
+                  struct.setSuccessIsSet(true);
+                } else { 
+                  com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+                }
+                break;
+              default:
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            iprot.readFieldEnd();
+          }
+          iprot.readStructEnd();
+
+          // check for required fields of primitive type, which can't be checked in the validate method
+          struct.validate();
+        } finally {
+          iprot.decrementRecursionDepth();
+        }
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, RequestContext_IsSame_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.isSetSuccess()) {
+          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
+          oprot.writeBool(struct.success);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class RequestContext_IsSame_resultTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public RequestContext_IsSame_resultTupleScheme getScheme() {
+        return new RequestContext_IsSame_resultTupleScheme();
+      }
+    }
+
+    private static class RequestContext_IsSame_resultTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<RequestContext_IsSame_result> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, RequestContext_IsSame_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetSuccess()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetSuccess()) {
+          oprot.writeBool(struct.success);
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, RequestContext_IsSame_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.incrementRecursionDepth();
+        try {
+          com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+          java.util.BitSet incoming = iprot.readBitSet(1);
+          if (incoming.get(0)) {
+            struct.success = iprot.readBool();
+            struct.setSuccessIsSet(true);
+          }
+        } finally {
+          prot.decrementRecursionDepth();
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class RequestContext_IsSharingWith_args implements com.jetbrains.cef.remote.thrift.TBase<RequestContext_IsSharingWith_args, RequestContext_IsSharingWith_args._Fields>, java.io.Serializable, Cloneable, Comparable<RequestContext_IsSharingWith_args>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("RequestContext_IsSharingWith_args");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField REQUEST_CONTEXT_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("requestContext", com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, (short)1);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField OTHER_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("other", com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, (short)2);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new RequestContext_IsSharingWith_argsStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new RequestContext_IsSharingWith_argsTupleSchemeFactory();
+
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject requestContext; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject other; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      REQUEST_CONTEXT((short)1, "requestContext"),
+      OTHER((short)2, "other");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // REQUEST_CONTEXT
+            return REQUEST_CONTEXT;
+          case 2: // OTHER
+            return OTHER;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.REQUEST_CONTEXT, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("requestContext", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
+      tmpMap.put(_Fields.OTHER, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("other", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(RequestContext_IsSharingWith_args.class, metaDataMap);
+    }
+
+    public RequestContext_IsSharingWith_args() {
+    }
+
+    public RequestContext_IsSharingWith_args(
+      com.jetbrains.cef.remote.thrift_codegen.RObject requestContext,
+      com.jetbrains.cef.remote.thrift_codegen.RObject other)
+    {
+      this();
+      this.requestContext = requestContext;
+      this.other = other;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public RequestContext_IsSharingWith_args(RequestContext_IsSharingWith_args other) {
+      if (other.isSetRequestContext()) {
+        this.requestContext = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.requestContext);
+      }
+      if (other.isSetOther()) {
+        this.other = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.other);
+      }
+    }
+
+    @Override
+    public RequestContext_IsSharingWith_args deepCopy() {
+      return new RequestContext_IsSharingWith_args(this);
+    }
+
+    @Override
+    public void clear() {
+      this.requestContext = null;
+      this.other = null;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getRequestContext() {
+      return this.requestContext;
+    }
+
+    public RequestContext_IsSharingWith_args setRequestContext(@com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject requestContext) {
+      this.requestContext = requestContext;
+      return this;
+    }
+
+    public void unsetRequestContext() {
+      this.requestContext = null;
+    }
+
+    /** Returns true if field requestContext is set (has been assigned a value) and false otherwise */
+    public boolean isSetRequestContext() {
+      return this.requestContext != null;
+    }
+
+    public void setRequestContextIsSet(boolean value) {
+      if (!value) {
+        this.requestContext = null;
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getOther() {
+      return this.other;
+    }
+
+    public RequestContext_IsSharingWith_args setOther(@com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject other) {
+      this.other = other;
+      return this;
+    }
+
+    public void unsetOther() {
+      this.other = null;
+    }
+
+    /** Returns true if field other is set (has been assigned a value) and false otherwise */
+    public boolean isSetOther() {
+      return this.other != null;
+    }
+
+    public void setOtherIsSet(boolean value) {
+      if (!value) {
+        this.other = null;
+      }
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case REQUEST_CONTEXT:
+        if (value == null) {
+          unsetRequestContext();
+        } else {
+          setRequestContext((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
+      case OTHER:
+        if (value == null) {
+          unsetOther();
+        } else {
+          setOther((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case REQUEST_CONTEXT:
+        return getRequestContext();
+
+      case OTHER:
+        return getOther();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case REQUEST_CONTEXT:
+        return isSetRequestContext();
+      case OTHER:
+        return isSetOther();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof RequestContext_IsSharingWith_args)
+        return this.equals((RequestContext_IsSharingWith_args)that);
+      return false;
+    }
+
+    public boolean equals(RequestContext_IsSharingWith_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_requestContext = true && this.isSetRequestContext();
+      boolean that_present_requestContext = true && that.isSetRequestContext();
+      if (this_present_requestContext || that_present_requestContext) {
+        if (!(this_present_requestContext && that_present_requestContext))
+          return false;
+        if (!this.requestContext.equals(that.requestContext))
+          return false;
+      }
+
+      boolean this_present_other = true && this.isSetOther();
+      boolean that_present_other = true && that.isSetOther();
+      if (this_present_other || that_present_other) {
+        if (!(this_present_other && that_present_other))
+          return false;
+        if (!this.other.equals(that.other))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((isSetRequestContext()) ? 131071 : 524287);
+      if (isSetRequestContext())
+        hashCode = hashCode * 8191 + requestContext.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetOther()) ? 131071 : 524287);
+      if (isSetOther())
+        hashCode = hashCode * 8191 + other.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(RequestContext_IsSharingWith_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetRequestContext(), other.isSetRequestContext());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetRequestContext()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.requestContext, other.requestContext);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetOther(), other.isSetOther());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetOther()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.other, other.other);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("RequestContext_IsSharingWith_args(");
+      boolean first = true;
+
+      sb.append("requestContext:");
+      if (this.requestContext == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.requestContext);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("other:");
+      if (this.other == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.other);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (requestContext != null) {
+        requestContext.validate();
+      }
+      if (other != null) {
+        other.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class RequestContext_IsSharingWith_argsStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public RequestContext_IsSharingWith_argsStandardScheme getScheme() {
+        return new RequestContext_IsSharingWith_argsStandardScheme();
+      }
+    }
+
+    private static class RequestContext_IsSharingWith_argsStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<RequestContext_IsSharingWith_args> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, RequestContext_IsSharingWith_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        iprot.incrementRecursionDepth();
+        try {
+          com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+          iprot.readStructBegin();
+          while (true)
+          {
+            schemeField = iprot.readFieldBegin();
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+              break;
+            }
+            switch (schemeField.id) {
+              case 1: // REQUEST_CONTEXT
+                if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT) {
+                  struct.requestContext = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                  struct.requestContext.read(iprot);
+                  struct.setRequestContextIsSet(true);
+                } else { 
+                  com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+                }
+                break;
+              case 2: // OTHER
+                if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT) {
+                  struct.other = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                  struct.other.read(iprot);
+                  struct.setOtherIsSet(true);
+                } else { 
+                  com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+                }
+                break;
+              default:
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            iprot.readFieldEnd();
+          }
+          iprot.readStructEnd();
+
+          // check for required fields of primitive type, which can't be checked in the validate method
+          struct.validate();
+        } finally {
+          iprot.decrementRecursionDepth();
+        }
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, RequestContext_IsSharingWith_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.requestContext != null) {
+          oprot.writeFieldBegin(REQUEST_CONTEXT_FIELD_DESC);
+          struct.requestContext.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        if (struct.other != null) {
+          oprot.writeFieldBegin(OTHER_FIELD_DESC);
+          struct.other.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class RequestContext_IsSharingWith_argsTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public RequestContext_IsSharingWith_argsTupleScheme getScheme() {
+        return new RequestContext_IsSharingWith_argsTupleScheme();
+      }
+    }
+
+    private static class RequestContext_IsSharingWith_argsTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<RequestContext_IsSharingWith_args> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, RequestContext_IsSharingWith_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetRequestContext()) {
+          optionals.set(0);
+        }
+        if (struct.isSetOther()) {
+          optionals.set(1);
+        }
+        oprot.writeBitSet(optionals, 2);
+        if (struct.isSetRequestContext()) {
+          struct.requestContext.write(oprot);
+        }
+        if (struct.isSetOther()) {
+          struct.other.write(oprot);
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, RequestContext_IsSharingWith_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.incrementRecursionDepth();
+        try {
+          com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+          java.util.BitSet incoming = iprot.readBitSet(2);
+          if (incoming.get(0)) {
+            struct.requestContext = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+            struct.requestContext.read(iprot);
+            struct.setRequestContextIsSet(true);
+          }
+          if (incoming.get(1)) {
+            struct.other = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+            struct.other.read(iprot);
+            struct.setOtherIsSet(true);
+          }
+        } finally {
+          prot.decrementRecursionDepth();
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class RequestContext_IsSharingWith_result implements com.jetbrains.cef.remote.thrift.TBase<RequestContext_IsSharingWith_result, RequestContext_IsSharingWith_result._Fields>, java.io.Serializable, Cloneable, Comparable<RequestContext_IsSharingWith_result>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("RequestContext_IsSharingWith_result");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField SUCCESS_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("success", com.jetbrains.cef.remote.thrift.protocol.TType.BOOL, (short)0);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new RequestContext_IsSharingWith_resultStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new RequestContext_IsSharingWith_resultTupleSchemeFactory();
+
+    public boolean success; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      SUCCESS((short)0, "success");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 0: // SUCCESS
+            return SUCCESS;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __SUCCESS_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("success", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.BOOL)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(RequestContext_IsSharingWith_result.class, metaDataMap);
+    }
+
+    public RequestContext_IsSharingWith_result() {
+    }
+
+    public RequestContext_IsSharingWith_result(
+      boolean success)
+    {
+      this();
+      this.success = success;
+      setSuccessIsSet(true);
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public RequestContext_IsSharingWith_result(RequestContext_IsSharingWith_result other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.success = other.success;
+    }
+
+    @Override
+    public RequestContext_IsSharingWith_result deepCopy() {
+      return new RequestContext_IsSharingWith_result(this);
+    }
+
+    @Override
+    public void clear() {
+      setSuccessIsSet(false);
+      this.success = false;
+    }
+
+    public boolean isSuccess() {
+      return this.success;
+    }
+
+    public RequestContext_IsSharingWith_result setSuccess(boolean success) {
+      this.success = success;
+      setSuccessIsSet(true);
+      return this;
+    }
+
+    public void unsetSuccess() {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __SUCCESS_ISSET_ID);
+    }
+
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
+    public boolean isSetSuccess() {
+      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __SUCCESS_ISSET_ID);
+    }
+
+    public void setSuccessIsSet(boolean value) {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __SUCCESS_ISSET_ID, value);
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((java.lang.Boolean)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case SUCCESS:
+        return isSuccess();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case SUCCESS:
+        return isSetSuccess();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof RequestContext_IsSharingWith_result)
+        return this.equals((RequestContext_IsSharingWith_result)that);
+      return false;
+    }
+
+    public boolean equals(RequestContext_IsSharingWith_result that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_success = true;
+      boolean that_present_success = true;
+      if (this_present_success || that_present_success) {
+        if (!(this_present_success && that_present_success))
+          return false;
+        if (this.success != that.success)
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((success) ? 131071 : 524287);
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(RequestContext_IsSharingWith_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetSuccess(), other.isSetSuccess());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSuccess()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.success, other.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+      }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("RequestContext_IsSharingWith_result(");
+      boolean first = true;
+
+      sb.append("success:");
+      sb.append(this.success);
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class RequestContext_IsSharingWith_resultStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public RequestContext_IsSharingWith_resultStandardScheme getScheme() {
+        return new RequestContext_IsSharingWith_resultStandardScheme();
+      }
+    }
+
+    private static class RequestContext_IsSharingWith_resultStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<RequestContext_IsSharingWith_result> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, RequestContext_IsSharingWith_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        iprot.incrementRecursionDepth();
+        try {
+          com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+          iprot.readStructBegin();
+          while (true)
+          {
+            schemeField = iprot.readFieldBegin();
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+              break;
+            }
+            switch (schemeField.id) {
+              case 0: // SUCCESS
+                if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.BOOL) {
+                  struct.success = iprot.readBool();
+                  struct.setSuccessIsSet(true);
+                } else { 
+                  com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+                }
+                break;
+              default:
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            iprot.readFieldEnd();
+          }
+          iprot.readStructEnd();
+
+          // check for required fields of primitive type, which can't be checked in the validate method
+          struct.validate();
+        } finally {
+          iprot.decrementRecursionDepth();
+        }
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, RequestContext_IsSharingWith_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.isSetSuccess()) {
+          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
+          oprot.writeBool(struct.success);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class RequestContext_IsSharingWith_resultTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public RequestContext_IsSharingWith_resultTupleScheme getScheme() {
+        return new RequestContext_IsSharingWith_resultTupleScheme();
+      }
+    }
+
+    private static class RequestContext_IsSharingWith_resultTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<RequestContext_IsSharingWith_result> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, RequestContext_IsSharingWith_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetSuccess()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetSuccess()) {
+          oprot.writeBool(struct.success);
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, RequestContext_IsSharingWith_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.incrementRecursionDepth();
+        try {
+          com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+          java.util.BitSet incoming = iprot.readBitSet(1);
+          if (incoming.get(0)) {
+            struct.success = iprot.readBool();
+            struct.setSuccessIsSet(true);
+          }
+        } finally {
+          prot.decrementRecursionDepth();
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class RequestContext_GetCachePath_args implements com.jetbrains.cef.remote.thrift.TBase<RequestContext_GetCachePath_args, RequestContext_GetCachePath_args._Fields>, java.io.Serializable, Cloneable, Comparable<RequestContext_GetCachePath_args>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("RequestContext_GetCachePath_args");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField REQUEST_CONTEXT_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("requestContext", com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, (short)1);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new RequestContext_GetCachePath_argsStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new RequestContext_GetCachePath_argsTupleSchemeFactory();
+
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject requestContext; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      REQUEST_CONTEXT((short)1, "requestContext");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // REQUEST_CONTEXT
+            return REQUEST_CONTEXT;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.REQUEST_CONTEXT, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("requestContext", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(RequestContext_GetCachePath_args.class, metaDataMap);
+    }
+
+    public RequestContext_GetCachePath_args() {
+    }
+
+    public RequestContext_GetCachePath_args(
+      com.jetbrains.cef.remote.thrift_codegen.RObject requestContext)
+    {
+      this();
+      this.requestContext = requestContext;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public RequestContext_GetCachePath_args(RequestContext_GetCachePath_args other) {
+      if (other.isSetRequestContext()) {
+        this.requestContext = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.requestContext);
+      }
+    }
+
+    @Override
+    public RequestContext_GetCachePath_args deepCopy() {
+      return new RequestContext_GetCachePath_args(this);
+    }
+
+    @Override
+    public void clear() {
+      this.requestContext = null;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getRequestContext() {
+      return this.requestContext;
+    }
+
+    public RequestContext_GetCachePath_args setRequestContext(@com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject requestContext) {
+      this.requestContext = requestContext;
+      return this;
+    }
+
+    public void unsetRequestContext() {
+      this.requestContext = null;
+    }
+
+    /** Returns true if field requestContext is set (has been assigned a value) and false otherwise */
+    public boolean isSetRequestContext() {
+      return this.requestContext != null;
+    }
+
+    public void setRequestContextIsSet(boolean value) {
+      if (!value) {
+        this.requestContext = null;
+      }
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case REQUEST_CONTEXT:
+        if (value == null) {
+          unsetRequestContext();
+        } else {
+          setRequestContext((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case REQUEST_CONTEXT:
+        return getRequestContext();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case REQUEST_CONTEXT:
+        return isSetRequestContext();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof RequestContext_GetCachePath_args)
+        return this.equals((RequestContext_GetCachePath_args)that);
+      return false;
+    }
+
+    public boolean equals(RequestContext_GetCachePath_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_requestContext = true && this.isSetRequestContext();
+      boolean that_present_requestContext = true && that.isSetRequestContext();
+      if (this_present_requestContext || that_present_requestContext) {
+        if (!(this_present_requestContext && that_present_requestContext))
+          return false;
+        if (!this.requestContext.equals(that.requestContext))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((isSetRequestContext()) ? 131071 : 524287);
+      if (isSetRequestContext())
+        hashCode = hashCode * 8191 + requestContext.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(RequestContext_GetCachePath_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetRequestContext(), other.isSetRequestContext());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetRequestContext()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.requestContext, other.requestContext);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("RequestContext_GetCachePath_args(");
+      boolean first = true;
+
+      sb.append("requestContext:");
+      if (this.requestContext == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.requestContext);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (requestContext != null) {
+        requestContext.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class RequestContext_GetCachePath_argsStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public RequestContext_GetCachePath_argsStandardScheme getScheme() {
+        return new RequestContext_GetCachePath_argsStandardScheme();
+      }
+    }
+
+    private static class RequestContext_GetCachePath_argsStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<RequestContext_GetCachePath_args> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, RequestContext_GetCachePath_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        iprot.incrementRecursionDepth();
+        try {
+          com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+          iprot.readStructBegin();
+          while (true)
+          {
+            schemeField = iprot.readFieldBegin();
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+              break;
+            }
+            switch (schemeField.id) {
+              case 1: // REQUEST_CONTEXT
+                if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT) {
+                  struct.requestContext = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                  struct.requestContext.read(iprot);
+                  struct.setRequestContextIsSet(true);
+                } else { 
+                  com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+                }
+                break;
+              default:
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            iprot.readFieldEnd();
+          }
+          iprot.readStructEnd();
+
+          // check for required fields of primitive type, which can't be checked in the validate method
+          struct.validate();
+        } finally {
+          iprot.decrementRecursionDepth();
+        }
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, RequestContext_GetCachePath_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.requestContext != null) {
+          oprot.writeFieldBegin(REQUEST_CONTEXT_FIELD_DESC);
+          struct.requestContext.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class RequestContext_GetCachePath_argsTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public RequestContext_GetCachePath_argsTupleScheme getScheme() {
+        return new RequestContext_GetCachePath_argsTupleScheme();
+      }
+    }
+
+    private static class RequestContext_GetCachePath_argsTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<RequestContext_GetCachePath_args> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, RequestContext_GetCachePath_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetRequestContext()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetRequestContext()) {
+          struct.requestContext.write(oprot);
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, RequestContext_GetCachePath_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.incrementRecursionDepth();
+        try {
+          com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+          java.util.BitSet incoming = iprot.readBitSet(1);
+          if (incoming.get(0)) {
+            struct.requestContext = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+            struct.requestContext.read(iprot);
+            struct.setRequestContextIsSet(true);
+          }
+        } finally {
+          prot.decrementRecursionDepth();
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class RequestContext_GetCachePath_result implements com.jetbrains.cef.remote.thrift.TBase<RequestContext_GetCachePath_result, RequestContext_GetCachePath_result._Fields>, java.io.Serializable, Cloneable, Comparable<RequestContext_GetCachePath_result>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("RequestContext_GetCachePath_result");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField SUCCESS_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("success", com.jetbrains.cef.remote.thrift.protocol.TType.STRING, (short)0);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new RequestContext_GetCachePath_resultStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new RequestContext_GetCachePath_resultTupleSchemeFactory();
+
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String success; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      SUCCESS((short)0, "success");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 0: // SUCCESS
+            return SUCCESS;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("success", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRING)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(RequestContext_GetCachePath_result.class, metaDataMap);
+    }
+
+    public RequestContext_GetCachePath_result() {
+    }
+
+    public RequestContext_GetCachePath_result(
+      java.lang.String success)
+    {
+      this();
+      this.success = success;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public RequestContext_GetCachePath_result(RequestContext_GetCachePath_result other) {
+      if (other.isSetSuccess()) {
+        this.success = other.success;
+      }
+    }
+
+    @Override
+    public RequestContext_GetCachePath_result deepCopy() {
+      return new RequestContext_GetCachePath_result(this);
+    }
+
+    @Override
+    public void clear() {
+      this.success = null;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public java.lang.String getSuccess() {
+      return this.success;
+    }
+
+    public RequestContext_GetCachePath_result setSuccess(@com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String success) {
+      this.success = success;
+      return this;
+    }
+
+    public void unsetSuccess() {
+      this.success = null;
+    }
+
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
+    public boolean isSetSuccess() {
+      return this.success != null;
+    }
+
+    public void setSuccessIsSet(boolean value) {
+      if (!value) {
+        this.success = null;
+      }
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((java.lang.String)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case SUCCESS:
+        return getSuccess();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case SUCCESS:
+        return isSetSuccess();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof RequestContext_GetCachePath_result)
+        return this.equals((RequestContext_GetCachePath_result)that);
+      return false;
+    }
+
+    public boolean equals(RequestContext_GetCachePath_result that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_success = true && this.isSetSuccess();
+      boolean that_present_success = true && that.isSetSuccess();
+      if (this_present_success || that_present_success) {
+        if (!(this_present_success && that_present_success))
+          return false;
+        if (!this.success.equals(that.success))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((isSetSuccess()) ? 131071 : 524287);
+      if (isSetSuccess())
+        hashCode = hashCode * 8191 + success.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(RequestContext_GetCachePath_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetSuccess(), other.isSetSuccess());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSuccess()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.success, other.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+      }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("RequestContext_GetCachePath_result(");
+      boolean first = true;
+
+      sb.append("success:");
+      if (this.success == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.success);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class RequestContext_GetCachePath_resultStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public RequestContext_GetCachePath_resultStandardScheme getScheme() {
+        return new RequestContext_GetCachePath_resultStandardScheme();
+      }
+    }
+
+    private static class RequestContext_GetCachePath_resultStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<RequestContext_GetCachePath_result> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, RequestContext_GetCachePath_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        iprot.incrementRecursionDepth();
+        try {
+          com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+          iprot.readStructBegin();
+          while (true)
+          {
+            schemeField = iprot.readFieldBegin();
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+              break;
+            }
+            switch (schemeField.id) {
+              case 0: // SUCCESS
+                if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRING) {
+                  struct.success = iprot.readString();
+                  struct.setSuccessIsSet(true);
+                } else { 
+                  com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+                }
+                break;
+              default:
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            iprot.readFieldEnd();
+          }
+          iprot.readStructEnd();
+
+          // check for required fields of primitive type, which can't be checked in the validate method
+          struct.validate();
+        } finally {
+          iprot.decrementRecursionDepth();
+        }
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, RequestContext_GetCachePath_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.success != null) {
+          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
+          oprot.writeString(struct.success);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class RequestContext_GetCachePath_resultTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public RequestContext_GetCachePath_resultTupleScheme getScheme() {
+        return new RequestContext_GetCachePath_resultTupleScheme();
+      }
+    }
+
+    private static class RequestContext_GetCachePath_resultTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<RequestContext_GetCachePath_result> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, RequestContext_GetCachePath_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetSuccess()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetSuccess()) {
+          oprot.writeString(struct.success);
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, RequestContext_GetCachePath_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.incrementRecursionDepth();
+        try {
+          com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+          java.util.BitSet incoming = iprot.readBitSet(1);
+          if (incoming.get(0)) {
+            struct.success = iprot.readString();
+            struct.setSuccessIsSet(true);
+          }
+        } finally {
+          prot.decrementRecursionDepth();
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class RequestContext_GetCookieManager_args implements com.jetbrains.cef.remote.thrift.TBase<RequestContext_GetCookieManager_args, RequestContext_GetCookieManager_args._Fields>, java.io.Serializable, Cloneable, Comparable<RequestContext_GetCookieManager_args>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("RequestContext_GetCookieManager_args");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField REQUEST_CONTEXT_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("requestContext", com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, (short)1);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new RequestContext_GetCookieManager_argsStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new RequestContext_GetCookieManager_argsTupleSchemeFactory();
+
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject requestContext; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      REQUEST_CONTEXT((short)1, "requestContext");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // REQUEST_CONTEXT
+            return REQUEST_CONTEXT;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.REQUEST_CONTEXT, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("requestContext", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(RequestContext_GetCookieManager_args.class, metaDataMap);
+    }
+
+    public RequestContext_GetCookieManager_args() {
+    }
+
+    public RequestContext_GetCookieManager_args(
+      com.jetbrains.cef.remote.thrift_codegen.RObject requestContext)
+    {
+      this();
+      this.requestContext = requestContext;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public RequestContext_GetCookieManager_args(RequestContext_GetCookieManager_args other) {
+      if (other.isSetRequestContext()) {
+        this.requestContext = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.requestContext);
+      }
+    }
+
+    @Override
+    public RequestContext_GetCookieManager_args deepCopy() {
+      return new RequestContext_GetCookieManager_args(this);
+    }
+
+    @Override
+    public void clear() {
+      this.requestContext = null;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getRequestContext() {
+      return this.requestContext;
+    }
+
+    public RequestContext_GetCookieManager_args setRequestContext(@com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject requestContext) {
+      this.requestContext = requestContext;
+      return this;
+    }
+
+    public void unsetRequestContext() {
+      this.requestContext = null;
+    }
+
+    /** Returns true if field requestContext is set (has been assigned a value) and false otherwise */
+    public boolean isSetRequestContext() {
+      return this.requestContext != null;
+    }
+
+    public void setRequestContextIsSet(boolean value) {
+      if (!value) {
+        this.requestContext = null;
+      }
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case REQUEST_CONTEXT:
+        if (value == null) {
+          unsetRequestContext();
+        } else {
+          setRequestContext((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case REQUEST_CONTEXT:
+        return getRequestContext();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case REQUEST_CONTEXT:
+        return isSetRequestContext();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof RequestContext_GetCookieManager_args)
+        return this.equals((RequestContext_GetCookieManager_args)that);
+      return false;
+    }
+
+    public boolean equals(RequestContext_GetCookieManager_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_requestContext = true && this.isSetRequestContext();
+      boolean that_present_requestContext = true && that.isSetRequestContext();
+      if (this_present_requestContext || that_present_requestContext) {
+        if (!(this_present_requestContext && that_present_requestContext))
+          return false;
+        if (!this.requestContext.equals(that.requestContext))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((isSetRequestContext()) ? 131071 : 524287);
+      if (isSetRequestContext())
+        hashCode = hashCode * 8191 + requestContext.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(RequestContext_GetCookieManager_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetRequestContext(), other.isSetRequestContext());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetRequestContext()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.requestContext, other.requestContext);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("RequestContext_GetCookieManager_args(");
+      boolean first = true;
+
+      sb.append("requestContext:");
+      if (this.requestContext == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.requestContext);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (requestContext != null) {
+        requestContext.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class RequestContext_GetCookieManager_argsStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public RequestContext_GetCookieManager_argsStandardScheme getScheme() {
+        return new RequestContext_GetCookieManager_argsStandardScheme();
+      }
+    }
+
+    private static class RequestContext_GetCookieManager_argsStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<RequestContext_GetCookieManager_args> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, RequestContext_GetCookieManager_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        iprot.incrementRecursionDepth();
+        try {
+          com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+          iprot.readStructBegin();
+          while (true)
+          {
+            schemeField = iprot.readFieldBegin();
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+              break;
+            }
+            switch (schemeField.id) {
+              case 1: // REQUEST_CONTEXT
+                if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT) {
+                  struct.requestContext = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                  struct.requestContext.read(iprot);
+                  struct.setRequestContextIsSet(true);
+                } else { 
+                  com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+                }
+                break;
+              default:
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            iprot.readFieldEnd();
+          }
+          iprot.readStructEnd();
+
+          // check for required fields of primitive type, which can't be checked in the validate method
+          struct.validate();
+        } finally {
+          iprot.decrementRecursionDepth();
+        }
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, RequestContext_GetCookieManager_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.requestContext != null) {
+          oprot.writeFieldBegin(REQUEST_CONTEXT_FIELD_DESC);
+          struct.requestContext.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class RequestContext_GetCookieManager_argsTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public RequestContext_GetCookieManager_argsTupleScheme getScheme() {
+        return new RequestContext_GetCookieManager_argsTupleScheme();
+      }
+    }
+
+    private static class RequestContext_GetCookieManager_argsTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<RequestContext_GetCookieManager_args> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, RequestContext_GetCookieManager_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetRequestContext()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetRequestContext()) {
+          struct.requestContext.write(oprot);
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, RequestContext_GetCookieManager_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.incrementRecursionDepth();
+        try {
+          com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+          java.util.BitSet incoming = iprot.readBitSet(1);
+          if (incoming.get(0)) {
+            struct.requestContext = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+            struct.requestContext.read(iprot);
+            struct.setRequestContextIsSet(true);
+          }
+        } finally {
+          prot.decrementRecursionDepth();
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class RequestContext_GetCookieManager_result implements com.jetbrains.cef.remote.thrift.TBase<RequestContext_GetCookieManager_result, RequestContext_GetCookieManager_result._Fields>, java.io.Serializable, Cloneable, Comparable<RequestContext_GetCookieManager_result>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("RequestContext_GetCookieManager_result");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField SUCCESS_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("success", com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, (short)0);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new RequestContext_GetCookieManager_resultStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new RequestContext_GetCookieManager_resultTupleSchemeFactory();
+
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject success; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      SUCCESS((short)0, "success");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 0: // SUCCESS
+            return SUCCESS;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("success", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(RequestContext_GetCookieManager_result.class, metaDataMap);
+    }
+
+    public RequestContext_GetCookieManager_result() {
+    }
+
+    public RequestContext_GetCookieManager_result(
+      com.jetbrains.cef.remote.thrift_codegen.RObject success)
+    {
+      this();
+      this.success = success;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public RequestContext_GetCookieManager_result(RequestContext_GetCookieManager_result other) {
+      if (other.isSetSuccess()) {
+        this.success = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.success);
+      }
+    }
+
+    @Override
+    public RequestContext_GetCookieManager_result deepCopy() {
+      return new RequestContext_GetCookieManager_result(this);
+    }
+
+    @Override
+    public void clear() {
+      this.success = null;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getSuccess() {
+      return this.success;
+    }
+
+    public RequestContext_GetCookieManager_result setSuccess(@com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject success) {
+      this.success = success;
+      return this;
+    }
+
+    public void unsetSuccess() {
+      this.success = null;
+    }
+
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
+    public boolean isSetSuccess() {
+      return this.success != null;
+    }
+
+    public void setSuccessIsSet(boolean value) {
+      if (!value) {
+        this.success = null;
+      }
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case SUCCESS:
+        return getSuccess();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case SUCCESS:
+        return isSetSuccess();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof RequestContext_GetCookieManager_result)
+        return this.equals((RequestContext_GetCookieManager_result)that);
+      return false;
+    }
+
+    public boolean equals(RequestContext_GetCookieManager_result that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_success = true && this.isSetSuccess();
+      boolean that_present_success = true && that.isSetSuccess();
+      if (this_present_success || that_present_success) {
+        if (!(this_present_success && that_present_success))
+          return false;
+        if (!this.success.equals(that.success))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((isSetSuccess()) ? 131071 : 524287);
+      if (isSetSuccess())
+        hashCode = hashCode * 8191 + success.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(RequestContext_GetCookieManager_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetSuccess(), other.isSetSuccess());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSuccess()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.success, other.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+      }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("RequestContext_GetCookieManager_result(");
+      boolean first = true;
+
+      sb.append("success:");
+      if (this.success == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.success);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (success != null) {
+        success.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class RequestContext_GetCookieManager_resultStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public RequestContext_GetCookieManager_resultStandardScheme getScheme() {
+        return new RequestContext_GetCookieManager_resultStandardScheme();
+      }
+    }
+
+    private static class RequestContext_GetCookieManager_resultStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<RequestContext_GetCookieManager_result> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, RequestContext_GetCookieManager_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        iprot.incrementRecursionDepth();
+        try {
+          com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+          iprot.readStructBegin();
+          while (true)
+          {
+            schemeField = iprot.readFieldBegin();
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+              break;
+            }
+            switch (schemeField.id) {
+              case 0: // SUCCESS
+                if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT) {
+                  struct.success = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                  struct.success.read(iprot);
+                  struct.setSuccessIsSet(true);
+                } else { 
+                  com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+                }
+                break;
+              default:
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            iprot.readFieldEnd();
+          }
+          iprot.readStructEnd();
+
+          // check for required fields of primitive type, which can't be checked in the validate method
+          struct.validate();
+        } finally {
+          iprot.decrementRecursionDepth();
+        }
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, RequestContext_GetCookieManager_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.success != null) {
+          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
+          struct.success.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class RequestContext_GetCookieManager_resultTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public RequestContext_GetCookieManager_resultTupleScheme getScheme() {
+        return new RequestContext_GetCookieManager_resultTupleScheme();
+      }
+    }
+
+    private static class RequestContext_GetCookieManager_resultTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<RequestContext_GetCookieManager_result> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, RequestContext_GetCookieManager_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetSuccess()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetSuccess()) {
+          struct.success.write(oprot);
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, RequestContext_GetCookieManager_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.incrementRecursionDepth();
+        try {
+          com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+          java.util.BitSet incoming = iprot.readBitSet(1);
+          if (incoming.get(0)) {
+            struct.success = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+            struct.success.read(iprot);
+            struct.setSuccessIsSet(true);
+          }
+        } finally {
+          prot.decrementRecursionDepth();
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class RequestContext_ClearHttpCache_args implements com.jetbrains.cef.remote.thrift.TBase<RequestContext_ClearHttpCache_args, RequestContext_ClearHttpCache_args._Fields>, java.io.Serializable, Cloneable, Comparable<RequestContext_ClearHttpCache_args>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("RequestContext_ClearHttpCache_args");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField REQUEST_CONTEXT_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("requestContext", com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, (short)1);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField COMPLETION_CALLBACK_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("completionCallback", com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, (short)2);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new RequestContext_ClearHttpCache_argsStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new RequestContext_ClearHttpCache_argsTupleSchemeFactory();
+
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject requestContext; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject completionCallback; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      REQUEST_CONTEXT((short)1, "requestContext"),
+      COMPLETION_CALLBACK((short)2, "completionCallback");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // REQUEST_CONTEXT
+            return REQUEST_CONTEXT;
+          case 2: // COMPLETION_CALLBACK
+            return COMPLETION_CALLBACK;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.REQUEST_CONTEXT, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("requestContext", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
+      tmpMap.put(_Fields.COMPLETION_CALLBACK, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("completionCallback", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(RequestContext_ClearHttpCache_args.class, metaDataMap);
+    }
+
+    public RequestContext_ClearHttpCache_args() {
+    }
+
+    public RequestContext_ClearHttpCache_args(
+      com.jetbrains.cef.remote.thrift_codegen.RObject requestContext,
+      com.jetbrains.cef.remote.thrift_codegen.RObject completionCallback)
+    {
+      this();
+      this.requestContext = requestContext;
+      this.completionCallback = completionCallback;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public RequestContext_ClearHttpCache_args(RequestContext_ClearHttpCache_args other) {
+      if (other.isSetRequestContext()) {
+        this.requestContext = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.requestContext);
+      }
+      if (other.isSetCompletionCallback()) {
+        this.completionCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.completionCallback);
+      }
+    }
+
+    @Override
+    public RequestContext_ClearHttpCache_args deepCopy() {
+      return new RequestContext_ClearHttpCache_args(this);
+    }
+
+    @Override
+    public void clear() {
+      this.requestContext = null;
+      this.completionCallback = null;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getRequestContext() {
+      return this.requestContext;
+    }
+
+    public RequestContext_ClearHttpCache_args setRequestContext(@com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject requestContext) {
+      this.requestContext = requestContext;
+      return this;
+    }
+
+    public void unsetRequestContext() {
+      this.requestContext = null;
+    }
+
+    /** Returns true if field requestContext is set (has been assigned a value) and false otherwise */
+    public boolean isSetRequestContext() {
+      return this.requestContext != null;
+    }
+
+    public void setRequestContextIsSet(boolean value) {
+      if (!value) {
+        this.requestContext = null;
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getCompletionCallback() {
+      return this.completionCallback;
+    }
+
+    public RequestContext_ClearHttpCache_args setCompletionCallback(@com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject completionCallback) {
+      this.completionCallback = completionCallback;
+      return this;
+    }
+
+    public void unsetCompletionCallback() {
+      this.completionCallback = null;
+    }
+
+    /** Returns true if field completionCallback is set (has been assigned a value) and false otherwise */
+    public boolean isSetCompletionCallback() {
+      return this.completionCallback != null;
+    }
+
+    public void setCompletionCallbackIsSet(boolean value) {
+      if (!value) {
+        this.completionCallback = null;
+      }
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case REQUEST_CONTEXT:
+        if (value == null) {
+          unsetRequestContext();
+        } else {
+          setRequestContext((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
+      case COMPLETION_CALLBACK:
+        if (value == null) {
+          unsetCompletionCallback();
+        } else {
+          setCompletionCallback((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case REQUEST_CONTEXT:
+        return getRequestContext();
+
+      case COMPLETION_CALLBACK:
+        return getCompletionCallback();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case REQUEST_CONTEXT:
+        return isSetRequestContext();
+      case COMPLETION_CALLBACK:
+        return isSetCompletionCallback();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof RequestContext_ClearHttpCache_args)
+        return this.equals((RequestContext_ClearHttpCache_args)that);
+      return false;
+    }
+
+    public boolean equals(RequestContext_ClearHttpCache_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_requestContext = true && this.isSetRequestContext();
+      boolean that_present_requestContext = true && that.isSetRequestContext();
+      if (this_present_requestContext || that_present_requestContext) {
+        if (!(this_present_requestContext && that_present_requestContext))
+          return false;
+        if (!this.requestContext.equals(that.requestContext))
+          return false;
+      }
+
+      boolean this_present_completionCallback = true && this.isSetCompletionCallback();
+      boolean that_present_completionCallback = true && that.isSetCompletionCallback();
+      if (this_present_completionCallback || that_present_completionCallback) {
+        if (!(this_present_completionCallback && that_present_completionCallback))
+          return false;
+        if (!this.completionCallback.equals(that.completionCallback))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((isSetRequestContext()) ? 131071 : 524287);
+      if (isSetRequestContext())
+        hashCode = hashCode * 8191 + requestContext.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetCompletionCallback()) ? 131071 : 524287);
+      if (isSetCompletionCallback())
+        hashCode = hashCode * 8191 + completionCallback.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(RequestContext_ClearHttpCache_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetRequestContext(), other.isSetRequestContext());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetRequestContext()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.requestContext, other.requestContext);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetCompletionCallback(), other.isSetCompletionCallback());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetCompletionCallback()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.completionCallback, other.completionCallback);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("RequestContext_ClearHttpCache_args(");
+      boolean first = true;
+
+      sb.append("requestContext:");
+      if (this.requestContext == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.requestContext);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("completionCallback:");
+      if (this.completionCallback == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.completionCallback);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (requestContext != null) {
+        requestContext.validate();
+      }
+      if (completionCallback != null) {
+        completionCallback.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class RequestContext_ClearHttpCache_argsStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public RequestContext_ClearHttpCache_argsStandardScheme getScheme() {
+        return new RequestContext_ClearHttpCache_argsStandardScheme();
+      }
+    }
+
+    private static class RequestContext_ClearHttpCache_argsStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<RequestContext_ClearHttpCache_args> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, RequestContext_ClearHttpCache_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        iprot.incrementRecursionDepth();
+        try {
+          com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+          iprot.readStructBegin();
+          while (true)
+          {
+            schemeField = iprot.readFieldBegin();
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+              break;
+            }
+            switch (schemeField.id) {
+              case 1: // REQUEST_CONTEXT
+                if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT) {
+                  struct.requestContext = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                  struct.requestContext.read(iprot);
+                  struct.setRequestContextIsSet(true);
+                } else { 
+                  com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+                }
+                break;
+              case 2: // COMPLETION_CALLBACK
+                if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT) {
+                  struct.completionCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                  struct.completionCallback.read(iprot);
+                  struct.setCompletionCallbackIsSet(true);
+                } else { 
+                  com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+                }
+                break;
+              default:
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            iprot.readFieldEnd();
+          }
+          iprot.readStructEnd();
+
+          // check for required fields of primitive type, which can't be checked in the validate method
+          struct.validate();
+        } finally {
+          iprot.decrementRecursionDepth();
+        }
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, RequestContext_ClearHttpCache_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.requestContext != null) {
+          oprot.writeFieldBegin(REQUEST_CONTEXT_FIELD_DESC);
+          struct.requestContext.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        if (struct.completionCallback != null) {
+          oprot.writeFieldBegin(COMPLETION_CALLBACK_FIELD_DESC);
+          struct.completionCallback.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class RequestContext_ClearHttpCache_argsTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public RequestContext_ClearHttpCache_argsTupleScheme getScheme() {
+        return new RequestContext_ClearHttpCache_argsTupleScheme();
+      }
+    }
+
+    private static class RequestContext_ClearHttpCache_argsTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<RequestContext_ClearHttpCache_args> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, RequestContext_ClearHttpCache_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetRequestContext()) {
+          optionals.set(0);
+        }
+        if (struct.isSetCompletionCallback()) {
+          optionals.set(1);
+        }
+        oprot.writeBitSet(optionals, 2);
+        if (struct.isSetRequestContext()) {
+          struct.requestContext.write(oprot);
+        }
+        if (struct.isSetCompletionCallback()) {
+          struct.completionCallback.write(oprot);
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, RequestContext_ClearHttpCache_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.incrementRecursionDepth();
+        try {
+          com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+          java.util.BitSet incoming = iprot.readBitSet(2);
+          if (incoming.get(0)) {
+            struct.requestContext = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+            struct.requestContext.read(iprot);
+            struct.setRequestContextIsSet(true);
+          }
+          if (incoming.get(1)) {
+            struct.completionCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+            struct.completionCallback.read(iprot);
+            struct.setCompletionCallbackIsSet(true);
+          }
+        } finally {
+          prot.decrementRecursionDepth();
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class RequestContext_ClearHttpAuthCredentials_args implements com.jetbrains.cef.remote.thrift.TBase<RequestContext_ClearHttpAuthCredentials_args, RequestContext_ClearHttpAuthCredentials_args._Fields>, java.io.Serializable, Cloneable, Comparable<RequestContext_ClearHttpAuthCredentials_args>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("RequestContext_ClearHttpAuthCredentials_args");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField REQUEST_CONTEXT_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("requestContext", com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, (short)1);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField COMPLETION_CALLBACK_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("completionCallback", com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, (short)2);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new RequestContext_ClearHttpAuthCredentials_argsStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new RequestContext_ClearHttpAuthCredentials_argsTupleSchemeFactory();
+
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject requestContext; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject completionCallback; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      REQUEST_CONTEXT((short)1, "requestContext"),
+      COMPLETION_CALLBACK((short)2, "completionCallback");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // REQUEST_CONTEXT
+            return REQUEST_CONTEXT;
+          case 2: // COMPLETION_CALLBACK
+            return COMPLETION_CALLBACK;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.REQUEST_CONTEXT, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("requestContext", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
+      tmpMap.put(_Fields.COMPLETION_CALLBACK, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("completionCallback", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(RequestContext_ClearHttpAuthCredentials_args.class, metaDataMap);
+    }
+
+    public RequestContext_ClearHttpAuthCredentials_args() {
+    }
+
+    public RequestContext_ClearHttpAuthCredentials_args(
+      com.jetbrains.cef.remote.thrift_codegen.RObject requestContext,
+      com.jetbrains.cef.remote.thrift_codegen.RObject completionCallback)
+    {
+      this();
+      this.requestContext = requestContext;
+      this.completionCallback = completionCallback;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public RequestContext_ClearHttpAuthCredentials_args(RequestContext_ClearHttpAuthCredentials_args other) {
+      if (other.isSetRequestContext()) {
+        this.requestContext = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.requestContext);
+      }
+      if (other.isSetCompletionCallback()) {
+        this.completionCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.completionCallback);
+      }
+    }
+
+    @Override
+    public RequestContext_ClearHttpAuthCredentials_args deepCopy() {
+      return new RequestContext_ClearHttpAuthCredentials_args(this);
+    }
+
+    @Override
+    public void clear() {
+      this.requestContext = null;
+      this.completionCallback = null;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getRequestContext() {
+      return this.requestContext;
+    }
+
+    public RequestContext_ClearHttpAuthCredentials_args setRequestContext(@com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject requestContext) {
+      this.requestContext = requestContext;
+      return this;
+    }
+
+    public void unsetRequestContext() {
+      this.requestContext = null;
+    }
+
+    /** Returns true if field requestContext is set (has been assigned a value) and false otherwise */
+    public boolean isSetRequestContext() {
+      return this.requestContext != null;
+    }
+
+    public void setRequestContextIsSet(boolean value) {
+      if (!value) {
+        this.requestContext = null;
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getCompletionCallback() {
+      return this.completionCallback;
+    }
+
+    public RequestContext_ClearHttpAuthCredentials_args setCompletionCallback(@com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject completionCallback) {
+      this.completionCallback = completionCallback;
+      return this;
+    }
+
+    public void unsetCompletionCallback() {
+      this.completionCallback = null;
+    }
+
+    /** Returns true if field completionCallback is set (has been assigned a value) and false otherwise */
+    public boolean isSetCompletionCallback() {
+      return this.completionCallback != null;
+    }
+
+    public void setCompletionCallbackIsSet(boolean value) {
+      if (!value) {
+        this.completionCallback = null;
+      }
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case REQUEST_CONTEXT:
+        if (value == null) {
+          unsetRequestContext();
+        } else {
+          setRequestContext((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
+      case COMPLETION_CALLBACK:
+        if (value == null) {
+          unsetCompletionCallback();
+        } else {
+          setCompletionCallback((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case REQUEST_CONTEXT:
+        return getRequestContext();
+
+      case COMPLETION_CALLBACK:
+        return getCompletionCallback();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case REQUEST_CONTEXT:
+        return isSetRequestContext();
+      case COMPLETION_CALLBACK:
+        return isSetCompletionCallback();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof RequestContext_ClearHttpAuthCredentials_args)
+        return this.equals((RequestContext_ClearHttpAuthCredentials_args)that);
+      return false;
+    }
+
+    public boolean equals(RequestContext_ClearHttpAuthCredentials_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_requestContext = true && this.isSetRequestContext();
+      boolean that_present_requestContext = true && that.isSetRequestContext();
+      if (this_present_requestContext || that_present_requestContext) {
+        if (!(this_present_requestContext && that_present_requestContext))
+          return false;
+        if (!this.requestContext.equals(that.requestContext))
+          return false;
+      }
+
+      boolean this_present_completionCallback = true && this.isSetCompletionCallback();
+      boolean that_present_completionCallback = true && that.isSetCompletionCallback();
+      if (this_present_completionCallback || that_present_completionCallback) {
+        if (!(this_present_completionCallback && that_present_completionCallback))
+          return false;
+        if (!this.completionCallback.equals(that.completionCallback))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((isSetRequestContext()) ? 131071 : 524287);
+      if (isSetRequestContext())
+        hashCode = hashCode * 8191 + requestContext.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetCompletionCallback()) ? 131071 : 524287);
+      if (isSetCompletionCallback())
+        hashCode = hashCode * 8191 + completionCallback.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(RequestContext_ClearHttpAuthCredentials_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetRequestContext(), other.isSetRequestContext());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetRequestContext()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.requestContext, other.requestContext);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetCompletionCallback(), other.isSetCompletionCallback());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetCompletionCallback()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.completionCallback, other.completionCallback);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("RequestContext_ClearHttpAuthCredentials_args(");
+      boolean first = true;
+
+      sb.append("requestContext:");
+      if (this.requestContext == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.requestContext);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("completionCallback:");
+      if (this.completionCallback == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.completionCallback);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (requestContext != null) {
+        requestContext.validate();
+      }
+      if (completionCallback != null) {
+        completionCallback.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class RequestContext_ClearHttpAuthCredentials_argsStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public RequestContext_ClearHttpAuthCredentials_argsStandardScheme getScheme() {
+        return new RequestContext_ClearHttpAuthCredentials_argsStandardScheme();
+      }
+    }
+
+    private static class RequestContext_ClearHttpAuthCredentials_argsStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<RequestContext_ClearHttpAuthCredentials_args> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, RequestContext_ClearHttpAuthCredentials_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        iprot.incrementRecursionDepth();
+        try {
+          com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+          iprot.readStructBegin();
+          while (true)
+          {
+            schemeField = iprot.readFieldBegin();
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+              break;
+            }
+            switch (schemeField.id) {
+              case 1: // REQUEST_CONTEXT
+                if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT) {
+                  struct.requestContext = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                  struct.requestContext.read(iprot);
+                  struct.setRequestContextIsSet(true);
+                } else { 
+                  com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+                }
+                break;
+              case 2: // COMPLETION_CALLBACK
+                if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT) {
+                  struct.completionCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                  struct.completionCallback.read(iprot);
+                  struct.setCompletionCallbackIsSet(true);
+                } else { 
+                  com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+                }
+                break;
+              default:
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            iprot.readFieldEnd();
+          }
+          iprot.readStructEnd();
+
+          // check for required fields of primitive type, which can't be checked in the validate method
+          struct.validate();
+        } finally {
+          iprot.decrementRecursionDepth();
+        }
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, RequestContext_ClearHttpAuthCredentials_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.requestContext != null) {
+          oprot.writeFieldBegin(REQUEST_CONTEXT_FIELD_DESC);
+          struct.requestContext.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        if (struct.completionCallback != null) {
+          oprot.writeFieldBegin(COMPLETION_CALLBACK_FIELD_DESC);
+          struct.completionCallback.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class RequestContext_ClearHttpAuthCredentials_argsTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public RequestContext_ClearHttpAuthCredentials_argsTupleScheme getScheme() {
+        return new RequestContext_ClearHttpAuthCredentials_argsTupleScheme();
+      }
+    }
+
+    private static class RequestContext_ClearHttpAuthCredentials_argsTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<RequestContext_ClearHttpAuthCredentials_args> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, RequestContext_ClearHttpAuthCredentials_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetRequestContext()) {
+          optionals.set(0);
+        }
+        if (struct.isSetCompletionCallback()) {
+          optionals.set(1);
+        }
+        oprot.writeBitSet(optionals, 2);
+        if (struct.isSetRequestContext()) {
+          struct.requestContext.write(oprot);
+        }
+        if (struct.isSetCompletionCallback()) {
+          struct.completionCallback.write(oprot);
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, RequestContext_ClearHttpAuthCredentials_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.incrementRecursionDepth();
+        try {
+          com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+          java.util.BitSet incoming = iprot.readBitSet(2);
+          if (incoming.get(0)) {
+            struct.requestContext = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+            struct.requestContext.read(iprot);
+            struct.setRequestContextIsSet(true);
+          }
+          if (incoming.get(1)) {
+            struct.completionCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+            struct.completionCallback.read(iprot);
+            struct.setCompletionCallbackIsSet(true);
           }
         } finally {
           prot.decrementRecursionDepth();

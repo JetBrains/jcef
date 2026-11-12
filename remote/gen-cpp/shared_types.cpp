@@ -2388,4 +2388,218 @@ void CefValue::printTo(std::ostream& out) const {
   out << ")";
 }
 
+
+RequestContextSettings::~RequestContextSettings() noexcept {
+}
+
+RequestContextSettings::RequestContextSettings() noexcept
+   : cachePath(),
+     persistSessionCookies(0),
+     acceptLanguageList(),
+     cookieableSchemesList(),
+     cookieableSchemesExcludeDefaults(0) {
+}
+
+void RequestContextSettings::__set_cachePath(const std::string& val) {
+  this->cachePath = val;
+__isset.cachePath = true;
+}
+
+void RequestContextSettings::__set_persistSessionCookies(const bool val) {
+  this->persistSessionCookies = val;
+__isset.persistSessionCookies = true;
+}
+
+void RequestContextSettings::__set_acceptLanguageList(const std::string& val) {
+  this->acceptLanguageList = val;
+__isset.acceptLanguageList = true;
+}
+
+void RequestContextSettings::__set_cookieableSchemesList(const std::string& val) {
+  this->cookieableSchemesList = val;
+__isset.cookieableSchemesList = true;
+}
+
+void RequestContextSettings::__set_cookieableSchemesExcludeDefaults(const bool val) {
+  this->cookieableSchemesExcludeDefaults = val;
+__isset.cookieableSchemesExcludeDefaults = true;
+}
+std::ostream& operator<<(std::ostream& out, const RequestContextSettings& obj)
+{
+  obj.printTo(out);
+  return out;
+}
+
+
+uint32_t RequestContextSettings::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->cachePath);
+          this->__isset.cachePath = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->persistSessionCookies);
+          this->__isset.persistSessionCookies = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->acceptLanguageList);
+          this->__isset.acceptLanguageList = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 4:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->cookieableSchemesList);
+          this->__isset.cookieableSchemesList = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 5:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->cookieableSchemesExcludeDefaults);
+          this->__isset.cookieableSchemesExcludeDefaults = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t RequestContextSettings::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("RequestContextSettings");
+
+  if (this->__isset.cachePath) {
+    xfer += oprot->writeFieldBegin("cachePath", ::apache::thrift::protocol::T_STRING, 1);
+    xfer += oprot->writeString(this->cachePath);
+    xfer += oprot->writeFieldEnd();
+  }
+  if (this->__isset.persistSessionCookies) {
+    xfer += oprot->writeFieldBegin("persistSessionCookies", ::apache::thrift::protocol::T_BOOL, 2);
+    xfer += oprot->writeBool(this->persistSessionCookies);
+    xfer += oprot->writeFieldEnd();
+  }
+  if (this->__isset.acceptLanguageList) {
+    xfer += oprot->writeFieldBegin("acceptLanguageList", ::apache::thrift::protocol::T_STRING, 3);
+    xfer += oprot->writeString(this->acceptLanguageList);
+    xfer += oprot->writeFieldEnd();
+  }
+  if (this->__isset.cookieableSchemesList) {
+    xfer += oprot->writeFieldBegin("cookieableSchemesList", ::apache::thrift::protocol::T_STRING, 4);
+    xfer += oprot->writeString(this->cookieableSchemesList);
+    xfer += oprot->writeFieldEnd();
+  }
+  if (this->__isset.cookieableSchemesExcludeDefaults) {
+    xfer += oprot->writeFieldBegin("cookieableSchemesExcludeDefaults", ::apache::thrift::protocol::T_BOOL, 5);
+    xfer += oprot->writeBool(this->cookieableSchemesExcludeDefaults);
+    xfer += oprot->writeFieldEnd();
+  }
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+void swap(RequestContextSettings &a, RequestContextSettings &b) noexcept {
+  using ::std::swap;
+  swap(a.cachePath, b.cachePath);
+  swap(a.persistSessionCookies, b.persistSessionCookies);
+  swap(a.acceptLanguageList, b.acceptLanguageList);
+  swap(a.cookieableSchemesList, b.cookieableSchemesList);
+  swap(a.cookieableSchemesExcludeDefaults, b.cookieableSchemesExcludeDefaults);
+  swap(a.__isset, b.__isset);
+}
+
+bool RequestContextSettings::operator==(const RequestContextSettings & rhs) const
+{
+  if (__isset.cachePath != rhs.__isset.cachePath)
+    return false;
+  else if (__isset.cachePath && !(cachePath == rhs.cachePath))
+    return false;
+  if (__isset.persistSessionCookies != rhs.__isset.persistSessionCookies)
+    return false;
+  else if (__isset.persistSessionCookies && !(persistSessionCookies == rhs.persistSessionCookies))
+    return false;
+  if (__isset.acceptLanguageList != rhs.__isset.acceptLanguageList)
+    return false;
+  else if (__isset.acceptLanguageList && !(acceptLanguageList == rhs.acceptLanguageList))
+    return false;
+  if (__isset.cookieableSchemesList != rhs.__isset.cookieableSchemesList)
+    return false;
+  else if (__isset.cookieableSchemesList && !(cookieableSchemesList == rhs.cookieableSchemesList))
+    return false;
+  if (__isset.cookieableSchemesExcludeDefaults != rhs.__isset.cookieableSchemesExcludeDefaults)
+    return false;
+  else if (__isset.cookieableSchemesExcludeDefaults && !(cookieableSchemesExcludeDefaults == rhs.cookieableSchemesExcludeDefaults))
+    return false;
+  return true;
+}
+
+RequestContextSettings::RequestContextSettings(const RequestContextSettings& other52) {
+  cachePath = other52.cachePath;
+  persistSessionCookies = other52.persistSessionCookies;
+  acceptLanguageList = other52.acceptLanguageList;
+  cookieableSchemesList = other52.cookieableSchemesList;
+  cookieableSchemesExcludeDefaults = other52.cookieableSchemesExcludeDefaults;
+  __isset = other52.__isset;
+}
+RequestContextSettings& RequestContextSettings::operator=(const RequestContextSettings& other53) {
+  cachePath = other53.cachePath;
+  persistSessionCookies = other53.persistSessionCookies;
+  acceptLanguageList = other53.acceptLanguageList;
+  cookieableSchemesList = other53.cookieableSchemesList;
+  cookieableSchemesExcludeDefaults = other53.cookieableSchemesExcludeDefaults;
+  __isset = other53.__isset;
+  return *this;
+}
+void RequestContextSettings::printTo(std::ostream& out) const {
+  using ::apache::thrift::to_string;
+  out << "RequestContextSettings(";
+  out << "cachePath="; (__isset.cachePath ? (out << to_string(cachePath)) : (out << "<null>"));
+  out << ", " << "persistSessionCookies="; (__isset.persistSessionCookies ? (out << to_string(persistSessionCookies)) : (out << "<null>"));
+  out << ", " << "acceptLanguageList="; (__isset.acceptLanguageList ? (out << to_string(acceptLanguageList)) : (out << "<null>"));
+  out << ", " << "cookieableSchemesList="; (__isset.cookieableSchemesList ? (out << to_string(cookieableSchemesList)) : (out << "<null>"));
+  out << ", " << "cookieableSchemesExcludeDefaults="; (__isset.cookieableSchemesExcludeDefaults ? (out << to_string(cookieableSchemesExcludeDefaults)) : (out << "<null>"));
+  out << ")";
+}
+
 } // namespace
