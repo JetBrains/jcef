@@ -7,7 +7,9 @@ package org.cef.browser;
 import org.cef.callback.CefCompletionCallback;
 import org.cef.callback.CefNative;
 import org.cef.handler.CefRequestContextHandler;
+import org.cef.misc.CefLog;
 import org.cef.misc.StringRef;
+import org.cef.network.CefCookieManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,10 +42,28 @@ class CefRequestContext_N extends CefRequestContext {
         return globalInstance;
     }
 
-    static final CefRequestContext_N createNative(CefRequestContextHandler handler) {
+    static final CefRequestContext_N createNative(
+            CefRequestContextSettings settings, CefRequestContextHandler handler) {
         CefRequestContext_N result = null;
         try {
-            result = CefRequestContext_N.N_CreateContext(handler);
+            result = CefRequestContext_N.N_CreateContext(settings, handler);
+        } catch (UnsatisfiedLinkError ule) {
+            ule.printStackTrace();
+        }
+        if (result != null) result.handler = handler;
+        return result;
+    }
+
+    static final CefRequestContext_N createNative(
+            CefRequestContext other, CefRequestContextHandler handler) {
+        if (!(other instanceof CefRequestContext_N)) {
+            CefLog.Error("CefRequestContext_N: can't share storage with context of class %s",
+                    other == null ? null : other.getClass().getName());
+            return null;
+        }
+        CefRequestContext_N result = null;
+        try {
+            result = CefRequestContext_N.N_CreateContextShared((CefRequestContext_N) other, handler);
         } catch (UnsatisfiedLinkError ule) {
             ule.printStackTrace();
         }
@@ -63,6 +83,32 @@ class CefRequestContext_N extends CefRequestContext {
     }
 
     @Override
+    public boolean isSame(CefRequestContext other) {
+        if (other == this)
+            return true;
+        if (!(other instanceof CefRequestContext_N))
+            return false;
+        try {
+            return N_IsSame((CefRequestContext_N) other);
+        } catch (UnsatisfiedLinkError ule) {
+            ule.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean isSharingWith(CefRequestContext other) {
+        if (!(other instanceof CefRequestContext_N))
+            return false;
+        try {
+            return N_IsSharingWith((CefRequestContext_N) other);
+        } catch (UnsatisfiedLinkError ule) {
+            ule.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
     public boolean isGlobal() {
         try {
             return N_IsGlobal();
@@ -70,6 +116,27 @@ class CefRequestContext_N extends CefRequestContext {
             ule.printStackTrace();
         }
         return false;
+    }
+
+    @Override
+    public String getCachePath() {
+        try {
+            String result = N_GetCachePath();
+            return result != null ? result : "";
+        } catch (UnsatisfiedLinkError ule) {
+            ule.printStackTrace();
+        }
+        return "";
+    }
+
+    @Override
+    public CefCookieManager getCookieManager() {
+        try {
+            return N_GetCookieManager();
+        } catch (UnsatisfiedLinkError ule) {
+            ule.printStackTrace();
+        }
+        return null;
     }
 
     @Override
@@ -137,10 +204,26 @@ class CefRequestContext_N extends CefRequestContext {
         N_CloseAllConnections(getNativeRef(), callback);
     }
 
+    @Override
+    public void clearHttpCache(CefCompletionCallback callback) {
+        N_ClearHttpCache(getNativeRef(), callback);
+    }
+
+    @Override
+    public void clearHttpAuthCredentials(CefCompletionCallback callback) {
+        N_ClearHttpAuthCredentials(getNativeRef(), callback);
+    }
+
     private final static native CefRequestContext_N N_GetGlobalContext();
     private final static native CefRequestContext_N N_CreateContext(
-            CefRequestContextHandler handler);
+            CefRequestContextSettings settings, CefRequestContextHandler handler);
+    private final static native CefRequestContext_N N_CreateContextShared(
+            CefRequestContext_N other, CefRequestContextHandler handler);
+    private final native boolean N_IsSame(CefRequestContext_N other);
+    private final native boolean N_IsSharingWith(CefRequestContext_N other);
     private final native boolean N_IsGlobal();
+    private final native String N_GetCachePath();
+    private final native CefCookieManager N_GetCookieManager();
     private final native boolean N_HasPreference(String name);
     private final native Object N_GetPreference(String name);
     private final native Map<String, Object> N_GetAllPreferences(boolean includeDefaults);
@@ -149,4 +232,6 @@ class CefRequestContext_N extends CefRequestContext {
     private final native void N_CefRequestContext_DTOR();
     private final native void N_ClearCertificateExceptions(long self, CefCompletionCallback callback);
     private final native void N_CloseAllConnections(long self, CefCompletionCallback callback);
+    private final native void N_ClearHttpCache(long self, CefCompletionCallback callback);
+    private final native void N_ClearHttpAuthCredentials(long self, CefCompletionCallback callback);
 }

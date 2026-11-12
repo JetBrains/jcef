@@ -167,7 +167,8 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     public synchronized void onBeforeClose() {
         if (TRACE_LIFESPAN) CefLog.Debug("CefBrowser_N: %s: onBeforeClose", this);
         isClosed_ = true;
-        if (request_context_ != null) request_context_.dispose();
+        // Don't dispose the request context of the DevTools child.
+        if (request_context_ != null && parent_ == null) request_context_.dispose();
         if (parent_ != null) {
             parent_.closeDevTools();
             parent_ = null;

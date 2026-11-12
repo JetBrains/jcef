@@ -194,8 +194,15 @@ class ServerHandler : public thrift_codegen::ServerIf {
   // CefRequestContext
   //
   void RequestContext_GetGlobal(thrift_codegen::RObject& _return) override;
-  void RequestContext_Create(thrift_codegen::RObject& _return, const thrift_codegen::RObject& requestContextHandler) override;
+  void RequestContext_Create(thrift_codegen::RObject& _return, const thrift_codegen::RObject& requestContextHandler, const thrift_codegen::RequestContextSettings& settings) override;
+  void RequestContext_CreateShared(thrift_codegen::RObject& _return, const thrift_codegen::RObject& other, const thrift_codegen::RObject& requestContextHandler) override;
   void RequestContext_Dispose(const thrift_codegen::RObject& requestContext) override;
+  bool RequestContext_IsSame(const thrift_codegen::RObject& requestContext, const thrift_codegen::RObject& other) override;
+  bool RequestContext_IsSharingWith(const thrift_codegen::RObject& requestContext, const thrift_codegen::RObject& other) override;
+  void RequestContext_GetCachePath(std::string& _return, const thrift_codegen::RObject& requestContext) override;
+  void RequestContext_GetCookieManager(thrift_codegen::RObject& _return, const thrift_codegen::RObject& requestContext) override;
+  void RequestContext_ClearHttpCache(const thrift_codegen::RObject& requestContext, const thrift_codegen::RObject& completionCallback) override;
+  void RequestContext_ClearHttpAuthCredentials(const thrift_codegen::RObject& requestContext, const thrift_codegen::RObject& completionCallback) override;
 
   bool RequestContext_HasPreference(const thrift_codegen::RObject& requestContext, const std::string& name) override;
   void RequestContext_GetPreference(thrift_codegen::CefValue& _return, const thrift_codegen::RObject& requestContext, const std::string& name) override;
