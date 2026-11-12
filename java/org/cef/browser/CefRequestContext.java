@@ -11,6 +11,7 @@ import org.cef.callback.CefCompletionCallback;
 import org.cef.callback.CefNativeAdapter;
 import org.cef.handler.CefLoadHandler;
 import org.cef.handler.CefRequestContextHandler;
+import org.cef.network.CefCookieManager;
 import org.cef.security.CefSSLInfo;
 
 import java.util.HashMap;
@@ -46,21 +47,87 @@ public abstract class CefRequestContext extends CefNativeAdapter {
     }
 
     /**
-     * Creates a new context object with the specified handler.
+     * Creates a new context object with the specified handler and default
+     * settings (empty cache path, i.e. in-memory "incognito" storage).
      */
     public static final CefRequestContext createContext(CefRequestContextHandler handler) {
-        if (CefApp.isRemoteEnabled())
-            return new RemoteRequestContext(CefApp.getInstance().getServer(), handler);
+        return createContext((CefRequestContextSettings) null, handler);
+    }
 
-        return CefRequestContext_N.createNative(handler);
+    /**
+     * Creates a new context object with the specified |settings| and optional
+     * |handler|. If |settings| is null the default values are used.
+     * <p>
+     * Note that {@link CefRequestContextSettings#cache_path} must be either
+     * empty (in-memory storage) or an absolute path that is equal to or a child
+     * directory of CefSettings.root_cache_path. Two contexts created with the
+     * same non-empty cache path share the same storage (see
+     * {@link #isSharingWith(CefRequestContext)}).
+     */
+    public static final CefRequestContext createContext(
+            CefRequestContextSettings settings, CefRequestContextHandler handler) {
+        if (CefApp.isRemoteEnabled())
+            return new RemoteRequestContext(CefApp.getInstance().getServer(), settings, handler);
+
+        return CefRequestContext_N.createNative(settings, handler);
+    }
+
+    /**
+     * Creates a new context object that shares storage (cookies, cache, local
+     * storage, etc.) with |other| and uses an optional |handler|. The storage
+     * lives as long as at least one context object (or browser) that refers to
+     * it is alive. Returns null if |other| is null or invalid.
+     */
+    public static final CefRequestContext createContext(
+            CefRequestContext other, CefRequestContextHandler handler) {
+        if (other == null)
+            return null;
+
+        if (CefApp.isRemoteEnabled())
+            return new RemoteRequestContext(CefApp.getInstance().getServer(), other, handler);
+
+        return CefRequestContext_N.createNative(other, handler);
     }
 
     public abstract void dispose();
 
     /**
+     * Returns true if this object is pointing to the same context as |other|
+     * object.
+     */
+    public boolean isSame(CefRequestContext other) {
+        return this == other;
+    }
+
+    /**
+     * Returns true if this object is sharing the same storage as |other| object.
+     */
+    public boolean isSharingWith(CefRequestContext other) {
+        return isSame(other);
+    }
+
+    /**
      * Returns true if this object is the global context.
      */
     public abstract boolean isGlobal();
+
+    /**
+     * Returns the cache path for this object. If empty an "incognito mode"
+     * in-memory cache is being used.
+     */
+    public String getCachePath() {
+        return "";
+    }
+
+    /**
+     * Returns the cookie manager for this object (null if not supported by the
+     * implementation). In the out-of-process mode the returned object becomes
+     * usable after the connection with the server is established (see
+     * CefApp#onInitialization).
+     */
+    public CefCookieManager getCookieManager() {
+        return null;
+    }
 
     /**
      * Returns the handler for this context if any.
@@ -131,4 +198,26 @@ public abstract class CefRequestContext extends CefNativeAdapter {
      * @param callback optional completion callback
      */
     public abstract void CloseAllConnections(CefCompletionCallback callback);
+
+    /**
+     * Clears all HTTP cache entries for this context (does not affect cookies,
+     * local storage or other DOM storage).
+     * If {@code callback} is non-null it will be executed on the UI thread after completion.
+     *
+     * @param callback optional completion callback
+     */
+    public void clearHttpCache(CefCompletionCallback callback) {
+        if (callback != null) callback.onComplete();
+    }
+
+    /**
+     * Clears all HTTP authentication credentials that were added as part of
+     * handling {@link org.cef.handler.CefRequestHandler#getAuthCredentials}.
+     * If {@code callback} is non-null it will be executed on the UI thread after completion.
+     *
+     * @param callback optional completion callback
+     */
+    public void clearHttpAuthCredentials(CefCompletionCallback callback) {
+        if (callback != null) callback.onComplete();
+    }
 }
