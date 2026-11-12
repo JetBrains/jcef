@@ -134,8 +134,15 @@ class ServerIf {
   virtual void SchemeHandlerFactory_Register(const std::string& schemeName, const std::string& domainName, const  ::thrift_codegen::RObject& schemeHandlerFactory) = 0;
   virtual void ClearAllSchemeHandlerFactories() = 0;
   virtual void RequestContext_GetGlobal( ::thrift_codegen::RObject& _return) = 0;
-  virtual void RequestContext_Create( ::thrift_codegen::RObject& _return, const  ::thrift_codegen::RObject& requestContextHandler) = 0;
+  virtual void RequestContext_Create( ::thrift_codegen::RObject& _return, const  ::thrift_codegen::RObject& requestContextHandler, const  ::thrift_codegen::RequestContextSettings& settings) = 0;
+  virtual void RequestContext_CreateShared( ::thrift_codegen::RObject& _return, const  ::thrift_codegen::RObject& other, const  ::thrift_codegen::RObject& requestContextHandler) = 0;
   virtual void RequestContext_Dispose(const  ::thrift_codegen::RObject& requestContext) = 0;
+  virtual bool RequestContext_IsSame(const  ::thrift_codegen::RObject& requestContext, const  ::thrift_codegen::RObject& other) = 0;
+  virtual bool RequestContext_IsSharingWith(const  ::thrift_codegen::RObject& requestContext, const  ::thrift_codegen::RObject& other) = 0;
+  virtual void RequestContext_GetCachePath(std::string& _return, const  ::thrift_codegen::RObject& requestContext) = 0;
+  virtual void RequestContext_GetCookieManager( ::thrift_codegen::RObject& _return, const  ::thrift_codegen::RObject& requestContext) = 0;
+  virtual void RequestContext_ClearHttpCache(const  ::thrift_codegen::RObject& requestContext, const  ::thrift_codegen::RObject& completionCallback) = 0;
+  virtual void RequestContext_ClearHttpAuthCredentials(const  ::thrift_codegen::RObject& requestContext, const  ::thrift_codegen::RObject& completionCallback) = 0;
   virtual bool RequestContext_HasPreference(const  ::thrift_codegen::RObject& requestContext, const std::string& name) = 0;
   virtual void RequestContext_GetPreference( ::thrift_codegen::CefValue& _return, const  ::thrift_codegen::RObject& requestContext, const std::string& name) = 0;
   virtual void RequestContext_GetAllPreferences(std::map<std::string,  ::thrift_codegen::CefValue> & _return, const  ::thrift_codegen::RObject& requestContext, const bool includeDefaults) = 0;
@@ -536,10 +543,33 @@ class ServerNull : virtual public ServerIf {
   void RequestContext_GetGlobal( ::thrift_codegen::RObject& /* _return */) override {
     return;
   }
-  void RequestContext_Create( ::thrift_codegen::RObject& /* _return */, const  ::thrift_codegen::RObject& /* requestContextHandler */) override {
+  void RequestContext_Create( ::thrift_codegen::RObject& /* _return */, const  ::thrift_codegen::RObject& /* requestContextHandler */, const  ::thrift_codegen::RequestContextSettings& /* settings */) override {
+    return;
+  }
+  void RequestContext_CreateShared( ::thrift_codegen::RObject& /* _return */, const  ::thrift_codegen::RObject& /* other */, const  ::thrift_codegen::RObject& /* requestContextHandler */) override {
     return;
   }
   void RequestContext_Dispose(const  ::thrift_codegen::RObject& /* requestContext */) override {
+    return;
+  }
+  bool RequestContext_IsSame(const  ::thrift_codegen::RObject& /* requestContext */, const  ::thrift_codegen::RObject& /* other */) override {
+    bool _return = false;
+    return _return;
+  }
+  bool RequestContext_IsSharingWith(const  ::thrift_codegen::RObject& /* requestContext */, const  ::thrift_codegen::RObject& /* other */) override {
+    bool _return = false;
+    return _return;
+  }
+  void RequestContext_GetCachePath(std::string& /* _return */, const  ::thrift_codegen::RObject& /* requestContext */) override {
+    return;
+  }
+  void RequestContext_GetCookieManager( ::thrift_codegen::RObject& /* _return */, const  ::thrift_codegen::RObject& /* requestContext */) override {
+    return;
+  }
+  void RequestContext_ClearHttpCache(const  ::thrift_codegen::RObject& /* requestContext */, const  ::thrift_codegen::RObject& /* completionCallback */) override {
+    return;
+  }
+  void RequestContext_ClearHttpAuthCredentials(const  ::thrift_codegen::RObject& /* requestContext */, const  ::thrift_codegen::RObject& /* completionCallback */) override {
     return;
   }
   bool RequestContext_HasPreference(const  ::thrift_codegen::RObject& /* requestContext */, const std::string& /* name */) override {
@@ -8269,8 +8299,9 @@ class Server_RequestContext_GetGlobal_presult {
 };
 
 typedef struct _Server_RequestContext_Create_args__isset {
-  _Server_RequestContext_Create_args__isset() : requestContextHandler(false) {}
+  _Server_RequestContext_Create_args__isset() : requestContextHandler(false), settings(false) {}
   bool requestContextHandler :1;
+  bool settings :1;
 } _Server_RequestContext_Create_args__isset;
 
 class Server_RequestContext_Create_args {
@@ -8282,10 +8313,13 @@ class Server_RequestContext_Create_args {
 
   virtual ~Server_RequestContext_Create_args() noexcept;
    ::thrift_codegen::RObject requestContextHandler;
+   ::thrift_codegen::RequestContextSettings settings;
 
   _Server_RequestContext_Create_args__isset __isset;
 
   void __set_requestContextHandler(const  ::thrift_codegen::RObject& val);
+
+  void __set_settings(const  ::thrift_codegen::RequestContextSettings& val);
 
   bool operator == (const Server_RequestContext_Create_args & rhs) const;
   bool operator != (const Server_RequestContext_Create_args &rhs) const {
@@ -8306,6 +8340,7 @@ class Server_RequestContext_Create_pargs {
 
   virtual ~Server_RequestContext_Create_pargs() noexcept;
   const  ::thrift_codegen::RObject* requestContextHandler;
+  const  ::thrift_codegen::RequestContextSettings* settings;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -8360,6 +8395,103 @@ class Server_RequestContext_Create_presult {
 
 };
 
+typedef struct _Server_RequestContext_CreateShared_args__isset {
+  _Server_RequestContext_CreateShared_args__isset() : other(false), requestContextHandler(false) {}
+  bool other :1;
+  bool requestContextHandler :1;
+} _Server_RequestContext_CreateShared_args__isset;
+
+class Server_RequestContext_CreateShared_args {
+ public:
+
+  Server_RequestContext_CreateShared_args(const Server_RequestContext_CreateShared_args&);
+  Server_RequestContext_CreateShared_args& operator=(const Server_RequestContext_CreateShared_args&);
+  Server_RequestContext_CreateShared_args() noexcept;
+
+  virtual ~Server_RequestContext_CreateShared_args() noexcept;
+   ::thrift_codegen::RObject other;
+   ::thrift_codegen::RObject requestContextHandler;
+
+  _Server_RequestContext_CreateShared_args__isset __isset;
+
+  void __set_other(const  ::thrift_codegen::RObject& val);
+
+  void __set_requestContextHandler(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const Server_RequestContext_CreateShared_args & rhs) const;
+  bool operator != (const Server_RequestContext_CreateShared_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_RequestContext_CreateShared_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_RequestContext_CreateShared_pargs {
+ public:
+
+
+  virtual ~Server_RequestContext_CreateShared_pargs() noexcept;
+  const  ::thrift_codegen::RObject* other;
+  const  ::thrift_codegen::RObject* requestContextHandler;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_RequestContext_CreateShared_result__isset {
+  _Server_RequestContext_CreateShared_result__isset() : success(false) {}
+  bool success :1;
+} _Server_RequestContext_CreateShared_result__isset;
+
+class Server_RequestContext_CreateShared_result {
+ public:
+
+  Server_RequestContext_CreateShared_result(const Server_RequestContext_CreateShared_result&);
+  Server_RequestContext_CreateShared_result& operator=(const Server_RequestContext_CreateShared_result&);
+  Server_RequestContext_CreateShared_result() noexcept;
+
+  virtual ~Server_RequestContext_CreateShared_result() noexcept;
+   ::thrift_codegen::RObject success;
+
+  _Server_RequestContext_CreateShared_result__isset __isset;
+
+  void __set_success(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const Server_RequestContext_CreateShared_result & rhs) const;
+  bool operator != (const Server_RequestContext_CreateShared_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_RequestContext_CreateShared_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_RequestContext_CreateShared_presult__isset {
+  _Server_RequestContext_CreateShared_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_RequestContext_CreateShared_presult__isset;
+
+class Server_RequestContext_CreateShared_presult {
+ public:
+
+
+  virtual ~Server_RequestContext_CreateShared_presult() noexcept;
+   ::thrift_codegen::RObject* success;
+
+  _Server_RequestContext_CreateShared_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
 typedef struct _Server_RequestContext_Dispose_args__isset {
   _Server_RequestContext_Dispose_args__isset() : requestContext(false) {}
   bool requestContext :1;
@@ -8398,6 +8530,480 @@ class Server_RequestContext_Dispose_pargs {
 
   virtual ~Server_RequestContext_Dispose_pargs() noexcept;
   const  ::thrift_codegen::RObject* requestContext;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_RequestContext_IsSame_args__isset {
+  _Server_RequestContext_IsSame_args__isset() : requestContext(false), other(false) {}
+  bool requestContext :1;
+  bool other :1;
+} _Server_RequestContext_IsSame_args__isset;
+
+class Server_RequestContext_IsSame_args {
+ public:
+
+  Server_RequestContext_IsSame_args(const Server_RequestContext_IsSame_args&);
+  Server_RequestContext_IsSame_args& operator=(const Server_RequestContext_IsSame_args&);
+  Server_RequestContext_IsSame_args() noexcept;
+
+  virtual ~Server_RequestContext_IsSame_args() noexcept;
+   ::thrift_codegen::RObject requestContext;
+   ::thrift_codegen::RObject other;
+
+  _Server_RequestContext_IsSame_args__isset __isset;
+
+  void __set_requestContext(const  ::thrift_codegen::RObject& val);
+
+  void __set_other(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const Server_RequestContext_IsSame_args & rhs) const;
+  bool operator != (const Server_RequestContext_IsSame_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_RequestContext_IsSame_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_RequestContext_IsSame_pargs {
+ public:
+
+
+  virtual ~Server_RequestContext_IsSame_pargs() noexcept;
+  const  ::thrift_codegen::RObject* requestContext;
+  const  ::thrift_codegen::RObject* other;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_RequestContext_IsSame_result__isset {
+  _Server_RequestContext_IsSame_result__isset() : success(false) {}
+  bool success :1;
+} _Server_RequestContext_IsSame_result__isset;
+
+class Server_RequestContext_IsSame_result {
+ public:
+
+  Server_RequestContext_IsSame_result(const Server_RequestContext_IsSame_result&) noexcept;
+  Server_RequestContext_IsSame_result& operator=(const Server_RequestContext_IsSame_result&) noexcept;
+  Server_RequestContext_IsSame_result() noexcept;
+
+  virtual ~Server_RequestContext_IsSame_result() noexcept;
+  bool success;
+
+  _Server_RequestContext_IsSame_result__isset __isset;
+
+  void __set_success(const bool val);
+
+  bool operator == (const Server_RequestContext_IsSame_result & rhs) const;
+  bool operator != (const Server_RequestContext_IsSame_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_RequestContext_IsSame_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_RequestContext_IsSame_presult__isset {
+  _Server_RequestContext_IsSame_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_RequestContext_IsSame_presult__isset;
+
+class Server_RequestContext_IsSame_presult {
+ public:
+
+
+  virtual ~Server_RequestContext_IsSame_presult() noexcept;
+  bool* success;
+
+  _Server_RequestContext_IsSame_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_RequestContext_IsSharingWith_args__isset {
+  _Server_RequestContext_IsSharingWith_args__isset() : requestContext(false), other(false) {}
+  bool requestContext :1;
+  bool other :1;
+} _Server_RequestContext_IsSharingWith_args__isset;
+
+class Server_RequestContext_IsSharingWith_args {
+ public:
+
+  Server_RequestContext_IsSharingWith_args(const Server_RequestContext_IsSharingWith_args&);
+  Server_RequestContext_IsSharingWith_args& operator=(const Server_RequestContext_IsSharingWith_args&);
+  Server_RequestContext_IsSharingWith_args() noexcept;
+
+  virtual ~Server_RequestContext_IsSharingWith_args() noexcept;
+   ::thrift_codegen::RObject requestContext;
+   ::thrift_codegen::RObject other;
+
+  _Server_RequestContext_IsSharingWith_args__isset __isset;
+
+  void __set_requestContext(const  ::thrift_codegen::RObject& val);
+
+  void __set_other(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const Server_RequestContext_IsSharingWith_args & rhs) const;
+  bool operator != (const Server_RequestContext_IsSharingWith_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_RequestContext_IsSharingWith_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_RequestContext_IsSharingWith_pargs {
+ public:
+
+
+  virtual ~Server_RequestContext_IsSharingWith_pargs() noexcept;
+  const  ::thrift_codegen::RObject* requestContext;
+  const  ::thrift_codegen::RObject* other;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_RequestContext_IsSharingWith_result__isset {
+  _Server_RequestContext_IsSharingWith_result__isset() : success(false) {}
+  bool success :1;
+} _Server_RequestContext_IsSharingWith_result__isset;
+
+class Server_RequestContext_IsSharingWith_result {
+ public:
+
+  Server_RequestContext_IsSharingWith_result(const Server_RequestContext_IsSharingWith_result&) noexcept;
+  Server_RequestContext_IsSharingWith_result& operator=(const Server_RequestContext_IsSharingWith_result&) noexcept;
+  Server_RequestContext_IsSharingWith_result() noexcept;
+
+  virtual ~Server_RequestContext_IsSharingWith_result() noexcept;
+  bool success;
+
+  _Server_RequestContext_IsSharingWith_result__isset __isset;
+
+  void __set_success(const bool val);
+
+  bool operator == (const Server_RequestContext_IsSharingWith_result & rhs) const;
+  bool operator != (const Server_RequestContext_IsSharingWith_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_RequestContext_IsSharingWith_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_RequestContext_IsSharingWith_presult__isset {
+  _Server_RequestContext_IsSharingWith_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_RequestContext_IsSharingWith_presult__isset;
+
+class Server_RequestContext_IsSharingWith_presult {
+ public:
+
+
+  virtual ~Server_RequestContext_IsSharingWith_presult() noexcept;
+  bool* success;
+
+  _Server_RequestContext_IsSharingWith_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_RequestContext_GetCachePath_args__isset {
+  _Server_RequestContext_GetCachePath_args__isset() : requestContext(false) {}
+  bool requestContext :1;
+} _Server_RequestContext_GetCachePath_args__isset;
+
+class Server_RequestContext_GetCachePath_args {
+ public:
+
+  Server_RequestContext_GetCachePath_args(const Server_RequestContext_GetCachePath_args&);
+  Server_RequestContext_GetCachePath_args& operator=(const Server_RequestContext_GetCachePath_args&);
+  Server_RequestContext_GetCachePath_args() noexcept;
+
+  virtual ~Server_RequestContext_GetCachePath_args() noexcept;
+   ::thrift_codegen::RObject requestContext;
+
+  _Server_RequestContext_GetCachePath_args__isset __isset;
+
+  void __set_requestContext(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const Server_RequestContext_GetCachePath_args & rhs) const;
+  bool operator != (const Server_RequestContext_GetCachePath_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_RequestContext_GetCachePath_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_RequestContext_GetCachePath_pargs {
+ public:
+
+
+  virtual ~Server_RequestContext_GetCachePath_pargs() noexcept;
+  const  ::thrift_codegen::RObject* requestContext;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_RequestContext_GetCachePath_result__isset {
+  _Server_RequestContext_GetCachePath_result__isset() : success(false) {}
+  bool success :1;
+} _Server_RequestContext_GetCachePath_result__isset;
+
+class Server_RequestContext_GetCachePath_result {
+ public:
+
+  Server_RequestContext_GetCachePath_result(const Server_RequestContext_GetCachePath_result&);
+  Server_RequestContext_GetCachePath_result& operator=(const Server_RequestContext_GetCachePath_result&);
+  Server_RequestContext_GetCachePath_result() noexcept;
+
+  virtual ~Server_RequestContext_GetCachePath_result() noexcept;
+  std::string success;
+
+  _Server_RequestContext_GetCachePath_result__isset __isset;
+
+  void __set_success(const std::string& val);
+
+  bool operator == (const Server_RequestContext_GetCachePath_result & rhs) const;
+  bool operator != (const Server_RequestContext_GetCachePath_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_RequestContext_GetCachePath_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_RequestContext_GetCachePath_presult__isset {
+  _Server_RequestContext_GetCachePath_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_RequestContext_GetCachePath_presult__isset;
+
+class Server_RequestContext_GetCachePath_presult {
+ public:
+
+
+  virtual ~Server_RequestContext_GetCachePath_presult() noexcept;
+  std::string* success;
+
+  _Server_RequestContext_GetCachePath_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_RequestContext_GetCookieManager_args__isset {
+  _Server_RequestContext_GetCookieManager_args__isset() : requestContext(false) {}
+  bool requestContext :1;
+} _Server_RequestContext_GetCookieManager_args__isset;
+
+class Server_RequestContext_GetCookieManager_args {
+ public:
+
+  Server_RequestContext_GetCookieManager_args(const Server_RequestContext_GetCookieManager_args&);
+  Server_RequestContext_GetCookieManager_args& operator=(const Server_RequestContext_GetCookieManager_args&);
+  Server_RequestContext_GetCookieManager_args() noexcept;
+
+  virtual ~Server_RequestContext_GetCookieManager_args() noexcept;
+   ::thrift_codegen::RObject requestContext;
+
+  _Server_RequestContext_GetCookieManager_args__isset __isset;
+
+  void __set_requestContext(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const Server_RequestContext_GetCookieManager_args & rhs) const;
+  bool operator != (const Server_RequestContext_GetCookieManager_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_RequestContext_GetCookieManager_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_RequestContext_GetCookieManager_pargs {
+ public:
+
+
+  virtual ~Server_RequestContext_GetCookieManager_pargs() noexcept;
+  const  ::thrift_codegen::RObject* requestContext;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_RequestContext_GetCookieManager_result__isset {
+  _Server_RequestContext_GetCookieManager_result__isset() : success(false) {}
+  bool success :1;
+} _Server_RequestContext_GetCookieManager_result__isset;
+
+class Server_RequestContext_GetCookieManager_result {
+ public:
+
+  Server_RequestContext_GetCookieManager_result(const Server_RequestContext_GetCookieManager_result&);
+  Server_RequestContext_GetCookieManager_result& operator=(const Server_RequestContext_GetCookieManager_result&);
+  Server_RequestContext_GetCookieManager_result() noexcept;
+
+  virtual ~Server_RequestContext_GetCookieManager_result() noexcept;
+   ::thrift_codegen::RObject success;
+
+  _Server_RequestContext_GetCookieManager_result__isset __isset;
+
+  void __set_success(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const Server_RequestContext_GetCookieManager_result & rhs) const;
+  bool operator != (const Server_RequestContext_GetCookieManager_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_RequestContext_GetCookieManager_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_RequestContext_GetCookieManager_presult__isset {
+  _Server_RequestContext_GetCookieManager_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_RequestContext_GetCookieManager_presult__isset;
+
+class Server_RequestContext_GetCookieManager_presult {
+ public:
+
+
+  virtual ~Server_RequestContext_GetCookieManager_presult() noexcept;
+   ::thrift_codegen::RObject* success;
+
+  _Server_RequestContext_GetCookieManager_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_RequestContext_ClearHttpCache_args__isset {
+  _Server_RequestContext_ClearHttpCache_args__isset() : requestContext(false), completionCallback(false) {}
+  bool requestContext :1;
+  bool completionCallback :1;
+} _Server_RequestContext_ClearHttpCache_args__isset;
+
+class Server_RequestContext_ClearHttpCache_args {
+ public:
+
+  Server_RequestContext_ClearHttpCache_args(const Server_RequestContext_ClearHttpCache_args&);
+  Server_RequestContext_ClearHttpCache_args& operator=(const Server_RequestContext_ClearHttpCache_args&);
+  Server_RequestContext_ClearHttpCache_args() noexcept;
+
+  virtual ~Server_RequestContext_ClearHttpCache_args() noexcept;
+   ::thrift_codegen::RObject requestContext;
+   ::thrift_codegen::RObject completionCallback;
+
+  _Server_RequestContext_ClearHttpCache_args__isset __isset;
+
+  void __set_requestContext(const  ::thrift_codegen::RObject& val);
+
+  void __set_completionCallback(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const Server_RequestContext_ClearHttpCache_args & rhs) const;
+  bool operator != (const Server_RequestContext_ClearHttpCache_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_RequestContext_ClearHttpCache_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_RequestContext_ClearHttpCache_pargs {
+ public:
+
+
+  virtual ~Server_RequestContext_ClearHttpCache_pargs() noexcept;
+  const  ::thrift_codegen::RObject* requestContext;
+  const  ::thrift_codegen::RObject* completionCallback;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_RequestContext_ClearHttpAuthCredentials_args__isset {
+  _Server_RequestContext_ClearHttpAuthCredentials_args__isset() : requestContext(false), completionCallback(false) {}
+  bool requestContext :1;
+  bool completionCallback :1;
+} _Server_RequestContext_ClearHttpAuthCredentials_args__isset;
+
+class Server_RequestContext_ClearHttpAuthCredentials_args {
+ public:
+
+  Server_RequestContext_ClearHttpAuthCredentials_args(const Server_RequestContext_ClearHttpAuthCredentials_args&);
+  Server_RequestContext_ClearHttpAuthCredentials_args& operator=(const Server_RequestContext_ClearHttpAuthCredentials_args&);
+  Server_RequestContext_ClearHttpAuthCredentials_args() noexcept;
+
+  virtual ~Server_RequestContext_ClearHttpAuthCredentials_args() noexcept;
+   ::thrift_codegen::RObject requestContext;
+   ::thrift_codegen::RObject completionCallback;
+
+  _Server_RequestContext_ClearHttpAuthCredentials_args__isset __isset;
+
+  void __set_requestContext(const  ::thrift_codegen::RObject& val);
+
+  void __set_completionCallback(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const Server_RequestContext_ClearHttpAuthCredentials_args & rhs) const;
+  bool operator != (const Server_RequestContext_ClearHttpAuthCredentials_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_RequestContext_ClearHttpAuthCredentials_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_RequestContext_ClearHttpAuthCredentials_pargs {
+ public:
+
+
+  virtual ~Server_RequestContext_ClearHttpAuthCredentials_pargs() noexcept;
+  const  ::thrift_codegen::RObject* requestContext;
+  const  ::thrift_codegen::RObject* completionCallback;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -10332,11 +10938,30 @@ class ServerClient : virtual public ServerIf {
   void RequestContext_GetGlobal( ::thrift_codegen::RObject& _return) override;
   void send_RequestContext_GetGlobal();
   void recv_RequestContext_GetGlobal( ::thrift_codegen::RObject& _return);
-  void RequestContext_Create( ::thrift_codegen::RObject& _return, const  ::thrift_codegen::RObject& requestContextHandler) override;
-  void send_RequestContext_Create(const  ::thrift_codegen::RObject& requestContextHandler);
+  void RequestContext_Create( ::thrift_codegen::RObject& _return, const  ::thrift_codegen::RObject& requestContextHandler, const  ::thrift_codegen::RequestContextSettings& settings) override;
+  void send_RequestContext_Create(const  ::thrift_codegen::RObject& requestContextHandler, const  ::thrift_codegen::RequestContextSettings& settings);
   void recv_RequestContext_Create( ::thrift_codegen::RObject& _return);
+  void RequestContext_CreateShared( ::thrift_codegen::RObject& _return, const  ::thrift_codegen::RObject& other, const  ::thrift_codegen::RObject& requestContextHandler) override;
+  void send_RequestContext_CreateShared(const  ::thrift_codegen::RObject& other, const  ::thrift_codegen::RObject& requestContextHandler);
+  void recv_RequestContext_CreateShared( ::thrift_codegen::RObject& _return);
   void RequestContext_Dispose(const  ::thrift_codegen::RObject& requestContext) override;
   void send_RequestContext_Dispose(const  ::thrift_codegen::RObject& requestContext);
+  bool RequestContext_IsSame(const  ::thrift_codegen::RObject& requestContext, const  ::thrift_codegen::RObject& other) override;
+  void send_RequestContext_IsSame(const  ::thrift_codegen::RObject& requestContext, const  ::thrift_codegen::RObject& other);
+  bool recv_RequestContext_IsSame();
+  bool RequestContext_IsSharingWith(const  ::thrift_codegen::RObject& requestContext, const  ::thrift_codegen::RObject& other) override;
+  void send_RequestContext_IsSharingWith(const  ::thrift_codegen::RObject& requestContext, const  ::thrift_codegen::RObject& other);
+  bool recv_RequestContext_IsSharingWith();
+  void RequestContext_GetCachePath(std::string& _return, const  ::thrift_codegen::RObject& requestContext) override;
+  void send_RequestContext_GetCachePath(const  ::thrift_codegen::RObject& requestContext);
+  void recv_RequestContext_GetCachePath(std::string& _return);
+  void RequestContext_GetCookieManager( ::thrift_codegen::RObject& _return, const  ::thrift_codegen::RObject& requestContext) override;
+  void send_RequestContext_GetCookieManager(const  ::thrift_codegen::RObject& requestContext);
+  void recv_RequestContext_GetCookieManager( ::thrift_codegen::RObject& _return);
+  void RequestContext_ClearHttpCache(const  ::thrift_codegen::RObject& requestContext, const  ::thrift_codegen::RObject& completionCallback) override;
+  void send_RequestContext_ClearHttpCache(const  ::thrift_codegen::RObject& requestContext, const  ::thrift_codegen::RObject& completionCallback);
+  void RequestContext_ClearHttpAuthCredentials(const  ::thrift_codegen::RObject& requestContext, const  ::thrift_codegen::RObject& completionCallback) override;
+  void send_RequestContext_ClearHttpAuthCredentials(const  ::thrift_codegen::RObject& requestContext, const  ::thrift_codegen::RObject& completionCallback);
   bool RequestContext_HasPreference(const  ::thrift_codegen::RObject& requestContext, const std::string& name) override;
   void send_RequestContext_HasPreference(const  ::thrift_codegen::RObject& requestContext, const std::string& name);
   bool recv_RequestContext_HasPreference();
@@ -10522,7 +11147,14 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
   void process_ClearAllSchemeHandlerFactories(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_RequestContext_GetGlobal(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_RequestContext_Create(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_RequestContext_CreateShared(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_RequestContext_Dispose(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_RequestContext_IsSame(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_RequestContext_IsSharingWith(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_RequestContext_GetCachePath(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_RequestContext_GetCookieManager(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_RequestContext_ClearHttpCache(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_RequestContext_ClearHttpAuthCredentials(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_RequestContext_HasPreference(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_RequestContext_GetPreference(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_RequestContext_GetAllPreferences(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -10662,7 +11294,14 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
     processMap_["ClearAllSchemeHandlerFactories"] = &ServerProcessor::process_ClearAllSchemeHandlerFactories;
     processMap_["RequestContext_GetGlobal"] = &ServerProcessor::process_RequestContext_GetGlobal;
     processMap_["RequestContext_Create"] = &ServerProcessor::process_RequestContext_Create;
+    processMap_["RequestContext_CreateShared"] = &ServerProcessor::process_RequestContext_CreateShared;
     processMap_["RequestContext_Dispose"] = &ServerProcessor::process_RequestContext_Dispose;
+    processMap_["RequestContext_IsSame"] = &ServerProcessor::process_RequestContext_IsSame;
+    processMap_["RequestContext_IsSharingWith"] = &ServerProcessor::process_RequestContext_IsSharingWith;
+    processMap_["RequestContext_GetCachePath"] = &ServerProcessor::process_RequestContext_GetCachePath;
+    processMap_["RequestContext_GetCookieManager"] = &ServerProcessor::process_RequestContext_GetCookieManager;
+    processMap_["RequestContext_ClearHttpCache"] = &ServerProcessor::process_RequestContext_ClearHttpCache;
+    processMap_["RequestContext_ClearHttpAuthCredentials"] = &ServerProcessor::process_RequestContext_ClearHttpAuthCredentials;
     processMap_["RequestContext_HasPreference"] = &ServerProcessor::process_RequestContext_HasPreference;
     processMap_["RequestContext_GetPreference"] = &ServerProcessor::process_RequestContext_GetPreference;
     processMap_["RequestContext_GetAllPreferences"] = &ServerProcessor::process_RequestContext_GetAllPreferences;
@@ -11741,13 +12380,23 @@ class ServerMultiface : virtual public ServerIf {
     return;
   }
 
-  void RequestContext_Create( ::thrift_codegen::RObject& _return, const  ::thrift_codegen::RObject& requestContextHandler) override {
+  void RequestContext_Create( ::thrift_codegen::RObject& _return, const  ::thrift_codegen::RObject& requestContextHandler, const  ::thrift_codegen::RequestContextSettings& settings) override {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->RequestContext_Create(_return, requestContextHandler);
+      ifaces_[i]->RequestContext_Create(_return, requestContextHandler, settings);
     }
-    ifaces_[i]->RequestContext_Create(_return, requestContextHandler);
+    ifaces_[i]->RequestContext_Create(_return, requestContextHandler, settings);
+    return;
+  }
+
+  void RequestContext_CreateShared( ::thrift_codegen::RObject& _return, const  ::thrift_codegen::RObject& other, const  ::thrift_codegen::RObject& requestContextHandler) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->RequestContext_CreateShared(_return, other, requestContextHandler);
+    }
+    ifaces_[i]->RequestContext_CreateShared(_return, other, requestContextHandler);
     return;
   }
 
@@ -11758,6 +12407,62 @@ class ServerMultiface : virtual public ServerIf {
       ifaces_[i]->RequestContext_Dispose(requestContext);
     }
     ifaces_[i]->RequestContext_Dispose(requestContext);
+  }
+
+  bool RequestContext_IsSame(const  ::thrift_codegen::RObject& requestContext, const  ::thrift_codegen::RObject& other) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->RequestContext_IsSame(requestContext, other);
+    }
+    return ifaces_[i]->RequestContext_IsSame(requestContext, other);
+  }
+
+  bool RequestContext_IsSharingWith(const  ::thrift_codegen::RObject& requestContext, const  ::thrift_codegen::RObject& other) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->RequestContext_IsSharingWith(requestContext, other);
+    }
+    return ifaces_[i]->RequestContext_IsSharingWith(requestContext, other);
+  }
+
+  void RequestContext_GetCachePath(std::string& _return, const  ::thrift_codegen::RObject& requestContext) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->RequestContext_GetCachePath(_return, requestContext);
+    }
+    ifaces_[i]->RequestContext_GetCachePath(_return, requestContext);
+    return;
+  }
+
+  void RequestContext_GetCookieManager( ::thrift_codegen::RObject& _return, const  ::thrift_codegen::RObject& requestContext) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->RequestContext_GetCookieManager(_return, requestContext);
+    }
+    ifaces_[i]->RequestContext_GetCookieManager(_return, requestContext);
+    return;
+  }
+
+  void RequestContext_ClearHttpCache(const  ::thrift_codegen::RObject& requestContext, const  ::thrift_codegen::RObject& completionCallback) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->RequestContext_ClearHttpCache(requestContext, completionCallback);
+    }
+    ifaces_[i]->RequestContext_ClearHttpCache(requestContext, completionCallback);
+  }
+
+  void RequestContext_ClearHttpAuthCredentials(const  ::thrift_codegen::RObject& requestContext, const  ::thrift_codegen::RObject& completionCallback) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->RequestContext_ClearHttpAuthCredentials(requestContext, completionCallback);
+    }
+    ifaces_[i]->RequestContext_ClearHttpAuthCredentials(requestContext, completionCallback);
   }
 
   bool RequestContext_HasPreference(const  ::thrift_codegen::RObject& requestContext, const std::string& name) override {
@@ -12284,11 +12989,30 @@ class ServerConcurrentClient : virtual public ServerIf {
   void RequestContext_GetGlobal( ::thrift_codegen::RObject& _return) override;
   int32_t send_RequestContext_GetGlobal();
   void recv_RequestContext_GetGlobal( ::thrift_codegen::RObject& _return, const int32_t seqid);
-  void RequestContext_Create( ::thrift_codegen::RObject& _return, const  ::thrift_codegen::RObject& requestContextHandler) override;
-  int32_t send_RequestContext_Create(const  ::thrift_codegen::RObject& requestContextHandler);
+  void RequestContext_Create( ::thrift_codegen::RObject& _return, const  ::thrift_codegen::RObject& requestContextHandler, const  ::thrift_codegen::RequestContextSettings& settings) override;
+  int32_t send_RequestContext_Create(const  ::thrift_codegen::RObject& requestContextHandler, const  ::thrift_codegen::RequestContextSettings& settings);
   void recv_RequestContext_Create( ::thrift_codegen::RObject& _return, const int32_t seqid);
+  void RequestContext_CreateShared( ::thrift_codegen::RObject& _return, const  ::thrift_codegen::RObject& other, const  ::thrift_codegen::RObject& requestContextHandler) override;
+  int32_t send_RequestContext_CreateShared(const  ::thrift_codegen::RObject& other, const  ::thrift_codegen::RObject& requestContextHandler);
+  void recv_RequestContext_CreateShared( ::thrift_codegen::RObject& _return, const int32_t seqid);
   void RequestContext_Dispose(const  ::thrift_codegen::RObject& requestContext) override;
   void send_RequestContext_Dispose(const  ::thrift_codegen::RObject& requestContext);
+  bool RequestContext_IsSame(const  ::thrift_codegen::RObject& requestContext, const  ::thrift_codegen::RObject& other) override;
+  int32_t send_RequestContext_IsSame(const  ::thrift_codegen::RObject& requestContext, const  ::thrift_codegen::RObject& other);
+  bool recv_RequestContext_IsSame(const int32_t seqid);
+  bool RequestContext_IsSharingWith(const  ::thrift_codegen::RObject& requestContext, const  ::thrift_codegen::RObject& other) override;
+  int32_t send_RequestContext_IsSharingWith(const  ::thrift_codegen::RObject& requestContext, const  ::thrift_codegen::RObject& other);
+  bool recv_RequestContext_IsSharingWith(const int32_t seqid);
+  void RequestContext_GetCachePath(std::string& _return, const  ::thrift_codegen::RObject& requestContext) override;
+  int32_t send_RequestContext_GetCachePath(const  ::thrift_codegen::RObject& requestContext);
+  void recv_RequestContext_GetCachePath(std::string& _return, const int32_t seqid);
+  void RequestContext_GetCookieManager( ::thrift_codegen::RObject& _return, const  ::thrift_codegen::RObject& requestContext) override;
+  int32_t send_RequestContext_GetCookieManager(const  ::thrift_codegen::RObject& requestContext);
+  void recv_RequestContext_GetCookieManager( ::thrift_codegen::RObject& _return, const int32_t seqid);
+  void RequestContext_ClearHttpCache(const  ::thrift_codegen::RObject& requestContext, const  ::thrift_codegen::RObject& completionCallback) override;
+  void send_RequestContext_ClearHttpCache(const  ::thrift_codegen::RObject& requestContext, const  ::thrift_codegen::RObject& completionCallback);
+  void RequestContext_ClearHttpAuthCredentials(const  ::thrift_codegen::RObject& requestContext, const  ::thrift_codegen::RObject& completionCallback) override;
+  void send_RequestContext_ClearHttpAuthCredentials(const  ::thrift_codegen::RObject& requestContext, const  ::thrift_codegen::RObject& completionCallback);
   bool RequestContext_HasPreference(const  ::thrift_codegen::RObject& requestContext, const std::string& name) override;
   int32_t send_RequestContext_HasPreference(const  ::thrift_codegen::RObject& requestContext, const std::string& name);
   bool recv_RequestContext_HasPreference(const int32_t seqid);
