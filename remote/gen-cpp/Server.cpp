@@ -16579,6 +16579,14 @@ uint32_t Server_RequestContext_Create_args::read(::apache::thrift::protocol::TPr
           xfer += iprot->skip(ftype);
         }
         break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->settings.read(iprot);
+          this->__isset.settings = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -16600,6 +16608,10 @@ uint32_t Server_RequestContext_Create_args::write(::apache::thrift::protocol::TP
   xfer += this->requestContextHandler.write(oprot);
   xfer += oprot->writeFieldEnd();
 
+  xfer += oprot->writeFieldBegin("settings", ::apache::thrift::protocol::T_STRUCT, 2);
+  xfer += this->settings.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -16617,6 +16629,10 @@ uint32_t Server_RequestContext_Create_pargs::write(::apache::thrift::protocol::T
 
   xfer += oprot->writeFieldBegin("requestContextHandler", ::apache::thrift::protocol::T_STRUCT, 1);
   xfer += (*(this->requestContextHandler)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("settings", ::apache::thrift::protocol::T_STRUCT, 2);
+  xfer += (*(this->settings)).write(oprot);
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -16735,6 +16751,213 @@ uint32_t Server_RequestContext_Create_presult::read(::apache::thrift::protocol::
 }
 
 
+Server_RequestContext_CreateShared_args::~Server_RequestContext_CreateShared_args() noexcept {
+}
+
+Server_RequestContext_CreateShared_args::Server_RequestContext_CreateShared_args() noexcept {
+}
+
+uint32_t Server_RequestContext_CreateShared_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->other.read(iprot);
+          this->__isset.other = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->requestContextHandler.read(iprot);
+          this->__isset.requestContextHandler = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Server_RequestContext_CreateShared_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_RequestContext_CreateShared_args");
+
+  xfer += oprot->writeFieldBegin("other", ::apache::thrift::protocol::T_STRUCT, 1);
+  xfer += this->other.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("requestContextHandler", ::apache::thrift::protocol::T_STRUCT, 2);
+  xfer += this->requestContextHandler.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_RequestContext_CreateShared_pargs::~Server_RequestContext_CreateShared_pargs() noexcept {
+}
+
+
+uint32_t Server_RequestContext_CreateShared_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_RequestContext_CreateShared_pargs");
+
+  xfer += oprot->writeFieldBegin("other", ::apache::thrift::protocol::T_STRUCT, 1);
+  xfer += (*(this->other)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("requestContextHandler", ::apache::thrift::protocol::T_STRUCT, 2);
+  xfer += (*(this->requestContextHandler)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_RequestContext_CreateShared_result::~Server_RequestContext_CreateShared_result() noexcept {
+}
+
+Server_RequestContext_CreateShared_result::Server_RequestContext_CreateShared_result() noexcept {
+}
+
+uint32_t Server_RequestContext_CreateShared_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->success.read(iprot);
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Server_RequestContext_CreateShared_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("Server_RequestContext_CreateShared_result");
+
+  if (this->__isset.success) {
+    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_STRUCT, 0);
+    xfer += this->success.write(oprot);
+    xfer += oprot->writeFieldEnd();
+  }
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_RequestContext_CreateShared_presult::~Server_RequestContext_CreateShared_presult() noexcept {
+}
+
+
+uint32_t Server_RequestContext_CreateShared_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += (*(this->success)).read(iprot);
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+
 Server_RequestContext_Dispose_args::~Server_RequestContext_Dispose_args() noexcept {
 }
 
@@ -16808,6 +17031,999 @@ uint32_t Server_RequestContext_Dispose_pargs::write(::apache::thrift::protocol::
 
   xfer += oprot->writeFieldBegin("requestContext", ::apache::thrift::protocol::T_STRUCT, 1);
   xfer += (*(this->requestContext)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_RequestContext_IsSame_args::~Server_RequestContext_IsSame_args() noexcept {
+}
+
+Server_RequestContext_IsSame_args::Server_RequestContext_IsSame_args() noexcept {
+}
+
+uint32_t Server_RequestContext_IsSame_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->requestContext.read(iprot);
+          this->__isset.requestContext = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->other.read(iprot);
+          this->__isset.other = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Server_RequestContext_IsSame_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_RequestContext_IsSame_args");
+
+  xfer += oprot->writeFieldBegin("requestContext", ::apache::thrift::protocol::T_STRUCT, 1);
+  xfer += this->requestContext.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("other", ::apache::thrift::protocol::T_STRUCT, 2);
+  xfer += this->other.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_RequestContext_IsSame_pargs::~Server_RequestContext_IsSame_pargs() noexcept {
+}
+
+
+uint32_t Server_RequestContext_IsSame_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_RequestContext_IsSame_pargs");
+
+  xfer += oprot->writeFieldBegin("requestContext", ::apache::thrift::protocol::T_STRUCT, 1);
+  xfer += (*(this->requestContext)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("other", ::apache::thrift::protocol::T_STRUCT, 2);
+  xfer += (*(this->other)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_RequestContext_IsSame_result::~Server_RequestContext_IsSame_result() noexcept {
+}
+
+Server_RequestContext_IsSame_result::Server_RequestContext_IsSame_result() noexcept
+   : success(0) {
+}
+
+uint32_t Server_RequestContext_IsSame_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->success);
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Server_RequestContext_IsSame_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("Server_RequestContext_IsSame_result");
+
+  if (this->__isset.success) {
+    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_BOOL, 0);
+    xfer += oprot->writeBool(this->success);
+    xfer += oprot->writeFieldEnd();
+  }
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_RequestContext_IsSame_presult::~Server_RequestContext_IsSame_presult() noexcept {
+}
+
+
+uint32_t Server_RequestContext_IsSame_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool((*(this->success)));
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+
+Server_RequestContext_IsSharingWith_args::~Server_RequestContext_IsSharingWith_args() noexcept {
+}
+
+Server_RequestContext_IsSharingWith_args::Server_RequestContext_IsSharingWith_args() noexcept {
+}
+
+uint32_t Server_RequestContext_IsSharingWith_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->requestContext.read(iprot);
+          this->__isset.requestContext = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->other.read(iprot);
+          this->__isset.other = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Server_RequestContext_IsSharingWith_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_RequestContext_IsSharingWith_args");
+
+  xfer += oprot->writeFieldBegin("requestContext", ::apache::thrift::protocol::T_STRUCT, 1);
+  xfer += this->requestContext.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("other", ::apache::thrift::protocol::T_STRUCT, 2);
+  xfer += this->other.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_RequestContext_IsSharingWith_pargs::~Server_RequestContext_IsSharingWith_pargs() noexcept {
+}
+
+
+uint32_t Server_RequestContext_IsSharingWith_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_RequestContext_IsSharingWith_pargs");
+
+  xfer += oprot->writeFieldBegin("requestContext", ::apache::thrift::protocol::T_STRUCT, 1);
+  xfer += (*(this->requestContext)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("other", ::apache::thrift::protocol::T_STRUCT, 2);
+  xfer += (*(this->other)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_RequestContext_IsSharingWith_result::~Server_RequestContext_IsSharingWith_result() noexcept {
+}
+
+Server_RequestContext_IsSharingWith_result::Server_RequestContext_IsSharingWith_result() noexcept
+   : success(0) {
+}
+
+uint32_t Server_RequestContext_IsSharingWith_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->success);
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Server_RequestContext_IsSharingWith_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("Server_RequestContext_IsSharingWith_result");
+
+  if (this->__isset.success) {
+    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_BOOL, 0);
+    xfer += oprot->writeBool(this->success);
+    xfer += oprot->writeFieldEnd();
+  }
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_RequestContext_IsSharingWith_presult::~Server_RequestContext_IsSharingWith_presult() noexcept {
+}
+
+
+uint32_t Server_RequestContext_IsSharingWith_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool((*(this->success)));
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+
+Server_RequestContext_GetCachePath_args::~Server_RequestContext_GetCachePath_args() noexcept {
+}
+
+Server_RequestContext_GetCachePath_args::Server_RequestContext_GetCachePath_args() noexcept {
+}
+
+uint32_t Server_RequestContext_GetCachePath_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->requestContext.read(iprot);
+          this->__isset.requestContext = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Server_RequestContext_GetCachePath_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_RequestContext_GetCachePath_args");
+
+  xfer += oprot->writeFieldBegin("requestContext", ::apache::thrift::protocol::T_STRUCT, 1);
+  xfer += this->requestContext.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_RequestContext_GetCachePath_pargs::~Server_RequestContext_GetCachePath_pargs() noexcept {
+}
+
+
+uint32_t Server_RequestContext_GetCachePath_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_RequestContext_GetCachePath_pargs");
+
+  xfer += oprot->writeFieldBegin("requestContext", ::apache::thrift::protocol::T_STRUCT, 1);
+  xfer += (*(this->requestContext)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_RequestContext_GetCachePath_result::~Server_RequestContext_GetCachePath_result() noexcept {
+}
+
+Server_RequestContext_GetCachePath_result::Server_RequestContext_GetCachePath_result() noexcept
+   : success() {
+}
+
+uint32_t Server_RequestContext_GetCachePath_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->success);
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Server_RequestContext_GetCachePath_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("Server_RequestContext_GetCachePath_result");
+
+  if (this->__isset.success) {
+    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_STRING, 0);
+    xfer += oprot->writeString(this->success);
+    xfer += oprot->writeFieldEnd();
+  }
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_RequestContext_GetCachePath_presult::~Server_RequestContext_GetCachePath_presult() noexcept {
+}
+
+
+uint32_t Server_RequestContext_GetCachePath_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString((*(this->success)));
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+
+Server_RequestContext_GetCookieManager_args::~Server_RequestContext_GetCookieManager_args() noexcept {
+}
+
+Server_RequestContext_GetCookieManager_args::Server_RequestContext_GetCookieManager_args() noexcept {
+}
+
+uint32_t Server_RequestContext_GetCookieManager_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->requestContext.read(iprot);
+          this->__isset.requestContext = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Server_RequestContext_GetCookieManager_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_RequestContext_GetCookieManager_args");
+
+  xfer += oprot->writeFieldBegin("requestContext", ::apache::thrift::protocol::T_STRUCT, 1);
+  xfer += this->requestContext.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_RequestContext_GetCookieManager_pargs::~Server_RequestContext_GetCookieManager_pargs() noexcept {
+}
+
+
+uint32_t Server_RequestContext_GetCookieManager_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_RequestContext_GetCookieManager_pargs");
+
+  xfer += oprot->writeFieldBegin("requestContext", ::apache::thrift::protocol::T_STRUCT, 1);
+  xfer += (*(this->requestContext)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_RequestContext_GetCookieManager_result::~Server_RequestContext_GetCookieManager_result() noexcept {
+}
+
+Server_RequestContext_GetCookieManager_result::Server_RequestContext_GetCookieManager_result() noexcept {
+}
+
+uint32_t Server_RequestContext_GetCookieManager_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->success.read(iprot);
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Server_RequestContext_GetCookieManager_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("Server_RequestContext_GetCookieManager_result");
+
+  if (this->__isset.success) {
+    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_STRUCT, 0);
+    xfer += this->success.write(oprot);
+    xfer += oprot->writeFieldEnd();
+  }
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_RequestContext_GetCookieManager_presult::~Server_RequestContext_GetCookieManager_presult() noexcept {
+}
+
+
+uint32_t Server_RequestContext_GetCookieManager_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += (*(this->success)).read(iprot);
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+
+Server_RequestContext_ClearHttpCache_args::~Server_RequestContext_ClearHttpCache_args() noexcept {
+}
+
+Server_RequestContext_ClearHttpCache_args::Server_RequestContext_ClearHttpCache_args() noexcept {
+}
+
+uint32_t Server_RequestContext_ClearHttpCache_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->requestContext.read(iprot);
+          this->__isset.requestContext = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->completionCallback.read(iprot);
+          this->__isset.completionCallback = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Server_RequestContext_ClearHttpCache_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_RequestContext_ClearHttpCache_args");
+
+  xfer += oprot->writeFieldBegin("requestContext", ::apache::thrift::protocol::T_STRUCT, 1);
+  xfer += this->requestContext.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("completionCallback", ::apache::thrift::protocol::T_STRUCT, 2);
+  xfer += this->completionCallback.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_RequestContext_ClearHttpCache_pargs::~Server_RequestContext_ClearHttpCache_pargs() noexcept {
+}
+
+
+uint32_t Server_RequestContext_ClearHttpCache_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_RequestContext_ClearHttpCache_pargs");
+
+  xfer += oprot->writeFieldBegin("requestContext", ::apache::thrift::protocol::T_STRUCT, 1);
+  xfer += (*(this->requestContext)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("completionCallback", ::apache::thrift::protocol::T_STRUCT, 2);
+  xfer += (*(this->completionCallback)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_RequestContext_ClearHttpAuthCredentials_args::~Server_RequestContext_ClearHttpAuthCredentials_args() noexcept {
+}
+
+Server_RequestContext_ClearHttpAuthCredentials_args::Server_RequestContext_ClearHttpAuthCredentials_args() noexcept {
+}
+
+uint32_t Server_RequestContext_ClearHttpAuthCredentials_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->requestContext.read(iprot);
+          this->__isset.requestContext = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->completionCallback.read(iprot);
+          this->__isset.completionCallback = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Server_RequestContext_ClearHttpAuthCredentials_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_RequestContext_ClearHttpAuthCredentials_args");
+
+  xfer += oprot->writeFieldBegin("requestContext", ::apache::thrift::protocol::T_STRUCT, 1);
+  xfer += this->requestContext.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("completionCallback", ::apache::thrift::protocol::T_STRUCT, 2);
+  xfer += this->completionCallback.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_RequestContext_ClearHttpAuthCredentials_pargs::~Server_RequestContext_ClearHttpAuthCredentials_pargs() noexcept {
+}
+
+
+uint32_t Server_RequestContext_ClearHttpAuthCredentials_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_RequestContext_ClearHttpAuthCredentials_pargs");
+
+  xfer += oprot->writeFieldBegin("requestContext", ::apache::thrift::protocol::T_STRUCT, 1);
+  xfer += (*(this->requestContext)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("completionCallback", ::apache::thrift::protocol::T_STRUCT, 2);
+  xfer += (*(this->completionCallback)).write(oprot);
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -24607,19 +25823,20 @@ void ServerClient::recv_RequestContext_GetGlobal( ::thrift_codegen::RObject& _re
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "RequestContext_GetGlobal failed: unknown result");
 }
 
-void ServerClient::RequestContext_Create( ::thrift_codegen::RObject& _return, const  ::thrift_codegen::RObject& requestContextHandler)
+void ServerClient::RequestContext_Create( ::thrift_codegen::RObject& _return, const  ::thrift_codegen::RObject& requestContextHandler, const  ::thrift_codegen::RequestContextSettings& settings)
 {
-  send_RequestContext_Create(requestContextHandler);
+  send_RequestContext_Create(requestContextHandler, settings);
   recv_RequestContext_Create(_return);
 }
 
-void ServerClient::send_RequestContext_Create(const  ::thrift_codegen::RObject& requestContextHandler)
+void ServerClient::send_RequestContext_Create(const  ::thrift_codegen::RObject& requestContextHandler, const  ::thrift_codegen::RequestContextSettings& settings)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("RequestContext_Create", ::apache::thrift::protocol::T_CALL, cseqid);
 
   Server_RequestContext_Create_pargs args;
   args.requestContextHandler = &requestContextHandler;
+  args.settings = &settings;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -24665,6 +25882,65 @@ void ServerClient::recv_RequestContext_Create( ::thrift_codegen::RObject& _retur
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "RequestContext_Create failed: unknown result");
 }
 
+void ServerClient::RequestContext_CreateShared( ::thrift_codegen::RObject& _return, const  ::thrift_codegen::RObject& other, const  ::thrift_codegen::RObject& requestContextHandler)
+{
+  send_RequestContext_CreateShared(other, requestContextHandler);
+  recv_RequestContext_CreateShared(_return);
+}
+
+void ServerClient::send_RequestContext_CreateShared(const  ::thrift_codegen::RObject& other, const  ::thrift_codegen::RObject& requestContextHandler)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("RequestContext_CreateShared", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  Server_RequestContext_CreateShared_pargs args;
+  args.other = &other;
+  args.requestContextHandler = &requestContextHandler;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void ServerClient::recv_RequestContext_CreateShared( ::thrift_codegen::RObject& _return)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("RequestContext_CreateShared") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  Server_RequestContext_CreateShared_presult result;
+  result.success = &_return;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  if (result.__isset.success) {
+    // _return pointer has now been filled
+    return;
+  }
+  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "RequestContext_CreateShared failed: unknown result");
+}
+
 void ServerClient::RequestContext_Dispose(const  ::thrift_codegen::RObject& requestContext)
 {
   send_RequestContext_Dispose(requestContext);
@@ -24677,6 +25953,280 @@ void ServerClient::send_RequestContext_Dispose(const  ::thrift_codegen::RObject&
 
   Server_RequestContext_Dispose_pargs args;
   args.requestContext = &requestContext;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+bool ServerClient::RequestContext_IsSame(const  ::thrift_codegen::RObject& requestContext, const  ::thrift_codegen::RObject& other)
+{
+  send_RequestContext_IsSame(requestContext, other);
+  return recv_RequestContext_IsSame();
+}
+
+void ServerClient::send_RequestContext_IsSame(const  ::thrift_codegen::RObject& requestContext, const  ::thrift_codegen::RObject& other)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("RequestContext_IsSame", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  Server_RequestContext_IsSame_pargs args;
+  args.requestContext = &requestContext;
+  args.other = &other;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+bool ServerClient::recv_RequestContext_IsSame()
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("RequestContext_IsSame") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  bool _return;
+  Server_RequestContext_IsSame_presult result;
+  result.success = &_return;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  if (result.__isset.success) {
+    return _return;
+  }
+  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "RequestContext_IsSame failed: unknown result");
+}
+
+bool ServerClient::RequestContext_IsSharingWith(const  ::thrift_codegen::RObject& requestContext, const  ::thrift_codegen::RObject& other)
+{
+  send_RequestContext_IsSharingWith(requestContext, other);
+  return recv_RequestContext_IsSharingWith();
+}
+
+void ServerClient::send_RequestContext_IsSharingWith(const  ::thrift_codegen::RObject& requestContext, const  ::thrift_codegen::RObject& other)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("RequestContext_IsSharingWith", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  Server_RequestContext_IsSharingWith_pargs args;
+  args.requestContext = &requestContext;
+  args.other = &other;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+bool ServerClient::recv_RequestContext_IsSharingWith()
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("RequestContext_IsSharingWith") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  bool _return;
+  Server_RequestContext_IsSharingWith_presult result;
+  result.success = &_return;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  if (result.__isset.success) {
+    return _return;
+  }
+  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "RequestContext_IsSharingWith failed: unknown result");
+}
+
+void ServerClient::RequestContext_GetCachePath(std::string& _return, const  ::thrift_codegen::RObject& requestContext)
+{
+  send_RequestContext_GetCachePath(requestContext);
+  recv_RequestContext_GetCachePath(_return);
+}
+
+void ServerClient::send_RequestContext_GetCachePath(const  ::thrift_codegen::RObject& requestContext)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("RequestContext_GetCachePath", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  Server_RequestContext_GetCachePath_pargs args;
+  args.requestContext = &requestContext;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void ServerClient::recv_RequestContext_GetCachePath(std::string& _return)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("RequestContext_GetCachePath") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  Server_RequestContext_GetCachePath_presult result;
+  result.success = &_return;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  if (result.__isset.success) {
+    // _return pointer has now been filled
+    return;
+  }
+  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "RequestContext_GetCachePath failed: unknown result");
+}
+
+void ServerClient::RequestContext_GetCookieManager( ::thrift_codegen::RObject& _return, const  ::thrift_codegen::RObject& requestContext)
+{
+  send_RequestContext_GetCookieManager(requestContext);
+  recv_RequestContext_GetCookieManager(_return);
+}
+
+void ServerClient::send_RequestContext_GetCookieManager(const  ::thrift_codegen::RObject& requestContext)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("RequestContext_GetCookieManager", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  Server_RequestContext_GetCookieManager_pargs args;
+  args.requestContext = &requestContext;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void ServerClient::recv_RequestContext_GetCookieManager( ::thrift_codegen::RObject& _return)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("RequestContext_GetCookieManager") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  Server_RequestContext_GetCookieManager_presult result;
+  result.success = &_return;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  if (result.__isset.success) {
+    // _return pointer has now been filled
+    return;
+  }
+  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "RequestContext_GetCookieManager failed: unknown result");
+}
+
+void ServerClient::RequestContext_ClearHttpCache(const  ::thrift_codegen::RObject& requestContext, const  ::thrift_codegen::RObject& completionCallback)
+{
+  send_RequestContext_ClearHttpCache(requestContext, completionCallback);
+}
+
+void ServerClient::send_RequestContext_ClearHttpCache(const  ::thrift_codegen::RObject& requestContext, const  ::thrift_codegen::RObject& completionCallback)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("RequestContext_ClearHttpCache", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  Server_RequestContext_ClearHttpCache_pargs args;
+  args.requestContext = &requestContext;
+  args.completionCallback = &completionCallback;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void ServerClient::RequestContext_ClearHttpAuthCredentials(const  ::thrift_codegen::RObject& requestContext, const  ::thrift_codegen::RObject& completionCallback)
+{
+  send_RequestContext_ClearHttpAuthCredentials(requestContext, completionCallback);
+}
+
+void ServerClient::send_RequestContext_ClearHttpAuthCredentials(const  ::thrift_codegen::RObject& requestContext, const  ::thrift_codegen::RObject& completionCallback)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("RequestContext_ClearHttpAuthCredentials", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  Server_RequestContext_ClearHttpAuthCredentials_pargs args;
+  args.requestContext = &requestContext;
+  args.completionCallback = &completionCallback;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -30699,7 +32249,7 @@ void ServerProcessor::process_RequestContext_Create(int32_t seqid, ::apache::thr
 
   Server_RequestContext_Create_result result;
   try {
-    iface_->RequestContext_Create(result.success, args.requestContextHandler);
+    iface_->RequestContext_Create(result.success, args.requestContextHandler, args.settings);
     result.__isset.success = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != nullptr) {
@@ -30727,6 +32277,60 @@ void ServerProcessor::process_RequestContext_Create(int32_t seqid, ::apache::thr
 
   if (this->eventHandler_.get() != nullptr) {
     this->eventHandler_->postWrite(ctx, "Server.RequestContext_Create", bytes);
+  }
+}
+
+void ServerProcessor::process_RequestContext_CreateShared(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("Server.RequestContext_CreateShared", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "Server.RequestContext_CreateShared");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "Server.RequestContext_CreateShared");
+  }
+
+  Server_RequestContext_CreateShared_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "Server.RequestContext_CreateShared", bytes);
+  }
+
+  Server_RequestContext_CreateShared_result result;
+  try {
+    iface_->RequestContext_CreateShared(result.success, args.other, args.requestContextHandler);
+    result.__isset.success = true;
+  } catch (const std::exception& e) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "Server.RequestContext_CreateShared");
+    }
+
+    ::apache::thrift::TApplicationException x(e.what());
+    oprot->writeMessageBegin("RequestContext_CreateShared", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    x.write(oprot);
+    oprot->writeMessageEnd();
+    oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preWrite(ctx, "Server.RequestContext_CreateShared");
+  }
+
+  oprot->writeMessageBegin("RequestContext_CreateShared", ::apache::thrift::protocol::T_REPLY, seqid);
+  result.write(oprot);
+  oprot->writeMessageEnd();
+  bytes = oprot->getTransport()->writeEnd();
+  oprot->getTransport()->flush();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postWrite(ctx, "Server.RequestContext_CreateShared", bytes);
   }
 }
 
@@ -30762,6 +32366,296 @@ void ServerProcessor::process_RequestContext_Dispose(int32_t, ::apache::thrift::
 
   if (this->eventHandler_.get() != nullptr) {
     this->eventHandler_->asyncComplete(ctx, "Server.RequestContext_Dispose");
+  }
+
+  return;
+}
+
+void ServerProcessor::process_RequestContext_IsSame(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("Server.RequestContext_IsSame", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "Server.RequestContext_IsSame");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "Server.RequestContext_IsSame");
+  }
+
+  Server_RequestContext_IsSame_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "Server.RequestContext_IsSame", bytes);
+  }
+
+  Server_RequestContext_IsSame_result result;
+  try {
+    result.success = iface_->RequestContext_IsSame(args.requestContext, args.other);
+    result.__isset.success = true;
+  } catch (const std::exception& e) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "Server.RequestContext_IsSame");
+    }
+
+    ::apache::thrift::TApplicationException x(e.what());
+    oprot->writeMessageBegin("RequestContext_IsSame", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    x.write(oprot);
+    oprot->writeMessageEnd();
+    oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preWrite(ctx, "Server.RequestContext_IsSame");
+  }
+
+  oprot->writeMessageBegin("RequestContext_IsSame", ::apache::thrift::protocol::T_REPLY, seqid);
+  result.write(oprot);
+  oprot->writeMessageEnd();
+  bytes = oprot->getTransport()->writeEnd();
+  oprot->getTransport()->flush();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postWrite(ctx, "Server.RequestContext_IsSame", bytes);
+  }
+}
+
+void ServerProcessor::process_RequestContext_IsSharingWith(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("Server.RequestContext_IsSharingWith", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "Server.RequestContext_IsSharingWith");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "Server.RequestContext_IsSharingWith");
+  }
+
+  Server_RequestContext_IsSharingWith_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "Server.RequestContext_IsSharingWith", bytes);
+  }
+
+  Server_RequestContext_IsSharingWith_result result;
+  try {
+    result.success = iface_->RequestContext_IsSharingWith(args.requestContext, args.other);
+    result.__isset.success = true;
+  } catch (const std::exception& e) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "Server.RequestContext_IsSharingWith");
+    }
+
+    ::apache::thrift::TApplicationException x(e.what());
+    oprot->writeMessageBegin("RequestContext_IsSharingWith", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    x.write(oprot);
+    oprot->writeMessageEnd();
+    oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preWrite(ctx, "Server.RequestContext_IsSharingWith");
+  }
+
+  oprot->writeMessageBegin("RequestContext_IsSharingWith", ::apache::thrift::protocol::T_REPLY, seqid);
+  result.write(oprot);
+  oprot->writeMessageEnd();
+  bytes = oprot->getTransport()->writeEnd();
+  oprot->getTransport()->flush();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postWrite(ctx, "Server.RequestContext_IsSharingWith", bytes);
+  }
+}
+
+void ServerProcessor::process_RequestContext_GetCachePath(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("Server.RequestContext_GetCachePath", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "Server.RequestContext_GetCachePath");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "Server.RequestContext_GetCachePath");
+  }
+
+  Server_RequestContext_GetCachePath_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "Server.RequestContext_GetCachePath", bytes);
+  }
+
+  Server_RequestContext_GetCachePath_result result;
+  try {
+    iface_->RequestContext_GetCachePath(result.success, args.requestContext);
+    result.__isset.success = true;
+  } catch (const std::exception& e) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "Server.RequestContext_GetCachePath");
+    }
+
+    ::apache::thrift::TApplicationException x(e.what());
+    oprot->writeMessageBegin("RequestContext_GetCachePath", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    x.write(oprot);
+    oprot->writeMessageEnd();
+    oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preWrite(ctx, "Server.RequestContext_GetCachePath");
+  }
+
+  oprot->writeMessageBegin("RequestContext_GetCachePath", ::apache::thrift::protocol::T_REPLY, seqid);
+  result.write(oprot);
+  oprot->writeMessageEnd();
+  bytes = oprot->getTransport()->writeEnd();
+  oprot->getTransport()->flush();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postWrite(ctx, "Server.RequestContext_GetCachePath", bytes);
+  }
+}
+
+void ServerProcessor::process_RequestContext_GetCookieManager(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("Server.RequestContext_GetCookieManager", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "Server.RequestContext_GetCookieManager");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "Server.RequestContext_GetCookieManager");
+  }
+
+  Server_RequestContext_GetCookieManager_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "Server.RequestContext_GetCookieManager", bytes);
+  }
+
+  Server_RequestContext_GetCookieManager_result result;
+  try {
+    iface_->RequestContext_GetCookieManager(result.success, args.requestContext);
+    result.__isset.success = true;
+  } catch (const std::exception& e) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "Server.RequestContext_GetCookieManager");
+    }
+
+    ::apache::thrift::TApplicationException x(e.what());
+    oprot->writeMessageBegin("RequestContext_GetCookieManager", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    x.write(oprot);
+    oprot->writeMessageEnd();
+    oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preWrite(ctx, "Server.RequestContext_GetCookieManager");
+  }
+
+  oprot->writeMessageBegin("RequestContext_GetCookieManager", ::apache::thrift::protocol::T_REPLY, seqid);
+  result.write(oprot);
+  oprot->writeMessageEnd();
+  bytes = oprot->getTransport()->writeEnd();
+  oprot->getTransport()->flush();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postWrite(ctx, "Server.RequestContext_GetCookieManager", bytes);
+  }
+}
+
+void ServerProcessor::process_RequestContext_ClearHttpCache(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("Server.RequestContext_ClearHttpCache", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "Server.RequestContext_ClearHttpCache");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "Server.RequestContext_ClearHttpCache");
+  }
+
+  Server_RequestContext_ClearHttpCache_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "Server.RequestContext_ClearHttpCache", bytes);
+  }
+
+  try {
+    iface_->RequestContext_ClearHttpCache(args.requestContext, args.completionCallback);
+  } catch (const std::exception&) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "Server.RequestContext_ClearHttpCache");
+    }
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->asyncComplete(ctx, "Server.RequestContext_ClearHttpCache");
+  }
+
+  return;
+}
+
+void ServerProcessor::process_RequestContext_ClearHttpAuthCredentials(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("Server.RequestContext_ClearHttpAuthCredentials", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "Server.RequestContext_ClearHttpAuthCredentials");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "Server.RequestContext_ClearHttpAuthCredentials");
+  }
+
+  Server_RequestContext_ClearHttpAuthCredentials_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "Server.RequestContext_ClearHttpAuthCredentials", bytes);
+  }
+
+  try {
+    iface_->RequestContext_ClearHttpAuthCredentials(args.requestContext, args.completionCallback);
+  } catch (const std::exception&) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "Server.RequestContext_ClearHttpAuthCredentials");
+    }
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->asyncComplete(ctx, "Server.RequestContext_ClearHttpAuthCredentials");
   }
 
   return;
@@ -37749,13 +39643,13 @@ void ServerConcurrentClient::recv_RequestContext_GetGlobal( ::thrift_codegen::RO
   } // end while(true)
 }
 
-void ServerConcurrentClient::RequestContext_Create( ::thrift_codegen::RObject& _return, const  ::thrift_codegen::RObject& requestContextHandler)
+void ServerConcurrentClient::RequestContext_Create( ::thrift_codegen::RObject& _return, const  ::thrift_codegen::RObject& requestContextHandler, const  ::thrift_codegen::RequestContextSettings& settings)
 {
-  int32_t seqid = send_RequestContext_Create(requestContextHandler);
+  int32_t seqid = send_RequestContext_Create(requestContextHandler, settings);
   recv_RequestContext_Create(_return, seqid);
 }
 
-int32_t ServerConcurrentClient::send_RequestContext_Create(const  ::thrift_codegen::RObject& requestContextHandler)
+int32_t ServerConcurrentClient::send_RequestContext_Create(const  ::thrift_codegen::RObject& requestContextHandler, const  ::thrift_codegen::RequestContextSettings& settings)
 {
   int32_t cseqid = this->sync_->generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
@@ -37763,6 +39657,7 @@ int32_t ServerConcurrentClient::send_RequestContext_Create(const  ::thrift_codeg
 
   Server_RequestContext_Create_pargs args;
   args.requestContextHandler = &requestContextHandler;
+  args.settings = &settings;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -37833,6 +39728,91 @@ void ServerConcurrentClient::recv_RequestContext_Create( ::thrift_codegen::RObje
   } // end while(true)
 }
 
+void ServerConcurrentClient::RequestContext_CreateShared( ::thrift_codegen::RObject& _return, const  ::thrift_codegen::RObject& other, const  ::thrift_codegen::RObject& requestContextHandler)
+{
+  int32_t seqid = send_RequestContext_CreateShared(other, requestContextHandler);
+  recv_RequestContext_CreateShared(_return, seqid);
+}
+
+int32_t ServerConcurrentClient::send_RequestContext_CreateShared(const  ::thrift_codegen::RObject& other, const  ::thrift_codegen::RObject& requestContextHandler)
+{
+  int32_t cseqid = this->sync_->generateSeqId();
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("RequestContext_CreateShared", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  Server_RequestContext_CreateShared_pargs args;
+  args.other = &other;
+  args.requestContextHandler = &requestContextHandler;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+  return cseqid;
+}
+
+void ServerConcurrentClient::recv_RequestContext_CreateShared( ::thrift_codegen::RObject& _return, const int32_t seqid)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  // the read mutex gets dropped and reacquired as part of waitForWork()
+  // The destructor of this sentry wakes up other clients
+  ::apache::thrift::async::TConcurrentRecvSentry sentry(this->sync_.get(), seqid);
+
+  while(true) {
+    if(!this->sync_->getPending(fname, mtype, rseqid)) {
+      iprot_->readMessageBegin(fname, mtype, rseqid);
+    }
+    if(seqid == rseqid) {
+      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+        ::apache::thrift::TApplicationException x;
+        x.read(iprot_);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+        sentry.commit();
+        throw x;
+      }
+      if (mtype != ::apache::thrift::protocol::T_REPLY) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+      }
+      if (fname.compare("RequestContext_CreateShared") != 0) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+
+        // in a bad state, don't commit
+        using ::apache::thrift::protocol::TProtocolException;
+        throw TProtocolException(TProtocolException::INVALID_DATA);
+      }
+      Server_RequestContext_CreateShared_presult result;
+      result.success = &_return;
+      result.read(iprot_);
+      iprot_->readMessageEnd();
+      iprot_->getTransport()->readEnd();
+
+      if (result.__isset.success) {
+        // _return pointer has now been filled
+        sentry.commit();
+        return;
+      }
+      // in a bad state, don't commit
+      throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "RequestContext_CreateShared failed: unknown result");
+    }
+    // seqid != rseqid
+    this->sync_->updatePending(fname, mtype, rseqid);
+
+    // this will temporarily unlock the readMutex, and let other clients get work done
+    this->sync_->waitForWork(seqid);
+  } // end while(true)
+}
+
 void ServerConcurrentClient::RequestContext_Dispose(const  ::thrift_codegen::RObject& requestContext)
 {
   send_RequestContext_Dispose(requestContext);
@@ -37846,6 +39826,390 @@ void ServerConcurrentClient::send_RequestContext_Dispose(const  ::thrift_codegen
 
   Server_RequestContext_Dispose_pargs args;
   args.requestContext = &requestContext;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+}
+
+bool ServerConcurrentClient::RequestContext_IsSame(const  ::thrift_codegen::RObject& requestContext, const  ::thrift_codegen::RObject& other)
+{
+  int32_t seqid = send_RequestContext_IsSame(requestContext, other);
+  return recv_RequestContext_IsSame(seqid);
+}
+
+int32_t ServerConcurrentClient::send_RequestContext_IsSame(const  ::thrift_codegen::RObject& requestContext, const  ::thrift_codegen::RObject& other)
+{
+  int32_t cseqid = this->sync_->generateSeqId();
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("RequestContext_IsSame", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  Server_RequestContext_IsSame_pargs args;
+  args.requestContext = &requestContext;
+  args.other = &other;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+  return cseqid;
+}
+
+bool ServerConcurrentClient::recv_RequestContext_IsSame(const int32_t seqid)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  // the read mutex gets dropped and reacquired as part of waitForWork()
+  // The destructor of this sentry wakes up other clients
+  ::apache::thrift::async::TConcurrentRecvSentry sentry(this->sync_.get(), seqid);
+
+  while(true) {
+    if(!this->sync_->getPending(fname, mtype, rseqid)) {
+      iprot_->readMessageBegin(fname, mtype, rseqid);
+    }
+    if(seqid == rseqid) {
+      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+        ::apache::thrift::TApplicationException x;
+        x.read(iprot_);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+        sentry.commit();
+        throw x;
+      }
+      if (mtype != ::apache::thrift::protocol::T_REPLY) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+      }
+      if (fname.compare("RequestContext_IsSame") != 0) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+
+        // in a bad state, don't commit
+        using ::apache::thrift::protocol::TProtocolException;
+        throw TProtocolException(TProtocolException::INVALID_DATA);
+      }
+      bool _return;
+      Server_RequestContext_IsSame_presult result;
+      result.success = &_return;
+      result.read(iprot_);
+      iprot_->readMessageEnd();
+      iprot_->getTransport()->readEnd();
+
+      if (result.__isset.success) {
+        sentry.commit();
+        return _return;
+      }
+      // in a bad state, don't commit
+      throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "RequestContext_IsSame failed: unknown result");
+    }
+    // seqid != rseqid
+    this->sync_->updatePending(fname, mtype, rseqid);
+
+    // this will temporarily unlock the readMutex, and let other clients get work done
+    this->sync_->waitForWork(seqid);
+  } // end while(true)
+}
+
+bool ServerConcurrentClient::RequestContext_IsSharingWith(const  ::thrift_codegen::RObject& requestContext, const  ::thrift_codegen::RObject& other)
+{
+  int32_t seqid = send_RequestContext_IsSharingWith(requestContext, other);
+  return recv_RequestContext_IsSharingWith(seqid);
+}
+
+int32_t ServerConcurrentClient::send_RequestContext_IsSharingWith(const  ::thrift_codegen::RObject& requestContext, const  ::thrift_codegen::RObject& other)
+{
+  int32_t cseqid = this->sync_->generateSeqId();
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("RequestContext_IsSharingWith", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  Server_RequestContext_IsSharingWith_pargs args;
+  args.requestContext = &requestContext;
+  args.other = &other;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+  return cseqid;
+}
+
+bool ServerConcurrentClient::recv_RequestContext_IsSharingWith(const int32_t seqid)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  // the read mutex gets dropped and reacquired as part of waitForWork()
+  // The destructor of this sentry wakes up other clients
+  ::apache::thrift::async::TConcurrentRecvSentry sentry(this->sync_.get(), seqid);
+
+  while(true) {
+    if(!this->sync_->getPending(fname, mtype, rseqid)) {
+      iprot_->readMessageBegin(fname, mtype, rseqid);
+    }
+    if(seqid == rseqid) {
+      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+        ::apache::thrift::TApplicationException x;
+        x.read(iprot_);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+        sentry.commit();
+        throw x;
+      }
+      if (mtype != ::apache::thrift::protocol::T_REPLY) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+      }
+      if (fname.compare("RequestContext_IsSharingWith") != 0) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+
+        // in a bad state, don't commit
+        using ::apache::thrift::protocol::TProtocolException;
+        throw TProtocolException(TProtocolException::INVALID_DATA);
+      }
+      bool _return;
+      Server_RequestContext_IsSharingWith_presult result;
+      result.success = &_return;
+      result.read(iprot_);
+      iprot_->readMessageEnd();
+      iprot_->getTransport()->readEnd();
+
+      if (result.__isset.success) {
+        sentry.commit();
+        return _return;
+      }
+      // in a bad state, don't commit
+      throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "RequestContext_IsSharingWith failed: unknown result");
+    }
+    // seqid != rseqid
+    this->sync_->updatePending(fname, mtype, rseqid);
+
+    // this will temporarily unlock the readMutex, and let other clients get work done
+    this->sync_->waitForWork(seqid);
+  } // end while(true)
+}
+
+void ServerConcurrentClient::RequestContext_GetCachePath(std::string& _return, const  ::thrift_codegen::RObject& requestContext)
+{
+  int32_t seqid = send_RequestContext_GetCachePath(requestContext);
+  recv_RequestContext_GetCachePath(_return, seqid);
+}
+
+int32_t ServerConcurrentClient::send_RequestContext_GetCachePath(const  ::thrift_codegen::RObject& requestContext)
+{
+  int32_t cseqid = this->sync_->generateSeqId();
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("RequestContext_GetCachePath", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  Server_RequestContext_GetCachePath_pargs args;
+  args.requestContext = &requestContext;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+  return cseqid;
+}
+
+void ServerConcurrentClient::recv_RequestContext_GetCachePath(std::string& _return, const int32_t seqid)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  // the read mutex gets dropped and reacquired as part of waitForWork()
+  // The destructor of this sentry wakes up other clients
+  ::apache::thrift::async::TConcurrentRecvSentry sentry(this->sync_.get(), seqid);
+
+  while(true) {
+    if(!this->sync_->getPending(fname, mtype, rseqid)) {
+      iprot_->readMessageBegin(fname, mtype, rseqid);
+    }
+    if(seqid == rseqid) {
+      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+        ::apache::thrift::TApplicationException x;
+        x.read(iprot_);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+        sentry.commit();
+        throw x;
+      }
+      if (mtype != ::apache::thrift::protocol::T_REPLY) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+      }
+      if (fname.compare("RequestContext_GetCachePath") != 0) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+
+        // in a bad state, don't commit
+        using ::apache::thrift::protocol::TProtocolException;
+        throw TProtocolException(TProtocolException::INVALID_DATA);
+      }
+      Server_RequestContext_GetCachePath_presult result;
+      result.success = &_return;
+      result.read(iprot_);
+      iprot_->readMessageEnd();
+      iprot_->getTransport()->readEnd();
+
+      if (result.__isset.success) {
+        // _return pointer has now been filled
+        sentry.commit();
+        return;
+      }
+      // in a bad state, don't commit
+      throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "RequestContext_GetCachePath failed: unknown result");
+    }
+    // seqid != rseqid
+    this->sync_->updatePending(fname, mtype, rseqid);
+
+    // this will temporarily unlock the readMutex, and let other clients get work done
+    this->sync_->waitForWork(seqid);
+  } // end while(true)
+}
+
+void ServerConcurrentClient::RequestContext_GetCookieManager( ::thrift_codegen::RObject& _return, const  ::thrift_codegen::RObject& requestContext)
+{
+  int32_t seqid = send_RequestContext_GetCookieManager(requestContext);
+  recv_RequestContext_GetCookieManager(_return, seqid);
+}
+
+int32_t ServerConcurrentClient::send_RequestContext_GetCookieManager(const  ::thrift_codegen::RObject& requestContext)
+{
+  int32_t cseqid = this->sync_->generateSeqId();
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("RequestContext_GetCookieManager", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  Server_RequestContext_GetCookieManager_pargs args;
+  args.requestContext = &requestContext;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+  return cseqid;
+}
+
+void ServerConcurrentClient::recv_RequestContext_GetCookieManager( ::thrift_codegen::RObject& _return, const int32_t seqid)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  // the read mutex gets dropped and reacquired as part of waitForWork()
+  // The destructor of this sentry wakes up other clients
+  ::apache::thrift::async::TConcurrentRecvSentry sentry(this->sync_.get(), seqid);
+
+  while(true) {
+    if(!this->sync_->getPending(fname, mtype, rseqid)) {
+      iprot_->readMessageBegin(fname, mtype, rseqid);
+    }
+    if(seqid == rseqid) {
+      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+        ::apache::thrift::TApplicationException x;
+        x.read(iprot_);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+        sentry.commit();
+        throw x;
+      }
+      if (mtype != ::apache::thrift::protocol::T_REPLY) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+      }
+      if (fname.compare("RequestContext_GetCookieManager") != 0) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+
+        // in a bad state, don't commit
+        using ::apache::thrift::protocol::TProtocolException;
+        throw TProtocolException(TProtocolException::INVALID_DATA);
+      }
+      Server_RequestContext_GetCookieManager_presult result;
+      result.success = &_return;
+      result.read(iprot_);
+      iprot_->readMessageEnd();
+      iprot_->getTransport()->readEnd();
+
+      if (result.__isset.success) {
+        // _return pointer has now been filled
+        sentry.commit();
+        return;
+      }
+      // in a bad state, don't commit
+      throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "RequestContext_GetCookieManager failed: unknown result");
+    }
+    // seqid != rseqid
+    this->sync_->updatePending(fname, mtype, rseqid);
+
+    // this will temporarily unlock the readMutex, and let other clients get work done
+    this->sync_->waitForWork(seqid);
+  } // end while(true)
+}
+
+void ServerConcurrentClient::RequestContext_ClearHttpCache(const  ::thrift_codegen::RObject& requestContext, const  ::thrift_codegen::RObject& completionCallback)
+{
+  send_RequestContext_ClearHttpCache(requestContext, completionCallback);
+}
+
+void ServerConcurrentClient::send_RequestContext_ClearHttpCache(const  ::thrift_codegen::RObject& requestContext, const  ::thrift_codegen::RObject& completionCallback)
+{
+  int32_t cseqid = 0;
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("RequestContext_ClearHttpCache", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  Server_RequestContext_ClearHttpCache_pargs args;
+  args.requestContext = &requestContext;
+  args.completionCallback = &completionCallback;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+}
+
+void ServerConcurrentClient::RequestContext_ClearHttpAuthCredentials(const  ::thrift_codegen::RObject& requestContext, const  ::thrift_codegen::RObject& completionCallback)
+{
+  send_RequestContext_ClearHttpAuthCredentials(requestContext, completionCallback);
+}
+
+void ServerConcurrentClient::send_RequestContext_ClearHttpAuthCredentials(const  ::thrift_codegen::RObject& requestContext, const  ::thrift_codegen::RObject& completionCallback)
+{
+  int32_t cseqid = 0;
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("RequestContext_ClearHttpAuthCredentials", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  Server_RequestContext_ClearHttpAuthCredentials_pargs args;
+  args.requestContext = &requestContext;
+  args.completionCallback = &completionCallback;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
