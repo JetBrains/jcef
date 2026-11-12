@@ -27,6 +27,7 @@ import javax.swing.ToolTipManager;
 import com.jetbrains.cef.JdkEx;
 import org.cef.misc.CefLog;
 import sun.awt.AWTAccessor;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * This class represents a windowed rendered browser.
@@ -58,7 +59,13 @@ class CefBrowserWr extends CefBrowser_N {
                         delayedUpdate_.restart();
                         return;
                     }
-                    if (AWTAccessor.getComponentAccessor().getPeer(component_) == null || // not in UI yet
+
+                    boolean restart = false;
+                    try {
+                        restart = AWTAccessor.getComponentAccessor().getPeer(component_) == null;
+                    } catch (Throwable ignore) { }
+
+                    if (restart || // not in UI yet
                         createBrowserIfRequired(true)) // has just created UI
                     {
                         delayedUpdate_.restart();
@@ -439,6 +446,10 @@ class CefBrowserWr extends CefBrowser_N {
             } catch (InstantiationException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
                 e.printStackTrace();
             }
         }
