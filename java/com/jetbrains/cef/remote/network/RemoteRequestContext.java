@@ -6,11 +6,14 @@ import com.jetbrains.cef.remote.callback.RemoteCompletionCallback;
 import com.jetbrains.cef.remote.thrift_codegen.CefValue;
 import com.jetbrains.cef.remote.thrift_codegen.CefValueType;
 import com.jetbrains.cef.remote.thrift_codegen.RObject;
+import com.jetbrains.cef.remote.thrift_codegen.RequestContextSettings;
 import org.cef.browser.CefRequestContext;
+import org.cef.browser.CefRequestContextSettings;
 import org.cef.callback.CefCompletionCallback;
 import org.cef.handler.CefRequestContextHandler;
 import org.cef.misc.CefLog;
 import org.cef.misc.Delayed;
+import org.cef.network.CefCookieManager;
 
 import java.nio.ByteBuffer;
 import java.util.HashMap;
@@ -20,6 +23,7 @@ import java.util.Map;
 public class RemoteRequestContext extends CefRequestContext {
     private final Delayed myDelayed;
     private final CefRequestContextHandler myHandler;
+    private final boolean myIsGlobal;
     private RemoteRequestContextHandler myHandlerWrapper;
     private RObject myPeer;
     private RpcContext myRpc;
@@ -28,27 +32,93 @@ public class RemoteRequestContext extends CefRequestContext {
     public RemoteRequestContext(CefServer server) {
         myRpc = server.getRpcContext();
         myHandler = null;
+        myIsGlobal = true;
         myDelayed = new Delayed("RemoteRequestContext(global)");
         myDelayed.finishOnConnection(server, this::createGlobalPeer);
     }
 
-    // Creates wrapper for browser's CefRequestContext instance (can be 'global' too)
+    // Creates wrapper for a new CefRequestContext instance (with default settings)
     public RemoteRequestContext(CefServer server, CefRequestContextHandler handler) {
+        this(server, (CefRequestContextSettings) null, handler);
+    }
+
+    // Creates wrapper for a new CefRequestContext instance with the specified settings
+    public RemoteRequestContext(CefServer server, CefRequestContextSettings settings, CefRequestContextHandler handler) {
         myRpc = server.getRpcContext();
         myHandler = handler;
+        myIsGlobal = false;
         myDelayed = new Delayed("RemoteRequestContext(browser)");
-        myDelayed.finishOnConnection(server, this::createPeer);
+        final RequestContextSettings rcs = toThriftSettings(settings);
+        myDelayed.finishOnConnection(server, () -> createPeer(rcs));
+    }
+
+    // Creates wrapper for a new CefRequestContext instance that shares storage with |other|
+    public RemoteRequestContext(CefServer server, CefRequestContext other, CefRequestContextHandler handler) {
+        myRpc = server.getRpcContext();
+        myHandler = handler;
+        myIsGlobal = false;
+        myDelayed = new Delayed("RemoteRequestContext(shared)");
+        if (!(other instanceof RemoteRequestContext)) {
+            CefLog.Error("RemoteRequestContext: can't share storage with context of class %s",
+                    other == null ? null : other.getClass().getName());
+            myDelayed.finishOnConnection(server);
+            return;
+        }
+        final RemoteRequestContext rother = (RemoteRequestContext) other;
+        myDelayed.finishOnConnection(server, () -> createSharedPeer(rother));
     }
 
     public RObject getPeer() { return myPeer; }
+
+    RpcContext getRpcContext() { return myRpc; }
+
+    void runOrDelay(Runnable action, String name) {
+        myDelayed.runOrDelay(action, name);
+    }
+
+    private static RequestContextSettings toThriftSettings(CefRequestContextSettings settings) {
+        RequestContextSettings rcs = new RequestContextSettings();
+        if (settings == null)
+            return rcs;
+        rcs.setCachePath(settings.cache_path);
+        rcs.setPersistSessionCookies(settings.persist_session_cookies);
+        rcs.setAcceptLanguageList(settings.accept_language_list);
+        rcs.setCookieableSchemesList(settings.cookieable_schemes_list);
+        rcs.setCookieableSchemesExcludeDefaults(settings.cookieable_schemes_exclude_defaults);
+        return rcs;
+    }
 
     private void createGlobalPeer() {
         myPeer = myRpc.execObj(s -> s.RequestContext_GetGlobal());
     }
 
-    private void createPeer() {
+    private void createPeer(RequestContextSettings settings) {
         RemoteRequestContextHandler rhandler = getRemoteHandler();
-        myPeer = myRpc.execObj(s -> s.RequestContext_Create(rhandler == null ? new RObject() : rhandler.toRObject()));
+        myPeer = myRpc.execObj(s -> s.RequestContext_Create(rhandler == null ? new RObject() : rhandler.toRObject(), settings));
+    }
+
+    private void createSharedPeer(RemoteRequestContext other) {
+        RObject otherPeer = other.getPeer();
+        if (otherPeer == null || otherPeer.isNull) {
+            CefLog.Error("RemoteRequestContext: can't share storage with context %s: its server peer isn't created", other);
+            return;
+        }
+        RemoteRequestContextHandler rhandler = getRemoteHandler();
+        myPeer = myRpc.execObj(s -> s.RequestContext_CreateShared(otherPeer, rhandler == null ? new RObject() : rhandler.toRObject()));
+    }
+
+    // Returns the server-side peer or null (with error logging) if it isn't available.
+    private RObject peerOrNull(String methodName) {
+        if (myRpc == null) {
+            CefLog.Error("RemoteRequestContext: %s called when rpc-context is null.", methodName);
+            return null;
+        }
+        RObject peer = myPeer;
+        if (peer == null || peer.isNull) {
+            CefLog.Error("RemoteRequestContext: %s called when server peer isn't created (or was disposed).", methodName);
+            return null;
+        }
+        return peer;
     }
 
     @Override
@@ -68,7 +138,7 @@ public class RemoteRequestContext extends CefRequestContext {
 
     @Override
     public boolean isGlobal() {
-        return myHandler == null;
+        return myIsGlobal;
     }
 
     @Override
@@ -82,6 +152,44 @@ public class RemoteRequestContext extends CefRequestContext {
         if (myHandlerWrapper == null)
             myHandlerWrapper = RemoteRequestContextHandler.create(myHandler);
         return myHandlerWrapper;
+    }
+
+    @Override
+    public boolean isSame(CefRequestContext other) {
+        if (other == this)
+            return true;
+        if (!(other instanceof RemoteRequestContext))
+            return false;
+        RObject otherPeer = ((RemoteRequestContext) other).getPeer();
+        if (otherPeer == null || otherPeer.isNull)
+            return false;
+        RObject peer = peerOrNull("isSame");
+        return peer != null && Boolean.TRUE.equals(myRpc.execObj(s -> s.RequestContext_IsSame(peer, otherPeer)));
+    }
+
+    @Override
+    public boolean isSharingWith(CefRequestContext other) {
+        if (!(other instanceof RemoteRequestContext))
+            return false;
+        RObject otherPeer = ((RemoteRequestContext) other).getPeer();
+        if (otherPeer == null || otherPeer.isNull)
+            return false;
+        RObject peer = peerOrNull("isSharingWith");
+        return peer != null && Boolean.TRUE.equals(myRpc.execObj(s -> s.RequestContext_IsSharingWith(peer, otherPeer)));
+    }
+
+    @Override
+    public String getCachePath() {
+        RObject peer = peerOrNull("getCachePath");
+        if (peer == null)
+            return "";
+        String result = myRpc.execObj(s -> s.RequestContext_GetCachePath(peer));
+        return result != null ? result : "";
+    }
+
+    @Override
+    public CefCookieManager getCookieManager() {
+        return RemoteCookieManager.createForContext(this);
     }
 
     @Override
@@ -215,5 +323,17 @@ public class RemoteRequestContext extends CefRequestContext {
     public void CloseAllConnections(CefCompletionCallback callback) {
         RObject cbId = callback != null ? RemoteCompletionCallback.create(callback).toRObject() : new RObject();
         myDelayed.runOrDelay(() -> myRpc.invokeLater(s -> s.RequestContext_CloseAllConnections(myPeer, cbId)), "CloseAllConnections");
+    }
+
+    @Override
+    public void clearHttpCache(CefCompletionCallback callback) {
+        RObject cbId = callback != null ? RemoteCompletionCallback.create(callback).toRObject() : new RObject();
+        myDelayed.runOrDelay(() -> myRpc.invokeLater(s -> s.RequestContext_ClearHttpCache(myPeer, cbId)), "clearHttpCache");
+    }
+
+    @Override
+    public void clearHttpAuthCredentials(CefCompletionCallback callback) {
+        RObject cbId = callback != null ? RemoteCompletionCallback.create(callback).toRObject() : new RObject();
+        myDelayed.runOrDelay(() -> myRpc.invokeLater(s -> s.RequestContext_ClearHttpAuthCredentials(myPeer, cbId)), "clearHttpAuthCredentials");
     }
 }

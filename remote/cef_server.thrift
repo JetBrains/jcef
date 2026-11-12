@@ -187,8 +187,15 @@ service Server {
     // CefRequestContext
     //
     shared.RObject               RequestContext_GetGlobal(),
-    shared.RObject               RequestContext_Create(1:shared.RObject requestContextHandler),
+    shared.RObject               RequestContext_Create(1:shared.RObject requestContextHandler, 2:shared.RequestContextSettings settings),
+    shared.RObject               RequestContext_CreateShared(1:shared.RObject other, 2:shared.RObject requestContextHandler),
     oneway void                  RequestContext_Dispose(1:shared.RObject requestContext),
+    bool                         RequestContext_IsSame(1:shared.RObject requestContext, 2:shared.RObject other),
+    bool                         RequestContext_IsSharingWith(1:shared.RObject requestContext, 2:shared.RObject other),
+    string                       RequestContext_GetCachePath(1:shared.RObject requestContext),
+    shared.RObject               RequestContext_GetCookieManager(1:shared.RObject requestContext),
+    oneway void                  RequestContext_ClearHttpCache(1:shared.RObject requestContext, 2:shared.RObject completionCallback),            // NOTE: can be oneway (because java peer of completionCallback is disposed (on java side) after callback execution)
+    oneway void                  RequestContext_ClearHttpAuthCredentials(1:shared.RObject requestContext, 2:shared.RObject completionCallback),  // NOTE: can be oneway (because java peer of completionCallback is disposed (on java side) after callback execution)
     bool                         RequestContext_HasPreference(1:shared.RObject requestContext, 2:string name),
     shared.CefValue              RequestContext_GetPreference(1:shared.RObject requestContext, 2:string name),
     map<string, shared.CefValue> RequestContext_GetAllPreferences(1:shared.RObject requestContext, 2:bool includeDefaults),

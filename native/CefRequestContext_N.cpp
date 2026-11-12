@@ -5,6 +5,7 @@
 #include "CefRequestContext_N.h"
 #include "completion_callback.h"
 #include "include/base/cef_callback.h"
+#include "include/cef_cookie.h"
 #include "include/cef_request_context.h"
 #include "jni_util.h"
 #include "request_context_handler.h"
@@ -15,12 +16,49 @@ CefRefPtr<CefRequestContext> GetSelf(jlong self) {
   return reinterpret_cast<CefRequestContext*>(self);
 }
 
-}  // namespace
+void GetJNIFieldCefString(JNIEnv* env,
+                          jclass cls,
+                          jobject obj,
+                          const char* field_name,
+                          cef_string_t* value) {
+  CefString tmp;
+  if (GetJNIFieldString(env, cls, obj, field_name, &tmp)) {
+    CefString target(value);
+    target = tmp;
+  }
+}
 
-JNIEXPORT jobject JNICALL
-Java_org_cef_browser_CefRequestContext_1N_N_1GetGlobalContext(JNIEnv* env,
-                                                              jclass cls) {
-  CefRefPtr<CefRequestContext> context = CefRequestContext::GetGlobalContext();
+CefRequestContextSettings GetJNIRequestContextSettings(JNIEnv* env,
+                                                       jobject obj) {
+  CefRequestContextSettings settings;
+  if (!obj)
+    return settings;
+
+  ScopedJNIClass cls(env, "org/cef/browser/CefRequestContextSettings");
+  if (!cls)
+    return settings;
+
+  GetJNIFieldCefString(env, cls, obj, "cache_path", &settings.cache_path);
+  GetJNIFieldBoolean(env, cls, obj, "persist_session_cookies",
+                     &settings.persist_session_cookies);
+  GetJNIFieldCefString(env, cls, obj, "accept_language_list",
+                       &settings.accept_language_list);
+  GetJNIFieldCefString(env, cls, obj, "cookieable_schemes_list",
+                       &settings.cookieable_schemes_list);
+  GetJNIFieldBoolean(env, cls, obj, "cookieable_schemes_exclude_defaults",
+                     &settings.cookieable_schemes_exclude_defaults);
+  return settings;
+}
+
+CefRefPtr<CefRequestContextHandler> GetHandler(JNIEnv* env, jobject jhandler) {
+  if (!jhandler)
+    return nullptr;
+  return new RequestContextHandler(env, jhandler);
+}
+
+jobject NewJNIRequestContext(JNIEnv* env,
+                             jclass cls,
+                             CefRefPtr<CefRequestContext> context) {
   if (!context.get())
     return nullptr;
 
@@ -32,38 +70,119 @@ Java_org_cef_browser_CefRequestContext_1N_N_1GetGlobalContext(JNIEnv* env,
   return jContext.Release();
 }
 
+}  // namespace
+
+JNIEXPORT jobject JNICALL
+Java_org_cef_browser_CefRequestContext_1N_N_1GetGlobalContext(JNIEnv* env,
+                                                              jclass cls) {
+  return NewJNIRequestContext(env, cls, CefRequestContext::GetGlobalContext());
+}
+
 JNIEXPORT jobject JNICALL
 Java_org_cef_browser_CefRequestContext_1N_N_1CreateContext(JNIEnv* env,
                                                            jclass cls,
+                                                           jobject jsettings,
                                                            jobject jhandler) {
-  CefRefPtr<CefRequestContextHandler> handler = nullptr;
-  if (jhandler != nullptr) {
-    handler = new RequestContextHandler(env, jhandler);
+  CefRequestContextSettings settings =
+      GetJNIRequestContextSettings(env, jsettings);
+  CefRefPtr<CefRequestContext> context = CefRequestContext::CreateContext(
+      settings, GetHandler(env, jhandler));
+  return NewJNIRequestContext(env, cls, context);
+}
+
+JNIEXPORT jobject JNICALL
+Java_org_cef_browser_CefRequestContext_1N_N_1CreateContextShared(
+    JNIEnv* env,
+    jclass cls,
+    jobject jother,
+    jobject jhandler) {
+  CefRefPtr<CefRequestContext> other =
+      GetCefFromJNIObject_sync<CefRequestContext>(env, jother,
+                                                  "CefRequestContext");
+  if (!other.get()) {
+    LOG(ERROR) << "CefRequestContext_N: CreateContextShared: invalid 'other' "
+                  "request context";
+    return nullptr;
   }
 
-  // TODO(JCEF): Expose CefRequestContextSettings.
-  CefRequestContextSettings settings;
   CefRefPtr<CefRequestContext> context =
-      CefRequestContext::CreateContext(settings, handler);
-  if (!context.get())
-    return nullptr;
+      CefRequestContext::CreateContext(other, GetHandler(env, jhandler));
+  return NewJNIRequestContext(env, cls, context);
+}
 
-  ScopedJNIObjectLocal jContext(env, NewJNIObject(env, cls));
-  if (!jContext)
-    return nullptr;
+JNIEXPORT jboolean JNICALL
+Java_org_cef_browser_CefRequestContext_1N_N_1IsSame(JNIEnv* env,
+                                                    jobject obj,
+                                                    jobject jother) {
+  CefRefPtr<CefRequestContext> context =
+      GetCefFromJNIObject_sync<CefRequestContext>(env, obj,
+                                                  "CefRequestContext");
+  CefRefPtr<CefRequestContext> other =
+      GetCefFromJNIObject_sync<CefRequestContext>(env, jother,
+                                                  "CefRequestContext");
+  if (!context.get() || !other.get())
+    return JNI_FALSE;
+  return context->IsSame(other) ? JNI_TRUE : JNI_FALSE;
+}
 
-  SetCefForJNIObject_sync(env, jContext, context.get(), "CefRequestContext");
-  return jContext.Release();
+JNIEXPORT jboolean JNICALL
+Java_org_cef_browser_CefRequestContext_1N_N_1IsSharingWith(JNIEnv* env,
+                                                           jobject obj,
+                                                           jobject jother) {
+  CefRefPtr<CefRequestContext> context =
+      GetCefFromJNIObject_sync<CefRequestContext>(env, obj,
+                                                  "CefRequestContext");
+  CefRefPtr<CefRequestContext> other =
+      GetCefFromJNIObject_sync<CefRequestContext>(env, jother,
+                                                  "CefRequestContext");
+  if (!context.get() || !other.get())
+    return JNI_FALSE;
+  return context->IsSharingWith(other) ? JNI_TRUE : JNI_FALSE;
 }
 
 JNIEXPORT jboolean JNICALL
 Java_org_cef_browser_CefRequestContext_1N_N_1IsGlobal(JNIEnv* env,
                                                       jobject obj) {
   CefRefPtr<CefRequestContext> context =
-      GetCefFromJNIObject_sync<CefRequestContext>(env, obj, "CefRequestContext");
+      GetCefFromJNIObject_sync<CefRequestContext>(env, obj,
+                                                  "CefRequestContext");
   if (!context.get())
     return JNI_FALSE;
   return context->IsGlobal() ? JNI_TRUE : JNI_FALSE;
+}
+
+JNIEXPORT jstring JNICALL
+Java_org_cef_browser_CefRequestContext_1N_N_1GetCachePath(JNIEnv* env,
+                                                          jobject obj) {
+  CefRefPtr<CefRequestContext> context =
+      GetCefFromJNIObject_sync<CefRequestContext>(env, obj,
+                                                  "CefRequestContext");
+  if (!context.get())
+    return nullptr;
+  return NewJNIString(env, context->GetCachePath());
+}
+
+JNIEXPORT jobject JNICALL
+Java_org_cef_browser_CefRequestContext_1N_N_1GetCookieManager(JNIEnv* env,
+                                                              jobject obj) {
+  CefRefPtr<CefRequestContext> context =
+      GetCefFromJNIObject_sync<CefRequestContext>(env, obj,
+                                                  "CefRequestContext");
+  if (!context.get())
+    return nullptr;
+
+  // TODO(JCEF): Expose the callback object.
+  CefRefPtr<CefCookieManager> manager = context->GetCookieManager(nullptr);
+  if (!manager)
+    return nullptr;
+
+  ScopedJNIObjectLocal jManager(
+      env, NewJNIObject(env, "org/cef/network/CefCookieManager_N"));
+  if (!jManager)
+    return nullptr;
+
+  SetCefForJNIObject_sync(env, jManager, manager.get(), "CefCookieManager");
+  return jManager.Release();
 }
 
 JNIEXPORT jboolean JNICALL
@@ -168,7 +287,8 @@ JNIEXPORT void JNICALL
 Java_org_cef_browser_CefRequestContext_1N_N_1CefRequestContext_1DTOR(
     JNIEnv* env,
     jobject obj) {
-  SetCefForJNIObject_sync<CefRequestContext>(env, obj, nullptr, "CefRequestContext");
+  SetCefForJNIObject_sync<CefRequestContext>(env, obj, nullptr,
+                                             "CefRequestContext");
 }
 
 JNIEXPORT void JNICALL
@@ -197,4 +317,32 @@ Java_org_cef_browser_CefRequestContext_1N_N_1CloseAllConnections(
   CefRefPtr<CefCompletionCallback> callback =
       new CompletionCallback(env, jcallback);
   request_context->CloseAllConnections(callback);
+}
+
+JNIEXPORT void JNICALL
+Java_org_cef_browser_CefRequestContext_1N_N_1ClearHttpCache(
+    JNIEnv* env,
+    jobject,
+    jlong self,
+    jobject jcallback) {
+  CefRefPtr<CefRequestContext> request_context = GetSelf(self);
+  if (!request_context)
+    return;
+  CefRefPtr<CefCompletionCallback> callback =
+      new CompletionCallback(env, jcallback);
+  request_context->ClearHttpCache(callback);
+}
+
+JNIEXPORT void JNICALL
+Java_org_cef_browser_CefRequestContext_1N_N_1ClearHttpAuthCredentials(
+    JNIEnv* env,
+    jobject,
+    jlong self,
+    jobject jcallback) {
+  CefRefPtr<CefRequestContext> request_context = GetSelf(self);
+  if (!request_context)
+    return;
+  CefRefPtr<CefCompletionCallback> callback =
+      new CompletionCallback(env, jcallback);
+  request_context->ClearHttpAuthCredentials(callback);
 }

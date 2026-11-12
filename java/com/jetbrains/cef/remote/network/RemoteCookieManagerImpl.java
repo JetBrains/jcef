@@ -28,6 +28,19 @@ public class RemoteCookieManagerImpl extends RemoteServerObject {
         return new RemoteCookieManagerImpl(rpcContext, robj);
     }
 
+    public static RemoteCookieManagerImpl createForContext(RpcContext rpcContext, RObject requestContext) {
+        if (requestContext == null || requestContext.isNull) {
+            CefLog.Error("RemoteCookieManagerImpl.createForContext: server peer of request context isn't created.");
+            return null;
+        }
+        RObject robj = rpcContext.execObj(s->s.RequestContext_GetCookieManager(requestContext));
+        if (robj.isNull) {
+            CefLog.Error("RequestContext_GetCookieManager(%d) returns invalid uid %d.", requestContext.uid, robj.uid);
+            return null;
+        }
+        return new RemoteCookieManagerImpl(rpcContext, robj);
+    }
+
     @Override
     protected void disposeOnServerImpl() {
         final RObject id = toRObject();
