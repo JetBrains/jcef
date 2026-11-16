@@ -18,9 +18,9 @@ public class CefLog {
     private static volatile boolean isInitialized = false;
     private static final SimpleDateFormat ourTimeFormat = new SimpleDateFormat("mm:ss:SSS");
 
-    private String myFilePath;
-    private PrintStream myPrintStream;
-    private CefSettings.LogSeverity mySeverity;
+    protected String myFilePath;
+    protected PrintStream myPrintStream;
+    protected CefSettings.LogSeverity mySeverity;
 
     public static void initVerbose() {
         String log_file = Utils.getString("jcef.log.path");
@@ -86,7 +86,26 @@ public class CefLog {
         INSTANCE = new CefLog(useStdOut ? System.out : System.err, severity);
     }
 
-    private CefLog(PrintStream ps, CefSettings.LogSeverity log_severity) {
+    public static void init(CefLog logger) {
+        init(logger, false);
+    }
+
+    public static void init(CefLog logger, boolean forceReinit) {
+        if (logger == null) throw new IllegalArgumentException("logger must not be null");
+        if (isInitialized) {
+            if (!forceReinit) {
+                if (INSTANCE != null)
+                    Log(CefSettings.LogSeverity.LOGSEVERITY_VERBOSE,"CefLog is already initialized (severity=%s, path='%s'), new instance will be ignored.",
+                            INSTANCE.mySeverity, INSTANCE.myFilePath);
+                return;
+            }
+            System.out.println("Reinitialize CefLog.\n");
+        }
+        INSTANCE = logger;
+        isInitialized = true;
+    }
+
+    protected CefLog(PrintStream ps, CefSettings.LogSeverity log_severity) {
         myPrintStream = ps;
         mySeverity = log_severity;
     }
@@ -146,6 +165,7 @@ public class CefLog {
     static public boolean IsDebugEnabled() { return INSTANCE != null ? INSTANCE.isDebugEnabled() : false; }
     static public String GetFilePath() { return INSTANCE != null ? INSTANCE.myFilePath : null; }
     static public CefSettings.LogSeverity GetLogLevel() { return INSTANCE != null ? INSTANCE.mySeverity : null; }
+    static public CefLog GetInstance() { return INSTANCE; }
 
     static public void Log(CefSettings.LogSeverity log_severity, String msg, Object... args) {
         if (msg == null || INSTANCE == null)
