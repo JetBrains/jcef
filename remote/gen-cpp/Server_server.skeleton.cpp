@@ -580,14 +580,49 @@ class ServerHandler : virtual public ServerIf {
     printf("RequestContext_GetGlobal\n");
   }
 
-  void RequestContext_Create( ::thrift_codegen::RObject& _return, const  ::thrift_codegen::RObject& requestContextHandler) {
+  void RequestContext_Create( ::thrift_codegen::RObject& _return, const  ::thrift_codegen::RObject& requestContextHandler, const  ::thrift_codegen::RequestContextSettings& settings) {
     // Your implementation goes here
     printf("RequestContext_Create\n");
+  }
+
+  void RequestContext_CreateShared( ::thrift_codegen::RObject& _return, const  ::thrift_codegen::RObject& other, const  ::thrift_codegen::RObject& requestContextHandler) {
+    // Your implementation goes here
+    printf("RequestContext_CreateShared\n");
   }
 
   void RequestContext_Dispose(const  ::thrift_codegen::RObject& requestContext) {
     // Your implementation goes here
     printf("RequestContext_Dispose\n");
+  }
+
+  bool RequestContext_IsSame(const  ::thrift_codegen::RObject& requestContext, const  ::thrift_codegen::RObject& other) {
+    // Your implementation goes here
+    printf("RequestContext_IsSame\n");
+  }
+
+  bool RequestContext_IsSharingWith(const  ::thrift_codegen::RObject& requestContext, const  ::thrift_codegen::RObject& other) {
+    // Your implementation goes here
+    printf("RequestContext_IsSharingWith\n");
+  }
+
+  void RequestContext_GetCachePath(std::string& _return, const  ::thrift_codegen::RObject& requestContext) {
+    // Your implementation goes here
+    printf("RequestContext_GetCachePath\n");
+  }
+
+  void RequestContext_GetCookieManager( ::thrift_codegen::RObject& _return, const  ::thrift_codegen::RObject& requestContext) {
+    // Your implementation goes here
+    printf("RequestContext_GetCookieManager\n");
+  }
+
+  void RequestContext_ClearHttpCache(const  ::thrift_codegen::RObject& requestContext, const  ::thrift_codegen::RObject& completionCallback) {
+    // Your implementation goes here
+    printf("RequestContext_ClearHttpCache\n");
+  }
+
+  void RequestContext_ClearHttpAuthCredentials(const  ::thrift_codegen::RObject& requestContext, const  ::thrift_codegen::RObject& completionCallback) {
+    // Your implementation goes here
+    printf("RequestContext_ClearHttpAuthCredentials\n");
   }
 
   bool RequestContext_HasPreference(const  ::thrift_codegen::RObject& requestContext, const std::string& name) {

@@ -77,6 +77,8 @@ class CompositionUnderline;
 
 class CefValue;
 
+class RequestContextSettings;
+
 typedef struct _RObject__isset {
   _RObject__isset() : flags(false), info(false) {}
   bool flags :1;
@@ -597,6 +599,58 @@ class CefValue : public virtual ::apache::thrift::TBase {
 void swap(CefValue &a, CefValue &b) noexcept;
 
 std::ostream& operator<<(std::ostream& out, const CefValue& obj);
+
+typedef struct _RequestContextSettings__isset {
+  _RequestContextSettings__isset() : cachePath(false), persistSessionCookies(false), acceptLanguageList(false), cookieableSchemesList(false), cookieableSchemesExcludeDefaults(false) {}
+  bool cachePath :1;
+  bool persistSessionCookies :1;
+  bool acceptLanguageList :1;
+  bool cookieableSchemesList :1;
+  bool cookieableSchemesExcludeDefaults :1;
+} _RequestContextSettings__isset;
+
+class RequestContextSettings : public virtual ::apache::thrift::TBase {
+ public:
+
+  RequestContextSettings(const RequestContextSettings&);
+  RequestContextSettings& operator=(const RequestContextSettings&);
+  RequestContextSettings() noexcept;
+
+  virtual ~RequestContextSettings() noexcept;
+  std::string cachePath;
+  bool persistSessionCookies;
+  std::string acceptLanguageList;
+  std::string cookieableSchemesList;
+  bool cookieableSchemesExcludeDefaults;
+
+  _RequestContextSettings__isset __isset;
+
+  void __set_cachePath(const std::string& val);
+
+  void __set_persistSessionCookies(const bool val);
+
+  void __set_acceptLanguageList(const std::string& val);
+
+  void __set_cookieableSchemesList(const std::string& val);
+
+  void __set_cookieableSchemesExcludeDefaults(const bool val);
+
+  bool operator == (const RequestContextSettings & rhs) const;
+  bool operator != (const RequestContextSettings &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const RequestContextSettings & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
+
+  virtual void printTo(std::ostream& out) const;
+};
+
+void swap(RequestContextSettings &a, RequestContextSettings &b) noexcept;
+
+std::ostream& operator<<(std::ostream& out, const RequestContextSettings& obj);
 
 } // namespace
 
