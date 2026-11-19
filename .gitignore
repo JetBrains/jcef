@@ -50,8 +50,48 @@ Thumbs.db
 /native/jcef_version.h
 # CEF downloads
 /third_party/cef/cef_binary_*
+# JetBrains build artifacts
+/jcef_mac_*/
+/jcef_mac_*.tar.gz
+/jcef_linux_*/
+/jcef_linux_*.tar.gz
+/jcef_win_*/
+/jcef_win_*.tar.gz
+/cef_server_*/
+/cef_server_*.tar.gz
+/jcef_native_bundle_*/
+/jcef_native_bundle_*.tar.gz
+/jcef_mac.tar.gz
+/jcef-tests.jar
+/jcef.version
+/jmods/
+/cef_server/
+/native_bundle/
+/.tmp_extract_jar/
+/third_party/thrift_compiler/
+/third_party/thrift/
+# Build outputs
+/cmake-build-*/
+/target/
+/${env.OUT_PATH}/
+/javac.*.args
+/jb/project/java-gradle/.gradle/
+/jb/project/java-gradle/build/
+/jb/project/java-gradle/bin/
+# IDE and tool caches
+.idea/
+.zed/
+.vscode/
+*.iml
+__pycache__/
+# Local build scratch
+/out-*/
+/jcef_bundle_test/
 # clang-format downloads
 /tools/buildtools/external_bin
 /tools/buildtools/linux64/clang-format
 /tools/buildtools/mac/clang-format
 /tools/buildtools/win/clang-format.exe
+/jb/project/java-gradle/gradle/
+/jb/project/java-gradle/gradlew
+/jb/project/java-gradle/gradlew.bat
